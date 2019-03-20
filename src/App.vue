@@ -8,6 +8,7 @@
   *{
     box-sizing: border-box;
     font-family: PingFangSC-Regular !important;
+    -webkit-font-smoothing: antialiased; 
   }
   html,body,div#app{
     height: 100%;
@@ -41,4 +42,5 @@
     top: 4rem;
     cursor: pointer;
   }
+  
 </style>

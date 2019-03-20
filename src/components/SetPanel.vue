@@ -30,6 +30,9 @@
                     </section>
                     <section class="music-wrapper">
                         <p class="bg-music-title">背景音乐</p>
+                        <div class="music-control-wrapper">
+                            <chess-switch width="7" active-title="开启" un-active-title="关闭"></chess-switch>
+                        </div>
                     </section>
                 </div>
             </div>
@@ -39,6 +42,7 @@
 </template>
 <script>
 import ChessMask from './Mask'
+import Switch from './Switch'
 export default {
     name:'chess-set-panel',
     data() {
@@ -53,19 +57,20 @@ export default {
     },
     props:['is-show'],
     components:{
-        [ChessMask.name]:ChessMask
+        [ChessMask.name]:ChessMask,
+        [Switch.name]:Switch
     }
 }
 </script>
 <style scoped>
     div.chess-set-panel-body{       
-        background: url(../assets/dialog-mailbox-bg.png) no-repeat;   
+        background: url(../assets/dialog-setting-bg.png) no-repeat;   
     }
     div.content-wrapper{
         width: 82%;
-        height: 72%;
+        height: 80%;
         background-size: 100% 100%;
-        margin-top: 14%;
+        margin-top: 12%;
         margin-left: 8%;
     }
     section.user-wrapper {
@@ -205,5 +210,9 @@ export default {
         text-align: center;
         font-size: 1.5rem;
         color: #f1e4c1;
+    }
+    .music-control-wrapper {
+        margin-top: 3rem;
+        padding-left: 40%;
     }
 </style>

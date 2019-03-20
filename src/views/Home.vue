@@ -28,11 +28,12 @@
                 <img src="../assets/arrow-right.png" class="arrow-right" :class="{rotate:!isShowTaskPanel}">
             </div>
             <ul class="daily-task-category-wrapper" :class="{hide:!isShowTaskPanel}">
-                <li class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
+                <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
                 <li class="daily-task-category-item">闯关 ( 0 / 3)</li>
                 <li class="daily-task-category-item">在线对战 ( 1 / 4)</li>
             </ul>
         </div>
+        <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
         <!-- 自习室、将星阁等 -->
         <div class="room-container">
             <div class="room-item" :key="index" v-for="(item,index) in roomList">
@@ -46,9 +47,10 @@
         <!-- 我的信件 -->
         <chess-mail-box @hide="hideMailPanel" :isShow="showMailPanel"></chess-mail-box>
         <!-- 公告栏 -->
-        <div class="notice-container">
+        <div class="notice-container" @click="openNoticePanel">
             <img src="../assets/bulletin-board.png" alt="公告栏">
         </div>
+        <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel"></chess-notice-panel>
         <!-- 设置弹框 -->
         <chess-set-panel @hide="hideSetPanel" :isShow="showSetPanel"></chess-set-panel>
         <!-- 设置按钮 -->
@@ -65,13 +67,17 @@
 <script>
 import SetButton from '../components/SetButton'
 import SetPanel from '../components/SetPanel'
-import MailBox from '../components/MailBox'
+import MailBoxPanel from '../components/MailBoxPanel'
+import NoticePanel from '../components/NoticePanel'
+import TaskPanel from '../components/TaskPanel'
 export default {
     data() {
         return {
             showSetPanel:false,
             isShowDialog:false,
             showMailPanel:false,
+            showNoticePanel:false,
+            showTaskPanel:false,
             roomList:[
                 {
                     url:'',
@@ -116,6 +122,18 @@ export default {
         hideMailPanel() {
             this.showMailPanel = false;
         },
+        openNoticePanel() {
+            this.showNoticePanel = true;
+        },
+        hideNoticePanel() {
+            this.showNoticePanel = false;
+        },
+        openTaskPanel() {
+            this.showTaskPanel = true;
+        },
+        hideTaskPanel() {
+            this.showTaskPanel = false;
+        },
         triggerTask() {
             this.isShowTaskPanel = !this.isShowTaskPanel;
         }
@@ -123,7 +141,9 @@ export default {
     components:{
         [SetButton.name]:SetButton,
         [SetPanel.name]:SetPanel,
-        [MailBox.name]:MailBox
+        [MailBoxPanel.name]:MailBoxPanel,
+        [NoticePanel.name]:NoticePanel,
+        [TaskPanel.name]:TaskPanel
     }
 }
 </script>
@@ -285,6 +305,7 @@ export default {
         text-align: center;
         white-space: nowrap;
         overflow: hidden;
+        cursor: pointer;
     }
     li.daily-task-category-item.main-category {
         background: #543c27; 
