@@ -1,7 +1,7 @@
 <template>
     <div @click="gameSet" class="chess-set-button">
         <div class="set-button-icon">
-            <img src="../assets/setting.png" class="setting-icon">
+            <img src="../assets/images/setting.png" class="setting-icon">
         </div>
         <p class="setting-title">设置</p>
     </div>
@@ -32,7 +32,7 @@ export default {
         text-align: center;
     }
     div.set-button-icon {
-        background: url(../assets/setting-bg.png) no-repeat;
+        background: url(../assets/images/setting-bg.png) no-repeat;
         background-size: 100%;
         height: 3rem;
     }

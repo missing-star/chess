@@ -1,7 +1,7 @@
 <template>
     <div class="chess-task-panel">
         <div class="chess-dialog-body chess-task-panel-body" :class="{'hide':!isShow}">
-            <img src="../assets/close.png" class="mail-box-close" @click="closeMyself">
+            <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
                 <ul class="task-list-wrapper">
                     <li v-for="n in 20" :key="n" class="task-item">
@@ -18,13 +18,13 @@
                             </div>
                         </div>
                         <div class="finish-bonus-content">
-                            <p class="content-title"><img src="../assets/temp-icon.png" class="bonus-icon">30</p>
+                            <p class="content-title"><img src="../assets/images/temp-icon.png" class="bonus-icon">30</p>
                         </div>
                         <div class="finish-status-wrapper" v-if="n % 2 != 0">
                             已完成
                         </div>
                         <div class="finish-status-wrapper not-finished" v-if="n % 2 == 0">
-                            <img class="go-finish-icon" src="../assets/arrow-right-task.png">
+                            <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
                             去完成
                         </div>
                     </li>
@@ -51,7 +51,7 @@ export default {
 </script>
 <style scoped>
     div.chess-task-panel-body{
-        background: url(../assets/dialog-setting-bg.png) no-repeat; 
+        background: url(../assets/images/dialog-setting-bg.png) no-repeat; 
     }
     div.content-wrapper-container{       
         width: 82%;
@@ -60,8 +60,12 @@ export default {
         margin-left: 8%;
     }
     ul.task-list-wrapper{
-        overflow: hidden;
+        overflow-x: hidden;
         overflow-y: scroll;
+        /* firfox非标准属性 */
+        scrollbar-width: none;
+        /* ie/edge */
+        -ms-overflow-style: none;
         height: 98%;
     }
     ul.task-list-wrapper::-webkit-scrollbar{
@@ -180,5 +184,8 @@ export default {
         position: relative;
         text-align: right;
         padding-right: 1rem;
+    }
+    img.mail-box-close{
+        top: 0;
     }
 </style>

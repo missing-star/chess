@@ -1,37 +1,47 @@
 <template>
     <div class="chess-set-panel">
         <div class="chess-dialog-body chess-set-panel-body" :class="{'hide':!isShow}">
-            <img src="../assets/close.png" class="mail-box-close" @click="closeMyself">
+            <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper">
                 <div class="user-and-time-wrapper">
                     <section class="user-wrapper">
-                        <img src="../assets/user-logo.png" class="user-logo">
+                        <img src="../assets/images/user-logo.png" class="user-logo">
                         <p class="username">用户名称</p>
                         <div class="button-wrapper">
-                            <button class="exit-login">退出登录</button>
+                            <img src="../assets/images/exit-login.png" alt="退出登录">
                         </div>
                         <div class="button-wrapper">
-                            <button class="change-pwd">修改密码</button>
+                            <img src="../assets/images/change-pwd.png" alt="修改密码">
                         </div>
                     </section>
                     <section class="time-wrapper">
                         <p class="ajust-game-title">调整游戏时间</p>
                         <div class="dashed-line"></div>
+                        <div class="time-control-wrapper">
+                            <chess-switch @trigger="triggerTime" :current-time-value="currentTimeValue" time-value="30" icon="30.png" styles="width:10rem;" active-title="开启30分钟" un-active-title="关闭30分钟"></chess-switch>
+                            <chess-switch @trigger="triggerTime" :current-time-value="currentTimeValue" time-value="60" icon="60.png" styles="width:10rem;" active-title="开启60分钟" un-active-title="关闭60分钟"></chess-switch>
+                            <chess-switch @trigger="triggerTime" :current-time-value="currentTimeValue" time-value="90" icon="90.png" styles="width:10rem;" active-title="开启90分钟" un-active-title="关闭90分钟"></chess-switch>
+                            <chess-switch @trigger="triggerTime" :current-time-value="currentTimeValue" time-value="120" icon="120.png" styles="width:10rem;" active-title="开启120分钟" un-active-title="关闭120分钟"></chess-switch>
+                        </div>
                     </section>
                 </div>
                 <div class="volume-and-music-wrapper">
                     <section class="volume-wrapper">
                         <p class="volume-set-title">音量</p>
                         <div class="volume-set-control">
-                            <span class="lower">小</span>
-                            <input type="range" class="volume-range" value="0">
-                            <span class="higher">大</span>
+                            <span class="lower" @click="controlVolme(0)">
+                                <img src="../assets/images/smaller.png">
+                            </span>
+                            <input v-model="currentVolume" type="range" class="volume-range" min="0" max="100" step="1">
+                            <span class="higher" @click="controlVolme(1)">
+                                <img src="../assets/images/bigger.png">
+                            </span>
                         </div>
                     </section>
                     <section class="music-wrapper">
                         <p class="bg-music-title">背景音乐</p>
                         <div class="music-control-wrapper">
-                            <chess-switch width="7" active-title="开启" un-active-title="关闭"></chess-switch>
+                            <chess-switch @trigger="triggerBgm" icon="voice.png" styles="width:7rem;" active-title="开启" un-active-title="关闭"></chess-switch>
                         </div>
                     </section>
                 </div>
@@ -47,24 +57,49 @@ export default {
     name:'chess-set-panel',
     data() {
         return {
-            
+            currentVolume:50,
+            currentTimeValue:''
         }
     },
     methods:{
         closeMyself() {
             this.$emit('hide');
+        },
+        controlVolme(type) {
+            if(type == 0) {
+                //reduce
+                this.currentVolume - 5 < 0 ? this.currentVolume = 0 : this.currentVolume -= 5;
+            }
+            else {
+                //add
+                this.currentVolume + 5 > 100 ? this.currentVolume = 100 : this.currentVolume += 5;
+            }
+        },
+        triggerTime(timeValue) {
+            this.currentTimeValue = timeValue;
+        },
+        triggerBgm(isClose) {
+            this.$emit('control-bgm',isClose);
         }
     },
     props:['is-show'],
     components:{
         [ChessMask.name]:ChessMask,
         [Switch.name]:Switch
+    },
+    watch:{
+        currentVolume() {
+            this.$emit('change-volume',this.currentVolume / 100);
+        }
+    },
+    mounted() {
+        this.$emit('change-volume',this.currentVolume / 100);
     }
 }
 </script>
 <style scoped>
     div.chess-set-panel-body{       
-        background: url(../assets/dialog-setting-bg.png) no-repeat;   
+        background: url(../assets/images/dialog-setting-bg.png) no-repeat;   
     }
     div.content-wrapper{
         width: 82%;
@@ -96,27 +131,15 @@ export default {
         font-size: 1.5rem;
     }
     div.button-wrapper {
-        background-image: linear-gradient(-180deg, #f5eedb 0%, #e2b471 100%);
-        box-shadow: 0 2px 4px 0 #744730, inset 0 1px 3px 0 rgba(255,255,255,0.50);
         border: none;
         border-radius: 2rem;
         width: 90%;
-        margin: 0.5rem auto;
-        padding: 0.2rem;
+        margin: 0.2rem auto;
     }
-    button.exit-login,button.change-pwd{
-        background-image:linear-gradient(-1deg, #f1e1bb 0%, #ecc992 100%);
-        box-shadow:inset 0 1px 1px 0 #ffefd6;
-        padding: 0.3rem;
-        display: block;
-        width: 100%;
-        border-radius: 2rem;
-        border: none;
-        color:#703e23;
-        cursor: pointer;
-        outline: 0;
-        font-size: 1rem;
-    }
+     div.button-wrapper>img{
+         width: 100%;
+         cursor: pointer;
+     }
     section.time-wrapper {
         background: #995f41;
         box-shadow: 0 1px 2px 0 #d0997c, inset 0 1px 2px 0 #5c2d14;
@@ -129,7 +152,7 @@ export default {
         margin-left: 5%;
     }
     div.dashed-line{
-        background: url(../assets/dot.png);
+        background: url(../assets/images/dot.png);
         height: 0.5rem;
         width: 83%;
         background-size: contain;
@@ -155,43 +178,91 @@ export default {
         color: #f1e4c1;
     }
     span.lower,span.higher {
-        background: #995f41;
-        box-shadow: 0 1px 1px 0 #cd9f87, inset 0 1px 1px 0 #744126;
+        width: 3.5rem;
         border-radius: 50%;
         display: inline-block;
         padding: 0.5rem;
         color: #f1e4c1;
+        cursor: pointer;
+    }
+    span.lower>img,span.higher>img{
+        width: 100%;
     }
     .volume-set-control {
         margin-top: 3rem;
+        display: flex;
+        align-items: center;
     }
     input[type=range] {
         -webkit-appearance: none !important;
-        height: 1rem;
+        height: 3.5rem;
+        background: transparent;
         width: 60%;
         margin: 0 1rem;
-        background-image:linear-gradient(-1deg, #ffa635 0%, #ff772c 100%);
+    }
+    /*input轨道 chrom Safari */
+    input[type=range]::-webkit-slider-runnable-track {
+        height: 1rem;
+        background-image:linear-gradient(-1deg, #ffa635 0%, #ff772c 100%); 
         box-shadow:0 -1px 1px 0 #894e31, inset 0 -1px 1px 0 #ff9619, inset 0 2px 4px 0 #ad4400;
         border-radius: 1rem;
     }
-    input[type=range]::-webkit-slider-runnable-track {
+    /*input轨道 firfox */
+    input[type='range']::-moz-range-track{  
         height: 1rem;
+        background-image:linear-gradient(-1deg, #ffa635 0%, #ff772c 100%); 
+        box-shadow:0 -1px 1px 0 #894e31, inset 0 -1px 1px 0 #ff9619, inset 0 2px 4px 0 #ad4400;
+        border-radius: 1rem;
+    }
+    /*input轨道 ie */
+    input[type="range"]::-ms-track{  
+        height: 1rem;
+        border-radius: 1rem;
+        background-image:linear-gradient(-1deg, #ffa635 0%, #ff772c 100%); 
+        box-shadow:0 -1px 1px 0 #894e31, inset 0 -1px 1px 0 #ff9619, inset 0 2px 4px 0 #ad4400;
+        border-radius: 1rem;
     }
     input[type=range]:focus{
         outline: 0;
     }
+    /* 滑块 chrom safari */
     input[type=range]::-webkit-slider-thumb {
         cursor: pointer;
         -webkit-appearance: none !important;
-        height: 2.5rem;
-        width: 2.5rem;
-        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
         position: relative;
-        top: -0.75rem;
-        background: #f3e6c4;
-        padding: 1rem;
-        background-image: url(../assets/speaker.png);
-        background-size: 55% 55%;
+        top: -0.825rem;
+        background-image: url(../assets/images/speaker.png);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    /*滑块 firfox */
+    input[type='range']::-moz-range-thumb {
+        cursor: pointer;
+        -webkit-appearance: none !important;
+        height: 3rem;
+        width: 3rem;
+        background: transparent;
+        border: none;
+        position: relative;
+        top: -0.825rem;
+        background-image: url(../assets/images/speaker.png);
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    /*滑块 ie/edge */
+    input[type='range']::-ms-thumb {
+        cursor: pointer;
+        -webkit-appearance: none !important;
+        height: 3rem;
+        width: 3rem;
+        position: relative;
+        top: -0.825rem;
+        background-image: url(../assets/images/speaker.png);
+        background-size: 100% 100%;
         background-repeat: no-repeat;
         background-position: center center;
     }
@@ -214,5 +285,16 @@ export default {
     .music-control-wrapper {
         margin-top: 3rem;
         padding-left: 40%;
+    }
+    img.mail-box-close{
+        top: 0;
+    }
+    .time-control-wrapper {
+        margin-top: 1rem;
+        height: 10rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-around;
     }
 </style>

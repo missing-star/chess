@@ -1,10 +1,14 @@
 <template>
     <div class="chess-home">
+        <!-- 背景音乐 -->
+        <audio ref="audio" id="audio-music" loop>
+            <source src="../assets/audio/bg.mp3">
+        </audio>
         <!-- 用户信息 -->
         <div class="user-info-wrapper-container">
             <div class="user-info-wrapper">
                 <div class="user-logo-wrapper">
-                    <img src="../assets/user-logo.png" class="user-logo">
+                    <img src="../assets/images/user-logo.png" class="user-logo">
                 </div>
                 <div class="user-name-level-wrapper">
                     <div class="user-name-wrapper">
@@ -25,7 +29,7 @@
         <div class="daily-task-wrapper">
             <div @click="triggerTask" class="pack-up-btn">
                 <p class="title">{{taskTitle}}</p>
-                <img src="../assets/arrow-right.png" class="arrow-right" :class="{rotate:!isShowTaskPanel}">
+                <img src="../assets/images/arrow-right.png" class="arrow-right" :class="{rotate:!isShowTaskPanel}">
             </div>
             <ul class="daily-task-category-wrapper" :class="{hide:!isShowTaskPanel}">
                 <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
@@ -39,7 +43,7 @@
             <div class="room-item" :key="index" v-for="(item,index) in roomList">
                 <img class="room-item-icon" :src="item.icon" :alt="item.name">
                 <template v-if="item.logo">
-                    <img :src="item.logo" style="width:4rem;position:absolute;bottom:-1rem;">
+                    <img :src="item.logo" style="width:4rem;position:absolute;bottom:-1rem;right:7rem;">
                 </template>
             </div>
         </div>
@@ -48,18 +52,18 @@
         <chess-mail-box @hide="hideMailPanel" :isShow="showMailPanel"></chess-mail-box>
         <!-- 公告栏 -->
         <div class="notice-container" @click="openNoticePanel">
-            <img src="../assets/bulletin-board.png" alt="公告栏">
+            <img src="../assets/images/bulletin-board.png" alt="公告栏">
         </div>
         <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel"></chess-notice-panel>
         <!-- 设置弹框 -->
-        <chess-set-panel @hide="hideSetPanel" :isShow="showSetPanel"></chess-set-panel>
+        <chess-set-panel @hide="hideSetPanel" @control-bgm="controlBgm" :isShow="showSetPanel" @change-volume="changeVolume"></chess-set-panel>
         <!-- 设置按钮 -->
         <chess-set-btn @game-set="gameSet"></chess-set-btn>
         <!-- 小象 -->
-        <img src="../assets/elephant.png" class="elephant">
+        <img src="../assets/images/elephant.png" class="elephant">
         <!-- 信箱 -->
         <div class="mailbox-wrapper">
-            <img src="../assets/mailbox.png" @click="openMailPanel">
+            <img src="../assets/images/mailbox.png" @click="openMailPanel">
             <span class="mailbox-number">5</span>
         </div>
     </div>
@@ -70,6 +74,7 @@ import SetPanel from '../components/SetPanel'
 import MailBoxPanel from '../components/MailBoxPanel'
 import NoticePanel from '../components/NoticePanel'
 import TaskPanel from '../components/TaskPanel'
+import { setTimeout } from 'timers';
 export default {
     data() {
         return {
@@ -82,23 +87,23 @@ export default {
                 {
                     url:'',
                     name:'棋社',
-                    icon:require('../assets/chess-room.png')
+                    icon:require('../assets/images/chess-room.png')
                 },
                 {
                     url:'',
                     name:'竞技场',
-                    icon:require('../assets/arena.png')
+                    icon:require('../assets/images/arena.png')
                 },
                 {
                     url:'',
                     name:'将星阁',
-                    icon:require('../assets/jiangxingge.png'),
-                    logo:require('../assets/teacher.png')
+                    icon:require('../assets/images/jiangxingge.png'),
+                    logo:require('../assets/images/teacher.png')
                 },
                 {
                     url:'',
                     name:'自习室',
-                    icon:require('../assets/study-room.png')
+                    icon:require('../assets/images/study-room.png')
                 }
             ],
             isShowTaskPanel:false
@@ -136,6 +141,24 @@ export default {
         },
         triggerTask() {
             this.isShowTaskPanel = !this.isShowTaskPanel;
+        },
+        changeVolume(volume) {
+            this.$refs.audio.volume = volume;
+        },
+        controlBgm(isClose) {
+            setTimeout(() => {
+                if(isClose) {
+                    this.$refs.audio.pause();
+                }
+                else {
+                    if(this.$refs.audio.autoplay) {
+                        this.$refs.audio.play();
+                    }
+                    else {
+                        this.$refs.audio.autoplay = true;
+                    }
+                }
+            }, 500);
         }
     },
     components:{
@@ -151,7 +174,7 @@ export default {
     div.chess-home{
         position: relative;
         height: 100%;
-        background: url(../assets/home-bg.png) no-repeat;
+        background: url(../assets/images/home-bg.png) no-repeat;
         background-size: 100% 100%;
     }
     img.elephant {

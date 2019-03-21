@@ -1,15 +1,15 @@
 <template>
     <div class="chess-mail-box">
         <div class="chess-dialog-body chess-mail-box-body" :class="{'hide':!isShow}">
-            <img src="../assets/close.png" class="mail-box-close" @click="closeMyself">
+            <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
-                <img src="../assets/newest.png" class="tab-item-icon newest" :class="{active:currentTab == 0}" @click="switchTab(0)">
-                <img src="../assets/history.png" class="tab-item-icon history" :class="{active:currentTab == 1}" @click="switchTab(1)">
+                <img src="../assets/images/newest.png" class="tab-item-icon newest" :class="{active:currentTab == 0}" @click="switchTab(0)">
+                <img src="../assets/images/history.png" class="tab-item-icon history" :class="{active:currentTab == 1}" @click="switchTab(1)">
                 <div class="content-wrapper">
                     <p class="unread-number">5</p>
                     <ul class="msg-list-wrapper">
                         <li v-for="n in 40" :key="n" class="msg-item">
-                            <img src="../assets/unread.png" class="unread-icon">
+                            <img src="../assets/images/unread.png" class="unread-icon">
                             <p class="msg-content">你已拜师成功</p>
                             <a href="javascript:;" class="detail">详情</a>
                         </li>
@@ -45,10 +45,10 @@ export default {
 </script>
 <style scoped>
     div.chess-mail-box-body{
-        background: url(../assets/dialog-mailbox-bg.png) no-repeat; 
+        background: url(../assets/images/dialog-mailbox-bg.png) no-repeat; 
     }
     div.content-wrapper-container{
-        background: url(../assets/yellow-1.png) no-repeat;
+        background: url(../assets/images/yellow-1.png) no-repeat;
         width: 82%;
         height: 72%;
         background-size: 100% 100%;
@@ -56,7 +56,7 @@ export default {
         margin-left: 8%;
     }
     div.content-wrapper{
-        background: url(../assets/yellow-2.png) no-repeat;
+        background: url(../assets/images/yellow-2.png) no-repeat;
         background-size: 100% 100%;
         width: 98%;
         height: 98%;
@@ -81,11 +81,16 @@ export default {
     ul.msg-list-wrapper {
         margin: 5rem;
         height: 85%;
-        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: scroll;
         position: relative;
         top: 2rem;
         padding-left: 0.5rem;
         padding-top: 0.5rem;
+        /* firfox非标准属性 */
+        scrollbar-width: none;
+        /* ie/edge */
+        -ms-overflow-style: none;
     }
     ul.msg-list-wrapper::-webkit-scrollbar{
         height: 0;
@@ -95,7 +100,7 @@ export default {
         position: relative;
         color:#a97052;
         margin-bottom: 0.8rem;
-        background: url(../assets/msg-bg.png) no-repeat;
+        background: url(../assets/images/msg-bg.png) no-repeat;
         background-size: 100% 100%;
         padding:0.8rem 1rem;
     }
@@ -111,7 +116,7 @@ export default {
         height: 1.8rem;
         right: 1.5rem;
         top: 1.5rem;
-        background: url(../assets/unread-all.png) no-repeat;
+        background: url(../assets/images/unread-all.png) no-repeat;
         background-size: 100% 100%;
         line-height: 1.8rem;
         text-align: center;

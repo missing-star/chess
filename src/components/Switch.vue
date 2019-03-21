@@ -1,11 +1,11 @@
 <template>
-    <div class="chess-switch" @click="triggerSwtich" :style="switchWidth">
+    <div class="chess-switch" @click="triggerSwtich" :style="styles">
         <div class="chess-switch-wrapper"  :class="{active:!isClose}">
             <p class="active-title" v-if="!isClose">{{activeTitle}}</p>
             <p class="unactive-title" v-if="isClose">{{unActiveTitle}}</p>
             <div class="chess-switch-icon-wrapper" :class="{active:!isClose}">
                 <div class="chess-switch-icon-inner-wrapper">
-                    <img src="../assets/voice.png" class="chess-switch-icon">
+                    <img :src="showIcon" class="chess-switch-icon">
                 </div>
             </div>
         </div>
@@ -13,19 +13,46 @@
 </template>
 <script>
 export default {
-    props:['width','activeTitle','unActiveTitle'],
+    props:['icon','styles','activeTitle','unActiveTitle','timeValue','currentTimeValue'],
     name:'chess-switch',
     data() {
         return {
-            isClose:true,
-            switchWidth:{
-                width:this.width+'rem'
-            }
+            isClose:true
         }
     },
     methods:{
         triggerSwtich() {
             this.isClose = !this.isClose;
+            if(!this.isClose && this.currentTimeValue) {
+                this.$emit('trigger',this.timeValue);
+            }
+            else {
+                this.$emit('trigger',this.isClose);
+            }
+            localStorage.setItem('isCloseBg',this.isClose);
+        }
+    },
+    computed:{
+        showIcon() {
+            return require(`../assets/images/${this.icon}`);
+        }
+    },
+    watch:{
+        //控制游戏时间
+        currentTimeValue() {
+            if(this.currentTimeValue != this.timeValue) {
+                this.isClose = true;
+            }
+        }
+    },
+    created() {
+        if(this.currentTimeValue == undefined) {
+            //初始化背景音乐开关
+            if(localStorage.getItem('isCloseBg')) {
+                this.isClose = localStorage.getItem('isCloseBg') == 'false' ? false : true;
+            }
+            this.$emit('trigger',this.isClose);
+            console.log(this.isClose);
         }
     }
 }
@@ -39,6 +66,7 @@ export default {
     border-radius: 2.2rem;
     width: 10rem;
     cursor: pointer;
+    display: inline-block;
 }
 .chess-switch-wrapper {
     height: 100%;
@@ -52,14 +80,10 @@ export default {
     box-shadow:0 -1px 1px 0 #894e31, inset 0 -1px 1px 0 #ff9619, inset 0 2px 4px 0 #ad4400;
 }
 .chess-switch-icon-wrapper {
-    background-image: linear-gradient(-180deg, #f5eedb 0%, #e2b471 100%);
-    box-shadow: 0 2px 4px 0 #744730, inset 0 1px 3px 0 rgba(255,255,255,0.50);
     width: 2.8rem;
     height: 2.8rem;
     position: absolute;
-    border-radius: 50%;
-    padding: 3px;
-    left: calc(100% - 2.8rem);
+    left: calc(100% - 2.5rem);
     top: -0.4rem;
     transition: all .3s ease-in-out;
 }
@@ -67,17 +91,14 @@ export default {
     left: -3px;
 }
 .chess-switch-icon-inner-wrapper {
-    background-image: linear-gradient(-1deg, #f3e6c4 0%, #f1e1bb 15%, #ecc992 85%, #ebc389 100%);
-    box-shadow: 0 1px 1px 0 #e1b77a, inset 0 1px 1px 0 #edc488;
     height: 100%;
     border-radius: 50%;
     width: 100%;
 }
 img.chess-switch-icon {
-    width: 44%;
+    width: 100%;
     margin: auto;
     display: block;
-    transform: translateY(22%);
 }
 p.active-title,p.unactive-title{
     margin: 0;
@@ -85,6 +106,7 @@ p.active-title,p.unactive-title{
     left: 3.5rem;
     line-height: 2rem;
     color: #FFFFFF;
+    text-align: left;
 }
 p.unactive-title{
     color:#eddcb1;
