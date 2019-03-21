@@ -151,14 +151,9 @@ export default {
                     this.$refs.audio.pause();
                 }
                 else {
-                    if(this.$refs.audio.autoplay) {
-                        this.$refs.audio.play();
-                    }
-                    else {
-                        this.$refs.audio.autoplay = true;
-                    }
+                    this.$refs.audio.play();
                 }
-            }, 500);
+            }, 300);
         }
     },
     components:{

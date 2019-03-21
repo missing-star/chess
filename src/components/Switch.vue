@@ -23,13 +23,13 @@ export default {
     methods:{
         triggerSwtich() {
             this.isClose = !this.isClose;
-            if(!this.isClose && this.currentTimeValue) {
+            if(!this.isClose && this.currentTimeValue != undefined) {
                 this.$emit('trigger',this.timeValue);
             }
-            else {
+            else if(this.currentTimeValue == undefined) {
                 this.$emit('trigger',this.isClose);
+                localStorage.setItem('isCloseBg',this.isClose);
             }
-            localStorage.setItem('isCloseBg',this.isClose);
         }
     },
     computed:{
@@ -52,7 +52,6 @@ export default {
                 this.isClose = localStorage.getItem('isCloseBg') == 'false' ? false : true;
             }
             this.$emit('trigger',this.isClose);
-            console.log(this.isClose);
         }
     }
 }
