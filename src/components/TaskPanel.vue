@@ -1,5 +1,15 @@
 <template>
     <div class="chess-task-panel">
+        <div class="tabbar-wrapper" :class="{'hide':!isShow}">
+            <div @click="switchTab(0)" class="tabbar-item" :class="{active:currentIndex == 0}">
+                每日任务
+                <p class="unread-number">5</p>
+            </div>
+            <div class="tabbar-item" @click="switchTab(1)" :class="{active:currentIndex == 1}">
+                成长任务
+                <p class="unread-number">5</p>
+            </div>
+        </div>
         <div class="chess-dialog-body chess-task-panel-body" :class="{'hide':!isShow}">
             <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
@@ -39,12 +49,20 @@ import ChessMask from './Mask'
 export default {
     name:'chess-task-panel',
     props:['is-show'],
+    data() {
+        return {
+            currentIndex:0
+        }
+    },
     components:{
         [ChessMask.name]:ChessMask
     },
     methods: {
         closeMyself() {
             this.$emit('hide');
+        },
+        switchTab(index) {
+            this.currentIndex = index;
         }
     }
 }
