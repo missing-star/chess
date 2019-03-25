@@ -86,4 +86,10 @@
         color: #FFFFFF;
         font-size: 1.2rem;
     }
+    .pointer{
+      cursor: pointer;
+    }
+    .underline{
+      text-decoration: underline;
+    }
 </style>
