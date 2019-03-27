@@ -132,7 +132,7 @@ export default {
 </script>
 <style scoped>
     div.chess-achieve-panel-body{
-        background: url(../assets/images/dialog-mailbox-bg.png) no-repeat; 
+        background: url(../assets/images/我的成就底.png) no-repeat; 
         background-size: 100% 100%;
     }
     div.content-wrapper-container{
@@ -141,7 +141,7 @@ export default {
         height: 72%;
         background-size: 100% 100%;
         margin-top: 14%;
-        margin-left: 8%;
+        margin-left: 6%;
     }
     div.content-wrapper{
         /* background: url(../assets/images/yellow-2.png) no-repeat; */
@@ -227,7 +227,7 @@ export default {
         vertical-align: top;
     }
     .content.right{
-        margin-left: 2%;
+        margin-left: 4%;
     }
     h3.title {
         color: #fff;
@@ -247,14 +247,14 @@ export default {
         position: absolute;
     }
     p.chart-title.daily-task {
-        left: 24%;
+        left: 22%;
     }
     p.chart-title.race {
         bottom: 20%;
     }
     p.chart-title.homework {
         bottom: 20%;
-        left: 40%;
+        left: 38%;
     }
     p.number-wrapper {
         width: 28%;
@@ -277,7 +277,7 @@ export default {
         margin-top: 1rem;
     }
     .score-wrapper {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
     }
     span.unit {
         color: #b87f61;

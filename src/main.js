@@ -11,6 +11,12 @@ Vue.mixin({
   methods: {
     goBack() {
       this.$router.back(-1);
+    },
+    testIE() {
+      if(navigator.userAgent.includes('Trident')) {
+        return true;
+      }
+      return false;
     }
   }
 });

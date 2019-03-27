@@ -6,9 +6,9 @@
 <script>
 export default {
   created() {
-    // if(!this.$route.path.includes('login') && !localStorage.getItem('user')) {
-    //   this.$router.push({path:'/login'});
-    // }
+    if(this.testIE()) {
+      this.$router.push({name:'forbbiden'});
+    }
   }
 }
 </script>

@@ -2,13 +2,14 @@
     <div class="chess-star-wrapper">
         将星阁
         <div id="my-chart"></div>
-        <button @click="goBack" class="back">返回</button>
+        <chess-back-button></chess-back-button>
     </div>
 </template>
 <script>
+import BackButton from '../components/BackButton'
 export default {
-    mounted() {
-        
+    components:{
+        [BackButton.name]:BackButton
     }
 }
 </script>
