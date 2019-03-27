@@ -46,6 +46,7 @@ export default {
 <style scoped>
     div.chess-mail-box-body{
         background: url(../assets/images/dialog-mailbox-bg.png) no-repeat; 
+         background-size: 100% 100%;
     }
     div.content-wrapper-container{
         background: url(../assets/images/yellow-1.png) no-repeat;

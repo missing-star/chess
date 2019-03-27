@@ -8,6 +8,12 @@
         <div class="login-register-warpper">
             <div class="register-top"></div>
             <div class="register-body">
+                <div class="login" @click="swicthLoginPanel(1)" :style="{'z-index':currentPanel == 1 ? 3 : 2}">
+                    登录
+                </div>
+                <div class="register" @click="swicthLoginPanel(0)" :style="{'z-index':currentPanel == 0 ? 3 : 2}">
+                    注册
+                </div>
                 <div class="register-login-wrapper">
                     <div class="register-register-wrapper">
                         <div class="content" v-if="currentPanel == 0">
@@ -103,8 +109,8 @@ export default {
             this.showSelect = false;
             console.log(sex);
         },
-        swicthLoginPanel() {
-            this.currentPanel == 0 ? this.currentPanel = 1 : this.currentPanel = 0;
+        swicthLoginPanel(index) {
+            this.currentPanel = index;
         },
         selectRole(role) {
             this.showSelectRole = false;
@@ -180,6 +186,7 @@ export default {
         left: 3%;
         padding: 1.2rem;
         padding-top: 2rem;
+        z-index: 2;
     }
     div.content.find-pwd{
         background: url(../assets/images/register-yellow-3.png) no-repeat;
@@ -244,5 +251,24 @@ export default {
         width: 80%;
         height: 2rem;
         border: none;
+    }
+    .login,.register {
+        cursor: pointer;
+        position: absolute;
+        width: 4.5rem;
+        height: 4rem;
+        background: saddlebrown;
+        right: 15%;
+        z-index: 2;
+        top: 20%;
+        border-radius: 0.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+    .register{
+        top: 40%;
+        z-index: 3;
     }
 </style>

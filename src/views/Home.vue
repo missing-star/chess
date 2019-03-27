@@ -40,7 +40,7 @@
         <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
         <!-- 自习室、将星阁等 -->
         <div class="room-container">
-            <div class="room-item" :key="index" v-for="(item,index) in roomList">
+            <div @click="openLink(item.url)" class="room-item" :key="index" v-for="(item,index) in roomList">
                 <img class="room-item-icon" :src="item.icon" :alt="item.name">
                 <template v-if="item.logo">
                     <img :src="item.logo" style="width:4rem;position:absolute;bottom:-1rem;right:7rem;">
@@ -60,11 +60,26 @@
         <!-- 设置按钮 -->
         <chess-set-btn @game-set="gameSet"></chess-set-btn>
         <!-- 小象 -->
-        <img src="../assets/images/elephant.png" class="elephant">
+        <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
+        <!-- 我的宠物 -->
+        <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel"></chess-pet-panel>
         <!-- 信箱 -->
         <div class="mailbox-wrapper">
             <img src="../assets/images/mailbox.png" @click="openMailPanel">
             <span class="mailbox-number">5</span>
+        </div>
+
+        <!-- 信息提示框 -->
+        <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel"></chess-tips-panel>
+        <!-- 作业框 -->
+        <chess-homework-panel @hide="hideHomeworkPanel" :is-show="showHomeworkPanel"></chess-homework-panel>
+        <!-- 我的成就 -->
+        <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel"></chess-achieve-panel>
+        <!-- 测试按钮组 -->
+        <div class="test-btn-group">
+            <button @click="openTipsPanel">打开提信息框</button>
+            <button @click="openHomeworkPanel">打开作业框</button>
+            <button @click="openAchievePanel">打开成就框</button>
         </div>
     </div>
 </template>
@@ -74,7 +89,10 @@ import SetPanel from '../components/SetPanel'
 import MailBoxPanel from '../components/MailBoxPanel'
 import NoticePanel from '../components/NoticePanel'
 import TaskPanel from '../components/TaskPanel'
-import { setTimeout } from 'timers';
+import TipsPanel from '../components/TipsPanel'
+import HomeworkPanel from '../components/HomeworkPanel'
+import AchievePanel from '../components/AchievementPanel'
+import PetPanel from '../components/PetPanel'
 export default {
     data() {
         return {
@@ -83,6 +101,10 @@ export default {
             showMailPanel:false,
             showNoticePanel:false,
             showTaskPanel:false,
+            showTipsPanel:false,
+            showHomeworkPanel:false,
+            showAchievePanel:false,
+            showPetPanel:false,
             roomList:[
                 {
                     url:'',
@@ -90,12 +112,12 @@ export default {
                     icon:require('../assets/images/chess-room.png')
                 },
                 {
-                    url:'',
+                    url:'/arena',
                     name:'竞技场',
                     icon:require('../assets/images/arena.png')
                 },
                 {
-                    url:'',
+                    url:'/star-room',
                     name:'将星阁',
                     icon:require('../assets/images/jiangxingge.png'),
                     logo:require('../assets/images/teacher.png')
@@ -139,6 +161,30 @@ export default {
         hideTaskPanel() {
             this.showTaskPanel = false;
         },
+        openTipsPanel() {
+            this.showTipsPanel = true;
+        },
+        hideTipsPanel() {
+            this.showTipsPanel = false;
+        },
+        openHomeworkPanel() {
+            this.showHomeworkPanel = true;
+        },
+        hideHomeworkPanel() {
+            this.showHomeworkPanel = false;
+        },
+        openAchievePanel() {
+            this.showAchievePanel = true;
+        },
+        hideAchievePanel() {
+            this.showAchievePanel = false;
+        },
+        openPetPanel() {
+            this.showPetPanel = true;
+        },
+        hidePetPanel() {
+            this.showPetPanel = false;
+        },
         triggerTask() {
             this.isShowTaskPanel = !this.isShowTaskPanel;
         },
@@ -154,6 +200,9 @@ export default {
                     this.$refs.audio.play();
                 }
             }, 300);
+        },
+        openLink(url){
+            this.$router.push({path:url})
         }
     },
     components:{
@@ -161,7 +210,11 @@ export default {
         [SetPanel.name]:SetPanel,
         [MailBoxPanel.name]:MailBoxPanel,
         [NoticePanel.name]:NoticePanel,
-        [TaskPanel.name]:TaskPanel
+        [TaskPanel.name]:TaskPanel,
+        [TipsPanel.name]:TipsPanel,
+        [HomeworkPanel.name]:HomeworkPanel,
+        [AchievePanel.name]:AchievePanel,
+        [PetPanel.name]:PetPanel
     }
 }
 </script>
@@ -354,4 +407,16 @@ export default {
     img.arrow-right.rotate{
         transform: rotate(180deg);
     }
+    /**
+        测试按钮组--------------------------------------------------------------------------------------------测试按钮组
+    */
+    .test-btn-group {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
+    /**
+        测试按钮组--------------------------------------------------------------------------------------------测试按钮组
+    */
 </style>

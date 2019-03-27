@@ -1,6 +1,6 @@
 <template>
     <div class="chess-task-panel">
-        <div class="tabbar-wrapper" :class="{'hide':!isShow}">
+        <!-- <div class="tabbar-wrapper" :class="{'hide':!isShow}">
             <div @click="switchTab(0)" class="tabbar-item" :class="{active:currentIndex == 0}">
                 每日任务
                 <p class="unread-number">5</p>
@@ -9,7 +9,7 @@
                 成长任务
                 <p class="unread-number">5</p>
             </div>
-        </div>
+        </div> -->
         <div class="chess-dialog-body chess-task-panel-body" :class="{'hide':!isShow}">
             <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
@@ -70,6 +70,7 @@ export default {
 <style scoped>
     div.chess-task-panel-body{
         background: url(../assets/images/dialog-setting-bg.png) no-repeat; 
+        background-size: 100% 100%;
     }
     div.content-wrapper-container{       
         width: 82%;

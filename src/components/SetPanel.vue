@@ -100,6 +100,7 @@ export default {
 <style scoped>
     div.chess-set-panel-body{       
         background: url(../assets/images/dialog-setting-bg.png) no-repeat;   
+        background-size: 100% 100%;
     }
     div.content-wrapper{
         width: 82%;

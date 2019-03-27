@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home'
 import Loading from './views/Loading'
 import Login from './views/Login'
+import StarRoom from './views/StarRoom'
+import Arena from './views/Arena'
 Vue.use(Router)
 
 export default new Router({
@@ -23,6 +25,16 @@ export default new Router({
       path:'/login',
       name:'login',
       component:Login
+    },
+    {
+      path:'/star-room',
+      name:'star-room',
+      component:StarRoom
+    },
+    {
+      path:'/arena',
+      name:'arena',
+      component:Arena
     },
     {
       path:'*',
