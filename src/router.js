@@ -7,6 +7,9 @@ import Login from './views/Login'
 import LoginTeacher from './views/LoginTeacher'
 import StarRoom from './views/StarRoom'
 import Arena from './views/Arena'
+import OnlineRace from './views/OnlineRace'
+import MyHomework from './views/MyHomeWork'
+import SelfStudyRoom from './views/SelfStudyRoom'
 import Forbbiden from './views/Forbbiden'
 Vue.use(Router)
 
@@ -48,6 +51,21 @@ export default new Router({
       path:'/arena',
       name:'arena',
       component:Arena
+    },
+    {
+      path:'/online-race',
+      name:'online-race',
+      component:OnlineRace
+    },
+    {
+      path:'/self-study-room',
+      name:'self-study-room',
+      component:SelfStudyRoom
+    },
+    {
+      path:'/my-homework',
+      name:'my-homework',
+      component:MyHomework
     },
     {
       path:'/forbbiden',

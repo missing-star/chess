@@ -25,19 +25,6 @@
                 </div>
             </div>
         </div>
-        <!-- 日常任务 -->
-        <div class="daily-task-wrapper">
-            <div @click="triggerTask" class="pack-up-btn">
-                <p class="title">{{taskTitle}}</p>
-                <img src="../assets/images/arrow-right.png" class="arrow-right" :class="{rotate:!isShowTaskPanel}">
-            </div>
-            <ul class="daily-task-category-wrapper" :class="{hide:!isShowTaskPanel}">
-                <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
-                <li class="daily-task-category-item">闯关 ( 0 / 3)</li>
-                <li class="daily-task-category-item">在线对战 ( 1 / 4)</li>
-            </ul>
-        </div>
-        <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
         <!-- 自习室、将星阁等 -->
         <div class="room-container">
             <div @click="openLink(item.url)" class="room-item" :key="index" v-for="(item,index) in roomList">
@@ -59,27 +46,13 @@
         <chess-set-panel @hide="hideSetPanel" @control-bgm="controlBgm" :isShow="showSetPanel" @change-volume="changeVolume"></chess-set-panel>
         <!-- 设置按钮 -->
         <chess-set-btn @game-set="gameSet"></chess-set-btn>
-        <!-- 小象 -->
-        <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
-        <!-- 我的宠物 -->
-        <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel"></chess-pet-panel>
         <!-- 信箱 -->
         <div class="mailbox-wrapper">
             <img src="../assets/images/mailbox.png" @click="openMailPanel">
             <span class="mailbox-number">5</span>
         </div>
-        <!-- 棋社 -->
-        <chess-com-panel @open-homework="openHomeworkPanel" @open-ach="openAchievePanel" @open-log="openGrowthLogPanel" @hide="hideChessComPanel" :is-show="showChessComPanel"></chess-com-panel>
-        <!-- 成长日志 -->
-        <chess-growth-panel @hide="hideGrowthLogPanel" :is-show="showGrowthLogPanel"></chess-growth-panel>
-        <!-- 老师列表 -->
-        <chess-teacher-list-panel @hide="hideTeacherListPanel" :is-show="showTeacherPanel"></chess-teacher-list-panel>
         <!-- 信息提示框 -->
         <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel"></chess-tips-panel>
-        <!-- 作业框 -->
-        <chess-homework-panel @hide="hideHomeworkPanel" :is-show="showHomeworkPanel"></chess-homework-panel>
-        <!-- 我的成就 -->
-        <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel"></chess-achieve-panel>
     </div>
 </template>
 <script>
@@ -87,14 +60,7 @@ import SetButton from '../components/SetButton'
 import SetPanel from '../components/SetPanel'
 import MailBoxPanel from '../components/MailBoxPanel'
 import NoticePanel from '../components/NoticePanel'
-import TaskPanel from '../components/TaskPanel'
 import TipsPanel from '../components/TipsPanel'
-import HomeworkPanel from '../components/HomeworkPanel'
-import AchievePanel from '../components/AchievementPanel'
-import PetPanel from '../components/PetPanel'
-import ChessComPanel from '../components/ChessComPanel'
-import GrowthLogPanel from '../components/GrowthLogPanel'
-import TeacherListPanel from '../components/TeacherListPanel'
 export default {
     data() {
         return {
@@ -102,14 +68,7 @@ export default {
             isShowDialog:false,
             showMailPanel:false,
             showNoticePanel:false,
-            showTaskPanel:false,
             showTipsPanel:false,
-            showHomeworkPanel:false,
-            showAchievePanel:false,
-            showPetPanel:false,
-            showChessComPanel:false,
-            showGrowthLogPanel:false,
-            showTeacherPanel:true,
             roomList:[
                 {
                     url:'openChessComPanel',
@@ -132,13 +91,7 @@ export default {
                     name:'自习室',
                     icon:require('../assets/images/study-room.png')
                 }
-            ],
-            isShowTaskPanel:false
-        }
-    },
-    computed:{
-        taskTitle(){
-            return this.isShowTaskPanel ? '隐藏' : '显示';
+            ]
         }
     },
     methods:{
@@ -160,59 +113,14 @@ export default {
         hideNoticePanel() {
             this.showNoticePanel = false;
         },
-        openTaskPanel() {
-            this.showTaskPanel = true;
-        },
-        hideTaskPanel() {
-            this.showTaskPanel = false;
-        },
         openTipsPanel() {
             this.showTipsPanel = true;
         },
         hideTipsPanel() {
             this.showTipsPanel = false;
         },
-        openHomeworkPanel() {
-            this.showHomeworkPanel = true;
-        },
-        hideHomeworkPanel() {
-            this.showHomeworkPanel = false;
-            this.openChessComPanel();
-        },
-        openAchievePanel() {
-            this.showAchievePanel = true;
-        },
-        hideAchievePanel() {
-            this.showAchievePanel = false;
-            this.openChessComPanel();
-        },
-        openPetPanel() {
-            this.showPetPanel = true;
-        },
-        hidePetPanel() {
-            this.showPetPanel = false;
-        },
-        openChessComPanel() {
-            this.showChessComPanel = true;
-        },
-        hideChessComPanel() {
-            this.showChessComPanel = false;
-        },
-        openGrowthLogPanel() {
-            this.showGrowthLogPanel = true;
-        },
-        hideGrowthLogPanel() {
-            this.showGrowthLogPanel = false;
-            this.openChessComPanel();
-        },
-        openTeacherListPanel() {
-            this.showTeacherPanel = true;
-        },
         hideTeacherListPanel() {
             this.showTeacherPanel = false;
-        },
-        triggerTask() {
-            this.isShowTaskPanel = !this.isShowTaskPanel;
         },
         changeVolume(volume) {
             this.$refs.audio.volume = volume;
@@ -241,14 +149,7 @@ export default {
         [SetPanel.name]:SetPanel,
         [MailBoxPanel.name]:MailBoxPanel,
         [NoticePanel.name]:NoticePanel,
-        [TaskPanel.name]:TaskPanel,
-        [TipsPanel.name]:TipsPanel,
-        [HomeworkPanel.name]:HomeworkPanel,
-        [AchievePanel.name]:AchievePanel,
-        [PetPanel.name]:PetPanel,
-        [ChessComPanel.name]:ChessComPanel,
-        [GrowthLogPanel.name]:GrowthLogPanel,
-        [TeacherListPanel.name]:TeacherListPanel
+        [TipsPanel.name]:TipsPanel
     }
 }
 </script>

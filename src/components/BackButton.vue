@@ -10,7 +10,7 @@ export default {
 </script>
 <style scoped>
 div.back-btn-wrapper{
-    position: fixed;
+    position: absolute;
     bottom: 1rem;
     left: 1rem;
     width: 5rem;
