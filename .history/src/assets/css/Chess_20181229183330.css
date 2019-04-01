@@ -1,0 +1,131 @@
+
+ #line{
+    width: 100%;
+    height: 100%;
+}
+ #line #rows{
+	position: relative;
+	top: 0;
+	left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+ #line #lines{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -100%;
+    left: 0;
+    overflow: hidden;
+}
+ #line .row{
+    width: 100%;
+    height: 1px;
+    margin-bottom: 0.93rem;
+}
+ #line .line{
+    width: 1px;
+    height: 100%;
+    margin-right: 0.93rem;
+    float: left;
+}
+ #line .end{
+    margin: 0;
+}
+#space{
+   background: url(../img/qipan.png) no-repeat;
+   background-size: 100% 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    font-size: 0;
+}
+#space article{
+	margin: 0 0.06rem;
+    width: 0.9rem;
+    height: 0.9rem;
+   display: inline-block;
+   vertical-align: top;
+    transition: box-shadow 0.35s,outline 0.35s,border 0.35s,transform 0.35s;
+  
+}
+ #space article:hover{
+    box-shadow:0 0 25pt rgba(0, 0, 0, 0.35);
+}
+.CS{
+    border-radius: 50%;
+}
+.C{
+    font-family: "微软雅黑 light", "微软雅黑", Arial,sans-serif;
+    width: 100%;
+    height: 100%;
+    font-size: 0.5rem;
+    border-radius: 50%;
+    line-height: 0.82rem;
+    text-align: center;
+    box-shadow: 0 0 25pt rgba(0, 0, 0, 0.35);
+    transition:transform 0.35s ;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.BR{
+   background: url(../img/bing.png) no-repeat;
+   background-size: 100% 100%;
+}
+.BB{
+   background: url(../img/zu.png) no-repeat;
+   background-size: 100% 100%;
+}
+.PR{
+  background: url(../img/pao1.png) no-repeat;
+   background-size: 100% 100%;
+}
+.PB{
+  background: url(../img/pao2.png) no-repeat;
+   background-size: 100% 100%;
+ 
+  
+}
+.JR{
+   background: url(../img/che1.png) no-repeat;
+   background-size: 100% 100%;
+}
+.JB{
+    background: url(../img/che2.png) no-repeat;
+   background-size: 100% 100%;
+    
+}
+.MR{
+   background: url(../img/ma1.png) no-repeat;
+   background-size: 100% 100%;
+}
+.MB{
+    background: url(../img/ma2.png) no-repeat;
+   background-size: 100% 100%;
+}
+.XR{
+    background: url(../img/xiang1.png) no-repeat;
+   background-size: 100% 100%;
+}
+.XB{
+   background: url(../img/xiang2.png) no-repeat;
+   background-size: 100% 100%;
+}
+.SR{
+  background: url(../img/shi1.png) no-repeat;
+   background-size: 100% 100%;
+}
+.SB{
+   background: url(../img/shi2.png) no-repeat;
+   background-size: 100% 100%;
+}
+.J{
+   background: url(../img/shuai.png) no-repeat;
+   background-size: 100% 100%;
+}
+.S{
+   background: url(../img/jiang.png) no-repeat;
+   background-size: 100% 100%;
+}
