@@ -385,14 +385,15 @@ export default {
                             pagination: {
                                 el: '.swiper-pagination-2',
                             },
-                            observer:true,
+                            observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+                            observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
                             navigation: {
                                 nextEl: '.swiper-button-next-2',
                                 prevEl: '.swiper-button-prev-2',
                             },
                             on:{
                                 progress: function(progress){
-                                    console.log(this.progress);
+                                    console.log(this.progress)
                                     if(this.progress == 0) {
                                         //无法点击上一页
                                         vm.isFirstPage2 = true;
@@ -433,7 +434,8 @@ export default {
                     nextEl: '.swiper-button-next-1',
                     prevEl: '.swiper-button-prev-1',
                 },
-                observer:true,
+                observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+                observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
                 on:{
                     progress: function(progress){
                         if(this.progress == 0) {

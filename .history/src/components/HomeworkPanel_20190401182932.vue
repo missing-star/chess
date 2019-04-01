@@ -15,21 +15,19 @@
         <div class="chess-dialog-body chess-homework-panel-body" :class="{'hide':!isShow,platform:currentIndex == 1}">
             <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container" :class="{active:currentIndex == 0}">
-                <div class="pre-wrapper swiper-button-prev swiper-button-prev-1">
-                    <img v-if="isFirstPage1" src="../assets/images/arrow-left-disabled.png" class="page-icon">
-                    <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
+                <div class="pre-wrapper">
+                    <img src="../assets/images/arrow-left-big.png" class="page-icon">
                 </div>
-                <div class="next-wrapper swiper-button-next swiper-button-next-1">
-                    <img v-if="isLastPage1" src="../assets/images/arrow-right-disabled.png" class="page-icon">
-                    <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
+                <div class="next-wrapper">
+                    <img src="../assets/images/arrow-right-big.png" class="page-icon">
                 </div>
                 <h3 class="title">
                     2份最新作业
                 </h3>
-                <div class="swiper-container swiper-1">
+                <div class="swiper-container container-1">
                     <div class="swiper-wrapper wrapper-1">
-                        <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList1.length / 8)" :key="n">
-                            <li v-for="item in taskList1.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
+                        <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList.length / 8)" :key="n">
+                            <li v-for="item in taskList.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
                                 <p class="finish-bonus" v-if="item.status != 2">
                                     完成奖励
                                 </p>
@@ -58,57 +56,9 @@
                             </li>
                         </ul>
                     </div>
-                <div class="swiper-pagination swiper-pagination-1"></div>
                 </div>
             </div>
             <div class="content-wrapper-container" :class="{active:currentIndex == 1}">
-                <div class="pre-wrapper swiper-button-prev swiper-button-prev-2">
-                    <img v-if="isFirstPage2" src="../assets/images/arrow-left-disabled.png" class="page-icon">
-                    <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
-                </div>
-                <div class="next-wrapper swiper-button-next swiper-button-next-2">
-                    <img v-if="isLastPage2" src="../assets/images/arrow-right-disabled.png" class="page-icon">
-                    <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
-                </div>
-                <h3 class="title">
-                    tab-2
-                </h3>
-                <div class="swiper-container swiper-2">
-                    <div class="swiper-wrapper wrapper-2">
-                        <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList2.length / 8)" :key="n">
-                            <li v-for="item in taskList2.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
-                                <p class="finish-bonus" v-if="item.status != 2">
-                                    完成奖励
-                                </p>
-                                <div class="task-title-wrapper">
-                                    <p class="task-title">{{item.title}}</p>
-                                    <div class="task-progress-wrapper">
-                                        <p class="end-time">截止时间：{{item.endTime}}</p>
-                                    </div>
-                                </div>
-                                <template  v-if="item.status != 2">
-                                    <div class="finish-bonus-content">
-                                        <p class="content-title"><img src="../assets/images/temp-icon.png" class="bonus-icon">30</p>
-                                    </div>
-                                    <div class="finish-status-wrapper" v-if="item.status == 0">
-                                        已提交
-                                    </div>
-                                    <div class="finish-status-wrapper not-finished" v-if="item.status == 1">
-                                        <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
-                                        去完成
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <img src="../assets/images/homework-icon.png" class="homework-icon">
-                                    <p class="show-score">{{item.score}}</p>
-                                </template>
-                            </li>
-                        </ul>
-                    </div>
-                <div class="swiper-pagination swiper-pagination-2"></div>
-                </div>
-            </div>
-            <!-- <div class="content-wrapper-container" :class="{active:currentIndex == 1}">
                 <div class="pre-wrapper">
                     <img src="../assets/images/arrow-left-big.png" class="page-icon">
                 </div>
@@ -147,7 +97,7 @@
                         </template>
                     </li>
                 </ul>
-            </div> -->
+            </div>
         </div>
         <chess-mask :is-show="isShow"></chess-mask>
     </div>
@@ -164,14 +114,10 @@ export default {
     data() {
         return {
             currentIndex:0,
-            isFirstPage1:true,
-            isLastPage1:false,
-            isFirstPage2:true,
-            isLastPage2:false,
-            taskList1:[
+            taskList:[
                 {
                     id:1,
-                    title:'第一份数据',
+                    title:'测试',
                     endTime:'2022-12-23',
                     status:0,
                     score:0
@@ -266,107 +212,7 @@ export default {
                     status:0,
                     score:0
                 }
-            ],
-            taskList2:[
-                {
-                    id:1,
-                    title:'第二份数据',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:2,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:1,
-                    score:0
-                },
-                {
-                    id:3,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:2,
-                    score:90
-                },{
-                    id:4,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:5,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:6,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:7,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:8,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:9,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:10,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:11,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:12,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:13,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                },
-                {
-                    id:14,
-                    title:'测试',
-                    endTime:'2022-12-23',
-                    status:0,
-                    score:0
-                }
-            ],
-            isSwiper2:false
+            ]
         }
     },
     methods: {
@@ -374,80 +220,35 @@ export default {
             this.$emit('hide');
         },
         switchTab(index) {
-            if(this.currentIndex != index) {
-                this.currentIndex = index;
-                if(this.currentIndex == 1 && !this.isSwiper2) {
-                    this.$nextTick(() => {
-                        const vm = this;
-                        this.isSwiper2 = true;
-                        new Swiper('.swiper-2',{
-                            watchSlidesProgress:true,
-                            pagination: {
-                                el: '.swiper-pagination-2',
-                            },
-                            observer:true,
-                            navigation: {
-                                nextEl: '.swiper-button-next-2',
-                                prevEl: '.swiper-button-prev-2',
-                            },
-                            on:{
-                                progress: function(progress){
-                                    console.log(this.progress);
-                                    if(this.progress == 0) {
-                                        //无法点击上一页
-                                        vm.isFirstPage2 = true;
-                                        if(vm.computedLength2()) {
-                                            vm.isLastPage2 = false;
-                                        }
-                                    }
-                                    if(this.progress == 1) {
-                                        //无法点击最后一页
-                                        vm.isLastPage2 = true;
-                                        vm.isFirstPage2 = false;
-                                    }
-                                }
-                            }
-                        }); 
-                    })
-                }
-            }
-        },
-        computedLength1() {
-            return Math.ceil(this.taskList1.length / 8) > 1;
-        },
-        computedLength2() {
-            return Math.ceil(this.taskList2.length / 8) > 1;
+            this.currentIndex = index;
         }
     },
     mounted() {
-        this.isLastPage1 = Math.ceil(this.taskList1.length / 8) > 1 ? false : true;
-        this.isLastPage2 = Math.ceil(this.taskList2.length / 8) > 1 ? false : true;
         this.$nextTick(() => {
             const vm = this;
-            new Swiper('.swiper-1',{
-                watchSlidesProgress:true,
-                pagination: {
-                    el: '.swiper-pagination-1',
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next-1',
-                    prevEl: '.swiper-button-prev-1',
-                },
-                observer:true,
+            new Swiper('.swiper-container',{
+                // watchSlidesProgress:true,
+                //  pagination: {
+                //     el: '.swiper-pagination',
+                // },
+                // navigation: {
+                //     nextEl: '.swiper-button-next',
+                //     prevEl: '.swiper-button-prev',
+                // },
                 on:{
                     progress: function(progress){
-                        if(this.progress == 0) {
-                            //无法点击上一页
-                            vm.isFirstPage1 = true;
-                            if(vm.computedLength1()) {
-                                vm.isLastPage1 = false;
-                            }
-                        }
-                        if(this.progress == 1) {
-                            //无法点击最后一页
-                            vm.isLastPage1 = true;
-                            vm.isFirstPage1 = false;
-                        }
+                        // if(this.progress == 0) {
+                        //     //无法点击上一页
+                        //     vm.isFirstPage = true;
+                        //     if(vm.computedLength()) {
+                        //         vm.isLastPage = false;
+                        //     }
+                        // }
+                        // if(this.progress == 1) {
+                        //     //无法点击最后一页
+                        //     vm.isLastPage = true;
+                        //     vm.isFirstPage = false;
+                        // }
                     }
                 }
             });
@@ -484,7 +285,7 @@ export default {
     div.content-wrapper-container{
         display: none;
         width: 81%;
-        height: 67%;
+        height: 74%;
         margin-top: 14%;
         margin-left: 8%;
     }
@@ -571,7 +372,7 @@ export default {
         scrollbar-width: none;
         /* ie/edge */
         -ms-overflow-style: none;
-        height: 100%;
+        height: 85%;
     }
     ul.task-list-wrapper::-webkit-scrollbar{
         width: 0;

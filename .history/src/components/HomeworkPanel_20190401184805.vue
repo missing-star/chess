@@ -26,7 +26,7 @@
                 <h3 class="title">
                     2份最新作业
                 </h3>
-                <div class="swiper-container swiper-1">
+                <div class="swiper-container swiper-1 swiper-no-swiping">
                     <div class="swiper-wrapper wrapper-1">
                         <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList1.length / 8)" :key="n">
                             <li v-for="item in taskList1.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
@@ -62,18 +62,18 @@
                 </div>
             </div>
             <div class="content-wrapper-container" :class="{active:currentIndex == 1}">
-                <div class="pre-wrapper swiper-button-prev swiper-button-prev-2">
+                <div class="pre-wrapper swiper-button-prev swiper-button-prev-1">
                     <img v-if="isFirstPage2" src="../assets/images/arrow-left-disabled.png" class="page-icon">
                     <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
                 </div>
-                <div class="next-wrapper swiper-button-next swiper-button-next-2">
+                <div class="next-wrapper swiper-button-next swiper-button-next-1">
                     <img v-if="isLastPage2" src="../assets/images/arrow-right-disabled.png" class="page-icon">
                     <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
                 </div>
                 <h3 class="title">
-                    tab-2
+                    tab--2
                 </h3>
-                <div class="swiper-container swiper-2">
+                <div class="swiper-container swiper-2 swiper-no-swiping">
                     <div class="swiper-wrapper wrapper-2">
                         <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList2.length / 8)" :key="n">
                             <li v-for="item in taskList2.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
@@ -171,7 +171,7 @@ export default {
             taskList1:[
                 {
                     id:1,
-                    title:'第一份数据',
+                    title:'测试',
                     endTime:'2022-12-23',
                     status:0,
                     score:0
@@ -270,7 +270,7 @@ export default {
             taskList2:[
                 {
                     id:1,
-                    title:'第二份数据',
+                    title:'测试',
                     endTime:'2022-12-23',
                     status:0,
                     score:0
@@ -365,8 +365,7 @@ export default {
                     status:0,
                     score:0
                 }
-            ],
-            isSwiper2:false
+            ]
         }
     },
     methods: {
@@ -374,43 +373,7 @@ export default {
             this.$emit('hide');
         },
         switchTab(index) {
-            if(this.currentIndex != index) {
-                this.currentIndex = index;
-                if(this.currentIndex == 1 && !this.isSwiper2) {
-                    this.$nextTick(() => {
-                        const vm = this;
-                        this.isSwiper2 = true;
-                        new Swiper('.swiper-2',{
-                            watchSlidesProgress:true,
-                            pagination: {
-                                el: '.swiper-pagination-2',
-                            },
-                            observer:true,
-                            navigation: {
-                                nextEl: '.swiper-button-next-2',
-                                prevEl: '.swiper-button-prev-2',
-                            },
-                            on:{
-                                progress: function(progress){
-                                    console.log(this.progress);
-                                    if(this.progress == 0) {
-                                        //无法点击上一页
-                                        vm.isFirstPage2 = true;
-                                        if(vm.computedLength2()) {
-                                            vm.isLastPage2 = false;
-                                        }
-                                    }
-                                    if(this.progress == 1) {
-                                        //无法点击最后一页
-                                        vm.isLastPage2 = true;
-                                        vm.isFirstPage2 = false;
-                                    }
-                                }
-                            }
-                        }); 
-                    })
-                }
-            }
+            this.currentIndex = index;
         },
         computedLength1() {
             return Math.ceil(this.taskList1.length / 8) > 1;
@@ -426,14 +389,13 @@ export default {
             const vm = this;
             new Swiper('.swiper-1',{
                 watchSlidesProgress:true,
-                pagination: {
+                 pagination: {
                     el: '.swiper-pagination-1',
                 },
                 navigation: {
                     nextEl: '.swiper-button-next-1',
                     prevEl: '.swiper-button-prev-1',
                 },
-                observer:true,
                 on:{
                     progress: function(progress){
                         if(this.progress == 0) {
@@ -447,6 +409,32 @@ export default {
                             //无法点击最后一页
                             vm.isLastPage1 = true;
                             vm.isFirstPage1 = false;
+                        }
+                    }
+                }
+            });
+            new Swiper('.swiper-2',{
+                watchSlidesProgress:true,
+                 pagination: {
+                    el: '.swiper-pagination-2',
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next-2',
+                    prevEl: '.swiper-button-prev-2',
+                },
+                on:{
+                    progress: function(progress){
+                        if(this.progress == 0) {
+                            //无法点击上一页
+                            vm.isFirstPage2 = true;
+                            if(vm.computedLength2()) {
+                                vm.isLastPage2 = false;
+                            }
+                        }
+                        if(this.progress == 1) {
+                            //无法点击最后一页
+                            vm.isLastPage2 = true;
+                            vm.isFirstPage2 = false;
                         }
                     }
                 }

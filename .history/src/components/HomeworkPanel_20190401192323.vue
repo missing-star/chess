@@ -26,7 +26,7 @@
                 <h3 class="title">
                     2份最新作业
                 </h3>
-                <div class="swiper-container swiper-1">
+                <div class="swiper-container swiper-1 swiper-no-swiping">
                     <div class="swiper-wrapper wrapper-1">
                         <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(taskList1.length / 8)" :key="n">
                             <li v-for="item in taskList1.slice(8*(n-1),8*(n-1)+8)" :key="item.id" class="task-item">
@@ -270,7 +270,7 @@ export default {
             taskList2:[
                 {
                     id:1,
-                    title:'第二份数据',
+                    title:'测试',
                     endTime:'2022-12-23',
                     status:0,
                     score:0
@@ -385,14 +385,14 @@ export default {
                             pagination: {
                                 el: '.swiper-pagination-2',
                             },
-                            observer:true,
+                            observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+                            observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
                             navigation: {
                                 nextEl: '.swiper-button-next-2',
                                 prevEl: '.swiper-button-prev-2',
                             },
                             on:{
                                 progress: function(progress){
-                                    console.log(this.progress);
                                     if(this.progress == 0) {
                                         //无法点击上一页
                                         vm.isFirstPage2 = true;
@@ -426,14 +426,15 @@ export default {
             const vm = this;
             new Swiper('.swiper-1',{
                 watchSlidesProgress:true,
-                pagination: {
+                 pagination: {
                     el: '.swiper-pagination-1',
                 },
                 navigation: {
                     nextEl: '.swiper-button-next-1',
                     prevEl: '.swiper-button-prev-1',
                 },
-                observer:true,
+                observer:true,/*启动动态检查器，当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。*/
+                observeParents:true,/*将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新。*/
                 on:{
                     progress: function(progress){
                         if(this.progress == 0) {
