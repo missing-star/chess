@@ -90,11 +90,7 @@ export default {
         [BackButton.name]:BackButton
     },
     mounted() {
-        window.onChose = onChose;
         initChess();
-    },
-    methods:{
-        
     }
 }
 </script>

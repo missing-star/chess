@@ -1,4 +1,4 @@
-// const socket = new WebSocket('ws://127.0.0.1:8000');
+const socket = new WebSocket('ws://127.0.0.1:8000');
 function LoadGround() { //生成旗子
     var g = "";
     if (map.length != 0) {
@@ -196,7 +196,10 @@ function showC() {
 function showChose(j, i, t) {
     var o = $("#CS" + j + "-" + i);
     if (t == 0) {
-        o.removeClass('selected');
+        o.css({
+            "box-shadow": "",
+            "border": ""
+        });
         return;
     }
     var c = "";
@@ -213,11 +216,17 @@ function showChose(j, i, t) {
         default:
             break;
     }
-    o.addClass('selected');
+    o.css({
+        "box-shadow": "0 0 25pt #" + c,
+        "border": ""
+    })
 }
 
 function cleanChose() {
-    $(".CS").removeClass('selected');
+    $(".CS").css({
+        "box-shadow": "",
+        "border": ""
+    })
 }
 
 function move(y, x, j, i, eat, isBack, isSend) {
@@ -383,11 +392,11 @@ function senMessage(y, x, j, i, eat) {
         eat: eat == undefined ? null : eat,
         role:sessionStorage.getItem('isRed') == 'true' ? 'red' : 'black' 
     });
-    // socket.send(JSON.stringify({
-    //     content:obj,
-    //     type:'user',
-    //     user_type:sessionStorage.getItem('user_type')
-    // }));
+    socket.send(JSON.stringify({
+        content:obj,
+        type:'user',
+        user_type:sessionStorage.getItem('user_type')
+    }));
     //清空计时器
     countTimes('over');
 }
@@ -455,7 +464,7 @@ function showSt(j, i, t) {
             } else {
                 eatList.push(tmap[q]);
             }
-            // showChose(tmap[q][0], tmap[q][1], tmap[q][2] + 2);
+            showChose(tmap[q][0], tmap[q][1], tmap[q][2] + 2);
         }
     nowChoseC[0] = j;
     nowChoseC[1] = i;
@@ -533,11 +542,11 @@ function senMessageChose(j, i,isSend) {
         i: i,
         chose:true
     });
-    // socket.send(JSON.stringify({
-    //     content:obj,
-    //     type:'user',
-    //     user_type:sessionStorage.getItem('user_type')
-    // }));
+    socket.send(JSON.stringify({
+        content:obj,
+        type:'user',
+        user_type:sessionStorage.getItem('user_type')
+    }));
 }
 
 

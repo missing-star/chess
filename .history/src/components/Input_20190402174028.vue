@@ -46,13 +46,11 @@ export default {
         },
         sendCode() {
             if(this.time == 60) {
-                this.sendText = `${this.time}s后重发`;
                 const interval = setInterval(() => {
                     if(this.time == 1) {
                         clearInterval(interval);
                         this.time = 60;
                         this.sendText = '发送验证码';
-                        return false;
                     }
                     this.time--;
                     this.sendText = `${this.time}s后重发`;

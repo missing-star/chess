@@ -217,7 +217,10 @@ function showChose(j, i, t) {
 }
 
 function cleanChose() {
-    $(".CS").removeClass('selected');
+    $(".CS").css({
+        "box-shadow": "",
+        "border": ""
+    })
 }
 
 function move(y, x, j, i, eat, isBack, isSend) {
@@ -455,7 +458,7 @@ function showSt(j, i, t) {
             } else {
                 eatList.push(tmap[q]);
             }
-            // showChose(tmap[q][0], tmap[q][1], tmap[q][2] + 2);
+            showChose(tmap[q][0], tmap[q][1], tmap[q][2] + 2);
         }
     nowChoseC[0] = j;
     nowChoseC[1] = i;

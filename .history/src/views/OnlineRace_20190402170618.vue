@@ -309,4 +309,7 @@ export default {
     img.operation-item {
         width: 40%;
     }
+    article.CS {
+        background: red !important;
+    }
 </style>

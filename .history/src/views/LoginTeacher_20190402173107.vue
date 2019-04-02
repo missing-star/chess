@@ -35,7 +35,7 @@
                         </div>
                         <div class="content find-pwd" v-if="currentPanel == 2">
                             <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="手机号" type="text" width="16rem"></chess-input>
-                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="验证码" type="number" send width="16rem"></chess-input>
+                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="验证码" type="number" send="true" width="16rem"></chess-input>
                             <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="重置密码" type="password" width="14rem"></chess-input>
                             <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="确定密码" type="password" width="14rem"></chess-input>
                             <div class="reset-wrapper">

@@ -309,4 +309,7 @@ export default {
     img.operation-item {
         width: 40%;
     }
+    article.selected {
+        background: red;
+    }
 </style>

@@ -115,11 +115,7 @@ export default {
 .pre-wrapper.swiper-button-prev.swiper-button-disabled,.next-wrapper.swiper-button-next.swiper-button-disabled {
     opacity: 1;
 }
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-input[type="number"]{
-    -moz-appearance: textfield;
+input[type=number] {
+  appearance: none;
 }
 </style>

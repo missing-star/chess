@@ -217,7 +217,10 @@ function showChose(j, i, t) {
 }
 
 function cleanChose() {
-    $(".CS").removeClass('selected');
+    $(".CS").css({
+        "box-shadow": "",
+        "border": ""
+    })
 }
 
 function move(y, x, j, i, eat, isBack, isSend) {

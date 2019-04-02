@@ -46,7 +46,6 @@ export default {
         },
         sendCode() {
             if(this.time == 60) {
-                this.sendText = `${this.time}s后重发`;
                 const interval = setInterval(() => {
                     if(this.time == 1) {
                         clearInterval(interval);

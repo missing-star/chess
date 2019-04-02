@@ -309,4 +309,8 @@ export default {
     img.operation-item {
         width: 40%;
     }
+    #space article.selected{
+        background: url(../assets/images/select-chess.png) no-repeat;
+        background-size: 100% 100%;
+    }
 </style>
