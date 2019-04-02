@@ -129,7 +129,7 @@ export default {
         height: 93%;
         overflow-x: hidden;
         overflow-y: scroll;
-        scrollbar-width:0;
+        scrollbar-width:none;
         -ms-overflow-style: none;
         padding: 0 1rem;
     }
