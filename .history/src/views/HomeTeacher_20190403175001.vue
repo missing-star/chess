@@ -52,8 +52,7 @@
             <span class="mailbox-number">5</span>
         </div>
         <!-- 信息提示框 -->
-        <chess-create-tips-panel @hide="hideCreateTipsPanel" :is-show="showCreateTipsPanel"></chess-create-tips-panel>
-        <button class="test" @click="openCreateTipsPanel">test</button>
+        <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel"></chess-tips-panel>
     </div>
 </template>
 <script>
@@ -74,12 +73,12 @@ export default {
             isShowDialog:false,
             showMailPanel:false,
             showNoticePanel:false,
-            showCreateTipsPanel:true,
+            showCreateTipsPanel:false,
             showStudentDetailPanel:false,
             showStudentInfoPanel:false,
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
-            showCheckHomeworkPanel:false,
+            showCheckHomeworkPanel:true,
             roomList:[
                 {
                     url:'/arena',
@@ -180,7 +179,7 @@ export default {
         [SetPanel.name]:SetPanel,
         [MailBoxPanel.name]:MailBoxPanel,
         [NoticePanel.name]:NoticePanel,
-        [CreateTipsPanel.name]:CreateTipsPanel,
+        [TipsPanel.name]:TipsPanel,
         [StudentDetailPanel.name]:StudentDetailPanel,
         [StudentInfoPanel.name]:StudentInfoPanel,
         [PersonalInfoPanel.name]:PersonalInfoPanel,

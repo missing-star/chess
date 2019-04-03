@@ -53,7 +53,6 @@
         </div>
         <!-- 信息提示框 -->
         <chess-create-tips-panel @hide="hideCreateTipsPanel" :is-show="showCreateTipsPanel"></chess-create-tips-panel>
-        <button class="test" @click="openCreateTipsPanel">test</button>
     </div>
 </template>
 <script>
@@ -74,12 +73,12 @@ export default {
             isShowDialog:false,
             showMailPanel:false,
             showNoticePanel:false,
-            showCreateTipsPanel:true,
+            showCreateTipsPanel:false,
             showStudentDetailPanel:false,
             showStudentInfoPanel:false,
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
-            showCheckHomeworkPanel:false,
+            showCheckHomeworkPanel:true,
             roomList:[
                 {
                     url:'/arena',
