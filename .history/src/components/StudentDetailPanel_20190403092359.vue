@@ -1,0 +1,206 @@
+<template>
+    <div class="chess-student-detail-panel">
+        <div class="chess-dialog-body chess-student-detail-body" :class="{'hide':!isShow}">
+            <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
+            <div class="content-wrapper-container">
+                <div class="category-wrapper">
+                    <div class="student-info-wrapper">
+                        <p class="title">学员信息</p>
+                        <div class="dash-line"></div>
+                        <div class="student-detail-wrapper">
+                            <div class="student-logo-wrapper">
+                                <img src="../assets/images/user-logo.png" class="user-logo">
+                                <p class="username">张某同学</p>
+                            </div>
+                            <div class="grade-info-wrapper">
+                                <p class="grade-item">班级：二期3班</p>
+                                <p class="grade-item">性别：女</p>
+                                <p class="grade-item">年龄：12</p>
+                            </div>
+                        </div>
+                        <div class="exp-wrapper">
+                            <p class="exp-title">经验值：</p>
+                            <div class="progressbar-wrapper">
+                                <div class="progressbar"></div>
+                            </div>
+                            <p class="exp-number">160 / 200</p>
+                        </div>
+                    </div>
+                    <div class="homework-condition-wrapp">
+                        <p class="title">作业情况</p>
+                        <div class="dash-line"></div>
+                        <div class="finished-and-checking">
+                            <div class="item finshed">
+                                <img src="../assets/images/homework-icon.png" class="check-icon">
+                                <p class="content">已完成12卷</p>
+                            </div>
+                            <div class="item checking">
+                                <img src="../assets/images/homework-icon.png" class="check-icon">
+                                <p class="content">1卷批改中</p>
+                            </div>
+                        </div>
+                        <div class="not-finished-wrapper">
+                            <img src="../assets/images/homework-icon.png" class="check-icon">
+                            <p class="content not-finished">未完成3卷</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="userinfo-wrapper">
+                    <img src="../assets/images/user-logo.png" class="user-logo">
+                    <p class="nickname">张某</p>
+                    <div class="exp-wrapper">
+                        <p class="exp-title">经验值</p>
+                        <div class="exp-progressbar-wrapper">
+                            <div class="exp-progressbar"></div>
+                        </div>
+                        <span class="exp-value">160/200</span>
+                    </div>
+                    <div class="userinfo-detail-wrapper">
+                        <p class="userinfo-item inline">棋力等级：6级</p>
+                        <p class="userinfo-item inline">师傅：师傅名称</p>
+                        <p class="userinfo-item inline">班级：二期3班</p>
+                        <p class="userinfo-item inline">性别：女</p>
+                        <p class="userinfo-item block">老师：老师名称</p>
+                        <p class="userinfo-item block">学校：学校名称</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <chess-mask :is-show="isShow"></chess-mask>
+    </div>
+</template>
+<script>
+import ChessMask from './Mask'
+export default {
+    name:'chess-student-detail-panel',
+    props:['is-show'],
+    data() {
+        return {
+            categoryList:[
+                {id:0,icon:require('../assets/images/成长日志.png')},
+                {id:1,icon:require('../assets/images/我的成就.png')},
+                {id:2,icon:require('../assets/images/我的作业.png')},
+                {id:3,icon:require('../assets/images/自习室.png')}
+            ]
+        }
+    },
+    components:{
+        [ChessMask.name]:ChessMask
+    },
+    methods: {
+        closeMyself() {
+            this.$emit('hide');
+        },
+        openPanel(target) {
+            switch (target) {
+                case 0:
+                    this.closeMyself();
+                    this.$emit('open-log');
+                    break;
+                case 1:
+                    this.closeMyself();
+                    this.$emit('open-ach');
+                    break;
+                break;
+                case 2:
+                    this.closeMyself();
+                    this.$emit('open-homework');
+                    break;
+                break;
+                case 3:
+                    
+                    break;
+            }
+        }
+    }
+}
+</script>
+<style scoped>
+    div.chess-student-detail-body{
+        background: url(../assets/images/community-bg.png) no-repeat; 
+        background-size: 100% 100%;
+    }
+    div.content-wrapper-container{       
+        width: 82%;
+        height: 80%;
+        margin-top: 10%;
+        margin-left: 8%;
+        display: flex;
+        align-items: center;
+    }
+    .category-wrapper {
+        width: 40%;
+        height: 85%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .category-item {
+        width: 46%;
+    }
+    img.category-item.icon {
+        width: 100%;
+    }
+    .userinfo-wrapper {
+        width: 60%;
+        padding-left: 10%;
+        height: 100%;
+        padding-top: 5%;
+        text-align: center;
+    }
+    img.user-logo {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        background: skyblue;
+    }
+    p.nickname {
+        width: 40%;
+        background: #c38e72;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        color: #fff;
+        margin: 1rem auto;
+    }
+    .exp-progressbar-wrapper {
+        width: 60%;
+        height: 0.8rem;
+        background: #fff;
+        border-radius: 1rem;
+    }
+    .exp-progressbar{
+        height: 100%;
+        width: 40%;
+        background:#ff7226;
+        border-radius: 1rem;
+    }
+    .exp-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        color: #b87f61;
+    }
+    p.userinfo-item {
+        background: #fcf3d6;
+        height: 2.5rem;
+        border-radius: 0.2rem;
+        margin: 0.6rem 0;
+        display: inline-flex;
+        align-items: center;
+        color: #b87f61;
+        padding:0.5rem; 
+    }
+    p.userinfo-item.inline {
+        width: 45%;
+    }
+    p.userinfo-item.block {
+        width: 100%;
+    }
+    .userinfo-detail-wrapper {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+</style>
