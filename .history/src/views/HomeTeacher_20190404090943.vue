@@ -203,7 +203,7 @@ export default {
     div.chess-home{
         position: relative;
         height: 100%;
-        background: url(../assets/images/home-bg.png) no-repeat;
+        background: url(../assets/images/create-table-bg.png) no-repeat;
         background-size: 100% 100%;
     }
     img.elephant {

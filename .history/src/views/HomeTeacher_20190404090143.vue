@@ -44,8 +44,6 @@
         <chess-manage-apprentice-panel @hide="hideManageApprenticePanel" :isShow="showManageApprenticePanel"></chess-manage-apprentice-panel>
         <!-- 批改作业 -->
         <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel"></chess-check-homework-panel>
-        <!-- 棋谱列表 -->
-        <chess-table-panel @hide="hideChessTablePanel" :isShow="showChessTablePanel"></chess-table-panel>
         <!-- 设置按钮 -->
         <chess-set-btn @game-set="gameSet"></chess-set-btn>
         <!-- 信箱 -->
@@ -67,7 +65,6 @@ import StudentInfoPanel from '../components/StudentInfoPanel'
 import PersonalInfoPanel from '../components/PersonalInfoPanel'
 import ManageApprenticePanel from '../components/ManageApprenticePanel'
 import CheckHomeworkPanel from '../components/CheckHomeworkPanel'
-import ChessTablePanel from '../components/ChessTablePanel'
 import CreateTipsPanel from '../components/CreateTipsPanel'
 export default {
     data() {
@@ -76,13 +73,12 @@ export default {
             isShowDialog:false,
             showMailPanel:false,
             showNoticePanel:false,
-            showCreateTipsPanel:false,
+            showCreateTipsPanel:true,
             showStudentDetailPanel:false,
             showStudentInfoPanel:false,
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
             showCheckHomeworkPanel:false,
-            showChessTablePanel:true,
             roomList:[
                 {
                     url:'/arena',
@@ -156,12 +152,6 @@ export default {
         hideCheckHomeworkPanel() {
             this.showCheckHomeworkPanel = false;
         },
-        openChessTablePanel() {
-            this.showChessTablePanel = true;
-        },
-        hideChessTablePanel() {
-            this.showChessTablePanel = false;
-        },
         changeVolume(volume) {
             this.$refs.audio.volume = volume;
         },
@@ -194,8 +184,7 @@ export default {
         [StudentInfoPanel.name]:StudentInfoPanel,
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
-        [CheckHomeworkPanel.name]:CheckHomeworkPanel,
-        [ChessTablePanel.name]:ChessTablePanel
+        [CheckHomeworkPanel.name]:CheckHomeworkPanel
     }
 }
 </script>
