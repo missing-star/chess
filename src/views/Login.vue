@@ -25,7 +25,7 @@
                             <chess-input label="家长手机号" type="text" width="3rem"></chess-input>
                             <chess-input label="密码" type="password" width="6rem"></chess-input>
                             <div class="register-btn-group">
-                                <button class="register-btn">注册</button>
+                                <button @click="register" class="register-btn">注册</button>
                             </div>
                         </div>
                         <div class="content" v-if="currentPanel == 1">
@@ -118,6 +118,17 @@ export default {
         },
         forgetPass() {
             this.currentPanel = 2;
+        },
+        login() {
+            fetch('')
+        },
+        register() {
+            fetch(`${process.env.VUE_APP_URL}/index.php?r=api-student/student-register`,{
+                method:'post',
+                body:{
+                    username:'aaa'
+                }
+            })
         }
     }
 }

@@ -6,21 +6,21 @@
                 <div class="create-delete-wrapper">
                     <img src="../assets/images/create-table-btn.png" alt="创建棋谱" class="create-table-icon pointer">
                     <p class="delete-wrapper pointer">
-                        <img src="../assets/images/delete-active.png" alt="删除" class="delet-icon">
-                        <img src="../assets/images/delete.png" alt="删除" class="delete-icon">
+                        <img v-show="selectedList.length != 0" src="../assets/images/delete-active.png" alt="删除" class="delete-icon">
+                        <img v-show="selectedList.length == 0" src="../assets/images/delete.png" alt="删除" class="delete-icon">
                         <span class="delete-title">删除</span>
                     </p>
                 </div>
                 <ul class="task-list-wrapper">
                     <li v-for="n in 20" :key="n" class="task-item">
-                        <div class="task-title-wrapper">
-                            <p class="task-title">棋谱名称</p>
-                            <p class="time">
+                        <div @click.capture="toggleSelect(n,$event)" class="task-title-wrapper pointer">
+                            <p @click="toggleSelect(n,$event)" class="task-title">棋谱名称</p>
+                            <p @click="toggleSelect(n,$event)" class="time">
                                 2/12  22:12:34
                             </p>
                         </div>
                         
-                        <div class="finish-status-wrapper" v-if="n % 2 != 0">
+                        <div class="finish-status-wrapper">
                             编辑
                         </div>
                     </li>
@@ -32,6 +32,7 @@
 </template>
 <script>
 import ChessMask from './Mask'
+import { constants } from 'crypto';
 export default {
     name:'chess-table-panel',
     props:['is-show'],
@@ -50,6 +51,17 @@ export default {
         },
         switchTab(index) {
             this.currentIndex = index;
+        },
+        toggleSelect(id,e) {
+            const index = this.selectedList.indexOf(id);
+            if(index != -1) {
+                this.selectedList.splice(index,1);
+                e.target.classList.remove('active');
+            }
+            else {
+                this.selectedList.push(id);
+                e.target.classList.add('active');
+            }
         }
     }
 }
@@ -72,7 +84,7 @@ export default {
         scrollbar-width: none;
         /* ie/edge */
         -ms-overflow-style: none;
-        height: 98%;
+        height: 78%;
     }
     ul.task-list-wrapper::-webkit-scrollbar{
         width: 0;
@@ -88,6 +100,9 @@ export default {
         border-radius: 0.8rem;
         position: relative;
         padding: 0.5rem;
+    }
+    .task-title-wrapper.active{
+        background: greenyellow;
     }
     .task-title-wrapper {
         border: 1px dashed #e9ce84;
@@ -142,26 +157,21 @@ export default {
     .finish-status-wrapper {
         position: absolute;
         right: 0;
-        height: 100%;
-        top: 0;
-        border-top-right-radius: 0.8rem;
-        border-bottom-right-radius: 0.8rem;
-        box-shadow: -1px 0 1px 0 #fff7e0;
+        background-image:linear-gradient(-180deg, #ff6d20 0%, #ff955d 65%, #ff8240 100%);
         text-align: center;
         width: 5.5rem;
         color:#a97052;
-        padding-left: 0.85rem;
-        font-size: 0.7rem;
         letter-spacing: 2px;
         cursor: pointer;
+        color:#fcecc1;
+        text-shadow:0 1px 1px #95511b;
+        right: 1rem;
+        border-radius: 0.3rem;
+        top: 30%;
+        padding: 0.5rem;
     }
     img.go-finish-icon{
         width: 1rem;
-    }
-    .finish-status-wrapper.not-finished {
-        background-image: linear-gradient(-180deg, #309be6 0%, #66b5ed 65%, #5daee7 100%);
-        color: #fcecc1;
-        box-shadow: -1px 0 1px 0 #66b5ed;
     }
     .finish-bonus-content {
         display: inline-block;
@@ -197,6 +207,8 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding-left: 1rem;
+        padding-right: 2rem;
     }
     img.create-table-icon {
         width: 8rem;
@@ -205,5 +217,17 @@ export default {
         display: inline-flex;
         align-items: center;
         justify-content: space-between;
+    }
+    p.time {
+        color: #c88d6d;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    span.delete-title {
+        color: #fbeabb;
+        margin-left: 0.5rem;
+    }
+    img.delete-icon {
+        width: 2rem;
     }
 </style>
