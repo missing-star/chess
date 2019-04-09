@@ -167,21 +167,41 @@ export default {
     login() {
       var username = "张三";
       var password = "123456";
- 
+      if (username != "" && password != "") {
+        this.$axios({
+          method: "post",
+          url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
+          data: {
+            nickname: username,
+            password: password
+          }
+        })
+          .then(res => {
+            if (res.data.success) {
+              this.$router.push("/userInfo");
+            } else {
+            }
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      } else {
+        alert("账号和密码不能为空,请填写完整!!!");
+      }
 
-      $.ajax({
-        type: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
-        async: true,
-        data: {
-          nickname: username,
-          password: password
-        },
-        dataType: "json",
-        success: res => {
-          console.log(res);
-        }
-      });
+      // $.ajax({
+      //   type: "post",
+      //   url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
+      //   async: true,
+      //   data: {
+      //     nickname: username,
+      //     password: password
+      //   },
+      //   dataType: "json",
+      //   success: res => {
+      //     console.log(res);
+      //   }
+      // });
     },
     register() {
       console.log(this.$refs.username.msg);

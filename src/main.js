@@ -4,6 +4,12 @@ import router from './router'
 import 'reset-css'
 import 'swiper/dist/css/swiper.min.css'
 
+import axios from "axios"//引入axios插件
+
+
+// 将axios插件赋值到vue原型上
+Vue.prototype.$axios=axios;
+
 Vue.config.productionTip = false
 Vue.mixin({
   methods: {
