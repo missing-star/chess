@@ -18,7 +18,10 @@ var source = {
     name: '',
     t: ''
 };
-var record = '';
+var record = {
+    red: '',
+    black: ''
+};
 var target = '';
 var showRecordList = [];
 sessionStorage.clear();
@@ -478,7 +481,7 @@ function move(y, x, j, i, eat, isBack, isNext) {
         trunH();
         onMove = false;
     }, 500);
-    console.log(map, recordList, showRecordList);
+    console.log(map,recordList,showRecordList);
 }
 
 function eat(y, x, j, i) {
@@ -570,10 +573,10 @@ function cleanSt() {
 }
 
 function trunH() {
-    if (nowWho == 0) {
-        nowWho = 1;
+    if (sessionStorage.getItem('nowWho') == 0) {
+        sessionStorage.setItem('nowWho', 1);
     } else {
-        nowWho = 0;
+        sessionStorage.setItem('nowWho', 0);
     }
     cleanSt();
 }
@@ -608,12 +611,12 @@ function initDoing() {
 function onChoseC(j, i, t, program) {
     if (!OnChoseNow) {
         //限制红黑不可点击对方棋子
-        if (nowWho == 0) {
+        if (sessionStorage.getItem('nowWho') == 0) {
             if (t < 0) {
                 return
             };
         }
-        if (nowWho == 1) {
+        if (sessionStorage.getItem('nowWho') == 1) {
             if (t > 0) return;
         }
     }
@@ -644,12 +647,13 @@ function onChoseC(j, i, t, program) {
             return;
         }
     }
-    if (nowWho == 0) {
-        if (map[j][i] > 0) {
+    if(nowWho == 0) {
+        if(map[j][i] > 0) {
             showSource(j, i, map[j][i]);
         }
-    } else {
-        if (nowWho == 1) {
+    }
+    else {
+        if(nowWho == 1) {
             showSource(j, i, map[j][i]);
         }
     }
@@ -1177,7 +1181,13 @@ function reStart() {
  */
 function showTarget(y, x, end) {
     if (end) {
-        showRecordList = showRecordList.slice(0, parseInt(end));
+        if (end % 2 == 0) {
+            showRecordList = showRecordList.slice(0, parseInt(end / 2));
+        } else {
+            showRecordList = showRecordList.slice(0, parseInt(end / 2) + 1);
+            showRecordList[parseInt(end / 2)].black = '';
+            record = showRecordList[parseInt(end / 2)];
+        }
     }
     if (source.t < 0) {
         //黑棋
@@ -1185,30 +1195,38 @@ function showTarget(y, x, end) {
             //进退
             if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
                 //马，相，士斜线走法的棋子
-                record = source.name + (x + 1 - source.x < 0 ? '退' : '进') + numToChara(Math.abs(x + 1));
+                record.black = source.name + (x + 1 - source.x < 0 ? '退' : '进') + numToChara(Math.abs(x + 1));
             } else {
-                record = source.name + (y - source.y < 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
+                record.black = source.name + (y - source.y < 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
             }
         } else {
             //平
-            record = source.name + '平' + numToChara((x + 1));
+            record.black = source.name + '平' + numToChara((x + 1));
         }
     } else {
         //红棋
         if (y - source.y != 0) {
             //进退
             if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-                record = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
+                record.red = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
             } else {
-                record = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
+                record.red = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
             }
         } else {
             //平
-            record = source.name + '平' + numToChara((9 - x));
+            record.red = source.name + '平' + numToChara((9 - x));
         }
     }
     if (recordList.length != 0) {
-        showRecordList.push(record);
+        if (recordList.length % 2 == 0) {
+            showRecordList[parseInt(currentIndex / 2)] = record;
+            record = {
+                red: '',
+                black: ''
+            }
+        } else {
+            showRecordList.push(record);
+        }
     }
     source = {
         y: '',
@@ -1229,14 +1247,13 @@ function numToChara(num) {
  * 获得棋子初始位置
  */
 function showSource(y, x, t) {
-    let result = '';
     // t<0黑旗 t>0红棋
     if (t < 0) {
-        result = `${getQiName(t)}${numToChara(x+1)}`;
+        let result = `${getQiName(t)}${numToChara(x+1)}`;
         source.y = y;
         source.x = x + 1;
     } else {
-        result = `${getQiName(t)}${numToChara(9-x)}`;
+        let result = `${getQiName(t)}${numToChara(9-x)}`;
         source.y = y;
         source.x = 9 - x;
     }

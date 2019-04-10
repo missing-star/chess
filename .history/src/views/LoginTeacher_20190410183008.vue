@@ -113,22 +113,16 @@ export default {
                 return false;
             }
             //老师登录
-            this.$axios({
+            fetch(`${process.env.VUE_APP_URL}index.php?r=api-teach/teach-login`,{
                 method:'post',
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/teach-login`,
-                data:this.qs.stringify({
+                body:{
                     login_name:this.username,
                     login_password:this.password
-                })
-            }).then((res) => {
-                if(res.data.status == 1) {
-                    this.$router.push({name:'home-teacher'});
                 }
-                else {
-                    alert(res.data.msg);
-                }
-            }).catch((err) => {
-                alert('服务器异常');
+            }).then(() => {
+
+            }).catch(() => {
+
             });
         }
     }

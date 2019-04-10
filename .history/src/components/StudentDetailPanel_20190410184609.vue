@@ -138,9 +138,9 @@ export default {
             this.$axios({
                 url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-student-detail`,
                 method:'post',
-                data:this.qs.stringify({
+                params:{
                     student_id:this.stuId
-                })
+                }
             }).then((res) => {
                 console.log(res.data.data);
             }).catch(() => {

@@ -1,28 +1,6 @@
 // const socket = new WebSocket('ws://127.0.0.1:8000');
 let counts = 0;
-
-//是否为自由操作模式
-var isFreeOper = true;
-var map = JSON.parse(sessionStorage.getItem('map'));
-var runNow = false;
-var DeBug = true;
-//是否操作了前进/后退
-var isBackOrGo = false;
-//当前下标
-var currentIndex = -1;
-//记录列表
-var recordList = [];
-var source = {
-    y: '',
-    x: '',
-    name: '',
-    t: ''
-};
-var record = '';
-var target = '';
-var showRecordList = [];
 sessionStorage.clear();
-
 function LoadGround() { //生成旗子
     var g = "";
     if (map.length != 0) {
@@ -400,7 +378,7 @@ function move(y, x, j, i, eat, isBack, isNext) {
             )
         }
         recordList[currentIndex].flag = false;
-        counts -= 1;
+        vm.counts -= 1;
     } else {
         //通知走法记录是否需要切割
         var end = false;
@@ -465,7 +443,7 @@ function move(y, x, j, i, eat, isBack, isNext) {
         preOperation.flag = true;
         recordList.push(preOperation);
         currentIndex = recordList.length - 1;
-        counts += 1;
+        vm.counts += 1;
         showTarget(j, i, end);
     }
 
@@ -478,11 +456,10 @@ function move(y, x, j, i, eat, isBack, isNext) {
         trunH();
         onMove = false;
     }, 500);
-    console.log(map, recordList, showRecordList);
 }
 
 function eat(y, x, j, i) {
-    console.log('target=' + map[j][i]);
+    console.log('target='+map[j][i]);
     if (sessionStorage.getItem('isRed') == 'true') {
         if (map[j][i] == 7) {
             //黑棋胜
@@ -507,7 +484,7 @@ function eat(y, x, j, i) {
         transform: "scale(0,0)"
     })
     setTimeout(function () {
-        move(y, x, j, i, true, false, true);
+        move(y, x, j, i, true,false,true);
     }, 500)
 }
 /**
@@ -525,7 +502,7 @@ function senMessage(y, x, j, i, eat) {
         j: j,
         i: i,
         eat: eat == undefined ? null : eat,
-        role: sessionStorage.getItem('isRed') == 'true' ? 'red' : 'black'
+        role:sessionStorage.getItem('isRed') == 'true' ? 'red' : 'black' 
     });
     // socket.send(JSON.stringify({
     //     content:obj,
@@ -543,9 +520,14 @@ var OnChoseNow = false;
 var nowChoseC = [];
 var moveList = [];
 var eatList = [];
-var nowWho = 0;
+if (!sessionStorage.getItem('nowWho')) {
+    sessionStorage.setItem('nowWho', 0);
+}
 //点击棋子
-function onChose(j, i, isSend, program) {
+function onChose(j, i,isSend,program) {
+    if (!isFreeOper && sessionStorage.getItem('nowWho') == 1 && !program) {
+        return;
+    }
     if (!runNow) return;
     if (onMove) return;
     //alert(j+""+i);
@@ -556,8 +538,10 @@ function onChose(j, i, isSend, program) {
     } else {
         //选中棋子
         Log("选择了" + j + "-" + i + "  " + CC);
-        onChoseC(j, i, CC, program);
+        onChoseC(j, i, CC,program);
     }
+    isSend = (CC <= 0 && sessionStorage.getItem('nowWho') == 1) ? false : true;
+    senMessageChose(j, i,isSend);
 
 }
 
@@ -570,10 +554,10 @@ function cleanSt() {
 }
 
 function trunH() {
-    if (nowWho == 0) {
-        nowWho = 1;
+    if (sessionStorage.getItem('nowWho') == 0) {
+        sessionStorage.setItem('nowWho', 1);
     } else {
-        nowWho = 0;
+        sessionStorage.setItem('nowWho', 0);
     }
     cleanSt();
 }
@@ -605,15 +589,15 @@ function initDoing() {
 }
 
 //选中棋子
-function onChoseC(j, i, t, program) {
+function onChoseC(j, i, t,program) {
     if (!OnChoseNow) {
         //限制红黑不可点击对方棋子
-        if (nowWho == 0) {
+        if (sessionStorage.getItem('nowWho') == 0) {
             if (t < 0) {
                 return
             };
         }
-        if (nowWho == 1) {
+        if (sessionStorage.getItem('nowWho') == 1) {
             if (t > 0) return;
         }
     }
@@ -631,26 +615,17 @@ function onChoseC(j, i, t, program) {
         }
         cleanSt();
     }
-    if (nowWho == 0) {
+    if (sessionStorage.getItem('nowWho') == 0) {
         if (t < 0) {
             //重置数据
             cleanSt();
             return;
         }
     }
-    if (nowWho == 1) {
+    if (sessionStorage.getItem('nowWho') == 1) {
         if (t > 0) {
             cleanSt();
             return;
-        }
-    }
-    if (nowWho == 0) {
-        if (map[j][i] > 0) {
-            showSource(j, i, map[j][i]);
-        }
-    } else {
-        if (nowWho == 1) {
-            showSource(j, i, map[j][i]);
         }
     }
     showSt(j, i, t);
@@ -668,12 +643,12 @@ function onChoseS(j, i) {
     cleanSt();
 }
 
-function senMessageChose(j, i, isSend) {
-    if (!isSend) return;
+function senMessageChose(j, i,isSend) {
+    if(!isSend) return;
     var obj = JSON.stringify({
         j: j,
         i: i,
-        chose: true
+        chose:true
     });
     // socket.send(JSON.stringify({
     //     content:obj,
@@ -684,320 +659,281 @@ function senMessageChose(j, i, isSend) {
 
 
 
-function binMove(tmap, c, y, x) { //0红 1黑
+function binMove(tmap,c,y,x){//0红 1黑
     var w;
-    var h = 0;
-    if (c == 0) {
-        w = y < 5;
-        h = -1;
-    } else {
-        w = y > 4;
-        h = 1;
+    var h=0;
+    if(c==0){
+        w=y<5;
+        h=-1;
+    }else{
+        w=y>4;
+        h=1;
     }
-    if (w) {
-        if (y + h >= 0 && y + h < map.length) {
-            var t1 = [];
-            t1[0] = y + h;
-            t1[1] = x;
+    if(w){
+        if(y+h>=0&&y+h<map.length){
+            var t1=[];
+            t1[0]=y+h;
+            t1[1]=x;
             tmap.push(t1);
         }
-        var t2 = [];
-        var t3 = [];
-        t2[0] = y;
-        t3[0] = y;
-        t2[1] = x - 1;
-        t3[1] = x + 1;
-        tmap.push(t2);
-        tmap.push(t3);
-    } else {
-        var t = [];
-        t[0] = y + h;
-        t[1] = x;
+        var t2=[];var t3=[];
+        t2[0]=y;t3[0]=y;
+        t2[1]=x-1;t3[1]=x+1;
+        tmap.push(t2);tmap.push(t3);
+    }else{
+        var t=[];
+        t[0]=y+h;
+        t[1]=x;
         tmap.push(t);
     }
 }
-
-function paoMove(tmap, c, y, x) {
-    paoMove_(tmap, 0, c, y, x);
-    paoMove_(tmap, 1, c, y, x);
-    paoMove_(tmap, 2, c, y, x);
-    paoMove_(tmap, 3, c, y, x);
+function paoMove(tmap,c,y,x){
+    paoMove_(tmap,0,c,y,x);
+    paoMove_(tmap,1,c,y,x);
+    paoMove_(tmap,2,c,y,x);
+    paoMove_(tmap,3,c,y,x);
 }
-
-function paoMove_(tmap, d, c, y, x) { //0上1左2下3右
-    var q = y,
-        w = x,
-        qi = 0,
-        wi = 0,
-        ci = 0; //ci:0红 1黑
-    if (c == 0) {
-        ci = 1;
-    } else {
-        ci = -1;
+function paoMove_(tmap,d,c,y,x){//0上1左2下3右
+    var q= y,w= x,qi= 0,wi= 0,ci=0;//ci:0红 1黑
+    if(c==0){
+        ci=1;
+    }else{
+        ci=-1;
     }
     var cc;
-    switch (d) {
+    switch (d){
         case 0:
-            cc = function (q) {
-                return q >= 0;
-            }
-            qi = -1;
+            cc=function(q){return q>=0;}
+            qi=-1;
             break;
         case 1:
-            cc = function (q, w) {
-                return w >= 0;
-            }
-            wi = -1;
+            cc=function(q,w){return w>=0;}
+            wi=-1;
             break;
         case 2:
-            cc = function (q) {
-                return q < map.length;
-            }
-            qi = 1;
+            cc=function(q){return q<map.length;}
+            qi=1;
             break;
         case 3:
-            cc = function (q, w) {
-                return w < map.length;
-            }
-            wi = 1;
+            cc=function(q,w){return w<map.length;}
+            wi=1;
             break;
     }
-    var ce = false;
-    while (true) {
-        if (!cc(q, w)) break;
-        if (q == y && w == x) {
-            q += qi;
-            w += wi;
+    var ce=false;
+    while(true){
+        if(!cc(q,w))break;
+        if(q==y&&w==x){
+            q+=qi;w+=wi;
             continue;
         }
-        if (map[q][w] == 0) {
-            if (!ce) {
-                var t = [];
-                t[0] = q;
-                t[1] = w;
+        if(map[q][w]==0){
+            if(!ce){
+                var t=[];
+                t[0]=q;
+                t[1]=w;
                 tmap.push(t);
             }
-        } else {
-            if (ce) {
-                if (map[q][w] * ci < 0) {
-                    var t = [];
-                    t[0] = q;
-                    t[1] = w;
+        }else{
+            if(ce){
+                if(map[q][w]*ci<0){
+                    var t=[];
+                    t[0]=q;
+                    t[1]=w;
                     tmap.push(t);
-                    ce = false;
+                    ce=false;
                     break;
                 }
             }
-            ce = true;
+            ce=true;
         }
-        q += qi;
-        w += wi;
+        q+=qi;w+=wi;
     }
 }
-
-function juMove(tmap, c, y, x) {
-    for (var q = y; q >= 0; q--) {
-        if (q == y) continue;
-        if (!fastMove(tmap, c, q, x)) break;
+function juMove(tmap,c,y,x){
+    for(var q=y;q>=0;q--){
+        if(q==y)continue;
+        if(!fastMove(tmap,c,q,x))break;
     }
-    for (var q = x; q >= 0; q--) {
-        if (q == x) continue;
-        if (!fastMove(tmap, c, y, q)) break;
+    for(var q=x;q>=0;q--){
+        if(q==x)continue;
+        if(!fastMove(tmap,c,y,q))break;
     }
-    for (var q = y; q < map.length; q++) {
-        if (q == y) continue;
-        if (!fastMove(tmap, c, q, x)) break;
+    for(var q=y;q<map.length;q++){
+        if(q==y)continue;
+        if(!fastMove(tmap,c,q,x))break;
     }
-    for (var q = x; q < map.length; q++) {
-        if (q == x) continue;
-        if (!fastMove(tmap, c, y, q)) break;
+    for(var q=x;q<map.length;q++){
+        if(q==x)continue;
+        if(!fastMove(tmap,c,y,q))break;
     }
 }
-
-function fastMove(tmap, c, y, x) { //c:0红 1黑
-    var ci = 0;
-    if (c == 0) {
-        ci = 1;
-    } else {
-        ci = -1;
+function fastMove(tmap,c,y,x){//c:0红 1黑
+    var ci=0;
+    if(c==0){
+        ci=1;
+    }else{
+        ci=-1;
     }
-    if (map[y][x] == 0) {
-        var t = [];
-        t[0] = y;
-        t[1] = x;
+    if(map[y][x]==0){
+        var t=[];
+        t[0]=y;
+        t[1]=x;
         tmap.push(t);
         return true;
-    } else {
-        if (map[y][x] * ci < 0) {
-            var t = [];
-            t[0] = y;
-            t[1] = x;
+    }else{
+        if(map[y][x]*ci<0){
+            var t=[];
+            t[0]=y;
+            t[1]=x;
             tmap.push(t);
         }
         return false;
     }
 }
-
-function maMove(tmap, c, y, x) {
-    function fastMa(tmap, y, x, ys, xs, c) {
-        if (y + ys < map.length && y + ys >= 0 && x + xs < map.length && x + xs >= 0)
-            if (map[y + ys][x + xs] == 0) {
-                var yz = 0,
-                    xz = 0;
-                if (ys == 0) {
-                    yz = -1;
-                } else {
-                    xz = -1;
-                }
-                if (y + ys + ys - yz < map.length && y + ys + ys - yz >= 0 && x + xs + xs - xz < map.length && x + xs + xs - xz >= 0)
-                    if (map[y + ys + ys - yz][x + xs + xs - xz] * c <= 0) {
-                        var t = [];
-                        t[0] = y + ys + ys - yz;
-                        t[1] = x + xs + xs - xz;
-                        tmap.push(t);
-                    }
-                if (y + ys + ys + yz < map.length && y + ys + ys + yz >= 0 && x + xs + xs + xz < map.length && x + xs + xs + xz >= 0)
-                    if (map[y + ys + ys + yz][x + xs + xs + xz] * c <= 0) {
-                        var t1 = [];
-                        t1[0] = y + ys + ys + yz;
-                        t1[1] = x + xs + xs + xz;
-                        tmap.push(t1);
-                    }
+function maMove(tmap,c,y,x){
+    function fastMa(tmap,y,x,ys,xs,c){
+        if(y+ys<map.length&&y+ys>=0&&x+xs<map.length&&x+xs>=0)
+        if(map[y+ys][x+xs]==0){
+            var yz= 0,xz=0;
+            if(ys==0){
+                yz=-1;
+            }else{
+                xz=-1;
             }
-    }
-    var cc = 0;
-    if (c == 0) {
-        cc = 1;
-    } else {
-        cc = -1;
-    }
-    fastMa(tmap, y, x, -1, 0, cc);
-    fastMa(tmap, y, x, 1, 0, cc);
-    fastMa(tmap, y, x, 0, -1, cc);
-    fastMa(tmap, y, x, 0, 1, cc);
-}
-
-function xiangMove(tmap, c, y, x) { //c:0红 1黑
-    function fastXiang(tmap, y, x, yy, xx, c, cy) {
-        if (y + yy * 2 < map.length && y + yy * 2 >= 0 && x + xx * 2 < map.length && x + xx * 2 >= 0) {
-            if (cy(y + yy * 2))
-                if (map[y + yy][x + xx] == 0) {
-                    if (map[y + yy * 2][x + xx * 2] * c <= 0) {
-                        var t = [];
-                        t[0] = y + yy * 2;
-                        t[1] = x + xx * 2;
-                        tmap.push(t);
-                    }
-                }
+            if(y+ys+ys-yz<map.length&&y+ys+ys-yz>=0&&x+xs+xs-xz<map.length&&x+xs+xs-xz>=0)
+            if(map[y+ys+ys-yz][x+xs+xs-xz]*c<=0){
+                var t=[];
+                t[0]=y+ys+ys-yz;
+                t[1]=x+xs+xs-xz;
+                tmap.push(t);
+            }
+            if(y+ys+ys+yz<map.length&&y+ys+ys+yz>=0&&x+xs+xs+xz<map.length&&x+xs+xs+xz>=0)
+            if(map[y+ys+ys+yz][x+xs+xs+xz]*c<=0){
+                var t1=[];
+                t1[0]=y+ys+ys+yz;
+                t1[1]=x+xs+xs+xz;
+                tmap.push(t1);
+            }
         }
     }
-    var cc = 0;
-    if (c == 0) {
-        cc = 1;
-    } else {
-        cc = -1;
+    var cc=0;
+    if(c==0){
+        cc=1;
+    }else{
+        cc=-1;
+    }
+    fastMa(tmap,y,x,-1,0,cc);
+    fastMa(tmap,y,x,1,0,cc);
+    fastMa(tmap,y,x,0,-1,cc);
+    fastMa(tmap,y,x,0,1,cc);
+}
+function xiangMove(tmap,c,y,x){//c:0红 1黑
+    function fastXiang(tmap,y,x,yy,xx,c,cy){
+        if(y+yy*2<map.length&&y+yy*2>=0&&x+xx*2<map.length&&x+xx*2>=0){
+            if(cy(y+yy*2))
+            if(map[y+yy][x+xx]==0){
+                if(map[y+yy*2][x+xx*2]*c<=0){
+                    var t=[];
+                    t[0]=y+yy*2;
+                    t[1]=x+xx*2;
+                    tmap.push(t);
+                }
+            }
+        }
+    }
+    var cc=0;
+    if(c==0){
+        cc=1;
+    }else{
+        cc=-1;
     }
     var ch;
-    if (c == 0) {
-        ch = function (y) {
-            return y > 4
-        };
-    } else {
-        ch = function (y) {
-            return y < 5
-        };
+    if(c==0){
+        ch=function(y){return y>4};
+    }else{
+        ch=function(y){return y<5};
     }
-    fastXiang(tmap, y, x, 1, 1, cc, ch);
-    fastXiang(tmap, y, x, 1, -1, cc, ch);
-    fastXiang(tmap, y, x, -1, 1, cc, ch);
-    fastXiang(tmap, y, x, -1, -1, cc, ch);
+    fastXiang(tmap,y,x,1,1,cc,ch);
+    fastXiang(tmap,y,x,1,-1,cc,ch);
+    fastXiang(tmap,y,x,-1,1,cc,ch);
+    fastXiang(tmap,y,x,-1,-1,cc,ch);
 }
-
-function shiMove(tmap, c, y, x) { //c:0红 1黑
-    function fastShi(tmap, y, x, yy, xx, c, cc) {
-        if (cc(y + yy)) {
-            if (x + xx >= 3 && x + xx <= 5) {
-                if (map[y + yy][x + xx] * c <= 0) {
-                    var t = [];
-                    t[0] = y + yy;
-                    t[1] = x + xx;
+function shiMove(tmap,c,y,x){//c:0红 1黑
+    function fastShi(tmap,y,x,yy,xx,c,cc){
+        if(cc(y+yy)){
+            if(x+xx>=3&&x+xx<=5){
+                if(map[y+yy][x+xx]*c<=0){
+                    var t=[];
+                    t[0]=y+yy;
+                    t[1]=x+xx;
                     tmap.push(t);
                 }
             }
         }
     }
     var cf;
-    var cc = 0;
-    if (c == 0) {
-        cc = 1;
-        cf = function (y) {
-            return y >= 7 && y <= 9
-        }
-    } else {
-        cf = function (y) {
-            return y >= 0 && y <= 2
-        }
-        cc = -1;
+    var cc=0;
+    if(c==0){
+        cc=1;
+        cf=function(y){return y>=7&&y<=9}
+    }else{
+        cf=function(y){return y>=0&&y<=2}
+        cc=-1;
     }
-    fastShi(tmap, y, x, 1, 1, cc, cf);
-    fastShi(tmap, y, x, -1, 1, cc, cf);
-    fastShi(tmap, y, x, 1, -1, cc, cf);
-    fastShi(tmap, y, x, -1, -1, cc, cf);
+    fastShi(tmap,y,x,1,1,cc,cf);
+    fastShi(tmap,y,x,-1,1,cc,cf);
+    fastShi(tmap,y,x,1,-1,cc,cf);
+    fastShi(tmap,y,x,-1,-1,cc,cf);
 }
-
-function JSMove(tmap, c, y, x) {
-    function fastJS(tmap, y, x, yy, xx, c, cc) {
-        if (cc(y + yy)) {
-            if (x + xx >= 3 && x + xx <= 5) {
-                if (map[y + yy][x + xx] * c <= 0) {
-                    var t = [];
-                    t[0] = y + yy;
-                    t[1] = x + xx;
+function JSMove(tmap,c,y,x){
+    function fastJS(tmap,y,x,yy,xx,c,cc){
+        if(cc(y+yy)){
+            if(x+xx>=3&&x+xx<=5){
+                if(map[y+yy][x+xx]*c<=0){
+                    var t=[];
+                    t[0]=y+yy;
+                    t[1]=x+xx;
                     tmap.push(t);
                 }
             }
         }
     }
     var cf;
-    var cc = 0;
-    if (c == 0) {
-        cc = 1;
-        cf = function (y) {
-            return y >= 7 && y <= 9
-        }
-    } else {
-        cf = function (y) {
-            return y >= 0 && y <= 2
-        }
-        cc = -1;
+    var cc=0;
+    if(c==0){
+        cc=1;
+        cf=function(y){return y>=7&&y<=9}
+    }else{
+        cf=function(y){return y>=0&&y<=2}
+        cc=-1;
     }
-    fastJS(tmap, y, x, 1, 0, cc, cf);
-    fastJS(tmap, y, x, -1, 0, cc, cf);
-    fastJS(tmap, y, x, 0, -1, cc, cf);
-    fastJS(tmap, y, x, 0, 1, cc, cf);
-    if (c == 0) {
-        for (var q = y - 1; q < map.length && q >= 0; q--) {
-            if (map[q][x] == 0) {
+    fastJS(tmap,y,x,1,0,cc,cf);
+    fastJS(tmap,y,x,-1,0,cc,cf);
+    fastJS(tmap,y,x,0,-1,cc,cf);
+    fastJS(tmap,y,x,0,1,cc,cf);
+    if(c==0){
+        for(var q=y-1;q<map.length&&q>=0;q--){
+            if(map[q][x]==0){
                 continue;
             }
-            if (map[q][x] == -7) {
-                var t = [];
-                t[0] = q;
-                t[1] = x;
+            if(map[q][x]==-7){
+                var t=[];
+                t[0]=q;
+                t[1]=x;
                 tmap.push(t);
-            } else break;
+            }else break;
         }
-    } else {
-        for (var q = y + 1; q < map.length && q >= 0; q++) {
-            if (map[q][x] == 0) {
+    }else{
+        for(var q=y+1;q<map.length&&q>=0;q++){
+            if(map[q][x]==0){
                 continue;
             }
-            if (map[q][x] == 7) {
-                var t = [];
-                t[0] = q;
-                t[1] = x;
+            if(map[q][x]==7){
+                var t=[];
+                t[0]=q;
+                t[1]=x;
                 tmap.push(t);
-            } else break;
+            }else break;
         }
     }
 }
@@ -1012,6 +948,15 @@ if (!sessionStorage.getItem('isChanged')) {
     sessionStorage.setItem('isChanged', 'false');
 }
 
+//是否为自由操作模式
+var isFreeOper = true;
+var map = JSON.parse(sessionStorage.getItem('map'));
+var runNow = false;
+var DeBug = true;
+//是否操作了前进/后退
+var isBackOrGo = false;
+//当前下标
+var currentIndex = -1;
 if (!sessionStorage.getItem('preOperation')) {
     var preOperation = {
         y: null,
@@ -1159,135 +1104,21 @@ function WhereCan(y, x, t) { //0可以走 1可以吃
 
 
 function backOperation() {
-    if (!isFreeOper) return;
+    if(!isFreeOper) return;
     //悔棋，回退一步
     move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true);
 }
 //重新开始
 function reStart() {
-    if (!isFreeOper) {
+    if(!isFreeOper) {
         return;
     }
     sessionStorage.clear();
     window.location.reload();
 }
 
-/**
- * 获得棋子目标位置
- */
-function showTarget(y, x, end) {
-    if (end) {
-        showRecordList = showRecordList.slice(0, parseInt(end));
-    }
-    if (source.t < 0) {
-        //黑棋
-        if (y - source.y != 0) {
-            //进退
-            if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-                //马，相，士斜线走法的棋子
-                record = source.name + (x + 1 - source.x < 0 ? '退' : '进') + numToChara(Math.abs(x + 1));
-            } else {
-                record = source.name + (y - source.y < 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
-            }
-        } else {
-            //平
-            record = source.name + '平' + numToChara((x + 1));
-        }
-    } else {
-        //红棋
-        if (y - source.y != 0) {
-            //进退
-            if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-                record = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
-            } else {
-                record = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
-            }
-        } else {
-            //平
-            record = source.name + '平' + numToChara((9 - x));
-        }
-    }
-    if (recordList.length != 0) {
-        showRecordList.push(record);
-    }
-    source = {
-        y: '',
-        x: '',
-        name: '',
-        t: ''
-    }
-}
-/**
- * 数字转汉字
- * @param {number} num 
- */
-function numToChara(num) {
-    var list = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-    return list[num];
-}
-/**
- * 获得棋子初始位置
- */
-function showSource(y, x, t) {
-    let result = '';
-    // t<0黑旗 t>0红棋
-    if (t < 0) {
-        result = `${getQiName(t)}${numToChara(x+1)}`;
-        source.y = y;
-        source.x = x + 1;
-    } else {
-        result = `${getQiName(t)}${numToChara(9-x)}`;
-        source.y = y;
-        source.x = 9 - x;
-    }
-    source.t = t;
-    source.name = result;
-}
-/**
- * 获得棋子名称 
- */
-function getQiName(t) {
-    switch (Math.abs(parseInt(t))) {
-        case 1:
-            if (t < 0) {
-                return '卒';
-            } else {
-                return '兵';
-            }
-            break;
-        case 2:
-            return '炮';
-            break;
-        case 3:
-            return '车';
-            break;
-        case 4:
-            return '马';
-            break;
-        case 5:
-            if (t < 0) {
-                return '象';
-            } else {
-                return '相';
-            }
-            break;
-        case 6:
-            if (t < 0) {
-                return '士';
-            } else {
-                return '仕';
-            }
-            break;
-        case 7:
-            if (t < 0) {
-                return '将';
-            } else {
-                return '帅';
-            }
-            break;
-    }
-}
 export {
     initChess,
     onChose
 }
+

@@ -1179,34 +1179,18 @@ function showTarget(y, x, end) {
     if (end) {
         showRecordList = showRecordList.slice(0, parseInt(end));
     }
-    if (source.t < 0) {
-        //黑棋
-        if (y - source.y != 0) {
-            //进退
-            if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-                //马，相，士斜线走法的棋子
-                record = source.name + (x + 1 - source.x < 0 ? '退' : '进') + numToChara(Math.abs(x + 1));
-            } else {
-                record = source.name + (y - source.y < 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
-            }
+    if (y - source.y != 0) {
+        //进退
+        if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
+            record = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
         } else {
-            //平
-            record = source.name + '平' + numToChara((x + 1));
+            record = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
         }
     } else {
-        //红棋
-        if (y - source.y != 0) {
-            //进退
-            if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-                record = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
-            } else {
-                record = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
-            }
-        } else {
-            //平
-            record = source.name + '平' + numToChara((9 - x));
-        }
+        //平
+        record = source.name + '平' + numToChara((9 - x));
     }
+
     if (recordList.length != 0) {
         showRecordList.push(record);
     }

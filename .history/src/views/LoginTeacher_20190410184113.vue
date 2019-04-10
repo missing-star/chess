@@ -120,15 +120,10 @@ export default {
                     login_name:this.username,
                     login_password:this.password
                 })
-            }).then((res) => {
-                if(res.data.status == 1) {
-                    this.$router.push({name:'home-teacher'});
-                }
-                else {
-                    alert(res.data.msg);
-                }
-            }).catch((err) => {
-                alert('服务器异常');
+            }).then(() => {
+
+            }).catch(() => {
+
             });
         }
     }
