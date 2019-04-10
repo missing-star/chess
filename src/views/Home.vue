@@ -191,12 +191,43 @@ export default {
     },
     openMailPanel() {
       this.showMailPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/my-message`,
+        data: {
+          id: 1
+        }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
     hideMailPanel() {
       this.showMailPanel = false;
     },
     openNoticePanel() {
+      //公告栏
       this.showNoticePanel = true;
+      this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/message-list-info`,
+        data: {
+          id: 1
+        }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
     hideNoticePanel() {
       this.showNoticePanel = false;
@@ -299,7 +330,8 @@ export default {
         }
       }, 300);
     },
-    openLink(url) {   //棋社
+    openLink(url) {
+      //棋社
       if (url.includes("/")) {
         this.$router.push({ path: url });
       } else {
