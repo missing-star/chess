@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <!-- 我的信件 -->
+    <!-- 我的信件详情 -->
     <chess-mail-box @hide="hideMailPanel" :isShow="showMailPanel" @open-tips-detail="openTipsPanel"></chess-mail-box>
     <!-- 公告栏 -->
     <div class="notice-container" @click="openNoticePanel">
@@ -67,7 +67,6 @@
       @hide="hideNoticePanel"
       :isShow="showNoticePanel"
       @open-notice-detail="openNoticeDetailPanel"
-      :noticeList="noticeList"
     ></chess-notice-panel>
     <!-- 设置弹框 -->
     <chess-set-panel
@@ -82,7 +81,7 @@
     <!-- 小象 -->
     <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
     <!-- 我的宠物 -->
-    <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel"></chess-pet-panel>
+    <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel" :petInfo="petInfo"></chess-pet-panel>
     <!-- 信箱 -->
     <div class="mailbox-wrapper">
       <img src="../assets/images/mailbox.png" @click="openMailPanel">
@@ -119,7 +118,11 @@
       @hide="hideSelfStudyStagePanel"
     ></chess-self-study-stage-panel>
     <!-- 公告详情 -->
-    <chess-notice-detail-panel :is-show="showNoticeDetailPanel" @hide="hideNoticeDetailPanel"></chess-notice-detail-panel>
+    <chess-notice-detail-panel
+      :is-show="showNoticeDetailPanel"
+      @hide="hideNoticeDetailPanel"
+      :noticeDetail="noticeDetail"
+    ></chess-notice-detail-panel>
   </div>
 </template>
 <script>
@@ -182,7 +185,8 @@ export default {
       isShowTaskPanel: false,
       information: [], //棋社信息
       growthLog: [], //成长日志
-      noticeList:[],  //公告栏
+      noticeDetail: [], //公告栏详情
+      petInfo:[],
     };
   },
   computed: {
@@ -202,9 +206,9 @@ export default {
       this.showMailPanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-message`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/my-message`,
         data: this.qs.stringify({
-          id: 1
+          page: 1
         })
       })
         .then(res => {
@@ -235,9 +239,9 @@ export default {
       this.showTipsPanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/message-info`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-info`,
         data: this.qs.stringify({
-          id: index
+          id: 1
         })
       })
         .then(res => {
@@ -267,6 +271,18 @@ export default {
     },
     openPetPanel() {
       this.showPetPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-pet`,
+        data: this.qs.stringify({})
+      })
+        .then(res => {
+          console.log(res.data);
+          this.petInfo =res.data.data
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hidePetPanel() {
       this.showPetPanel = false;
@@ -302,18 +318,22 @@ export default {
     hideTeacherListPanel() {
       this.showTeacherPanel = false;
     },
-    openNoticeDetailPanel(index) {//公告栏详情页
+    openNoticeDetailPanel(index) {
+      //公告栏详情页
+      console.log(index);
       this.showNoticeDetailPanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-list-info`,
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-message/message-list-info`,
         data: this.qs.stringify({
           id: index
         })
       })
         .then(res => {
-          console.log(res);
           console.log(res.data);
+          this.noticeDetail = res.data.data;
         })
         .catch(error => {
           console.log(error);

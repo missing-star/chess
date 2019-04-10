@@ -91,33 +91,38 @@
                 label="卡号"
                 type="text"
                 width="16rem"
+                v-model="Fcrad"
               ></chess-input>
               <chess-input
                 styles="width:95%;margin:0.2rem 0.4rem;"
                 label="激活码"
                 type="text"
                 width="16rem"
+                v-model="Fcode"
               ></chess-input>
               <chess-input
                 styles="width:95%;margin:0.2rem 0.4rem;"
                 label="姓名"
                 type="text"
                 width="16rem"
+                v-model="Fnickname"
               ></chess-input>
               <chess-input
                 styles="width:95%;margin:0.2rem 0.4rem;"
                 label="重置密码"
                 type="password"
                 width="14rem"
+                v-model="Fpassword"
               ></chess-input>
               <chess-input
                 styles="width:95%;margin:0.2rem 0.4rem;"
                 label="确定密码"
                 type="password"
                 width="14rem"
+                v-model="Fpassword1"
               ></chess-input>
               <div class="reset-wrapper">
-                <button class="confirm-btn pointer">确定</button>
+                <button class="confirm-btn pointer" @click="forget">确定</button>
               </div>
             </div>
           </div>
@@ -130,6 +135,7 @@
 import Mask from "../components/Mask";
 import Input from "../components/Input";
 import Select from "../components/Select";
+import { constants } from "crypto";
 export default {
   components: {
     [Mask.name]: Mask,
@@ -164,12 +170,19 @@ export default {
       role: "",
       Eusername: "",
       Epassword: "",
+      // 注册
       username: "",
       sex: "",
       crad: "",
       crad_password: "",
       guardian_phone: "",
-      password: ""
+      password: "",
+      // 忘记密码
+      Fcrad: "",
+      Fcode: "",
+      Fnickname: "",
+      Fpassword: "",
+      Fpassword1: ""
     };
   },
   methods: {
@@ -226,7 +239,7 @@ export default {
         this.crad != "" &&
         this.crad_password != "" &&
         this.guardian_phone != "" &&
-        this.password != "" 
+        this.password != ""
       ) {
         this.$axios({
           method: "post",
@@ -250,6 +263,43 @@ export default {
           .catch(function(err) {
             console.log(err);
           });
+      } else {
+        alert("请把信息填写完整!!!");
+      }
+    },
+    forget() {
+      if (
+        this.Fcrad != "" &&
+        this.Fcode != "" &&
+        this.Fnickname != "" &&
+        this.Fpassword != "" &&
+        this.Fpassword1 != ""
+      ) {
+        if ((this.Fpassword = this.Fpassword1)) {
+          this.$axios({
+            method: "post",
+            url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/update-pass`,
+            data: this.qs.stringify({
+              crad: this.Fcrad,
+              code: this.Fcode,
+              nickname: this.Fnickname,
+              password: this.Fpassword
+            })
+          })
+            .then(res => {
+              console.log(res.data);
+              if (res.data.status == 1) {
+                alert("");
+              } else {
+                alert(res.data.msg);
+              }
+            })
+            .catch(function(err) {
+              console.log(err);
+            });
+        }else {
+          alert("密码输入不一致，请重新输入")
+        }
       } else {
         alert("请把信息填写完整!!!");
       }

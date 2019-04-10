@@ -46,7 +46,10 @@
               <p class="race-time">{{item.create_at | filterTime}}</p>
               <p class="black-name">{{item.user_name}}</p>
               <p class="race-result">
-                <img src="../assets/images/胜.png" class="race-result-icon">
+                <img
+                  :src="'item.game==1'?'../assets/images/胜.png':'../assets/images/败.png'"
+                  class="race-result-icon"
+                >
                 <span class="race-title">{{item.game==1?"赢":'item.game==2'?"平":"输"}}</span>
                 <img src="../assets/images/右键头.png" class="race-result-detail-icon">
               </p>
