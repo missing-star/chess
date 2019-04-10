@@ -13,7 +13,7 @@
                                     <span class="title">{{currentGrade.nickname}}</span>
                                     <img src="../assets/images/edit-icon.png" alt="编辑" class="edit-grade-icon">
                                 </p>
-                                <p class="grade-person-number">{{studentList.length}}人</p>
+                                <p class="grade-person-number">35人</p>
                                 <p class="grade-create-time">创建时间：19.0.2.12</p>
                                 <img src="../assets/images/add-student.png" @click="addStudent" alt="添加学员" class="add-student-icon pointer">
                             </div>

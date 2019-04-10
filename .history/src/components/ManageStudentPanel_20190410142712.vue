@@ -10,10 +10,10 @@
                             </div>
                             <div class="grade-name">
                                 <p class="grade-editor">
-                                    <span class="title">{{currentGrade.nickname}}</span>
+                                    <span class="title">一期三班</span>
                                     <img src="../assets/images/edit-icon.png" alt="编辑" class="edit-grade-icon">
                                 </p>
-                                <p class="grade-person-number">{{studentList.length}}人</p>
+                                <p class="grade-person-number">35人</p>
                                 <p class="grade-create-time">创建时间：19.0.2.12</p>
                                 <img src="../assets/images/add-student.png" @click="addStudent" alt="添加学员" class="add-student-icon pointer">
                             </div>
@@ -36,7 +36,7 @@
                         <div class="swiper-container swiper-no-swiping">
                             <div class="content-wrapper-container swiper-wrapper">
                                 <div v-for="n in Math.ceil(gradeList.length / 4)" :key="n" class="swiper-slide">
-                                    <div class="grade-item pointer" :class="{active:(n-1)*4+index == currentGradeIndex}" @click="getStudentsByGradeId(item.id,item.nickname,(n-1)*4+index)" v-for="(item,index) in gradeList.slice(4*(n-1),4*(n-1)+4)" :key="item.id">
+                                    <div class="grade-item pointer" :class="{active: n == 1 && index == 0 && firstLoad}" @click="getStudentsByGradeId(item.id,$event)" v-for="(item,index) in gradeList.slice(4*(n-1),4*(n-1)+4)" :key="item.id">
                                     {{item.nickname}}
                                     </div>
                                 </div>
@@ -52,16 +52,16 @@
                     <div class="top-wrapper">
                         <img v-if="selectedList.length == 0" src="../assets/images/delete.png" class="delete-icon">
                         <img v-else src="../assets/images/delete-active.png" class="delete-icon">
-                        <p class="top-title">{{currentGrade.nickname}}学生列表</p>
+                        <p class="top-title">一期三班学生列表</p>
                     </div>
                     <ul class="student-list-wrapper">
-                        <li v-for="student in studentList" :key="student.id" class="student-item">
-                            <p class="username">{{student.nickname}}</p>
+                        <li v-for="n in 20" :key="n" class="student-item">
+                            <p class="username">张某同学</p>
                             <span class="level-wrapper">6级</span>
                             <span class="dashed-line"><i v-for="n in 5" :key="n" class="dot"></i></span>
                             <img src="../assets/images/homework-icon2.png" class="edit-icon">
                             <span class="not-finish-times">3次未完成</span>
-                            <button @click="getStudentDetail(student.id)" class="detail-btn pointer"></button>
+                            <button @click="getStudentDetail(1)" class="detail-btn pointer"></button>
                         </li>
                     </ul>
                 </div>
@@ -91,11 +91,7 @@ export default {
             selectedList:[],
             studentList:[],
             //初始化时选中第一个班级
-            currentGradeIndex:0,
-            //查看详情的学生id
-            selectedStuId:-1,
-            //当前班级
-            currentGrade:{id:'',nickname:''}
+            firstLoad:true
         }
     },
     components:{
@@ -151,10 +147,9 @@ export default {
             this.$emit('open-create-grade');
         },
         getStudentDetail(id) {
-            this.selectedStuId = id;
             //获得学生详情
             this.closeMyself();
-            this.$emit('open-student-detail',this.selectedStuId);
+            this.$emit('open-student-detail');
         },
         addStudent() {
             //添加学员
@@ -173,23 +168,20 @@ export default {
                 url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-class-lists`
             }).then((res) => {
                 this.gradeList = res.data.data;
-                this.getStudentsByGradeId(this.gradeList[0].id,this.gradeList[0].nickname);
+                this.getStudentsByGradeId(this.gradeList[0].id);
                 this.initSwiper();
             }).catch(() => {
 
             });
         },
         //获取对应班级下的学生
-        getStudentsByGradeId(id,name,index) {
-            if(this.currentGradeIndex == index) {
+        getStudentsByGradeId(id,e) {
+            console.log(e.target.classList);
+            if(!e.target || e.target.classList.includes('active')) {
                 return false;
             }
-            if(index) {
-                this.currentGradeIndex = index;
-            }
-            this.currentGrade={
-                id:id,
-                nickname:name
+            else {
+                e.target.classList.add('active');
             }
             this.$axios({
                 method:'post',

@@ -95,6 +95,7 @@ export default {
             url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`
         }).then((res) => {
             this.studentList = res.data.data;
+            console.log(this.studentList);
         }).catch((err) => {
 
         });

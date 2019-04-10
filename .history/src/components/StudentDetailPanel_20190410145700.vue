@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="relive-mentor-relationship">
-                        <p class="button-relive pointer" @click="reliveRelationship">
+                        <p class="button-relive pointer">
                             解除师生关系
                         </p>
                     </div>
@@ -114,39 +114,30 @@ export default {
         closeMyself() {
             this.$emit('hide');
         },
-        reliveRelationship() {
-            if(confirm('您确定要解除师生关系吗？')) {
-                this.$axios({
-                    url:`${process.env.VUE_APP_URL}index.php?r=api-teach/relieve`,
-                    method:'post',
-                    params:{
-                        student_id:this.stuId
-                    }
-                }).then((res) => {
-                    console.log(res.data);
-                    if(res.data.status == 0) {
-                        alert(res.data.msg);
-                    }
-                }).catch((err) => {
-
-                });
+        openPanel(target) {
+            switch (target) {
+                case 0:
+                    this.closeMyself();
+                    this.$emit('open-log');
+                    break;
+                case 1:
+                    this.closeMyself();
+                    this.$emit('open-ach');
+                    break;
+                break;
+                case 2:
+                    this.closeMyself();
+                    this.$emit('open-homework');
+                    break;
+                break;
+                case 3:
+                    
+                    break;
             }
         }
     },
-    watch:{
-        stuId:function() {
-            this.$axios({
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-student-detail`,
-                method:'post',
-                params:{
-                    student_id:this.stuId
-                }
-            }).then((res) => {
-                console.log(res.data.data);
-            }).catch(() => {
-
-            });
-        }
+    mounted() {
+        console.log(this.stuId);
     }
 }
 </script>

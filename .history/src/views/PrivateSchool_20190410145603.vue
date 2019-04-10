@@ -12,7 +12,7 @@
         <!-- 学生管理 -->
         <chess-manage-student-panel @open-check-homework="openCheckHomeworkPanel" @open-add-student="openAddStudentPanel" @open-student-detail="openStudentDetailPanel" @open-create-grade="openCreateGradePanel" :is-show="showManageStudentPanel" @hide="hideManageStudentPanel"></chess-manage-student-panel>
         <!-- 学生详情（作业） -->
-        <chess-student-detail-panel :stu-id="selectedStuId" @hide="hideStudentDetailPanel" :isShow="showStudentDetailPanel"></chess-student-detail-panel>
+        <chess-student-detail-panel @hide="hideStudentDetailPanel" :isShow="showStudentDetailPanel"></chess-student-detail-panel>
         <!-- 学生详情（个人信息） -->
         <chess-student-info-panel @hide="hideStudentInfoPanel" :isShow="showStudentInfoPanel"></chess-student-info-panel>
         <!-- 师徒管理 -->
@@ -69,7 +69,6 @@ export default {
             this.showManageStudentPanel = true;
         },
         openStudentDetailPanel(id) {
-            this.selectedStuId = id;
             this.showStudentDetailPanel = true;
         },
         hideStudentDetailPanel() {

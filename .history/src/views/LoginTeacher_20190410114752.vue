@@ -34,10 +34,10 @@
                             </div>
                         </div>
                         <div class="content find-pwd" v-if="currentPanel == 2">
-                            <chess-input v-model="phone" styles="width:95%;margin:0.2rem 0.4rem;" label="手机号" type="number" width="16rem"></chess-input>
-                            <chess-input v-model="code" styles="width:95%;margin:0.2rem 0.4rem;" label="验证码" type="number" send width="16rem"></chess-input>
-                            <chess-input v-model="newPass" styles="width:95%;margin:0.2rem 0.4rem;" label="重置密码" type="password" width="14rem"></chess-input>
-                            <chess-input v-model="reNewPass" styles="width:95%;margin:0.2rem 0.4rem;" label="确定密码" type="password" width="14rem"></chess-input>
+                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="手机号" type="text" width="16rem"></chess-input>
+                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="验证码" type="number" send width="16rem"></chess-input>
+                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="重置密码" type="password" width="14rem"></chess-input>
+                            <chess-input styles="width:95%;margin:0.2rem 0.4rem;" label="确定密码" type="password" width="14rem"></chess-input>
                             <div class="reset-wrapper">
                                 <button class="confirm-btn pointer">确定</button>
                             </div>
@@ -75,11 +75,7 @@ export default {
             ],
             role:{text:'老师',value:0},
             username:'',
-            password:'',
-            phone:'',
-            code:'',
-            newPass:'',
-            reNewPass:''
+            password:''
         }
     },
     methods:{
@@ -115,7 +111,7 @@ export default {
             //老师登录
             this.$axios({
                 method:'post',
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/teach-login`,
+                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/teach-login}`,
                 params:{
                     login_name:this.username,
                     login_password:this.password

@@ -27,7 +27,6 @@
             v-for="(item,index) in noticeList"
             :key="index"
             class="msg-item"
-            :class="{invisible:item.type != currentIndex}"
           >
             <img src="../assets/images/unread.png" class="unread-icon">
             <p class="msg-content">{{item.content}}</p>
@@ -43,15 +42,14 @@
 import ChessMask from "./Mask";
 export default {
   name: "chess-notice-panel",
-  props: ["is-show"],
+  props: ["is-show", "noticeList"],
   components: {
     [ChessMask.name]: ChessMask
   },
   data() {
     return {
       currentIndex: 0,
-      show: false,
-      noticeList:[]
+      show: false
     };
   },
   methods: {
@@ -69,7 +67,7 @@ export default {
         })
       })
         .then(res => {
-          this.noticeList = res.data.data;
+          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -79,9 +77,6 @@ export default {
       this.closeMyself();
       this.$emit("open-notice-detail", index);
     }
-  },
-  mounted() {
-    this.switchTab(0);
   }
 };
 </script>
@@ -153,9 +148,6 @@ li.msg-item {
   background: url(../assets/images/msg-bg.png) no-repeat;
   background-size: 100% 100%;
   padding: 0.8rem 1rem;
-}
-li.msg-item.invisible{
-  display: none;
 }
 img.unread-icon {
   position: absolute;

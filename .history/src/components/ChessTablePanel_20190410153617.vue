@@ -19,7 +19,7 @@
                                 {{chess.create_at | filterTime}}
                             </p>
                         </div>
-                        <div @click="editChessTable(chess.id)" class="finish-status-wrapper">
+                        <div @click="editChessTable(2)" class="finish-status-wrapper">
                             编辑
                         </div>
                     </li>

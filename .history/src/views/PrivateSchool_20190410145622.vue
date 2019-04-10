@@ -69,7 +69,6 @@ export default {
             this.showManageStudentPanel = true;
         },
         openStudentDetailPanel(id) {
-            this.selectedStuId = id;
             this.showStudentDetailPanel = true;
         },
         hideStudentDetailPanel() {

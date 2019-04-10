@@ -12,14 +12,14 @@
                     </p>
                 </div>
                 <ul class="task-list-wrapper">
-                    <li v-for="chess in chessTableList" :key="chess.id" class="task-item">
-                        <div @click.capture="toggleSelect(chess.id,$event)" class="task-title-wrapper pointer">
-                            <p @click="toggleSelect(chess.id,$event)" class="task-title">{{chess.title}}</p>
-                            <p @click="toggleSelect(chess.id,$event)" class="time">
-                                {{chess.create_at | filterTime}}
+                    <li v-for="n in 20" :key="n" class="task-item">
+                        <div @click.capture="toggleSelect(n,$event)" class="task-title-wrapper pointer">
+                            <p @click="toggleSelect(n,$event)" class="task-title">棋谱名称</p>
+                            <p @click="toggleSelect(n,$event)" class="time">
+                                2/12  22:12:34
                             </p>
                         </div>
-                        <div @click="editChessTable(chess.id)" class="finish-status-wrapper">
+                        <div @click="editChessTable(2)" class="finish-status-wrapper">
                             编辑
                         </div>
                     </li>
@@ -37,8 +37,7 @@ export default {
     data() {
         return {
             currentIndex:0,
-            selectedList:[],
-            chessTableList:[]
+            selectedList:[]
         }
     },
     components:{
@@ -80,7 +79,7 @@ export default {
             url:`${process.env.VUE_APP_URL}/index.php?r=api-teach-chess-manual/get-chess-manual-lists`,
             method:'post'
         }).then((res) => {
-            this.chessTableList = res.data.data;
+
         }).catch((err) => {
 
         });

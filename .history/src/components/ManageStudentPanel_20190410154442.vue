@@ -13,7 +13,7 @@
                                     <span class="title">{{currentGrade.nickname}}</span>
                                     <img src="../assets/images/edit-icon.png" alt="编辑" class="edit-grade-icon">
                                 </p>
-                                <p class="grade-person-number">{{studentList.length}}人</p>
+                                <p class="grade-person-number">35人</p>
                                 <p class="grade-create-time">创建时间：19.0.2.12</p>
                                 <img src="../assets/images/add-student.png" @click="addStudent" alt="添加学员" class="add-student-icon pointer">
                             </div>
@@ -36,7 +36,7 @@
                         <div class="swiper-container swiper-no-swiping">
                             <div class="content-wrapper-container swiper-wrapper">
                                 <div v-for="n in Math.ceil(gradeList.length / 4)" :key="n" class="swiper-slide">
-                                    <div class="grade-item pointer" :class="{active:(n-1)*4+index == currentGradeIndex}" @click="getStudentsByGradeId(item.id,item.nickname,(n-1)*4+index)" v-for="(item,index) in gradeList.slice(4*(n-1),4*(n-1)+4)" :key="item.id">
+                                    <div class="grade-item pointer" :class="{active:(n-1)*4+index == currentGradeIndex}" @click="getStudentsByGradeId(item.id,(n-1)*4+index)" v-for="(item,index) in gradeList.slice(4*(n-1),4*(n-1)+4)" :key="item.id">
                                     {{item.nickname}}
                                     </div>
                                 </div>
@@ -173,23 +173,19 @@ export default {
                 url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-class-lists`
             }).then((res) => {
                 this.gradeList = res.data.data;
-                this.getStudentsByGradeId(this.gradeList[0].id,this.gradeList[0].nickname);
+                this.getStudentsByGradeId(this.gradeList[0].id);
                 this.initSwiper();
             }).catch(() => {
 
             });
         },
         //获取对应班级下的学生
-        getStudentsByGradeId(id,name,index) {
+        getStudentsByGradeId(id,index) {
             if(this.currentGradeIndex == index) {
                 return false;
             }
             if(index) {
                 this.currentGradeIndex = index;
-            }
-            this.currentGrade={
-                id:id,
-                nickname:name
             }
             this.$axios({
                 method:'post',

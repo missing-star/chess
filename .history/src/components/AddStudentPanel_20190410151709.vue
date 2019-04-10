@@ -5,8 +5,8 @@
             <div class="content-wrapper-container">
                 <input type="text" placeholder="卡号/激活卡/姓名" class="search-input">
                 <ul class="apprentice-wrapper">
-                    <li v-for="student in studentList" :key="student.id" class="apprentice-item">
-                        <p class="username pointer">{{student.nickname}}</p>
+                    <li v-for="n in 20" :key="n" class="apprentice-item">
+                        <p class="username pointer">张某同学</p>
                         <span class="level-wrapper">6级</span>
                         <span class="dashed-line">
                             <i class="dot"></i>
@@ -17,8 +17,8 @@
                         </span>
                         <img src="../assets/images/study-icon.png" class="home-icon">
                         <p class="join-time">09.02.15 入校</p>
-                        <button @click="toggleStudent(student.id,$event)" class="add pointer not-selected">添加</button>
-                        <button @click="toggleStudent(student.id,$event)" class="add pointer selected">已选</button>
+                        <button @click="toggleStudent(n,$event)" class="add pointer not-selected">添加</button>
+                        <button @click="toggleStudent(n,$event)" class="add pointer selected">已选</button>
                     </li>
                 </ul>
             </div>
@@ -94,7 +94,8 @@ export default {
             method:'post',
             url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`
         }).then((res) => {
-            this.studentList = res.data.data;
+            this.studentList = res.data;
+            console.log(this.studentList);
         }).catch((err) => {
 
         });
@@ -129,9 +130,8 @@ export default {
         overflow-x: hidden;
         padding: 0 3rem;
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        align-content: flex-start;
+        align-items: center;
+        justify-content: space-around;
         flex-wrap: wrap;
         -ms-overflow-style: none;
         scrollbar-width:none;

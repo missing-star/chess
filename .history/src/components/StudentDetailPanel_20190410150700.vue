@@ -115,22 +115,17 @@ export default {
             this.$emit('hide');
         },
         reliveRelationship() {
-            if(confirm('您确定要解除师生关系吗？')) {
-                this.$axios({
-                    url:`${process.env.VUE_APP_URL}index.php?r=api-teach/relieve`,
-                    method:'post',
-                    params:{
-                        student_id:this.stuId
-                    }
-                }).then((res) => {
-                    console.log(res.data);
-                    if(res.data.status == 0) {
-                        alert(res.data.msg);
-                    }
-                }).catch((err) => {
+            this.$axios({
+                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/relieve`,
+                method:'post',
+                params:{
+                    student_id:this.stuId
+                }
+            }).then((res) => {
 
-                });
-            }
+            }).catch((err) => {
+
+            });
         }
     },
     watch:{

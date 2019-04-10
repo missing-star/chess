@@ -17,8 +17,8 @@
                         </span>
                         <img src="../assets/images/study-icon.png" class="home-icon">
                         <p class="join-time">09.02.15 入校</p>
-                        <button @click="toggleStudent(student.id,$event)" class="add pointer not-selected">添加</button>
-                        <button @click="toggleStudent(student.id,$event)" class="add pointer selected">已选</button>
+                        <button @click="toggleStudent(n,$event)" class="add pointer not-selected">添加</button>
+                        <button @click="toggleStudent(n,$event)" class="add pointer selected">已选</button>
                     </li>
                 </ul>
             </div>
@@ -95,6 +95,7 @@ export default {
             url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`
         }).then((res) => {
             this.studentList = res.data.data;
+            console.log(this.studentList);
         }).catch((err) => {
 
         });
@@ -130,7 +131,7 @@ export default {
         padding: 0 3rem;
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-content: flex-start;
         flex-wrap: wrap;
         -ms-overflow-style: none;

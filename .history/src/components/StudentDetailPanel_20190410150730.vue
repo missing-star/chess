@@ -123,10 +123,7 @@ export default {
                         student_id:this.stuId
                     }
                 }).then((res) => {
-                    console.log(res.data);
-                    if(res.data.status == 0) {
-                        alert(res.data.msg);
-                    }
+
                 }).catch((err) => {
 
                 });

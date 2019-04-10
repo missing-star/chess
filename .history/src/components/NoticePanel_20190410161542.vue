@@ -69,7 +69,7 @@ export default {
         })
       })
         .then(res => {
-          this.noticeList = res.data.data;
+          console.log(res.data);
         })
         .catch(error => {
           console.log(error);

@@ -16,10 +16,10 @@
                         <div @click.capture="toggleSelect(chess.id,$event)" class="task-title-wrapper pointer">
                             <p @click="toggleSelect(chess.id,$event)" class="task-title">{{chess.title}}</p>
                             <p @click="toggleSelect(chess.id,$event)" class="time">
-                                {{chess.create_at | filterTime}}
+                                2/12  22:12:34
                             </p>
                         </div>
-                        <div @click="editChessTable(chess.id)" class="finish-status-wrapper">
+                        <div @click="editChessTable(2)" class="finish-status-wrapper">
                             编辑
                         </div>
                     </li>
