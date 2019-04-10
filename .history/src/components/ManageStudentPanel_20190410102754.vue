@@ -15,12 +15,12 @@
                                 </p>
                                 <p class="grade-person-number">35人</p>
                                 <p class="grade-create-time">创建时间：19.0.2.12</p>
-                                <img src="../assets/images/add-student.png" @click="addStudent" alt="添加学员" class="add-student-icon pointer">
+                                <img src="../assets/images/add-student.png" alt="添加学员" class="add-student-icon pointer">
                             </div>
                         </div>
                         <p class="solid-line"></p>
                         <div class="btn-group">
-                            <img src="../assets/images/check-homework.png" alt="批改作业" @click="checkHomework" class="check-homework-icon pointer">
+                            <img src="../assets/images/check-homework.png" alt="批改作业" class="check-homework-icon pointer">
                             <img src="../assets/images/assign-homework.png" alt="布置作业" class="assign-homework-icon pointer">
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="../assets/images/create-now.png" @click="createGrade" alt="创建班级" class="create-grade-icon pointer">
+                    <img src="../assets/images/create-now.png" alt="创建班级" class="create-grade-icon pointer">
                     <div class="relive-mentor-relationship">
                         
                     </div>
@@ -61,7 +61,7 @@
                             <span class="dashed-line"><i v-for="n in 5" :key="n" class="dot"></i></span>
                             <img src="../assets/images/homework-icon2.png" class="edit-icon">
                             <span class="not-finish-times">3次未完成</span>
-                            <button @click="getStudentDetail(1)" class="detail-btn pointer"></button>
+                            <button class="detail-btn"></button>
                         </li>
                     </ul>
                 </div>
@@ -138,26 +138,6 @@ export default {
                 this.selectedList.push(id);
             }
         },
-        createGrade() {
-            //创建班级
-            this.closeMyself();
-            this.$emit('open-create-grade');
-        },
-        getStudentDetail(id) {
-            //获得学生详情
-            this.closeMyself();
-            this.$emit('open-student-detail');
-        },
-        addStudent() {
-            //添加学员
-            this.closeMyself();
-            this.$emit('open-add-student');
-        },
-        checkHomework() {
-            //批改作业
-            this.closeMyself();
-            this.$emit('open-check-homework');
-        }
     },
     mounted() {
         this.isLastPage = Math.ceil(this.gradeList.length / 4) > 1 ? false : true;

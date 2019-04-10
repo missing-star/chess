@@ -62,7 +62,7 @@ export default {
             }
         },
         createChessTable() {
-            this.$router.push({name:'create-chess-table',params:{type:'create'}})
+            this.$router.push({path:'/create-chess-table'})
         },
         editChessTable(id) {
             this.$router.push({

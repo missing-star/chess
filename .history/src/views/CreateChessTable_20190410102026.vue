@@ -125,7 +125,7 @@ export default {
         [BackButton.name]:BackButton
     },
     mounted() {
-        console.log(this.$route);
+        console.log(this.$route.params);
         window.onChose = onChose;
         initChess();
     }

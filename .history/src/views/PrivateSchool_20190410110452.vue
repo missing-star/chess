@@ -93,7 +93,6 @@ export default {
         },
         hideCheckHomeworkPanel() {
             this.showCheckHomeworkPanel = false;
-            this.showManageStudentPanel = true;
         }
     },
     components:{

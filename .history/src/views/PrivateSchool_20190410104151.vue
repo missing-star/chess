@@ -10,19 +10,13 @@
             </div>
         </div>
         <!-- 学生管理 -->
-        <chess-manage-student-panel @open-check-homework="openCheckHomeworkPanel" @open-add-student="openAddStudentPanel" @open-student-detail="openStudentDetailPanel" @open-create-grade="openCreateGradePanel" :is-show="showManageStudentPanel" @hide="hideManageStudentPanel"></chess-manage-student-panel>
+        <chess-manage-student-panel @open-student-detail="" @open-create-grade="openCreateGradePanel" :is-show="showManageStudentPanel" @hide="hideManageStudentPanel"></chess-manage-student-panel>
         <!-- 学生详情（作业） -->
         <chess-student-detail-panel @hide="hideStudentDetailPanel" :isShow="showStudentDetailPanel"></chess-student-detail-panel>
-        <!-- 学生详情（个人信息） -->
-        <chess-student-info-panel @hide="hideStudentInfoPanel" :isShow="showStudentInfoPanel"></chess-student-info-panel>
         <!-- 师徒管理 -->
-        <chess-manage-apprentice-panel @open-student-info-detail="openStudentInfoPanel" :is-show="showManageApprenticePanel" @hide="hideManageApprenticePanel"></chess-manage-apprentice-panel>
-        <!-- 添加学生 -->
-        <chess-add-student-panel @hide="hideAddStudentPanel" :isShow="showAddStudentPanel"></chess-add-student-panel>
+        <chess-manage-apprentice-panel :is-show="showManageApprenticePanel" @hide="hideManageApprenticePanel"></chess-manage-apprentice-panel>
         <!-- 创建班级 -->
         <chess-create-grade-panel @hide="hideCreateGradePanel" :isShow="showCreateGradePanel"></chess-create-grade-panel>
-        <!-- 批改作业 -->
-        <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel"></chess-check-homework-panel>
         <chess-back-button></chess-back-button>
     </div>
 </template>
@@ -31,20 +25,13 @@ import BackButton from '../components/BackButton'
 import ManageStudentPanel from '../components/ManageStudentPanel'
 import ManageApprenticePanel from '../components/ManageApprenticePanel'
 import CreateGradePanel from '../components/CreateGradePanel'
-import StudentInfoPanel from '../components/StudentInfoPanel'
 import StudentDetailPanel from '../components/StudentDetailPanel'
-import AddStudentPanel from '../components/AddStudentPanel'
-import CheckHomeworkPanel from '../components/CheckHomeworkPanel'
 export default {
     data() {
         return {
             showManageStudentPanel:false,
             showManageApprenticePanel:false,
-            showCreateGradePanel:false,
-            showStudentDetailPanel:false,
-            showStudentInfoPanel:false,
-            showAddStudentPanel:false,
-            showCheckHomeworkPanel:false,
+            showCreateGradePanel:false
         }
     },
     methods:{
@@ -67,44 +54,12 @@ export default {
             this.showCreateGradePanel = false;
             this.showManageStudentPanel = true;
         },
-        openStudentDetailPanel() {
-            this.showStudentDetailPanel = true;
-        },
-        hideStudentDetailPanel() {
-            this.showStudentDetailPanel = false;
-            this.showManageStudentPanel = true;
-        },
-        openStudentInfoPanel() {
-            this.showStudentInfoPanel = true;
-        },
-        hideStudentInfoPanel() {
-            this.showStudentInfoPanel = false;
-            this.showManageApprenticePanel = true;
-        },
-        openAddStudentPanel() {
-            this.showAddStudentPanel = true;
-        },
-        hideAddStudentPanel() {
-            this.showAddStudentPanel = false;
-            this.showManageStudentPanel = true;
-        },
-        openCheckHomeworkPanel() {
-            this.showCheckHomeworkPanel = true;
-        },
-        hideCheckHomeworkPanel() {
-            this.showCheckHomeworkPanel = false;
-            this.showManageStudentPanel = true;
-        }
     },
     components:{
         [BackButton.name]:BackButton,
         [ManageStudentPanel.name]:ManageStudentPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
         [CreateGradePanel.name]:CreateGradePanel,
-        [StudentDetailPanel.name]:StudentDetailPanel,
-        [StudentInfoPanel.name]:StudentInfoPanel,
-        [AddStudentPanel.name]:AddStudentPanel,
-        [CheckHomeworkPanel.name]:CheckHomeworkPanel
     }
 }
 </script>

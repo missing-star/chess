@@ -138,6 +138,12 @@ export default {
         hideManageApprenticePanel() {
             this.showManageApprenticePanel = false;
         },
+        openCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = true;
+        },
+        hideCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = false;
+        },
         openChessTablePanel() {
             this.showChessTablePanel = true;
         },
@@ -194,6 +200,7 @@ export default {
         [CreateTipsPanel.name]:CreateTipsPanel,
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
+        [CheckHomeworkPanel.name]:CheckHomeworkPanel,
         [ChessTablePanel.name]:ChessTablePanel,
         [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,

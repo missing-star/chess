@@ -15,12 +15,12 @@
                                 </p>
                                 <p class="grade-person-number">35人</p>
                                 <p class="grade-create-time">创建时间：19.0.2.12</p>
-                                <img src="../assets/images/add-student.png" @click="addStudent" alt="添加学员" class="add-student-icon pointer">
+                                <img src="../assets/images/add-student.png" alt="添加学员" class="add-student-icon pointer">
                             </div>
                         </div>
                         <p class="solid-line"></p>
                         <div class="btn-group">
-                            <img src="../assets/images/check-homework.png" alt="批改作业" @click="checkHomework" class="check-homework-icon pointer">
+                            <img src="../assets/images/check-homework.png" alt="批改作业" class="check-homework-icon pointer">
                             <img src="../assets/images/assign-homework.png" alt="布置作业" class="assign-homework-icon pointer">
                         </div>
                     </div>
@@ -147,16 +147,6 @@ export default {
             //获得学生详情
             this.closeMyself();
             this.$emit('open-student-detail');
-        },
-        addStudent() {
-            //添加学员
-            this.closeMyself();
-            this.$emit('open-add-student');
-        },
-        checkHomework() {
-            //批改作业
-            this.closeMyself();
-            this.$emit('open-check-homework');
         }
     },
     mounted() {

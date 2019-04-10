@@ -38,12 +38,16 @@
         <chess-personal-info-panel @hide="hidePersonalInfoPanel" :isShow="showPersonalInfoPanel"></chess-personal-info-panel>
         <!-- 管理收徒 -->
         <chess-manage-apprentice-panel @hide="hideManageApprenticePanel" :isShow="showManageApprenticePanel"></chess-manage-apprentice-panel>
+        <!-- 批改作业 -->
+        <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel"></chess-check-homework-panel>
         <!-- 选择作业 -->
         <chess-select-homework-panel @hide="hideSelectHomeworkPanel" :isShow="showSelectHomeworkPanel"></chess-select-homework-panel>
         <!-- 棋谱列表 -->
         <chess-table-panel @hide="hideChessTablePanel" :isShow="showChessTablePanel"></chess-table-panel>
         <!-- 公告详情 -->
         <chess-notice-detail-panel @hide="hideNoticeDetailPanel" :isShow="showNoticeDetailPanel"></chess-notice-detail-panel>
+        <!-- 添加学生 -->
+        <chess-add-student-panel @hide="hideAddStudentPanel" :isShow="showAddStudentPanel"></chess-add-student-panel>
         <!-- 信息提示框 -->
         <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel"></chess-tips-panel>
         <!-- 设置按钮 -->
@@ -64,11 +68,13 @@ import MailBoxPanel from '../components/MailBoxPanel'
 import NoticePanel from '../components/NoticePanel'
 import PersonalInfoPanel from '../components/PersonalInfoPanel'
 import ManageApprenticePanel from '../components/ManageApprenticePanel'
+import CheckHomeworkPanel from '../components/CheckHomeworkPanel'
 import ChessTablePanel from '../components/ChessTablePanel'
 import SelectHomeworkPanel from '../components/SelectHomeworkPanel'
 import TipsPanel from '../components/TipsPanel'
 import CreateTipsPanel from '../components/CreateTipsPanel'
 import NoticeDetailPanel from '../components/NoticeDetailPanel'
+import AddStudentPanel from '../components/AddStudentPanel'
 export default {
     data() {
         return {
@@ -79,9 +85,11 @@ export default {
             showCreateTipsPanel:false,
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
+            showCheckHomeworkPanel:false,
             showChessTablePanel:false,
             showSelectHomeworkPanel:false,
             showNoticeDetailPanel:false,
+            showAddStudentPanel:false,
             showTipsPanel:false,
             roomList:[
                 {
@@ -138,6 +146,12 @@ export default {
         hideManageApprenticePanel() {
             this.showManageApprenticePanel = false;
         },
+        openCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = true;
+        },
+        hideCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = false;
+        },
         openChessTablePanel() {
             this.showChessTablePanel = true;
         },
@@ -156,6 +170,12 @@ export default {
         hideNoticeDetailPanel() {
             this.openNoticePanel();
             this.showNoticeDetailPanel = false;
+        },
+        openAddStudentPanel() {
+            this.showAddStudentPanel = true;
+        },
+        hideAddStudentPanel() {
+            this.showAddStudentPanel = false;
         },
         openTipsPanel() {
             this.showTipsPanel = true;
@@ -194,9 +214,11 @@ export default {
         [CreateTipsPanel.name]:CreateTipsPanel,
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
+        [CheckHomeworkPanel.name]:CheckHomeworkPanel,
         [ChessTablePanel.name]:ChessTablePanel,
         [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,
+        [AddStudentPanel.name]:AddStudentPanel,
         [TipsPanel.name]:TipsPanel
     }
 }

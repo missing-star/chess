@@ -36,12 +36,36 @@ export default {
         value:{
             type:String,
             required:true
-        },
-        type: {
-          type: String,
-          required: true
-        },
+        }
     },
+    type: {
+      type: String,
+      required: true
+    },
+    methods:{
+        trigger() {
+            this.$emit('trigger');
+        },
+        sendCode() {
+            if(this.time == 60) {
+                this.sendText = `${this.time}s后重发`;
+                const interval = setInterval(() => {
+                    if(this.time == 1) {
+                        clearInterval(interval);
+                        this.time = 60;
+                        this.sendText = '发送验证码';
+                        return false;
+                    }
+                    this.time--;
+                    this.sendText = `${this.time}s后重发`;
+                }, 1000);
+            }
+        },
+        changeValue(e) {
+            this.$emit('input',e.target.value);
+        }
+    }
+  },
   data() {
     return {
       sendText: "发送验证码",
@@ -67,9 +91,6 @@ export default {
           this.sendText = `${this.time}s后重发`;
         }, 1000);
       }
-    },
-    changeValue(e) {
-        this.$emit('input',e.target.value);
     }
   }
 };
