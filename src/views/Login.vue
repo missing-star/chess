@@ -21,18 +21,25 @@
         <div class="register-login-wrapper">
           <div class="register-register-wrapper">
             <div class="content" v-if="currentPanel == 0">
-              <chess-input label="姓名" type="text" width="6rem"></chess-input>
-              <chess-input @trigger="triggerSelect" label="性别" type="text" width="6rem" readonly></chess-input>
+              <chess-input label="姓名" type="text" width="6rem" v-model="username"></chess-input>
+              <chess-input
+                @trigger="triggerSelect"
+                label="性别"
+                type="text"
+                width="6rem"
+                readonly
+                v-model="sex"
+              ></chess-input>
               <chess-select
                 :option-list="sexList"
                 @select="selectSex"
                 :is-show="showSelect"
                 styles="position:absolute;right:2.2rem;top:5.2rem;z-index:1;"
               ></chess-select>
-              <chess-input label="卡号" type="text" width="6rem"></chess-input>
-              <chess-input label="激活码" type="text" width="5rem"></chess-input>
-              <chess-input label="家长手机号" type="text" width="3rem"></chess-input>
-              <chess-input label="密码" type="password" width="6rem"></chess-input>
+              <chess-input label="卡号" type="text" width="6rem" v-model="crad"></chess-input>
+              <chess-input label="激活码" type="text" width="5rem" v-model="crad_password"></chess-input>
+              <chess-input label="家长手机号" type="text" width="3rem" v-model="guardian_phone"></chess-input>
+              <chess-input label="密码" type="password" width="6rem" v-model="password"></chess-input>
               <div class="register-btn-group">
                 <button @click="register" class="register-btn">注册</button>
               </div>
@@ -45,6 +52,7 @@
                 label="选择身份"
                 type="text"
                 width="100%"
+                v-model="role"
               ></chess-input>
               <chess-select
                 :option-list="roleList"
@@ -52,8 +60,20 @@
                 :is-show="showSelectRole"
                 styles="position:absolute;right:2.2rem;top:5.2rem;z-index:1"
               ></chess-select>
-              <chess-input styles="width:95%" label="姓名" type="text" width="16rem" v-model="value"></chess-input>
-              <chess-input styles="width:95%" label="密码" type="password" width="16rem"></chess-input>
+              <chess-input
+                styles="width:95%"
+                label="姓名"
+                type="text"
+                width="16rem"
+                v-model="Eusername"
+              ></chess-input>
+              <chess-input
+                styles="width:95%"
+                label="密码"
+                type="password"
+                width="16rem"
+                v-model="Epassword"
+              ></chess-input>
               <div class="remember-and-forget-wrapper">
                 <p class="remember-me-wrapper pointer">
                   <span class="checkbox"></span>
@@ -141,8 +161,15 @@ export default {
           text: "学生"
         }
       ],
-      Eusername:'',
-      Epassword:''
+      role: "",
+      Eusername: "",
+      Epassword: "",
+      username: "",
+      sex: "",
+      crad: "",
+      crad_password: "",
+      guardian_phone: "",
+      password: ""
     };
   },
   methods: {
@@ -167,76 +194,65 @@ export default {
       this.currentPanel = 2;
     },
     login() {
-      // var username = "张三";
-      // var password = "123456";
-      // if (username != "" && password != "") {
-      // this.$axios({
-      //   method: "post",
-      //   url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
-      //   data: {
-      //     nickname: username,
-      //     password: password
-      //   }
-      // })
-      //   .then(res => {
-      //     if (res.status == 1) {
-      //       this.$router.push("/home");
-      //     } else {
-      //     }
-      //   })
-      //   .catch(function(err) {
-      //     console.log(err);
-      //   });
-      // } else {
-      //   alert("账号和密码不能为空,请填写完整!!!");
-      // }
-      console.log(this.Eusername)
-      $.ajax({
-        type: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
-        async: true,
-        data: {
-          nickname: username,
-          password: password
-        },
-        dataType: "json",
-        success: res => {
-          console.log(res);
-        }
-      });
+      if (this.Eusername != "" && this.Epassword != "") {
+        this.$axios({
+          method: "post",
+          url: `${
+            process.env.VUE_APP_URL
+          }/index.php?r=api-student/student-login`,
+          data: this.qs.stringify({
+            nickname: this.Eusername,
+            password: this.Epassword
+          })
+        })
+          .then(res => {
+            if (res.data.status == 1) {
+              this.$router.push("/home");
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      } else {
+        alert("账号和密码不能为空,请填写完整!!!");
+      }
     },
     register() {
-      console.log(this.$refs.username.msg);
-      console.log(this.$refs.card);
-      console.log(this.$refs.crad_password.msg);
-      //   console.log(this.$refs.getInput.msg);
-      //   fetch(
-      //     `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/student-register`,
-      //     {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/x-www-form-urlencoded"
-      //       },
-      //       body: {
-      //         niackname: this.username,
-      //         sex: sex,
-      //         crad: "",
-      //         crad_password: "",
-      //         guardian_phone: "",
-      //         password: ""
-      //       }
-      //     }
-      //   )
-      //     .then(res => {
-      //       console.log(res);
-      //       return res.json();
-      //     })
-      //     .then(data => {
-      //       console.log("返回值：", data);
-      //     })
-      //     .catch(err => {
-      //       console.log(err);
-      //     });
+      if (
+        this.username != "" &&
+        // this.sex != "" &&
+        this.crad != "" &&
+        this.crad_password != "" &&
+        this.guardian_phone != "" &&
+        this.password != "" 
+      ) {
+        this.$axios({
+          method: "post",
+          url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/student-register`,
+          data: this.qs.stringify({
+            nickname: this.username,
+            sex: this.sex,
+            crad: this.crad,
+            crad_password: this.crad_password,
+            guardian_phone: this.guardian_phone,
+            password: this.password
+          })
+        })
+          .then(res => {
+            if (res.data.status == 1) {
+              this.currentPanel = 1;
+            } else {
+              alert(res.data.msg);
+            }
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      } else {
+        alert("请把信息填写完整!!!");
+      }
     }
   }
 };

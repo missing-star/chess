@@ -8,7 +8,7 @@
                         <img src="../assets/images/user-logo.png" class="user-logo">
                         <p class="username">用户名称</p>
                         <div class="button-wrapper">
-                            <img src="../assets/images/exit-login.png" alt="退出登录">
+                            <img src="../assets/images/exit-login.png" alt="退出登录" @click="loginOut">
                         </div>
                         <div class="button-wrapper">
                             <img src="../assets/images/change-pwd.png" alt="修改密码">
@@ -80,6 +80,9 @@ export default {
         },
         triggerBgm(isClose) {
             this.$emit('control-bgm',isClose);
+        },
+        loginOut(){
+             this.$emit('login-out');
         }
     },
     props:['is-show'],

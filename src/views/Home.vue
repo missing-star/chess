@@ -67,11 +67,13 @@
       @hide="hideNoticePanel"
       :isShow="showNoticePanel"
       @open-notice-detail="openNoticeDetailPanel"
+      :noticeList="noticeList"
     ></chess-notice-panel>
     <!-- 设置弹框 -->
     <chess-set-panel
       @hide="hideSetPanel"
       @control-bgm="controlBgm"
+      @login-out="loginOut"
       :isShow="showSetPanel"
       @change-volume="changeVolume"
     ></chess-set-panel>
@@ -179,7 +181,8 @@ export default {
       ],
       isShowTaskPanel: false,
       information: [], //棋社信息
-      growthLog: [] //成长日志
+      growthLog: [], //成长日志
+      noticeList:[],  //公告栏
     };
   },
   computed: {
@@ -219,15 +222,14 @@ export default {
       this.showNoticePanel = true;
       this.$axios({
         method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/message-list`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-list`,
         data: this.qs.stringify({
           id: 1
         })
       })
         .then(res => {
-          console.log(res);
+          console.log(res.data);
+          this.noticeList = res.data.data;
         })
         .catch(error => {
           console.log(error);
@@ -242,13 +244,12 @@ export default {
     hideTaskPanel() {
       this.showTaskPanel = false;
     },
-    openTipsPanel(index) {   //信箱详情页
+    openTipsPanel(index) {
+      //信箱详情页
       this.showTipsPanel = true;
-       this.$axios({
+      this.$axios({
         method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/message-info`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/message-info`,
         data: this.qs.stringify({
           id: index
         })
@@ -315,20 +316,18 @@ export default {
     hideTeacherListPanel() {
       this.showTeacherPanel = false;
     },
-    openNoticeDetailPanel(index) {
-      //公告栏详情页
+    openNoticeDetailPanel(index) {//公告栏详情页
       this.showNoticeDetailPanel = true;
       this.$axios({
         method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/message-list-info`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-list-info`,
         data: this.qs.stringify({
           id: index
         })
       })
         .then(res => {
           console.log(res);
+          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -381,11 +380,24 @@ export default {
           data: {},
           dataType: "json",
           success: res => {
-            console.log(res);
-            this.information = res;
+            this.information = res.data;
           }
         });
       }
+    },
+    loginOut() {
+      //退出登录
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/login-out`,
+        data: this.qs.stringify({})
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   components: {

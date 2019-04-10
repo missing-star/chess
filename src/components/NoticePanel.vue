@@ -23,10 +23,15 @@
       <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
       <div class="content-wrapper-container">
         <ul class="msg-list-wrapper">
-          <li v-for="(n,index) in 40" :key="n" class="msg-item">
+          <li
+            v-for="(item,index) in noticeList"
+            :key="index"
+            class="msg-item"
+            v-if="item.type == currentIndex?!show:show"
+          >
             <img src="../assets/images/unread.png" class="unread-icon">
-            <p class="msg-content">你已收徒成功</p>
-            <a @click="showNoticeDetail(index)" href="javascript:;" class="detail">详情</a>
+            <p class="msg-content">{{item.content}}</p>
+            <a @click="showNoticeDetail(item.id)" href="javascript:;" class="detail">详情</a>
           </li>
         </ul>
       </div>
@@ -38,13 +43,14 @@
 import ChessMask from "./Mask";
 export default {
   name: "chess-notice-panel",
-  props: ["is-show"],
+  props: ["is-show", "noticeList"],
   components: {
     [ChessMask.name]: ChessMask
   },
   data() {
     return {
-      currentIndex: 0
+      currentIndex: 0,
+      show: false
     };
   },
   methods: {
@@ -52,19 +58,17 @@ export default {
       this.$emit("hide");
     },
     switchTab(index) {
-      this.currentIndex = index;
       console.log(index);
+      this.currentIndex = index;
       this.$axios({
         method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/message-list`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-list`,
         data: this.qs.stringify({
-          id: index + 1
+          page: 1
         })
       })
         .then(res => {
-          console.log(res);
+          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -200,4 +204,5 @@ img.mail-box-close {
 .tabbar-wrapper.click-mask.platform {
   background-image: none;
 }
+
 </style>

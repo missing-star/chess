@@ -21,15 +21,15 @@
             <div class="exp-progressbar-wrapper">
               <div class="exp-progressbar"></div>
             </div>
-            <span class="exp-value">160/200</span>
+            <span class="exp-value">{{information.experience?information.experience:0}}/200</span>
           </div>
           <div class="userinfo-detail-wrapper">
             <p class="userinfo-item inline">棋力等级：{{information.grade_id}}级</p>
-            <p class="userinfo-item inline">师傅：师傅名称</p>
+            <p class="userinfo-item inline">师傅：{{information.master_name?information.master_name:"暂无师傅"}}</p>
             <p class="userinfo-item inline">班级：{{information.class_nickname}}</p>
             <p class="userinfo-item inline">性别：{{information.sex==1?"男":"女"}}</p>
-            <p class="userinfo-item block">老师：老师名称</p>
-            <p class="userinfo-item block">学校：学校名称</p>
+            <p class="userinfo-item block">老师：{{information.teacher_name}}</p>
+            <p class="userinfo-item block">学校：{{information.mechanism_name}}</p>
           </div>
         </div>
       </div>

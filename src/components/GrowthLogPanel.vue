@@ -47,7 +47,7 @@
               <p class="black-name">{{item.user_name}}</p>
               <p class="race-result">
                 <img src="../assets/images/胜.png" class="race-result-icon">
-                <span class="race-title">胜</span>
+                <span class="race-title">{{item.game==1?"赢":'item.game==2'?"平":"输"}}</span>
                 <img src="../assets/images/右键头.png" class="race-result-detail-icon">
               </p>
             </li>
