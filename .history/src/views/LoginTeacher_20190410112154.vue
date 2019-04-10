@@ -14,8 +14,8 @@
                 <div class="register-login-wrapper">
                     <div class="register-register-wrapper">
                         <div class="content" v-if="currentPanel == 0">
-                            <chess-input v-model="role.text" @trigger="triggerRole" readonly styles="width:95%" label="选择身份" type="text" width="100%"></chess-input>
-                            <chess-select :option-list="roleList" @select="selectRole" :is-show="showSelectRole" styles="position:absolute;right:2.2rem;top:5.2rem;z-index:3;"></chess-select>
+                            <chess-input v-model="role" @trigger="triggerRole" readonly styles="width:95%" label="选择身份" type="text" width="100%"></chess-input>
+                            <chess-select :option-list="roleList" @select="selectRole" :is-show="showSelectRole" styles="position:absolute;right:2.2rem;top:5.2rem;"></chess-select>
                             <chess-input v-model="username" styles="width:95%" label=姓名 type="text" width="16rem"></chess-input>
                             <chess-input v-model="password" styles="width:95%" label="密码" type="password" width="16rem"></chess-input>
                             <div class="remember-and-forget-wrapper">
@@ -63,6 +63,13 @@ export default {
             showSelect:false,
             currentPanel:0,
             showSelectRole:false,
+            sexList:[{
+                id:0,
+                text:'男'
+            },{
+                id:1,
+                text:'女'
+            }],
             roleList:[
                 {
                     id:0,
@@ -73,7 +80,7 @@ export default {
                     text:'学生'
                 }
             ],
-            role:{text:'老师',value:0},
+            role:'',
             username:'',
             password:''
         }
@@ -94,20 +101,12 @@ export default {
         },
         selectRole(role) {
             this.showSelectRole = false;
-            this.role = role == 0 ? {text:'老师',value:0} : {text:'家长',value:1};
+            console.log(role);
         },
         forgetPass() {
             this.currentPanel = 2;
         },
         login() {
-            if(this.username.trim() == '') {
-                alert('请输入姓名!');
-                return false;
-            }
-            else if(this.password.trim() == '') {
-                alert('请输入密码!');
-                return false;
-            }
             //老师登录
             this.$axios({
                 method:'post',

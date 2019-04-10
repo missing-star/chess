@@ -1,16 +1,9 @@
 <template>
-  <div class="input-wrapper" :class="{pointer:readonly == true}" @click="trigger" :style="styles">
-    <label>{{label}}：</label>
-    <input
-      :value="value"
-      @input="changeValue($event)"
-      :type="type"
-      :class="{'input-item':true,pointer:readonly == true}"
-      :style="{width:width}"
-      :readonly="readonly"
-    >
-    <span v-if="send" class="send-code pointer" @click="sendCode">{{sendText}}</span>
-  </div>
+    <div class="input-wrapper" :class="{pointer:readonly == true}" @click="trigger" :style="styles">
+        <label>{{label}}：</label>
+        <input :value="value" @input="changeValue($event)" :type="type" :class="{'input-item':true,pointer:readonly == true}" :style="{width:width}" :readonly="readonly">
+        <span v-if="send" class="send-code pointer" @click="sendCode">{{sendText}}</span>
+    </div>
 </template>
 <script>
 export default {

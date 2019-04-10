@@ -94,20 +94,12 @@ export default {
         },
         selectRole(role) {
             this.showSelectRole = false;
-            this.role = role == 0 ? {text:'老师',value:0} : {text:'家长',value:1};
+            this.role = role;
         },
         forgetPass() {
             this.currentPanel = 2;
         },
         login() {
-            if(this.username.trim() == '') {
-                alert('请输入姓名!');
-                return false;
-            }
-            else if(this.password.trim() == '') {
-                alert('请输入密码!');
-                return false;
-            }
             //老师登录
             this.$axios({
                 method:'post',

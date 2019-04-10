@@ -38,6 +38,8 @@
         <chess-personal-info-panel @hide="hidePersonalInfoPanel" :isShow="showPersonalInfoPanel"></chess-personal-info-panel>
         <!-- 管理收徒 -->
         <chess-manage-apprentice-panel @hide="hideManageApprenticePanel" :isShow="showManageApprenticePanel"></chess-manage-apprentice-panel>
+        <!-- 批改作业 -->
+        <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel"></chess-check-homework-panel>
         <!-- 选择作业 -->
         <chess-select-homework-panel @hide="hideSelectHomeworkPanel" :isShow="showSelectHomeworkPanel"></chess-select-homework-panel>
         <!-- 棋谱列表 -->
@@ -64,6 +66,7 @@ import MailBoxPanel from '../components/MailBoxPanel'
 import NoticePanel from '../components/NoticePanel'
 import PersonalInfoPanel from '../components/PersonalInfoPanel'
 import ManageApprenticePanel from '../components/ManageApprenticePanel'
+import CheckHomeworkPanel from '../components/CheckHomeworkPanel'
 import ChessTablePanel from '../components/ChessTablePanel'
 import SelectHomeworkPanel from '../components/SelectHomeworkPanel'
 import TipsPanel from '../components/TipsPanel'
@@ -79,6 +82,7 @@ export default {
             showCreateTipsPanel:false,
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
+            showCheckHomeworkPanel:false,
             showChessTablePanel:false,
             showSelectHomeworkPanel:false,
             showNoticeDetailPanel:false,
@@ -138,6 +142,12 @@ export default {
         hideManageApprenticePanel() {
             this.showManageApprenticePanel = false;
         },
+        openCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = true;
+        },
+        hideCheckHomeworkPanel() {
+            this.showCheckHomeworkPanel = false;
+        },
         openChessTablePanel() {
             this.showChessTablePanel = true;
         },
@@ -194,9 +204,11 @@ export default {
         [CreateTipsPanel.name]:CreateTipsPanel,
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
+        [CheckHomeworkPanel.name]:CheckHomeworkPanel,
         [ChessTablePanel.name]:ChessTablePanel,
         [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,
+        [AddStudentPanel.name]:AddStudentPanel,
         [TipsPanel.name]:TipsPanel
     }
 }

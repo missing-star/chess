@@ -20,7 +20,7 @@
                         </div>
                         <p class="solid-line"></p>
                         <div class="btn-group">
-                            <img src="../assets/images/check-homework.png" alt="批改作业" @click="checkHomework" class="check-homework-icon pointer">
+                            <img src="../assets/images/check-homework.png" alt="批改作业" class="check-homework-icon pointer">
                             <img src="../assets/images/assign-homework.png" alt="布置作业" class="assign-homework-icon pointer">
                         </div>
                     </div>
@@ -152,11 +152,6 @@ export default {
             //添加学员
             this.closeMyself();
             this.$emit('open-add-student');
-        },
-        checkHomework() {
-            //批改作业
-            this.closeMyself();
-            this.$emit('open-check-homework');
         }
     },
     mounted() {

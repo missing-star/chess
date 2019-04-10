@@ -100,14 +100,6 @@ export default {
             this.currentPanel = 2;
         },
         login() {
-            if(this.username.trim() == '') {
-                alert('请输入姓名!');
-                return false;
-            }
-            else if(this.password.trim() == '') {
-                alert('请输入密码!');
-                return false;
-            }
             //老师登录
             this.$axios({
                 method:'post',
