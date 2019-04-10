@@ -8,10 +8,10 @@
                 <div class="content-wrapper">
                     <p class="unread-number">5</p>
                     <ul class="msg-list-wrapper">
-                        <li v-for="n in 40" :key="n" class="msg-item">
+                        <li v-for="(n,index) in 40" :key="n" class="msg-item">
                             <img src="../assets/images/unread.png" class="unread-icon">
                             <p class="msg-content">你已拜师成功</p>
-                            <a @click="openTipsPanel" href="javascript:;" class="detail">详情</a>
+                            <a @click="openTipsPanel(index)" href="javascript:;" class="detail">详情</a>
                         </li>
                     </ul>
                 </div>
@@ -36,9 +36,9 @@ export default {
         switchTab(index) {
             this.currentTab = index;
         },
-        openTipsPanel() {
+        openTipsPanel(index) {
             this.closeMyself();
-            this.$emit('open-tips-detail');
+            this.$emit('open-tips-detail',index);
         }
     },
     props:['is-show'],

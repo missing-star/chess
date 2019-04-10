@@ -21,7 +21,7 @@
         <div class="register-login-wrapper">
           <div class="register-register-wrapper">
             <div class="content" v-if="currentPanel == 0">
-              <chess-input label="姓名" type="text" width="6rem" ref="username"></chess-input>
+              <chess-input label="姓名" type="text" width="6rem"></chess-input>
               <chess-input @trigger="triggerSelect" label="性别" type="text" width="6rem" readonly></chess-input>
               <chess-select
                 :option-list="sexList"
@@ -29,8 +29,8 @@
                 :is-show="showSelect"
                 styles="position:absolute;right:2.2rem;top:5.2rem;z-index:1;"
               ></chess-select>
-              <chess-input label="卡号" type="text" width="6rem" ref="crad"></chess-input>
-              <chess-input label="激活码" type="text" width="5rem" ref="crad_password"></chess-input>
+              <chess-input label="卡号" type="text" width="6rem"></chess-input>
+              <chess-input label="激活码" type="text" width="5rem"></chess-input>
               <chess-input label="家长手机号" type="text" width="3rem"></chess-input>
               <chess-input label="密码" type="password" width="6rem"></chess-input>
               <div class="register-btn-group">
@@ -52,7 +52,7 @@
                 :is-show="showSelectRole"
                 styles="position:absolute;right:2.2rem;top:5.2rem;z-index:1"
               ></chess-select>
-              <chess-input styles="width:95%" label="姓名" type="text" width="16rem"></chess-input>
+              <chess-input styles="width:95%" label="姓名" type="text" width="16rem" v-model="value"></chess-input>
               <chess-input styles="width:95%" label="密码" type="password" width="16rem"></chess-input>
               <div class="remember-and-forget-wrapper">
                 <p class="remember-me-wrapper pointer">
@@ -140,7 +140,9 @@ export default {
           id: 1,
           text: "学生"
         }
-      ]
+      ],
+      Eusername:'',
+      Epassword:''
     };
   },
   methods: {
@@ -165,13 +167,13 @@ export default {
       this.currentPanel = 2;
     },
     login() {
-      var username = "张三";
-      var password = "123456";
+      // var username = "张三";
+      // var password = "123456";
       // if (username != "" && password != "") {
       // this.$axios({
       //   method: "post",
       //   url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,
-      //   params: {
+      //   data: {
       //     nickname: username,
       //     password: password
       //   }
@@ -188,7 +190,7 @@ export default {
       // } else {
       //   alert("账号和密码不能为空,请填写完整!!!");
       // }
-
+      console.log(this.Eusername)
       $.ajax({
         type: "post",
         url: `${process.env.VUE_APP_URL}/index.php?r=api-student/student-login`,

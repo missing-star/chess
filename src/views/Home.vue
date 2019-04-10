@@ -96,7 +96,11 @@
       :information="information"
     ></chess-com-panel>
     <!-- 成长日志 -->
-    <chess-growth-panel @hide="hideGrowthLogPanel" :is-show="showGrowthLogPanel"></chess-growth-panel>
+    <chess-growth-panel
+      @hide="hideGrowthLogPanel"
+      :is-show="showGrowthLogPanel"
+      :growthLog="growthLog"
+    ></chess-growth-panel>
     <!-- 老师列表 -->
     <chess-teacher-list-panel @hide="hideTeacherListPanel" :is-show="showTeacherPanel"></chess-teacher-list-panel>
     <!-- 信息提示框 -->
@@ -174,7 +178,8 @@ export default {
         }
       ],
       isShowTaskPanel: false,
-      information: [] //棋社信息
+      information: [], //棋社信息
+      growthLog: [] //成长日志
     };
   },
   computed: {
@@ -190,21 +195,20 @@ export default {
       this.showSetPanel = false;
     },
     openMailPanel() {
+      // 信箱
       this.showMailPanel = true;
       this.$axios({
         method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/my-message`,
-        data: {
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-message`,
+        data: this.qs.stringify({
           id: 1
-        }
+        })
       })
         .then(res => {
           console.log(res);
         })
-        .catch(function(err) {
-          console.log(err);
+        .catch(error => {
+          console.log(error);
         });
     },
     hideMailPanel() {
@@ -217,16 +221,16 @@ export default {
         method: "post",
         url: `${
           process.env.VUE_APP_URL
-        }/index.php?r=api-student/message-list-info`,
-        data: {
+        }/index.php?r=api-student/message-list`,
+        data: this.qs.stringify({
           id: 1
-        }
+        })
       })
         .then(res => {
           console.log(res);
         })
-        .catch(function(err) {
-          console.log(err);
+        .catch(error => {
+          console.log(error);
         });
     },
     hideNoticePanel() {
@@ -238,8 +242,23 @@ export default {
     hideTaskPanel() {
       this.showTaskPanel = false;
     },
-    openTipsPanel() {
+    openTipsPanel(index) {   //信箱详情页
       this.showTipsPanel = true;
+       this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/message-info`,
+        data: this.qs.stringify({
+          id: index
+        })
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hideTipsPanel() {
       this.openMailPanel();
@@ -296,8 +315,24 @@ export default {
     hideTeacherListPanel() {
       this.showTeacherPanel = false;
     },
-    openNoticeDetailPanel() {
+    openNoticeDetailPanel(index) {
+      //公告栏详情页
       this.showNoticeDetailPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/message-list-info`,
+        data: this.qs.stringify({
+          id: index
+        })
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hideNoticeDetailPanel() {
       this.openNoticePanel();
@@ -347,7 +382,7 @@ export default {
           dataType: "json",
           success: res => {
             console.log(res);
-            this.information = res.data;
+            this.information = res;
           }
         });
       }

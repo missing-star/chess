@@ -26,8 +26,8 @@
           <div class="userinfo-detail-wrapper">
             <p class="userinfo-item inline">棋力等级：{{information.grade_id}}级</p>
             <p class="userinfo-item inline">师傅：师傅名称</p>
-            <p class="userinfo-item inline">班级：二期3班</p>
-            <p class="userinfo-item inline">性别：{{information.sex==1?"女":"男"}}</p>
+            <p class="userinfo-item inline">班级：{{information.class_nickname}}</p>
+            <p class="userinfo-item inline">性别：{{information.sex==1?"男":"女"}}</p>
             <p class="userinfo-item block">老师：老师名称</p>
             <p class="userinfo-item block">学校：学校名称</p>
           </div>
