@@ -35,12 +35,14 @@ export default {
         },
         value:{
             type:String,
-            required:true,
+            required:false
         }
     },
-    type: {
-      type: String,
-      required: true
+    data() {
+        return {
+            sendText:'发送验证码',
+            time:60
+        }
     },
     methods:{
         trigger() {
@@ -65,65 +67,37 @@ export default {
             this.$emit('input',e.target.value);
         }
     }
-  },
-  data() {
-    return {
-      sendText: "发送验证码",
-      time: 60,
-      msg: ""
-    };
-  },
-  methods: {
-    trigger() {
-      this.$emit("trigger");
-    },
-    sendCode() {
-      if (this.time == 60) {
-        this.sendText = `${this.time}s后重发`;
-        const interval = setInterval(() => {
-          if (this.time == 1) {
-            clearInterval(interval);
-            this.time = 60;
-            this.sendText = "发送验证码";
-            return false;
-          }
-          this.time--;
-          this.sendText = `${this.time}s后重发`;
-        }, 1000);
-      }
-    }
-  }
-};
+}
 </script>
 <style scoped>
 .input-wrapper {
-  position: relative;
-  color: #000000;
-  background: #fff3cf;
-  min-width: 10rem;
-  height: 2.5rem;
-  border-radius: 0.2rem;
-  padding: 0 0.5rem;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0.6rem 0.4rem;
-  white-space: nowrap;
+    position: relative;
+    color: #000000;
+    background: #fff3cf;
+    min-width: 10rem;
+    height: 2.5rem;
+    border-radius: 0.2rem;
+    padding: 0 0.5rem;
+    display:inline-block;
+    vertical-align: top;
+    margin: 0.6rem 0.4rem;
+    white-space: nowrap;
 }
-.input-item {
-  display: inline-block;
-  border: none;
-  background: transparent;
-  height: 100%;
-  outline: 0;
+.input-item{
+    display: inline-block;
+    border: none;
+    background: transparent;
+    height: 100%;
+    outline: 0;
 }
-.pointer {
-  cursor: pointer;
+.pointer{
+    cursor: pointer;            
 }
 span.send-code {
-  color: #884f1e;
-  position: absolute;
-  right: 0.5rem;
-  top: 0.9rem;
-  font-size: 0.8rem;
+    color: #884f1e;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.9rem;
+    font-size: 0.8rem;
 }
 </style>
