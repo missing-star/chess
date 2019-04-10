@@ -77,6 +77,7 @@ export default {
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
             showChessTablePanel:false,
+            showSelectHomeworkPanel:false,
             showNoticeDetailPanel:false,
             showTipsPanel:false,
             roomList:[
@@ -140,6 +141,12 @@ export default {
         hideChessTablePanel() {
             this.showChessTablePanel = false;
         },
+        openSelectHomeworkPanel() {
+            this.showSelectHomeworkPanel = true;
+        },
+        hideSelectHomeworkPanel() {
+            this.showSelectHomeworkPanel = false;
+        },
         openNoticeDetailPanel() {
             this.showNoticeDetailPanel = true;
         },
@@ -185,6 +192,7 @@ export default {
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
         [ChessTablePanel.name]:ChessTablePanel,
+        [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,
         [TipsPanel.name]:TipsPanel
     }

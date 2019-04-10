@@ -10,7 +10,7 @@
             </div>
         </div>
         <!-- 学生管理 -->
-        <chess-manage-student-panel @open-assign-homework="openSelectHomeworkPanel" @open-check-homework="openCheckHomeworkPanel" @open-add-student="openAddStudentPanel" @open-student-detail="openStudentDetailPanel" @open-create-grade="openCreateGradePanel" :is-show="showManageStudentPanel" @hide="hideManageStudentPanel"></chess-manage-student-panel>
+        <chess-manage-student-panel @open-check-homework="openCheckHomeworkPanel" @open-add-student="openAddStudentPanel" @open-student-detail="openStudentDetailPanel" @open-create-grade="openCreateGradePanel" :is-show="showManageStudentPanel" @hide="hideManageStudentPanel"></chess-manage-student-panel>
         <!-- 学生详情（作业） -->
         <chess-student-detail-panel :stu-id="selectedStuId" @hide="hideStudentDetailPanel" :isShow="showStudentDetailPanel"></chess-student-detail-panel>
         <!-- 学生详情（个人信息） -->
@@ -106,7 +106,6 @@ export default {
         },
         hideSelectHomeworkPanel() {
             this.showSelectHomeworkPanel = false;
-            this.showManageStudentPanel = true;
         }
     },
     components:{
@@ -118,7 +117,7 @@ export default {
         [StudentInfoPanel.name]:StudentInfoPanel,
         [AddStudentPanel.name]:AddStudentPanel,
         [CheckHomeworkPanel.name]:CheckHomeworkPanel,
-        [SelectHomeworkPanel.name]:SelectHomeworkPanel
+        [SelectHomeworkPanel.name]:SelectHomeworkPanel,
     }
 }
 </script>

@@ -78,8 +78,8 @@ export default {
                     teach_bb:this.evaluation
                 }
             }).then((res) => {
-                if(res.data.status == 0) {
-                    alert(res.data.msg);
+                if(res.data.data.status == 0) {
+                    alert(res.data.data.msg);
                 }
             }).catch((err) => {
 

@@ -33,7 +33,7 @@
                         <label class="scroe">分数：</label>
                         <input v-model="score" type="number" class="score-number">
                     </div>
-                    <img src="../assets/images/confirm-btn.png" @click="confirmScore" class="confirm-icon pointer">
+                    <img src="../assets/images/confirm-btn.png" class="confirm-icon pointer">
                 </div>
             </div>
             <div class="race-operation-wrapper">
@@ -41,7 +41,7 @@
                     老师评价
                 </p>
                 <div class="operation-group-btn">
-                    <textarea v-model="evaluation" placeholder="老师，请您简单的给学员评价下作业吧！"></textarea>
+                    <textarea placeholder="老师，请您简单的给学员评价下作业吧！"></textarea>
                 </div>
             </div>
         </div>
@@ -59,31 +59,7 @@ export default {
     },
     data() {
         return {
-            score:'',
-            evaluation:''
-        }
-    },
-    methods:{
-        confirmScore() {
-            if(!parseFloat(this.score) && this.score.trim() == '') {
-                alert('请输入正确的分数!');
-                return false;
-            }
-            this.$axios({
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/edit-task`,
-                method:'post',
-                params:{
-                    task_log_id:this.$route.params.id,
-                    score:this.score,
-                    teach_bb:this.evaluation
-                }
-            }).then((res) => {
-                if(res.data.status == 0) {
-                    alert(res.data.msg);
-                }
-            }).catch((err) => {
-
-            });
+            score:''
         }
     },
     mounted() {

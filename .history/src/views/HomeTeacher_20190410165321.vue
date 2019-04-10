@@ -63,6 +63,7 @@ import NoticePanel from '../components/NoticePanel'
 import PersonalInfoPanel from '../components/PersonalInfoPanel'
 import ManageApprenticePanel from '../components/ManageApprenticePanel'
 import ChessTablePanel from '../components/ChessTablePanel'
+import SelectHomeworkPanel from '../components/SelectHomeworkPanel'
 import TipsPanel from '../components/TipsPanel'
 import CreateTipsPanel from '../components/CreateTipsPanel'
 import NoticeDetailPanel from '../components/NoticeDetailPanel'
@@ -77,6 +78,7 @@ export default {
             showPersonalInfoPanel:false,
             showManageApprenticePanel:false,
             showChessTablePanel:false,
+            showSelectHomeworkPanel:false,
             showNoticeDetailPanel:false,
             showTipsPanel:false,
             roomList:[
@@ -140,6 +142,12 @@ export default {
         hideChessTablePanel() {
             this.showChessTablePanel = false;
         },
+        openSelectHomeworkPanel() {
+            this.showSelectHomeworkPanel = true;
+        },
+        hideSelectHomeworkPanel() {
+            this.showSelectHomeworkPanel = false;
+        },
         openNoticeDetailPanel() {
             this.showNoticeDetailPanel = true;
         },
@@ -185,6 +193,7 @@ export default {
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
         [ChessTablePanel.name]:ChessTablePanel,
+        [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,
         [TipsPanel.name]:TipsPanel
     }

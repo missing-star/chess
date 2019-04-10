@@ -182,11 +182,6 @@ export default {
 
             });
         },
-        //布置作业
-        assignHomework() {
-            this.closeMyself();
-            this.$emit('open-assign-homework');
-        },
         initSwiper() {
             const vm = this;
             new Swiper('.swiper-container',{

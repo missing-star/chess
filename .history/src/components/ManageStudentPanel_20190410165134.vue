@@ -21,7 +21,7 @@
                         <p class="solid-line"></p>
                         <div class="btn-group">
                             <img src="../assets/images/check-homework.png" alt="批改作业" @click="checkHomework" class="check-homework-icon pointer">
-                            <img src="../assets/images/assign-homework.png" alt="布置作业" @click="assignHomework" class="assign-homework-icon pointer">
+                            <img src="../assets/images/assign-homework.png" alt="布置作业" class="assign-homework-icon pointer">
                         </div>
                     </div>
                     <div class="homework-condition-wrapper">
@@ -113,6 +113,27 @@ export default {
         computedLength() {
             return Math.ceil(this.gradeList.length / 4) > 1;
         },
+        openPanel(target) {
+            switch (target) {
+                case 0:
+                    this.closeMyself();
+                    this.$emit('open-log');
+                    break;
+                case 1:
+                    this.closeMyself();
+                    this.$emit('open-ach');
+                    break;
+                break;
+                case 2:
+                    this.closeMyself();
+                    this.$emit('open-homework');
+                    break;
+                break;
+                case 3:
+                    
+                    break;
+            }
+        },
         toggleStudent(id,e) {
             const index = this.selectedList.indexOf(id);
             if(index != -1) {
@@ -181,11 +202,6 @@ export default {
             }).catch((err) => {
 
             });
-        },
-        //布置作业
-        assignHomework() {
-            this.closeMyself();
-            this.$emit('open-assign-homework');
         },
         initSwiper() {
             const vm = this;

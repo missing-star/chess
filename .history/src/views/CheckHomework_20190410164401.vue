@@ -77,13 +77,7 @@ export default {
                     score:this.score,
                     teach_bb:this.evaluation
                 }
-            }).then((res) => {
-                if(res.data.status == 0) {
-                    alert(res.data.msg);
-                }
-            }).catch((err) => {
-
-            });
+            })
         }
     },
     mounted() {

@@ -185,6 +185,7 @@ export default {
         [PersonalInfoPanel.name]:PersonalInfoPanel,
         [ManageApprenticePanel.name]:ManageApprenticePanel,
         [ChessTablePanel.name]:ChessTablePanel,
+        [SelectHomeworkPanel.name]:SelectHomeworkPanel,
         [NoticeDetailPanel.name]:NoticeDetailPanel,
         [TipsPanel.name]:TipsPanel
     }
