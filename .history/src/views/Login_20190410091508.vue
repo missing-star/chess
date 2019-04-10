@@ -17,7 +17,7 @@
                 <div class="register-login-wrapper">
                     <div class="register-register-wrapper">
                         <div class="content" v-if="currentPanel == 0">
-                            <chess-input label="姓名" type="text" width="6rem"></chess-input>
+                            <chess-input v-model="username" label="姓名" type="text" width="6rem"></chess-input>
                             <chess-input @trigger="triggerSelect" label="性别" type="text" width="6rem" readonly></chess-input>
                             <chess-select :option-list="sexList" @select="selectSex" :is-show="showSelect" styles="position:absolute;right:2.2rem;top:5.2rem;"></chess-select>
                             <chess-input label="卡号" type="text" width="6rem"></chess-input>
@@ -124,6 +124,7 @@ export default {
             fetch('')
         },
         register() {
+            console.log(this.username);
             fetch(`${process.env.VUE_APP_URL}/index.php?r=api-student/student-register`,{
                 method:'post',
                 body:{
