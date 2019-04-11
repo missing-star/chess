@@ -71,10 +71,6 @@ export default {
             }
         },
         toggleHomework(id,e) {
-            if(this.selectedList.length == 1) {
-                alert('单选!');
-                return;
-            }
             const index = this.selectedList.indexOf(id);
             if(index != -1) {
                 this.selectedList.splice(index,1);

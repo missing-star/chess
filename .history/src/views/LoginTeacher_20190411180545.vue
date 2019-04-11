@@ -100,7 +100,7 @@ export default {
             this.showSelectRole = false;
             this.role = role == 0 ? {text:'老师',value:0} : {text:'学生',value:1};
             if(role != 0) {
-                this.$router.push({name:'login'});
+                this.$reuter.push({name:'login'});
             }
         },
         forgetPass() {
