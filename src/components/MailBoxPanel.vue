@@ -18,7 +18,12 @@
         <div class="content-wrapper">
           <p class="unread-number">{{mail.length}}</p>
           <ul class="msg-list-wrapper">
-            <li v-for="(item,index) in mail" :key="index" class="msg-item">
+            <li
+              v-for="(item,index) in mail"
+              :key="index"
+              class="msg-item"
+              :class="{invisible:item.is_read != currentTab}"
+            >
               <img
                 src="../assets/images/unread.png"
                 class="unread-icon"
@@ -51,6 +56,19 @@ export default {
     },
     switchTab(index) {
       this.currentTab = index;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/my-message`,
+        data: this.qs.stringify({
+          page: 1
+        })
+      })
+        .then(res => {
+          this.mail = res.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     openTipsPanel(index) {
       this.closeMyself();
@@ -63,20 +81,7 @@ export default {
   },
   mounted() {
     this.showMailPanel = true;
-    this.$axios({
-      method: "post",
-      url: `${process.env.VUE_APP_URL}/index.php?r=api-message/my-message`,
-      data: this.qs.stringify({
-        page: 1
-      })
-    })
-      .then(res => {
-        console.log(res.data);
-        this.mail = res.data.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.switchTab(0)
   }
 };
 </script>
@@ -142,6 +147,11 @@ li.msg-item {
   background-size: 100% 100%;
   padding: 0.8rem 1rem;
 }
+
+li.invisible {
+  display: none;
+}
+
 img.unread-icon {
   position: absolute;
   width: 1.5rem;

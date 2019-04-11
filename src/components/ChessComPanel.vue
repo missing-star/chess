@@ -25,7 +25,9 @@
           </div>
           <div class="userinfo-detail-wrapper">
             <p class="userinfo-item inline">棋力等级：{{information.grade_id}}级</p>
-            <p class="userinfo-item inline">师傅：{{information.master_name?information.master_name:"暂无师傅"}}</p>
+            <p
+              class="userinfo-item inline"
+            >师傅：{{information.master_name?information.master_name:"暂无师傅"}}</p>
             <p class="userinfo-item inline">班级：{{information.class_nickname}}</p>
             <p class="userinfo-item inline">性别：{{information.sex==1?"男":"女"}}</p>
             <p class="userinfo-item block">老师：{{information.teacher_name}}</p>
@@ -41,7 +43,7 @@
 import ChessMask from "./Mask";
 export default {
   name: "chess-com-panel",
-  props: ["is-show","information"],
+  props: ["is-show", "information"],
   data() {
     return {
       categoryList: [
@@ -49,7 +51,7 @@ export default {
         { id: 1, icon: require("../assets/images/我的成就.png") },
         { id: 2, icon: require("../assets/images/我的作业.png") },
         { id: 3, icon: require("../assets/images/自习室.png") }
-      ],
+      ]
     };
   },
   components: {
@@ -76,6 +78,8 @@ export default {
           break;
           break;
         case 3:
+          this.closeMyself();
+          this.$emit("open-self");
           break;
       }
     }

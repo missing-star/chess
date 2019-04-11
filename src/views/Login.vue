@@ -193,8 +193,13 @@ export default {
       this.showSelectRole = !this.showSelectRole;
     },
     selectSex(sex) {
-      this.showSelect = false;
       console.log(sex);
+      this.showSelect = false;
+      if (sex == 0) {
+        this.sex = "男";
+      } else {
+        this.sex = "女";
+      }
     },
     swicthLoginPanel(index) {
       this.currentPanel = index;
@@ -202,6 +207,13 @@ export default {
     selectRole(role) {
       this.showSelectRole = false;
       console.log(role);
+      if (role == 0) {
+        this.role = "老师";
+        this.$router.push("/login-teacher");
+      } else {
+        this.role = "学生";
+        this.$router.push("/login-teacher");
+      }
     },
     forgetPass() {
       this.currentPanel = 2;
@@ -235,12 +247,17 @@ export default {
     register() {
       if (
         this.username != "" &&
-        // this.sex != "" &&
+        this.sex != "" &&
         this.crad != "" &&
         this.crad_password != "" &&
         this.guardian_phone != "" &&
         this.password != ""
       ) {
+        if (this.sex == "男") {
+          this.sex = 0;
+        } else {
+          this.sex = 1;
+        }
         this.$axios({
           method: "post",
           url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/student-register`,
@@ -297,8 +314,8 @@ export default {
             .catch(function(err) {
               console.log(err);
             });
-        }else {
-          alert("密码输入不一致，请重新输入")
+        } else {
+          alert("密码输入不一致，请重新输入");
         }
       } else {
         alert("请把信息填写完整!!!");

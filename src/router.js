@@ -88,7 +88,7 @@ export default new Router({
       component:CreateChessTable
     },
     {
-      path:'/self-study-room',
+      path:'/self-study-room/:id/',
       name:'self-study-room',
       component:SelfStudyRoom
     },

@@ -97,6 +97,7 @@
       @open-homework="openHomeworkPanel"
       @open-ach="openAchievePanel"
       @open-log="openGrowthLogPanel"
+      @open-self="openSelfStudyPanel"
       @hide="hideChessComPanel"
       :is-show="showChessComPanel"
       :information="information"
@@ -112,11 +113,23 @@
     <!-- 信件详情 -->
     <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel" :maildetail="maildetail"></chess-tips-panel>
     <!-- 作业框 -->
-    <chess-homework-panel @hide="hideHomeworkPanel" :is-show="showHomeworkPanel"></chess-homework-panel>
+    <chess-homework-panel
+      @hide="hideHomeworkPanel"
+      :is-show="showHomeworkPanel"
+      :workList1="workList1"
+      :workList2="workList2"
+    ></chess-homework-panel>
     <!-- 我的成就 -->
     <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel"></chess-achieve-panel>
     <!-- 自习室弹窗 -->
-    <chess-self-study-panel :is-show="showSelfStudyPanel" @hide="hideSelfStudeyPanel"></chess-self-study-panel>
+    <chess-self-study-panel
+      :is-show="showSelfStudyPanel"
+      @hide="hideSelfStudeyPanel"
+      :gameList1="gameList1"
+      :gameList2="gameList2"
+      :gameList3="gameList3"
+      @open-study-stage-panel="openStudyStagePanel"
+    ></chess-self-study-panel>
     <!-- 自习室阶段弹窗 -->
     <chess-self-study-stage-panel
       :is-show="showSelfStudyStagePanel"
@@ -193,9 +206,14 @@ export default {
       growthLog: [], //成长日志
       noticeDetail: [], //公告栏详情
       petInfo: [], //宠物
-      maildetail:[], //信件详情
-      day_job:'',
-      pass_log:'',
+      maildetail: [], //信件详情
+      workList1: [], //我的作业
+      workList2: [], //我的作业
+      gameList1: [], //自习室分类
+      gameList2: [], //自习室分类
+      gameList3: [], //自习室分类
+      day_job: "",
+      pass_log: ""
     };
   },
   computed: {
@@ -262,7 +280,9 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data);
+          console.log(res.data.data);
+          this.workList1 = res.data.data.list1;
+          this.workList2 = res.data.data.list2;
         })
         .catch(error => {
           console.log(error);
@@ -273,6 +293,7 @@ export default {
       this.openChessComPanel();
     },
     openAchievePanel() {
+      //我的成就
       this.showAchievePanel = true;
     },
     hideAchievePanel() {
@@ -371,18 +392,41 @@ export default {
       this.showNoticeDetailPanel = false;
     },
     openSelfStudyPanel() {
+      //自习室
       this.showSelfStudyPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-end-game/get-cate`,
+        data: this.qs.stringify({})
+      })
+        .then(res => {
+          console.log(res.data)
+          console.log(res.data.data[1].id)
+          this.gameList1 = res.data.data[0];
+          this.gameList2 = res.data.data[1];
+          this.gameList3 = res.data.data[2];
+
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hideSelfStudeyPanel() {
       this.showSelfStudyPanel = false;
+      this.openChessComPanel();
     },
-    openSelfStudyStagePanel() {
+    openStudyStagePanel(index) {
+      //自习室二级页面
       this.showSelfStudyStagePanel = true;
     },
     hideSelfStudyStagePanel() {
+      //关闭自习室三级页面
+      this.openSelfStudyPanel();
+      this.showChessComPanel = false;
       this.showSelfStudyStagePanel = false;
     },
     triggerTask() {
+      //每日任务
       this.isShowTaskPanel = !this.isShowTaskPanel;
       if (this.isShowTaskPanel) {
         this.$axios({
@@ -392,8 +436,8 @@ export default {
         })
           .then(res => {
             console.log(res.data);
-            this.day_job =res.data.data.day_job_count
-            this.pass_log =res.data.data.pass_log_count
+            this.day_job = res.data.data.day_job_count;
+            this.pass_log = res.data.data.pass_log_count;
           })
           .catch(error => {
             console.log(error);
