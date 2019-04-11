@@ -18,7 +18,7 @@
               <div class="exp-progressbar-wrapper">
                 <div class="exp-progressbar growth"></div>
               </div>
-              <p class="exp-progress-value">8 / {{petInfo.grow_num}}</p>
+              <p class="exp-progress-value">5 / {{petInfo.grow_num}}</p>
             </div>
             <div class="pet-name-leve-wrapper">
               <div class="pet-info-item">等级：{{petInfo.grade}}级</div>
@@ -83,23 +83,10 @@ export default {
       this.$emit("hide");
     },
     getOperation(index) {
-        console.log(index)
       if (index != this.currentOperation) {
         this.currentOperation = index;
       }
-      this.$axios({
-        method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
-        data: this.qs.stringify({
-            type:index
-        })
-      })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$emit('getOperation',index)
     }
   },
   props: ["is-show", "petInfo"],

@@ -37,8 +37,8 @@
       </div>
       <ul class="daily-task-category-wrapper" :class="{hide:!isShowTaskPanel}">
         <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
-        <li class="daily-task-category-item">闯关 ( 0 / 3)</li>
-        <li class="daily-task-category-item">在线对战 ( 1 / 4)</li>
+        <li class="daily-task-category-item">闯关 ( {{day_job}} / 3)</li>
+        <li class="daily-task-category-item">在线对战 ( {{pass_log}} / 4)</li>
       </ul>
     </div>
     <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <!-- 我的信件详情 -->
+    <!-- 我的信件 -->
     <chess-mail-box @hide="hideMailPanel" :isShow="showMailPanel" @open-tips-detail="openTipsPanel"></chess-mail-box>
     <!-- 公告栏 -->
     <div class="notice-container" @click="openNoticePanel">
@@ -81,7 +81,12 @@
     <!-- 小象 -->
     <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
     <!-- 我的宠物 -->
-    <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel" :petInfo="petInfo"></chess-pet-panel>
+    <chess-pet-panel
+      :is-show="showPetPanel"
+      @hide="hidePetPanel"
+      :petInfo="petInfo"
+      @getOperation="getOperation"
+    ></chess-pet-panel>
     <!-- 信箱 -->
     <div class="mailbox-wrapper">
       <img src="../assets/images/mailbox.png" @click="openMailPanel">
@@ -104,8 +109,8 @@
     ></chess-growth-panel>
     <!-- 老师列表 -->
     <chess-teacher-list-panel @hide="hideTeacherListPanel" :is-show="showTeacherPanel"></chess-teacher-list-panel>
-    <!-- 信息提示框 -->
-    <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel"></chess-tips-panel>
+    <!-- 信件详情 -->
+    <chess-tips-panel @hide="hideTipsPanel" :is-show="showTipsPanel" :maildetail="maildetail"></chess-tips-panel>
     <!-- 作业框 -->
     <chess-homework-panel @hide="hideHomeworkPanel" :is-show="showHomeworkPanel"></chess-homework-panel>
     <!-- 我的成就 -->
@@ -141,6 +146,7 @@ import TeacherListPanel from "../components/TeacherListPanel";
 import NoticeDetailPanel from "../components/NoticeDetailPanel";
 import SelfStudyPanel from "../components/SelfStudyPanel";
 import SelfStudyStagePanel from "../components/SelfStudyStagePanel";
+import { constants } from "crypto";
 export default {
   data() {
     return {
@@ -186,7 +192,10 @@ export default {
       information: [], //棋社信息
       growthLog: [], //成长日志
       noticeDetail: [], //公告栏详情
-      petInfo:[],
+      petInfo: [], //宠物
+      maildetail:[], //信件详情
+      day_job:'',
+      pass_log:'',
     };
   },
   computed: {
@@ -204,19 +213,6 @@ export default {
     openMailPanel() {
       // 信箱
       this.showMailPanel = true;
-      this.$axios({
-        method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-message/my-message`,
-        data: this.qs.stringify({
-          page: 1
-        })
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          console.log(error);
-        });
     },
     hideMailPanel() {
       this.showMailPanel = false;
@@ -229,7 +225,7 @@ export default {
       this.showNoticePanel = false;
     },
     openTaskPanel() {
-      this.showTaskPanel = true;
+      // this.showTaskPanel = true;
     },
     hideTaskPanel() {
       this.showTaskPanel = false;
@@ -241,11 +237,11 @@ export default {
         method: "post",
         url: `${process.env.VUE_APP_URL}/index.php?r=api-message/message-info`,
         data: this.qs.stringify({
-          id: 1
+          id: index
         })
       })
         .then(res => {
-          console.log(res);
+          this.maildetail = res.data.data;
         })
         .catch(error => {
           console.log(error);
@@ -256,7 +252,21 @@ export default {
       this.showTipsPanel = false;
     },
     openHomeworkPanel() {
+      //我的作业
       this.showHomeworkPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/select-task-notice-log`,
+        data: this.qs.stringify({})
+      })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hideHomeworkPanel() {
       this.showHomeworkPanel = false;
@@ -270,6 +280,7 @@ export default {
       this.openChessComPanel();
     },
     openPetPanel() {
+      //宠物
       this.showPetPanel = true;
       this.$axios({
         method: "post",
@@ -277,8 +288,24 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data);
-          this.petInfo =res.data.data
+          console.log(res.data.data);
+          this.petInfo = res.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getOperation(index) {
+      //宠物互动
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
+        data: this.qs.stringify({
+          type: index
+        })
+      })
+        .then(res => {
+          this.openPetPanel();
         })
         .catch(error => {
           console.log(error);
@@ -357,6 +384,21 @@ export default {
     },
     triggerTask() {
       this.isShowTaskPanel = !this.isShowTaskPanel;
+      if (this.isShowTaskPanel) {
+        this.$axios({
+          method: "post",
+          url: `${process.env.VUE_APP_URL}/index.php?r=api-student/daily-quest`,
+          data: this.qs.stringify({})
+        })
+          .then(res => {
+            console.log(res.data);
+            this.day_job =res.data.data.day_job_count
+            this.pass_log =res.data.data.pass_log_count
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     changeVolume(volume) {
       this.$refs.audio.volume = volume;
