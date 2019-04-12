@@ -43,16 +43,12 @@
         </div>
         <div class="swiper-container swiper-1 swiper-no-swiping">
           <div class="swiper-wrapper wrapper-1">
-            <ul
-              class="task-list-wrapper swiper-slide"
-              v-for="n in Math.ceil(this.gameList1.child.length/ 3)"
-              :key="n"
-            >
+            <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(1/ 3)" :key="n">
               <li
                 v-for="(item,index) in gameList1.child"
                 :key="index"
                 class="task-item"
-                @click="showSelfStudyStagePanel(item.id)"
+                @click="showSelfStudyStagePanel(gameList1.id,item.id)"
               >{{item.name}}</li>
             </ul>
           </div>
@@ -81,12 +77,13 @@
         </div>
         <div class="swiper-container swiper-2 swiper-no-swiping">
           <div class="swiper-wrapper wrapper-2">
-            <ul
-              class="task-list-wrapper swiper-slide"
-              v-for="n in Math.ceil(gameList2.child.length/ 3)"
-              :key="n"
-            >
-              <li v-for="item in gameList2.child" :key="item.id" class="task-item">{{item.name}}</li>
+            <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(1/ 3)" :key="n">
+              <li
+                v-for="item in gameList2.child"
+                :key="item.id"
+                class="task-item"
+                @click="showSelfStudyStagePanel(gameList2.id,item.id)"
+              >{{item.name}}</li>
             </ul>
           </div>
           <div class="swiper-pagination swiper-pagination-2"></div>
@@ -114,12 +111,13 @@
         </div>
         <div class="swiper-container swiper-3 swiper-no-swiping">
           <div class="swiper-wrapper wrapper-3">
-            <ul
-              class="task-list-wrapper swiper-slide"
-              v-for="n in Math.ceil(gameList3.child.length / 3)"
-              :key="n"
-            >
-              <li v-for="item in gameList3.child" :key="item.id" class="task-item">{{item.name}}</li>
+            <ul class="task-list-wrapper swiper-slide" v-for="n in Math.ceil(1 / 3)" :key="n">
+              <li
+                v-for="item in gameList3.child"
+                :key="item.id"
+                class="task-item"
+                @click="showSelfStudyStagePanel(gameList3.id,item.id)"
+              >{{item.name}}</li>
             </ul>
           </div>
           <div class="swiper-pagination swiper-pagination-3"></div>
@@ -172,7 +170,7 @@
 <script>
 import ChessMask from "./Mask";
 import Swiper from "swiper";
-import { constants } from 'crypto';
+import { constants } from "crypto";
 export default {
   name: "chess-self-study-panel",
   props: ["is-show", "gameList1", "gameList2", "gameList3"],
@@ -199,11 +197,10 @@ export default {
     closeMyself() {
       this.$emit("hide");
     },
-    showSelfStudyStagePanel(index) {
+    showSelfStudyStagePanel(id, index) {
       //二级页面
-      console.log(index);
       this.closeMyself();
-      this.$emit("open-study-stage-panel", index);
+      this.$emit("open-study-stage-panel", id, index);
     },
     switchTab(index) {
       if (this.currentIndex != index) {
@@ -277,22 +274,19 @@ export default {
       }
     },
     computedLength1() {
-      return Math.ceil(this.gameList1.child.length / 3) > 1;
+      return Math.ceil(this.taskList1.length / 3) > 1;
     },
     computedLength2() {
-      return Math.ceil(this.gameList2.child.length / 3) > 1;
+      return Math.ceil(this.taskList1.length / 3) > 1;
     },
     computedLength3() {
-      return Math.ceil(this.gameList3.child.length / 3) > 1;
+      return Math.ceil(this.taskList1.length / 3) > 1;
     }
   },
   mounted() {
-    this.isLastPage1 =
-      Math.ceil(this.gameList1.child.length / 3) > 1 ? false : true;
-    this.isLastPage2 =
-      Math.ceil(this.gameList2.child.length / 3) > 1 ? false : true;
-    this.isLastPage3 =
-      Math.ceil(this.gameList3.child.length / 3) > 1 ? false : true;
+    this.isLastPage1 = Math.ceil(this.taskList1.length / 3) > 1 ? false : true;
+    this.isLastPage2 = Math.ceil(this.taskList1.length / 3) > 1 ? false : true;
+    this.isLastPage3 = Math.ceil(this.taskList1.length / 3) > 1 ? false : true;
     this.$nextTick(() => {
       const vm = this;
       new Swiper(".swiper-1", {

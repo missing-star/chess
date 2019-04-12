@@ -52,7 +52,7 @@
                 label="选择身份"
                 type="text"
                 width="100%"
-                v-model="role"
+                v-model="role.text"
               ></chess-input>
               <chess-select
                 :option-list="roleList"
@@ -145,8 +145,9 @@ export default {
   data() {
     return {
       showSelect: false,
-      currentPanel: 0,
+      currentPanel: 1,
       showSelectRole: false,
+      role: "学生",
       sexList: [
         {
           id: 0,
@@ -159,15 +160,15 @@ export default {
       ],
       roleList: [
         {
-          id: 0,
+          id: 1,
           text: "老师"
         },
         {
-          id: 1,
+          id: 0,
           text: "学生"
         }
       ],
-      role: "",
+      role: { text: "学生", value: 0 },
       Eusername: "",
       Epassword: "",
       // 注册
@@ -206,13 +207,12 @@ export default {
     },
     selectRole(role) {
       this.showSelectRole = false;
-      console.log(role);
-      if (role == 0) {
+      if (role == 1) {
         this.role = "老师";
         this.$router.push("/login-teacher");
       } else {
         this.role = "学生";
-        this.$router.push("/login-teacher");
+        this.$router.push("/login");
       }
     },
     forgetPass() {

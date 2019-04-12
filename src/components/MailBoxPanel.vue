@@ -16,7 +16,7 @@
           @click="switchTab(1)"
         >
         <div class="content-wrapper">
-          <p class="unread-number">{{mail.length}}</p>
+          <p class="unread-number" :class="{hide:currentTab == 1}">{{num}}</p>
           <ul class="msg-list-wrapper">
             <li
               v-for="(item,index) in mail"
@@ -47,7 +47,8 @@ export default {
     return {
       currentTab: 0,
       mail: [],
-      hide: false
+      hide: false,
+      num: ""
     };
   },
   methods: {
@@ -65,6 +66,11 @@ export default {
       })
         .then(res => {
           this.mail = res.data.data;
+          var inform = this.mail.filter(item => {
+            return item.is_read == 0;
+          });
+          this.num = inform.length;
+          sessionStorage.setItem("number",inform.length)
         })
         .catch(error => {
           console.log(error);
@@ -81,7 +87,7 @@ export default {
   },
   mounted() {
     this.showMailPanel = true;
-    this.switchTab(0)
+    this.switchTab(0);
   }
 };
 </script>
@@ -169,6 +175,9 @@ p.unread-number {
   line-height: 1.8rem;
   text-align: center;
   color: #ffffff;
+}
+p.hide {
+  display: none;
 }
 p.msg-content {
   display: inline-block;

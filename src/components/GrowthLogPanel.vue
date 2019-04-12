@@ -12,7 +12,7 @@
           <div class="result-all-wrapper">
             <div class="result-item">
               <label class="title">经验值：</label>
-              <p class="show-number">{{growthLog.experience?'growthLog.experience':0}}</p>
+              <p class="show-number">{{growthLog.experience?growthLog.experience:0}}</p>
             </div>
             <div class="result-item">
               <label class="title">对弈局数：</label>

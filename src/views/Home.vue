@@ -90,7 +90,7 @@
     <!-- 信箱 -->
     <div class="mailbox-wrapper">
       <img src="../assets/images/mailbox.png" @click="openMailPanel">
-      <span class="mailbox-number">5</span>
+      <span class="mailbox-number">{{number}}</span>
     </div>
     <!-- 棋社 -->
     <chess-com-panel
@@ -125,9 +125,9 @@
     <chess-self-study-panel
       :is-show="showSelfStudyPanel"
       @hide="hideSelfStudeyPanel"
-      :gameList1="gameList1"
-      :gameList2="gameList2"
-      :gameList3="gameList3"
+      :game-list1="gameList1"
+      :game-list2="gameList2"
+      :game-list3="gameList3"
       @open-study-stage-panel="openStudyStagePanel"
     ></chess-self-study-panel>
     <!-- 自习室阶段弹窗 -->
@@ -196,7 +196,7 @@ export default {
           logo: require("../assets/images/teacher.png")
         },
         {
-          url: "",
+          url: "openSelfStudyPanel",
           name: "自习室",
           icon: require("../assets/images/study-room.png")
         }
@@ -213,7 +213,8 @@ export default {
       gameList2: [], //自习室分类
       gameList3: [], //自习室分类
       day_job: "",
-      pass_log: ""
+      pass_log: "",
+      number: ""
     };
   },
   computed: {
@@ -295,6 +296,17 @@ export default {
     openAchievePanel() {
       //我的成就
       this.showAchievePanel = true;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-pet`,
+        data: this.qs.stringify({})
+      })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     hideAchievePanel() {
       this.showAchievePanel = false;
@@ -309,7 +321,6 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data.data);
           this.petInfo = res.data.data;
         })
         .catch(error => {
@@ -351,7 +362,6 @@ export default {
         data: {},
         dataType: "json",
         success: res => {
-          console.log(res);
           this.growthLog = res.data;
         }
       });
@@ -380,7 +390,6 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data);
           this.noticeDetail = res.data.data;
         })
         .catch(error => {
@@ -400,12 +409,11 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data)
-          console.log(res.data.data[1].id)
+          console.log(res.data);
           this.gameList1 = res.data.data[0];
           this.gameList2 = res.data.data[1];
           this.gameList3 = res.data.data[2];
-
+          console.log(this.gameList1.id);
         })
         .catch(error => {
           console.log(error);
@@ -415,12 +423,12 @@ export default {
       this.showSelfStudyPanel = false;
       this.openChessComPanel();
     },
-    openStudyStagePanel(index) {
+    openStudyStagePanel(id, index) {
       //自习室二级页面
       this.showSelfStudyStagePanel = true;
     },
     hideSelfStudyStagePanel() {
-      //关闭自习室三级页面
+      //关闭自习室二级页面
       this.openSelfStudyPanel();
       this.showChessComPanel = false;
       this.showSelfStudyStagePanel = false;
@@ -462,7 +470,6 @@ export default {
         this.$router.push({ path: url });
       } else {
         this[url]();
-        console.log(url);
       }
       if (url == "openChessComPanel") {
         $.ajax({
@@ -481,11 +488,11 @@ export default {
       //退出登录
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/login-out`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-integral`,
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res);
+          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -508,6 +515,10 @@ export default {
     [NoticeDetailPanel.name]: NoticeDetailPanel,
     [SelfStudyPanel.name]: SelfStudyPanel,
     [SelfStudyStagePanel.name]: SelfStudyStagePanel
+  },
+  created() {
+    this.number = sessionStorage.getItem("number");
+    console.log(this.number);
   }
 };
 </script>
