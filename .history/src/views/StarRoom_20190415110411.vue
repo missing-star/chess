@@ -7,9 +7,9 @@
       <div class="inform_right">
         <ul class="inform_right_uu">
           <li>姓名：{{teacherInfo.admin_name}}</li>
-          <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
+          <li>性别：{{teacherInfo.sex}}</li>
           <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>所属学校：{{teacherInfo.school_id}}</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
@@ -48,7 +49,6 @@
 </template>
 <script>
 import BackButton from "../components/BackButton";
-import Swiper from 'swiper'
 export default {
   data() {
     return {
@@ -95,7 +95,6 @@ export default {
         })
       }).then((res) => {
         this.teacherInfo = res.data.data;
-        this.initSwiper();
       }).catch((err) => {
         alert('服务器异常');
       })
@@ -115,6 +114,7 @@ export default {
               },
               on:{
                   progress: function(progress){
+                    console.log('process...===')
                       if(this.progress == 0) {
                           //无法点击上一页
                           vm.isFirstPage = true;
@@ -228,7 +228,7 @@ div.obeying_master {
 .swiper-slide {
     display: flex;
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: space-around;
     background: transparent;
 }
 .teacher-item{
@@ -241,7 +241,6 @@ div.obeying_master {
   align-items: center;
   justify-content: space-around;
   max-width: 130px;
-  margin:0 1.2%;
 }
 .teacher-item.active{
   background: url(../assets/images/teacher-bg-active.png) no-repeat;
@@ -278,8 +277,5 @@ img.teacher-logo {
 }
 .teacher-item.active p{
   color:#7e4f26;
-}
-.swiper-pagination.swiper-pagination-bullets {
-    display: none;
 }
 </style>

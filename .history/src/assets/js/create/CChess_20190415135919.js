@@ -1225,54 +1225,6 @@ function renderPanel(flag) {
  */
 function resetPanel() {
     renderPanel('default');
-    resetVarible();
-}
-
-/**
- * 后退
- */
-function backRecord() {
-    if (currentIndex.value == -1) return;
-    preOperation = recordList[currentIndex.value];
-    move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true);
-    currentIndex.value -= 1;
-}
-
-/**
- * 前进
- */
-function nextRecord() {
-    if (currentIndex.value == recordList.length - 1) return;
-    currentIndex.value += 1;
-    preOperation = recordList[currentIndex.value];
-    move(preOperation.j, preOperation.i, preOperation.y, preOperation.x, preOperation.eat, true, true);
-}
-
-function resetVarible() {
-    isPutOver.value = false;
-    selectedQi.value = 0;
-    selectedQi.type = '';
-    selectedQi.key = '';
-    showrecordList.splice(0);
-    recordList.splice(0);
-    isBackOrGo = false;
-    source.y = '';
-    source.x = '';
-    source.name = '';
-    source.t = '';
-    record.red = '';
-    record.black = '';
-    preOperation.y = null;
-    preOperation.x = null;
-    preOperation.j = null;
-    preOperation.i = null;
-    preOperation.sourceElem = {};
-    preOperation.targetElem.cla = '';
-    preOperation.targetElem.value = '';
-    preOperation.flag = false;
-    preOperation.eat = null;
-    currentIndex.value = -1;
-    nowWho = 0;
     numberList.red.ju.value = 3;
     numberList.red.ju.counts = 2;
     numberList.red.ma.value = 4;
@@ -1302,6 +1254,26 @@ function resetVarible() {
     numberList.black.zu.counts = 5;
     numberList.black.jiang.value = -7;
     numberList.black.jiang.counts = 1;
+}
+
+/**
+ * 后退
+ */
+function backRecord() {
+    if (currentIndex.value == -1) return;
+    preOperation = recordList[currentIndex.value];
+    move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true);
+    currentIndex.value -= 1;
+}
+
+/**
+ * 前进
+ */
+function nextRecord() {
+    if (currentIndex.value == recordList.length - 1) return;
+    currentIndex.value += 1;
+    preOperation = recordList[currentIndex.value];
+    move(preOperation.j, preOperation.i, preOperation.y, preOperation.x, preOperation.eat, true, true);
 }
 
 export {

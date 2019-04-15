@@ -7,9 +7,9 @@
       <div class="inform_right">
         <ul class="inform_right_uu">
           <li>姓名：{{teacherInfo.admin_name}}</li>
-          <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
+          <li>性别：{{teacherInfo.sex}}</li>
           <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>所属学校：{{teacherInfo.school_id}}</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
@@ -48,7 +49,6 @@
 </template>
 <script>
 import BackButton from "../components/BackButton";
-import Swiper from 'swiper'
 export default {
   data() {
     return {
@@ -95,7 +95,6 @@ export default {
         })
       }).then((res) => {
         this.teacherInfo = res.data.data;
-        this.initSwiper();
       }).catch((err) => {
         alert('服务器异常');
       })
@@ -228,7 +227,7 @@ div.obeying_master {
 .swiper-slide {
     display: flex;
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: space-around;
     background: transparent;
 }
 .teacher-item{
@@ -241,7 +240,6 @@ div.obeying_master {
   align-items: center;
   justify-content: space-around;
   max-width: 130px;
-  margin:0 1.2%;
 }
 .teacher-item.active{
   background: url(../assets/images/teacher-bg-active.png) no-repeat;
@@ -256,18 +254,18 @@ div.obeying_master {
   position: relative;
   top: -10%;
 }
-.pre-wrapper.swiper-button-prev, .next-wrapper.swiper-button-next {
+.pre-wrapper.swiper-button-prev, .pre-wrapper.swiper-button-prev {
     position: absolute;
-    top: -2.2rem !important;
+    top: -2rem !important;
 }
 .pre-wrapper.swiper-button-prev{
   left: 20%;
 }
-.next-wrapper.swiper-button-next{
+.pre-wrapper.swiper-button-prev{
   right: 20%;
 }
 img.page-icon {
-    width: 3rem;
+    width: 2rem;
 }
 img.teacher-logo {
     background: #fff;
@@ -278,8 +276,5 @@ img.teacher-logo {
 }
 .teacher-item.active p{
   color:#7e4f26;
-}
-.swiper-pagination.swiper-pagination-bullets {
-    display: none;
 }
 </style>

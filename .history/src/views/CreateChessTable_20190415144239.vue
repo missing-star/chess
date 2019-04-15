@@ -122,7 +122,7 @@
                         <img src="../assets/images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
-                        <img @click="saveChessMap" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
+                        <img @click="confirm" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
                         <img src="../assets/images/确定-选中.png" alt="确定-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">

@@ -6,20 +6,21 @@
       </div>
       <div class="inform_right">
         <ul class="inform_right_uu">
-          <li>姓名：{{teacherInfo.admin_name}}</li>
-          <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
-          <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>姓名：胡歌</li>
+          <li>性别：男</li>
+          <li>年龄：36</li>
+          <li>所属学校：实心培训机构</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
           <p>
-            {{teacherInfo.describe}}
+            老师个人简介信息
           </p>
         </div>
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
@@ -34,9 +35,9 @@
       <div class="swiper-container swiper-no-swiping">
           <div class="content-wrapper-container swiper-wrapper">
               <div class="swiper-slide" v-for="n in Math.ceil(teacherList.length / 7)" :key="n">
-                  <div @click="selectTeacher(teacher.id)" class="teacher-item pointer" :class="{active:currentId == teacher.id}" v-for="teacher in teacherList.slice(7*(n-1),7*(n-1)+7)" :key="teacher.id">
-                      <img :src="teacher.picture | filterImg" class="teacher-logo">
-                      <p class="teacher-name">{{teacher.admin_name}}</p>
+                  <div class="teacher-item" v-for="item in teacherList.slice(7*(n-1),7*(n-1)+7)" :key="item">
+                      <img src="../assets/images/user-logo.png" class="teacher-logo">
+                      <p class="teacher-name">老师名称</p>
                   </div>
               </div>
           </div>
@@ -48,15 +49,12 @@
 </template>
 <script>
 import BackButton from "../components/BackButton";
-import Swiper from 'swiper'
 export default {
   data() {
     return {
       teacherList:[1,2,3,4,5,6,7,8,9,10,11,12,13],
       isFirstPage:true,
-      isLastPage:false,
-      currentId:'',
-      teacherInfo:''
+      isLastPage:false
     }
   },
   components: {
@@ -64,44 +62,12 @@ export default {
   },
   methods:{
     computedLength() {
-        return Math.ceil(this.teacherList.length / 7) > 1;
+        return Math.ceil(this.teacherList.length / 12) > 1;
     },
-    selectTeacher(id) {
-      console.log(`id=${id},currentId=${this.currentId}`)
-      if(this.currentId != id) {
-        this.getTeacherDetail(id);
-      }
-    },
-    getTeacherList() {
-      this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-lists`,
-        method:'post'
-      }).then((res) => {
-        if(res.data.status == 1) {
-          this.teacherList = res.data.data;
-          this.getTeacherDetail(this.teacherList[0].id);
-        }
-      }).catch((err) => {
-
-      });
-    },
-    getTeacherDetail(id) {
-      this.currentId = id;
-      this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-detail`,
-        method:'post',
-        data:this.qs.stringify({
-          teach_id:id
-        })
-      }).then((res) => {
-        this.teacherInfo = res.data.data;
-        this.initSwiper();
-      }).catch((err) => {
-        alert('服务器异常');
-      })
-    },
-    initSwiper() {
-      this.isLastPage = Math.ceil(this.teacherList.length / 7) > 1 ? false : true;
+    
+  },
+  mounted() {
+    this.isLastPage = Math.ceil(this.teacherList.length / 12) > 1 ? false : true;
       this.$nextTick(() => {
           const vm = this;
           new Swiper('.swiper-container',{
@@ -131,10 +97,6 @@ export default {
               }
           });
       })
-    }
-  },
-  mounted() {
-    this.getTeacherList();
   }
 };
 </script>
@@ -221,65 +183,17 @@ div.obeying_master {
 .teacher-list-wrapper {
     width: 58%;
     margin: 0 auto;
-    margin-top: 4%;
-    height: 11rem;
-    position: relative;
+    margin-top: 4rem;
+    height: 9rem;
 }
 .swiper-slide {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-around;
     background: transparent;
 }
 .teacher-item{
   background: url(../assets/images/teacher-bg.png) no-repeat;
   background-size: 100% 100%;
-  height: 90%;
-  width: calc(100% / 8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  max-width: 130px;
-  margin:0 1.2%;
-}
-.teacher-item.active{
-  background: url(../assets/images/teacher-bg-active.png) no-repeat;
-  background-size: 100% 100%;
-  height: 90%;
-  width: calc(100% / 8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  max-width: 130px;
-  position: relative;
-  top: -10%;
-}
-.pre-wrapper.swiper-button-prev, .next-wrapper.swiper-button-next {
-    position: absolute;
-    top: -2.2rem !important;
-}
-.pre-wrapper.swiper-button-prev{
-  left: 20%;
-}
-.next-wrapper.swiper-button-next{
-  right: 20%;
-}
-img.page-icon {
-    width: 3rem;
-}
-img.teacher-logo {
-    background: #fff;
-    width: 75%;
-}
-.teacher-item p{
-  color: #fff;
-}
-.teacher-item.active p{
-  color:#7e4f26;
-}
-.swiper-pagination.swiper-pagination-bullets {
-    display: none;
 }
 </style>

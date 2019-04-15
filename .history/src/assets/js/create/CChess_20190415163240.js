@@ -1250,29 +1250,8 @@ function nextRecord() {
 
 function resetVarible() {
     isPutOver.value = false;
-    selectedQi.value = 0;
-    selectedQi.type = '';
-    selectedQi.key = '';
     showrecordList.splice(0);
     recordList.splice(0);
-    isBackOrGo = false;
-    source.y = '';
-    source.x = '';
-    source.name = '';
-    source.t = '';
-    record.red = '';
-    record.black = '';
-    preOperation.y = null;
-    preOperation.x = null;
-    preOperation.j = null;
-    preOperation.i = null;
-    preOperation.sourceElem = {};
-    preOperation.targetElem.cla = '';
-    preOperation.targetElem.value = '';
-    preOperation.flag = false;
-    preOperation.eat = null;
-    currentIndex.value = -1;
-    nowWho = 0;
     numberList.red.ju.value = 3;
     numberList.red.ju.counts = 2;
     numberList.red.ma.value = 4;

@@ -9,7 +9,7 @@
           <li>姓名：{{teacherInfo.admin_name}}</li>
           <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
           <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>所属学校：{{teacherInfo.school_id}}</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
