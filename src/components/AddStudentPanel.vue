@@ -49,11 +49,11 @@
 import ChessMask from "./Mask";
 export default {
   name: "chess-add-student-panel",
-  props: ["is-show", "class-id"],
+  props: ["is-show", "class-id","studentList"],
   data() {
     return {
       selectedList: [],
-      studentList: [],
+      // studentList: [],
       keyword: ""
     };
   },
@@ -119,28 +119,27 @@ export default {
           alert("服务器异常");
         });
     },
-    editHomework() {},
     getStudentList() {
-      console.log(this.keyword);
-      this.$axios({
-        method: "post",
-        url: `${
-          process.env.VUE_APP_URL
-        }index.php?r=api-teach/select-not-teach-student-lists`,
-        data: this.qs.stringify({
-          keyword: this.keyword
-        })
-      })
-        .then(res => {
-          console.log(res.data);
-          this.studentList = res.data.data;
-        })
-        .catch(err => {});
+      this.$emit("search")
+      // this.$axios({
+      //   method: "post",
+      //   url: `${
+      //     process.env.VUE_APP_URL
+      //   }index.php?r=api-teach/select-not-teach-student-lists`,
+      //   data: this.qs.stringify({
+      //     keyword: this.keyword
+      //   })
+      // })
+      //   .then(res => {
+      //     console.log(res.data);
+      //     this.studentList = res.data.data;
+      //   })
+      //   .catch(err => {});
     }
   },
   mounted() {
-    this.getStudentList();
-  }
+    // this.getStudentList();
+  },
 };
 </script>
 <style scoped>

@@ -240,7 +240,7 @@ export default {
         .then(res => {
           console.log(res.data);
           this.selectedList = [];
-              this.$axios({
+          this.$axios({
             method: "post",
             url: `${
               process.env.VUE_APP_URL
@@ -350,6 +350,8 @@ export default {
     currentGrade: function() {
       this.$emit("class-change", this.currentGrade);
     }
+  },
+  created() {
   }
 };
 </script>

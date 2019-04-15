@@ -27,7 +27,11 @@
       :isShow="showStudentDetailPanel"
     ></chess-student-detail-panel>
     <!-- 学生详情（个人信息） -->
-    <chess-student-info-panel @hide="hideStudentInfoPanel" :isShow="showStudentInfoPanel" :pupil="pupil"></chess-student-info-panel>
+    <chess-student-info-panel
+      @hide="hideStudentInfoPanel"
+      :isShow="showStudentInfoPanel"
+      :pupil="pupil"
+    ></chess-student-info-panel>
     <!-- 师徒管理 -->
     <chess-manage-apprentice-panel
       @open-student-info-detail="openStudentInfoPanel"
@@ -39,6 +43,8 @@
       :class-id="currentGrade.id"
       @hide="hideAddStudentPanel"
       :isShow="showAddStudentPanel"
+      :studentList="studentList"
+      @search="search"
     ></chess-add-student-panel>
     <!-- 创建班级 -->
     <chess-create-grade-panel @hide="hideCreateGradePanel" :isShow="showCreateGradePanel"></chess-create-grade-panel>
@@ -80,7 +86,8 @@ export default {
         id: "",
         nickname: ""
       },
-      pupil:'',
+      pupil: "",
+      studentList:'',
     };
   },
   methods: {
@@ -138,6 +145,24 @@ export default {
     //添加学生
     openAddStudentPanel(classId) {
       this.showAddStudentPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${
+          process.env.VUE_APP_URL
+        }index.php?r=api-teach/select-not-teach-student-lists`,
+        data: this.qs.stringify({
+          keyword: this.keyword
+        })
+      })
+        .then(res => {
+          console.log(res.data);
+          this.studentList = res.data.data;
+        })
+        .catch(err => {});
+    },
+    // 添加学生搜素
+    search(){
+      this.openAddStudentPanel()
     },
     hideAddStudentPanel() {
       this.showAddStudentPanel = false;

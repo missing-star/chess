@@ -10,7 +10,7 @@
             alt="创建棋谱"
             class="create-table-icon pointer"
           >
-          <p class="delete-wrapper pointer" @click="deteleChessTable">
+          <p class="delete-wrapper pointer" @click="deteleChessTable()">
             <img
               v-show="selectedList.length != 0"
               src="../assets/images/delete-active.png"
@@ -28,8 +28,8 @@
         </div>
         <ul class="task-list-wrapper">
           <li v-for="chess in chessTableList" :key="chess.id" class="task-item">
-            <div class="task-title-wrapper pointer">
-              <p @click="toggleSelect(chess.id,$event)" class="task-title">{{chess.title}}</p>
+            <div class="task-title-wrapper pointer" @click="toggleSelect(chess.id,$event)">
+              <p  class="task-title">{{chess.title}}</p>
               <p class="time">{{chess.create_at | filterTime}}</p>
             </div>
             <div @click="editChessTable(chess.id)" class="finish-status-wrapper">编辑</div>
@@ -64,7 +64,6 @@ export default {
       this.currentIndex = index;
     },
     toggleSelect(id, e) {
-      console.log(id);
       const index = this.selectedList.indexOf(id);
       if (index != -1) {
         this.selectedList.splice(index, 1);
@@ -73,6 +72,8 @@ export default {
         this.selectedList.push(id);
         e.target.parentNode.parentNode.classList.add("active");
       }
+      var str = this.selectedList.toString();
+      sessionStorage.setItem("id", str);
     },
     createChessTable() {
       this.$router.push({
@@ -91,18 +92,34 @@ export default {
     },
     deteleChessTable() {
       //删除棋谱
+      var ids = sessionStorage.getItem("id");
       this.$axios({
         url: `${
           process.env.VUE_APP_URL
-        }/index.php?r=api-teach-chess-manual/get-chess-manual-lists`,
+        }/index.php?r=api-teach-chess-manual/delete-chess-manual`,
         method: "post",
         data: this.qs.stringify({
-          type: 0
+          ids: ids
         })
       })
         .then(res => {
           console.log(res.data);
-          this.chessTableList = res.data.data;
+          this.selectedList = [];
+          this.$axios({
+            url: `${
+              process.env.VUE_APP_URL
+            }/index.php?r=api-teach-chess-manual/get-chess-manual-lists`,
+            method: "post",
+            data: this.qs.stringify({
+              type: 0
+            })
+          })
+            .then(res => {
+              this.chessTableList = res.data.data;
+            })
+            .catch(err => {
+              alert("服务器异常");
+            });
         })
         .catch(err => {
           alert("服务器异常");

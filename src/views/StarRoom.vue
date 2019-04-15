@@ -3,7 +3,7 @@
     <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
-        <img src alt>
+        <img :src="teacherInfo.picture | filterImg" alt>
       </div>
       <div class="inform_right">
         <ul class="inform_right_uu">
@@ -163,10 +163,11 @@ div.inform {
 }
 div.inform_left {
   width: 45%;
-  height: 65%;
+  height: 73%;
   background: url(../assets/images/picture.png) no-repeat;
   background-size: 100% 100%;
   margin-right: 7%;
+  padding: 4% 3%;
 }
 div.inform_right {
   width: 48%;
