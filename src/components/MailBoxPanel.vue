@@ -70,7 +70,7 @@ export default {
             return item.is_read == 0;
           });
           this.num = inform.length;
-          sessionStorage.setItem("number",inform.length)
+          this.$emit("num-length",this.num)
         })
         .catch(error => {
           console.log(error);
@@ -88,7 +88,7 @@ export default {
   mounted() {
     this.showMailPanel = true;
     this.switchTab(0);
-  }
+  },
 };
 </script>
 <style scoped>

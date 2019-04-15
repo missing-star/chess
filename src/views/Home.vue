@@ -58,7 +58,12 @@
     </div>
 
     <!-- 我的信件 -->
-    <chess-mail-box @hide="hideMailPanel" :isShow="showMailPanel" @open-tips-detail="openTipsPanel"></chess-mail-box>
+    <chess-mail-box
+      @hide="hideMailPanel"
+      :isShow="showMailPanel"
+      @open-tips-detail="openTipsPanel"
+      @num-length="numLength"
+    ></chess-mail-box>
     <!-- 公告栏 -->
     <div class="notice-container" @click="openNoticePanel">
       <img src="../assets/images/bulletin-board.png" alt="公告栏">
@@ -120,7 +125,7 @@
       :workList2="workList2"
     ></chess-homework-panel>
     <!-- 我的成就 -->
-    <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel"></chess-achieve-panel>
+    <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel" ></chess-achieve-panel>
     <!-- 自习室弹窗 -->
     <chess-self-study-panel
       :is-show="showSelfStudyPanel"
@@ -211,31 +216,32 @@ export default {
       maildetail: [], //信件详情
       workList1: [], //我的作业
       workList2: [], //我的作业
+      achieve: [], //我的成就
       gameList1: {
-        id:'',
-        list:{
-          child:{}
+        id: "",
+        list: {
+          child: {}
         }
       }, //自习室分类
       gameList2: {
-        id:'',
-        list:{
-          child:{}
+        id: "",
+        list: {
+          child: {}
         }
       }, //自习室分类
       gameList3: {
-        id:'',
-        list:{
-          child:{}
+        id: "",
+        list: {
+          child: {}
         }
       }, //自习室分类
       day_job: "",
       pass_log: "",
       number: "",
       //一级分类
-      mainCatId:'',
+      mainCatId: "",
       //二级分类
-      subCatId:''
+      subCatId: ""
     };
   },
   computed: {
@@ -244,6 +250,9 @@ export default {
     }
   },
   methods: {
+    numLength(id) {
+      this.number = id;
+    },
     gameSet() {
       this.showSetPanel = true;
     },
@@ -319,11 +328,12 @@ export default {
       this.showAchievePanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-pet`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-integral`,
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data)
+          console.log(res.data);
+          this.achieve = res.data.data;
         })
         .catch(error => {
           console.log(error);
@@ -342,6 +352,7 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
+          console.log(res.data);
           this.petInfo = res.data.data;
         })
         .catch(error => {
@@ -431,7 +442,7 @@ export default {
       })
         .then(res => {
           let ids = [];
-          for(let key in res.data.data) {
+          for (let key in res.data.data) {
             ids.push(key);
           }
           this.gameList1.list = res.data.data[ids[0]];
@@ -440,7 +451,7 @@ export default {
           this.gameList2.id = ids[1];
           this.gameList3.list = res.data.data[ids[2]];
           this.gameList3.id = ids[2];
-          console.log(this.gameList1,this.gameList2,this.gameList3);
+          console.log(this.gameList1, this.gameList2, this.gameList3);
         })
         .catch(error => {
           console.log(error);
@@ -544,9 +555,6 @@ export default {
     [NoticeDetailPanel.name]: NoticeDetailPanel,
     [SelfStudyPanel.name]: SelfStudyPanel,
     [SelfStudyStagePanel.name]: SelfStudyStagePanel
-  },
-  created() {
-    this.number = sessionStorage.getItem("number");
   }
 };
 </script>
