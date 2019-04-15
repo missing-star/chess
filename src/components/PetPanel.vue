@@ -11,7 +11,7 @@
               <div class="exp-progressbar-wrapper">
                 <div class="exp-progressbar exp"></div>
               </div>
-              <p class="exp-progress-value">{{petInfo.grow_value}} / 20</p>
+              <p class="exp-progress-value">{{petInfo.grow_value}} / {{petInfo.grade_experience}}</p>
             </div>
             <div class="exp-wrapper">
               <p class="title">成长点：</p>
