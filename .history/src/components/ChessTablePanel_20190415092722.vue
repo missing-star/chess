@@ -194,11 +194,17 @@ export default {
     .checked-icon{
         position: absolute;
         right: 0;
+        background-image:linear-gradient(-180deg, #ff6d20 0%, #ff955d 65%, #ff8240 100%);
         text-align: center;
-        width: 3rem;
+        width: 5.5rem;
+        color:#a97052;
         letter-spacing: 2px;
         cursor: pointer;
-        top: 20%;
+        color:#fcecc1;
+        text-shadow:0 1px 1px #95511b;
+        right: 1rem;
+        border-radius: 0.3rem;
+        top: 30%;
         padding: 0.5rem;
     }
     .finish-status-wrapper {

@@ -191,16 +191,6 @@ export default {
         color: #d2875f;
         position: absolute;
     }
-    .checked-icon{
-        position: absolute;
-        right: 0;
-        text-align: center;
-        width: 3rem;
-        letter-spacing: 2px;
-        cursor: pointer;
-        top: 20%;
-        padding: 0.5rem;
-    }
     .finish-status-wrapper {
         position: absolute;
         right: 0;

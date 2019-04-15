@@ -113,10 +113,7 @@ export default {
         getStudentList() {
             this.$axios({
                 method:'post',
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`,
-                data:this.qs.stringify({
-                    keyword:this.keyword
-                })
+                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`
             }).then((res) => {
                 this.studentList = res.data.data;
             }).catch((err) => {

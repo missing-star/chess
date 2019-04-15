@@ -15,7 +15,7 @@
                 </ul>
             </div>
             <div class="bottom-wrapper">
-                <input @keyup.enter="getAllApprentices" type="text" placeholder="卡号/激活卡/姓名" class="search-input">
+                <input @click.enter="getAllApprentices" type="text" placeholder="卡号/激活卡/姓名" class="search-input">
             </div>
         </div>
         <chess-mask :is-show="isShow"></chess-mask>

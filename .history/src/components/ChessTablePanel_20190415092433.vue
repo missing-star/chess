@@ -126,18 +126,6 @@ export default {
         position: relative;
         padding: 0.5rem;
     }
-    li.task-item .finish-status-wrapper{
-        display: block;
-    }
-    li.task-item .checked-icon{
-        display: none;
-    }
-    li.task-item.active .finish-status-wrapper{
-        display: none;
-    }
-    li.task-item.active .checked-icon{
-        display: block;
-    }
     .task-title-wrapper.active{
         background: greenyellow;
     }
@@ -190,16 +178,6 @@ export default {
         border-bottom-left-radius: 0.2rem;
         color: #d2875f;
         position: absolute;
-    }
-    .checked-icon{
-        position: absolute;
-        right: 0;
-        text-align: center;
-        width: 3rem;
-        letter-spacing: 2px;
-        cursor: pointer;
-        top: 20%;
-        padding: 0.5rem;
     }
     .finish-status-wrapper {
         position: absolute;

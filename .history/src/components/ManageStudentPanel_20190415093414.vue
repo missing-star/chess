@@ -51,18 +51,17 @@
                 <div class="homework-wrapper">
                     <div class="top-wrapper">
                         <img v-if="selectedList.length == 0" src="../assets/images/delete.png" class="delete-icon">
-                        <img @click="deleteStudent" v-else src="../assets/images/delete-active.png" class="delete-icon">
+                        <img v-else src="../assets/images/delete-active.png" class="delete-icon">
                         <p class="top-title">{{currentGrade.nickname}}学生列表</p>
                     </div>
                     <ul class="student-list-wrapper">
                         <li v-for="student in studentList" :key="student.id" class="student-item">
-                            <p @click="toggleStudent(student.id,$event)" class="pointer username">{{student.nickname}}</p>
+                            <p @click="toggleStudent(student.id,$event)" class="username">{{student.nickname}}</p>
                             <span class="level-wrapper">{{student.grade_name}}</span>
                             <span class="dashed-line"><i v-for="n in 5" :key="n" class="dot"></i></span>
                             <img src="../assets/images/homework-icon2.png" class="edit-icon">
                             <span class="not-finish-times">{{student.unfinished_num}}次未完成</span>
                             <button @click="getStudentDetail(student.id)" class="detail-btn pointer"></button>
-                            <img src="../assets/images/checked-homework.png" class="checked-icon">
                         </li>
                     </ul>
                 </div>
@@ -171,9 +170,6 @@ export default {
             }).catch((err) => {
 
             });
-        },
-        deleteStudent() {
-            //删除学生
         },
         getMyGradeList() {
             //获取所有班级列表
@@ -556,9 +552,6 @@ export default {
         align-items: center;
         justify-content: space-between;
     }
-    img.checked-icon {
-        width: 1.8rem;
-    }
     img.delete-icon {
         width: 2rem;
     }
@@ -624,17 +617,5 @@ export default {
         outline: 0;
         width: 3.5rem;
         height: 2rem;
-    }
-    li.student-item button.detail-btn{
-        display: block;
-    }
-    li.student-item .checked-icon{
-        display: none;
-    }
-    li.student-item.active button.detail-btn{
-        display: none;
-    }
-    li.student-item.active .checked-icon{
-        display: block;
     }
 </style>

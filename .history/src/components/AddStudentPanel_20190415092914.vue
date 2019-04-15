@@ -6,7 +6,7 @@
                 <input @keyup.enter="getStudentList" type="text" placeholder="卡号/激活卡/姓名" class="search-input">
                 <ul class="apprentice-wrapper">
                     <li v-for="student in studentList" :key="student.id" class="apprentice-item">
-                        <p class="username pointer">{{student.nickname}}</p>
+                        <p @click="toggleStudent()" class="username pointer">{{student.nickname}}</p>
                         <span class="level-wrapper">{{student.grade_name}}</span>
                         <span class="dashed-line">
                             <i class="dot"></i>

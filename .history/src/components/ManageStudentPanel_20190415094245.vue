@@ -172,9 +172,6 @@ export default {
 
             });
         },
-        deleteStudent() {
-            //删除学生
-        },
         getMyGradeList() {
             //获取所有班级列表
             this.$axios({

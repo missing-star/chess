@@ -3,7 +3,7 @@
         <div class="chess-dialog-body chess-check-homework-body" :class="{'hide':!isShow}">
             <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
-                <input @keyup.enter="getStudentList" type="text" placeholder="卡号/激活卡/姓名" class="search-input">
+                <input @keyup.enter="" type="text" placeholder="卡号/激活卡/姓名" class="search-input">
                 <ul class="apprentice-wrapper">
                     <li v-for="student in studentList" :key="student.id" class="apprentice-item">
                         <p class="username pointer">{{student.nickname}}</p>
@@ -43,8 +43,7 @@ export default {
     data() {
         return {
             selectedList:[],
-            studentList:[],
-            keyword:''
+            studentList:[]
         }
     },
     components:{
@@ -113,10 +112,7 @@ export default {
         getStudentList() {
             this.$axios({
                 method:'post',
-                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`,
-                data:this.qs.stringify({
-                    keyword:this.keyword
-                })
+                url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-not-teach-student-lists`
             }).then((res) => {
                 this.studentList = res.data.data;
             }).catch((err) => {

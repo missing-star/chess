@@ -195,10 +195,11 @@ export default {
         position: absolute;
         right: 0;
         text-align: center;
-        width: 3rem;
+        width: 5.5rem;
         letter-spacing: 2px;
         cursor: pointer;
-        top: 20%;
+        right: 1rem;
+        top: 30%;
         padding: 0.5rem;
     }
     .finish-status-wrapper {

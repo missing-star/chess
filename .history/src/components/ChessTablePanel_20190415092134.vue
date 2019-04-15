@@ -22,7 +22,6 @@
                         <div @click="editChessTable(chess.id)" class="finish-status-wrapper">
                             编辑
                         </div>
-                        <img src="../assets/images/checked-homework.png" class="checked-icon">
                     </li>
                 </ul>
             </div>
@@ -56,11 +55,11 @@ export default {
             const index = this.selectedList.indexOf(id);
             if(index != -1) {
                 this.selectedList.splice(index,1);
-                e.target.parentNode.parentNode.classList.remove('active');
+                e.target.parentNode.classList.remove('active');
             }
             else {
                 this.selectedList.push(id);
-                e.target.parentNode.parentNode.classList.add('active');
+                e.target.parentNode.classList.add('active');
             }
         },
         createChessTable() {
@@ -126,18 +125,6 @@ export default {
         position: relative;
         padding: 0.5rem;
     }
-    li.task-item .finish-status-wrapper{
-        display: block;
-    }
-    li.task-item .checked-icon{
-        display: none;
-    }
-    li.task-item.active .finish-status-wrapper{
-        display: none;
-    }
-    li.task-item.active .checked-icon{
-        display: block;
-    }
     .task-title-wrapper.active{
         background: greenyellow;
     }
@@ -190,16 +177,6 @@ export default {
         border-bottom-left-radius: 0.2rem;
         color: #d2875f;
         position: absolute;
-    }
-    .checked-icon{
-        position: absolute;
-        right: 0;
-        text-align: center;
-        width: 3rem;
-        letter-spacing: 2px;
-        cursor: pointer;
-        top: 20%;
-        padding: 0.5rem;
     }
     .finish-status-wrapper {
         position: absolute;

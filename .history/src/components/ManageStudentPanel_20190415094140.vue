@@ -51,7 +51,7 @@
                 <div class="homework-wrapper">
                     <div class="top-wrapper">
                         <img v-if="selectedList.length == 0" src="../assets/images/delete.png" class="delete-icon">
-                        <img @click="deleteStudent" v-else src="../assets/images/delete-active.png" class="delete-icon">
+                        <img v-else src="../assets/images/delete-active.png" class="delete-icon">
                         <p class="top-title">{{currentGrade.nickname}}学生列表</p>
                     </div>
                     <ul class="student-list-wrapper">
@@ -171,9 +171,6 @@ export default {
             }).catch((err) => {
 
             });
-        },
-        deleteStudent() {
-            //删除学生
         },
         getMyGradeList() {
             //获取所有班级列表
