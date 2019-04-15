@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/mask.css">
+    <link rel="stylesheet" href="./css/create-tips.css">
+    <!-- <link rel="stylesheet" href="./css/create-self-chess.css"> -->
+</head>
+
+<body>
+    <div class="chess-online-race-wrapper" id="app">
+        <div class="left-part-wrapper">
+            <div class="content-wrapper">
+                <p class="title">
+                    对战路线步骤
+                </p>
+                <div class="dashed-line"></div>
+                <ul ref="recordWrapper" class="record-list-wrapper">
+                    <li v-for="(item,index) in showRecordList" :key="index" class="record-item">
+                        <p class="record-item number" :class="{active:index == showRecordList.length - 1}">{{index+1}}
+                        </p>
+                        <p class="record-item detail" :class="{active:index == showRecordList.length - 1}">
+                            <span class="record-item detail red" :class="{active:index == showRecordList.length - 1}">
+                                {{item.red}}
+                            </span>
+                            <span class="split-line"></span>
+                            <span class="record-item detail black" :class="{active:item.black == ''}">
+                                {{item.black == '' ? '等待中' : item.black}}
+                            </span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="middle-part-wrapper">
+            <div class="black-chess-wrapper">
+                <span class="chess-item">
+                    <img @click="chooseQi('black','ju',$event)" src="./images/che2.png" alt="">
+                    <i class="icon-number">{{numberList.black.ju.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','ma',$event)" src="./images/ma2.png" alt="">
+                    <i class="icon-number">{{numberList.black.ma.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','xiang',$event)" src="./images/xiang2.png" alt="">
+                    <i class="icon-number">{{numberList.black.xiang.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','shi',$event)" src="./images/shi2.png" alt="">
+                    <i class="icon-number">{{numberList.black.shi.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','pao',$event)" src="./images/pao2.png" alt="">
+                    <i class="icon-number">{{numberList.black.pao.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','zu',$event)" src="./images/zu.png" alt="">
+                    <i class="icon-number">{{numberList.black.zu.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('black','jiang',$event)" src="./images/jiang.png" alt="">
+                    <i class="icon-number">{{numberList.black.jiang.counts}}</i>
+                </span>
+            </div>
+            <div class="chess-panel" id="space">
+
+            </div>
+            <div class="red-chess-wrapper">
+                <span class="chess-item">
+                    <img @click="chooseQi('red','ju',$event)" src="./images/che1.png" alt="">
+                    <i class="icon-number">{{numberList.red.ju.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','ma',$event)" src="./images/ma1.png" alt="">
+                    <i class="icon-number">{{numberList.red.ma.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','xiang',$event)" src="./images/xiang1.png" alt="">
+                    <i class="icon-number">{{numberList.red.xiang.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','shi',$event)" src="./images/shi1.png" alt="">
+                    <i class="icon-number">{{numberList.red.shi.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','pao',$event)" src="./images/pao1.png" alt="">
+                    <i class="icon-number">{{numberList.red.pao.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','zu',$event)" src="./images/bing.png" alt="">
+                    <i class="icon-number">{{numberList.red.zu.counts}}</i>
+                </span>
+                <span class="chess-item">
+                    <img @click="chooseQi('red','shuai',$event)" src="./images/shuai.png" alt="">
+                    <i class="icon-number">{{numberList.red.shuai.counts}}</i>
+                </span>
+            </div>
+        </div>
+        <div class="right-part-wrapper">
+            <div class="race-operation-wrapper">
+                <p class="title operation">
+                    老师留言
+                </p>
+                <div class="operation-group-btn content">
+                    <textarea v-model="comments" placeholder="老师可在此留言"></textarea>
+                </div>
+            </div>
+            <div class="race-operation-wrapper">
+                <p class="title operation">
+                    操作台
+                </p>
+                <div class="operation-group-btn">
+                    <div class="operation-item pointer">
+                        <img @click="fillUp" src="./images/摆满棋子.png" alt="摆满棋子"
+                            class="operation-item-icon not-active">
+                        <img src="./images/摆满棋子-选中.png" alt="摆满棋子-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="forward" src="./images/前进.png" alt="前进"
+                            class="operation-item-icon not-active">
+                        <img src="./images/前进-选中.png" alt="前进-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="backOff" src="./images/后退.png" alt="后退"
+                            class="operation-item-icon not-active">
+                        <img src="./images/后退-选中.png" alt="后退-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="flip" src="./images/翻转.png" alt="翻转"
+                            class="operation-item-icon not-active">
+                        <img src="./images/翻转-选中.png" alt="翻转-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="reset" src="./images/重置.png" alt="重置"
+                            class="operation-item-icon not-active">
+                        <img src="./images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="saveChessMap" src="./images/确定.png" alt="确定"
+                            class="operation-item-icon not-active">
+                        <img src="./images/确定-选中.png" alt="确定-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item pointer">
+                        <img @click="save" src="./images/保存.png" alt="保存"
+                            class="operation-item-icon not-active">
+                        <img src="./images/保存-选中.png" alt="保存-active" class="operation-item-icon active">
+                    </div>
+                    <div class="operation-item">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 保存棋谱 -->
+        <chess-create-tips-panel @save-chess-table="saveChessTable" @hide="hideCreateTipsPanel"
+            :is-show="showCreateTipsPanel"></chess-create-tips-panel>
+        <!-- <chess-back-button></chess-back-button> -->
+    </div>
+    <script src="./jquery.min.js"></script>
+    <script src="vue.js"></script>
+    <script src="CChess.js"></script>
+    <script src="Mask.js"></script>
+    <script src="CreateTipsPanel.js"></script>
+    <script src="create-self-chess.js"></script>
+</body>
+
+</html>
