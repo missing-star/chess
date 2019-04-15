@@ -102,8 +102,8 @@
                 </p>
                 <div class="operation-group-btn">
                     <div class="operation-item pointer">
-                        <img @click="fillUp" src="../assets/images/摆满棋子.png" alt="摆满棋子" class="operation-item-icon not-active">
-                        <img src="../assets/images/摆满棋子-选中.png" alt="摆满棋子-active" class="operation-item-icon active">
+                        <img v-if="isEmpty" @click="fillUp" src="../assets/images/摆满棋子.png" alt="摆满棋子" class="operation-item-icon not-active">
+                        <img v-else src="../assets/images/摆满棋子-选中.png" alt="摆满棋子-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
                         <img @click="forward" src="../assets/images/前进.png" alt="前进" class="operation-item-icon not-active">
@@ -122,7 +122,7 @@
                         <img src="../assets/images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
-                        <img @click="saveChessMap" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
+                        <img @click="confirm" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
                         <img src="../assets/images/确定-选中.png" alt="确定-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
@@ -130,6 +130,7 @@
                         <img src="../assets/images/保存-选中.png" alt="保存-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item">
+                        <button class="test" @click="testMap">map</button>
                     </div>
                 </div>
             </div>
@@ -157,8 +158,7 @@ export default {
             comments:'',
             selectedQi: selectedQi,
             numberList:numberList,
-            isPutOver:isPutOver,
-            saveMap:[]
+            isPutOver:isPutOver
         }
     },
     methods:{
@@ -184,10 +184,16 @@ export default {
         fillUp:initAll,
         // 前进
         forward(e) {
+            // if(currentIndex == recordList.length - 1) {
+            //     this.addActive(e.target.parentNode);
+            // }
             nextRecord();
         },
         //后退
         backOff(e) {
+            // if(this.currentIndex == -1) {
+            //     this.addActive(e.target.parentNode);
+            // }
             backRecord();
         },
         //翻转
@@ -196,9 +202,14 @@ export default {
         },
         // 重置
         reset:resetPanel,
+        // 确定
+        confirm(e) {
+            this.addActive(e.target.parentNode);
+        },
         // 保存提示框
         save(e) {
             this.openCreateTipsPanel();
+            // this.addActive(e.target.parentNode);
         },
         openCreateTipsPanel() {
             this.showCreateTipsPanel = true;
@@ -206,25 +217,8 @@ export default {
         hideCreateTipsPanel() {
             this.showCreateTipsPanel = false;
         },
-        calculateMap() {
-            return this.map.every((array) => {
-                return array.every((item) => {
-                    return item == 0;
-                });
-            })
-        },
-        saveChessMap() {
-            if(this.calculateMap()) {
-                alert('请先进行棋面操作!');
-                return false;
-            }
-            //保存棋面
-            this.saveMap = map;
-            this.isPutOver.value = true;
-            alert('保存成功');
-        },
         saveChessTable(type,title) {
-            //保存棋谱（走法，步骤）
+            //保存棋谱
             this.$axios({
                 url:`${process.env.VUE_APP_URL}index.php?r=api-teach-chess-manual/create-chess-manual`,
                 method:'post',
@@ -244,6 +238,16 @@ export default {
             }).catch((err) => {
                 alert('服务器异常');
             });
+        },
+        isEmpty() {
+            return this.map.every((array) => {
+                return array.every((item) => {
+                    return item == 0;
+                });
+            });
+        },
+        testMap() {
+            console.log(this.map);
         }
     },
     components:{

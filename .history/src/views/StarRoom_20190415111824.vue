@@ -1,6 +1,5 @@
 <template>
   <div class="chess-star-wrapper">
-    <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
         <img src alt>
@@ -10,7 +9,7 @@
           <li>姓名：{{teacherInfo.admin_name}}</li>
           <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
           <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>所属学校：{{teacherInfo.school_id}}</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
@@ -21,6 +20,7 @@
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
@@ -211,13 +211,13 @@ div.inform_right_introduce p:nth-child(2) {
 }
 
 div.obeying_master {
-  width: 10%;
-  height: 10%;
-  background: url(../assets/images/拜师.png) no-repeat;
-  background-size: 100% 100%;
-  position: absolute;
-  top: 61%;
-  left: 45%;
+    width: 10%;
+    height: 10%;
+    background: url(../assets/images/拜师.png)no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 61%;
+    left: 45%;
 }
 .teacher-list-wrapper {
     width: 58%;

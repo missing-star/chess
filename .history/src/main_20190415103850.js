@@ -36,7 +36,7 @@ Vue.mixin({
       return `${date.getFullYear()}/${month}/${day}  ${hour}:${minute}:${second}`;
     },
     filterImg(src) {
-      return `${process.env.VUE_APP_URL}${src}`;
+      return `${process.env.VUE_APP_URL.substring(0,src.length-1)}${src}`;
     }
   }
 });

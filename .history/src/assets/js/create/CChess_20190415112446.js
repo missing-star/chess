@@ -1,7 +1,7 @@
 // const socket = new WebSocket('ws://127.0.0.1:8000');
 let counts = 0;
 let isPutOver = {
-    value:false
+    value:true
 };
 let numberList =  {
     red: {
@@ -1225,7 +1225,35 @@ function renderPanel(flag) {
  */
 function resetPanel() {
     renderPanel('default');
-    resetVarible();
+    numberList.red.ju.value = 3;
+    numberList.red.ju.counts = 2;
+    numberList.red.ma.value = 4;
+    numberList.red.counts = 2;
+    numberList.red.xiang.value = 5;
+    numberList.red.xiang.counts = 2;
+    numberList.red.shi.value = 6;
+    numberList.red.shi.counts = 2;
+    numberList.red.pao.value = 2;
+    numberList.red.pao.counts = 2;
+    numberList.red.zu.value = 1;
+    numberList.red.zu.counts = 5;
+    numberList.red.shuai.value = 7;
+    numberList.red.shuai.counts = 1;
+    
+    numberList.black.ju.value = -3;
+    numberList.black.ju.counts = 2;
+    numberList.black.ma.value = -4;
+    numberList.black.counts = 2;
+    numberList.black.xiang.value = -5;
+    numberList.black.xiang.counts = 2;
+    numberList.black.shi.value = -6;
+    numberList.black.shi.counts = 2;
+    numberList.black.pao.value = -2;
+    numberList.black.pao.counts = 2;
+    numberList.black.zu.value = -1;
+    numberList.black.zu.counts = 5;
+    numberList.black.jiang.value = -7;
+    numberList.black.jiang.counts = 1;
 }
 
 /**
@@ -1246,62 +1274,6 @@ function nextRecord() {
     currentIndex.value += 1;
     preOperation = recordList[currentIndex.value];
     move(preOperation.j, preOperation.i, preOperation.y, preOperation.x, preOperation.eat, true, true);
-}
-
-function resetVarible() {
-    isPutOver.value = false;
-    selectedQi.value = 0;
-    selectedQi.type = '';
-    selectedQi.key = '';
-    showrecordList.splice(0);
-    recordList.splice(0);
-    isBackOrGo = false;
-    source.y = '';
-    source.x = '';
-    source.name = '';
-    source.t = '';
-    record.red = '';
-    record.black = '';
-    preOperation.y = null;
-    preOperation.x = null;
-    preOperation.j = null;
-    preOperation.i = null;
-    preOperation.sourceElem = {};
-    preOperation.targetElem.cla = '';
-    preOperation.targetElem.value = '';
-    preOperation.flag = false;
-    preOperation.eat = null;
-    currentIndex.value = -1;
-    nowWho = 0;
-    numberList.red.ju.value = 3;
-    numberList.red.ju.counts = 2;
-    numberList.red.ma.value = 4;
-    numberList.red.ma.counts = 2;
-    numberList.red.xiang.value = 5;
-    numberList.red.xiang.counts = 2;
-    numberList.red.shi.value = 6;
-    numberList.red.shi.counts = 2;
-    numberList.red.pao.value = 2;
-    numberList.red.pao.counts = 2;
-    numberList.red.zu.value = 1;
-    numberList.red.zu.counts = 5;
-    numberList.red.shuai.value = 7;
-    numberList.red.shuai.counts = 1;
-    
-    numberList.black.ju.value = -3;
-    numberList.black.ju.counts = 2;
-    numberList.black.ma.value = -4;
-    numberList.black.ma.counts = 2;
-    numberList.black.xiang.value = -5;
-    numberList.black.xiang.counts = 2;
-    numberList.black.shi.value = -6;
-    numberList.black.shi.counts = 2;
-    numberList.black.pao.value = -2;
-    numberList.black.pao.counts = 2;
-    numberList.black.zu.value = -1;
-    numberList.black.zu.counts = 5;
-    numberList.black.jiang.value = -7;
-    numberList.black.jiang.counts = 1;
 }
 
 export {

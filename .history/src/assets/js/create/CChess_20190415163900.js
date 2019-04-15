@@ -1271,7 +1271,7 @@ function resetVarible() {
     preOperation.targetElem.value = '';
     preOperation.flag = false;
     preOperation.eat = null;
-    currentIndex.value = -1;
+    preOperation.currentIndex.value = -1;
     nowWho = 0;
     numberList.red.ju.value = 3;
     numberList.red.ju.counts = 2;

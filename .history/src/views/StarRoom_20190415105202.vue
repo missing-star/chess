@@ -1,6 +1,5 @@
 <template>
   <div class="chess-star-wrapper">
-    <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
         <img src alt>
@@ -8,9 +7,9 @@
       <div class="inform_right">
         <ul class="inform_right_uu">
           <li>姓名：{{teacherInfo.admin_name}}</li>
-          <li>性别：{{teacherInfo.sex == 1 ? '男' : '女'}}</li>
+          <li>性别：{{teacherInfo.sex}}</li>
           <li>年龄：{{teacherInfo.age}}</li>
-          <li>所属学校：{{teacherInfo.mechanism_name}}</li>
+          <li>所属学校：{{teacherInfo.school_id}}</li>
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
@@ -21,6 +20,7 @@
       </div>
     </div>
     <div class="obeying_master">
+
     </div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
@@ -49,7 +49,6 @@
 </template>
 <script>
 import BackButton from "../components/BackButton";
-import Swiper from 'swiper'
 export default {
   data() {
     return {
@@ -68,7 +67,6 @@ export default {
         return Math.ceil(this.teacherList.length / 7) > 1;
     },
     selectTeacher(id) {
-      console.log(`id=${id},currentId=${this.currentId}`)
       if(this.currentId != id) {
         this.getTeacherDetail(id);
       }
@@ -96,7 +94,6 @@ export default {
         })
       }).then((res) => {
         this.teacherInfo = res.data.data;
-        this.initSwiper();
       }).catch((err) => {
         alert('服务器异常');
       })
@@ -211,64 +208,54 @@ div.inform_right_introduce p:nth-child(2) {
 }
 
 div.obeying_master {
-  width: 10%;
-  height: 10%;
-  background: url(../assets/images/拜师.png) no-repeat;
-  background-size: 100% 100%;
-  position: absolute;
-  top: 61%;
-  left: 45%;
+    width: 10%;
+    height: 10%;
+    background: url(../assets/images/拜师.png)no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 61%;
+    left: 45%;
 }
 .teacher-list-wrapper {
     width: 58%;
     margin: 0 auto;
     margin-top: 4%;
     height: 11rem;
-    position: relative;
 }
 .swiper-slide {
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-around;
     background: transparent;
 }
 .teacher-item{
   background: url(../assets/images/teacher-bg.png) no-repeat;
   background-size: 100% 100%;
-  height: 90%;
+  height: 100%;
   width: calc(100% / 8);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   max-width: 130px;
-  margin:0 1.2%;
 }
 .teacher-item.active{
   background: url(../assets/images/teacher-bg-active.png) no-repeat;
   background-size: 100% 100%;
-  height: 90%;
+  height: 100%;
   width: calc(100% / 8);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   max-width: 130px;
-  position: relative;
-  top: -10%;
 }
-.pre-wrapper.swiper-button-prev, .next-wrapper.swiper-button-next {
+.pre-wrapper.swiper-button-prev, .pre-wrapper.swiper-button-prev {
     position: absolute;
-    top: -2.2rem !important;
-}
-.pre-wrapper.swiper-button-prev{
-  left: 20%;
-}
-.next-wrapper.swiper-button-next{
-  right: 20%;
+    left: 0;
 }
 img.page-icon {
-    width: 3rem;
+    width: 2rem;
 }
 img.teacher-logo {
     background: #fff;
@@ -279,8 +266,5 @@ img.teacher-logo {
 }
 .teacher-item.active p{
   color:#7e4f26;
-}
-.swiper-pagination.swiper-pagination-bullets {
-    display: none;
 }
 </style>

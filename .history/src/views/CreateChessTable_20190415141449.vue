@@ -122,7 +122,7 @@
                         <img src="../assets/images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
-                        <img @click="saveChessMap" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
+                        <img @click="confirm" src="../assets/images/确定.png" alt="确定" class="operation-item-icon not-active">
                         <img src="../assets/images/确定-选中.png" alt="确定-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
@@ -184,10 +184,16 @@ export default {
         fillUp:initAll,
         // 前进
         forward(e) {
+            // if(currentIndex == recordList.length - 1) {
+            //     this.addActive(e.target.parentNode);
+            // }
             nextRecord();
         },
         //后退
         backOff(e) {
+            // if(this.currentIndex == -1) {
+            //     this.addActive(e.target.parentNode);
+            // }
             backRecord();
         },
         //翻转
@@ -196,9 +202,14 @@ export default {
         },
         // 重置
         reset:resetPanel,
+        // 确定
+        confirm(e) {
+            this.addActive(e.target.parentNode);
+        },
         // 保存提示框
         save(e) {
             this.openCreateTipsPanel();
+            // this.addActive(e.target.parentNode);
         },
         openCreateTipsPanel() {
             this.showCreateTipsPanel = true;
@@ -206,18 +217,7 @@ export default {
         hideCreateTipsPanel() {
             this.showCreateTipsPanel = false;
         },
-        calculateMap() {
-            return this.map.every((array) => {
-                return array.every((item) => {
-                    return item == 0;
-                });
-            })
-        },
         saveChessMap() {
-            if(this.calculateMap()) {
-                alert('请先进行棋面操作!');
-                return false;
-            }
             //保存棋面
             this.saveMap = map;
             this.isPutOver.value = true;
