@@ -319,10 +319,11 @@ export default {
       this.showAchievePanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-pet`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-integral`,
         data: this.qs.stringify({})
       })
         .then(res => {
+          console.log(1111)
           console.log(res.data)
         })
         .catch(error => {
