@@ -125,7 +125,7 @@
       :workList2="workList2"
     ></chess-homework-panel>
     <!-- 我的成就 -->
-    <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel" ></chess-achieve-panel>
+    <chess-achieve-panel :is-show="showAchievePanel" @hide="hideAchievePanel"></chess-achieve-panel>
     <!-- 自习室弹窗 -->
     <chess-self-study-panel
       :is-show="showSelfStudyPanel"
@@ -148,6 +148,8 @@
       @hide="hideNoticeDetailPanel"
       :noticeDetail="noticeDetail"
     ></chess-notice-detail-panel>
+
+    <water-box :is-show="showWaterBox" @hide="hideWaterBox"></water-box>
   </div>
 </template>
 <script>
@@ -166,6 +168,7 @@ import TeacherListPanel from "../components/TeacherListPanel";
 import NoticeDetailPanel from "../components/NoticeDetailPanel";
 import SelfStudyPanel from "../components/SelfStudyPanel";
 import SelfStudyStagePanel from "../components/SelfStudyStagePanel";
+import WaterBox from "../components/WaterBox";
 import { constants } from "crypto";
 export default {
   data() {
@@ -185,6 +188,7 @@ export default {
       showNoticeDetailPanel: false,
       showSelfStudyPanel: false,
       showSelfStudyStagePanel: false,
+      showWaterBox: false, //弹框
       roomList: [
         {
           url: "openChessComPanel",
@@ -400,7 +404,7 @@ export default {
     },
     hideGrowthLogPanel() {
       this.showGrowthLogPanel = false;
-      this.openChessComPanel();
+      // this.openChessComPanel();
     },
     openTeacherListPanel() {
       this.showTeacherPanel = true;
@@ -537,6 +541,10 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    hideWaterBox() {
+      //提示框
+      this.showWaterBox = false;
     }
   },
   components: {
@@ -554,7 +562,8 @@ export default {
     [TeacherListPanel.name]: TeacherListPanel,
     [NoticeDetailPanel.name]: NoticeDetailPanel,
     [SelfStudyPanel.name]: SelfStudyPanel,
-    [SelfStudyStagePanel.name]: SelfStudyStagePanel
+    [SelfStudyStagePanel.name]: SelfStudyStagePanel,
+    WaterBox
   }
 };
 </script>

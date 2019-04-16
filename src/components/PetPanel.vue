@@ -7,7 +7,7 @@
           <img src="../assets/images/小象.png" class="pet-logo">
           <div class="pet-level-info">
             <div class="exp-wrapper">
-              <p class="title">经验值：</p>
+              <p class="title">成长值：</p>
               <div class="exp-progressbar-wrapper">
                 <div class="exp-progressbar exp"></div>
               </div>
@@ -18,7 +18,7 @@
               <div class="exp-progressbar-wrapper">
                 <div class="exp-progressbar growth"></div>
               </div>
-              <p class="exp-progress-value">5 / {{petInfo.grow_num}}</p>
+              <p class="exp-progress-value">{{petInfo.grow_num}} /20</p>
             </div>
             <div class="pet-name-leve-wrapper">
               <div class="pet-info-item">等级：{{petInfo.grade}}级</div>
@@ -86,7 +86,7 @@ export default {
       if (index != this.currentOperation) {
         this.currentOperation = index;
       }
-      this.$emit('getOperation',index)
+      this.$emit("getOperation", index);
     }
   },
   props: ["is-show", "petInfo"],
