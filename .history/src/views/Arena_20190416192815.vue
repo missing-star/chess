@@ -10,8 +10,8 @@
             </div>
         </div>
         <chess-online-race-panel :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
-        <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
-        <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
+        <chess-check-point-panel @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
+        <chess-check-point-level :level="selectedLevel" @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
         <chess-back-button></chess-back-button>
     </div>
 </template>
@@ -48,6 +48,7 @@ export default {
         },
         openCheckPointPanel(level,stage) {
             this.selectedLevel = level;
+            console.log('this.selectedLevel='+this.selectedLevel)
             this.showCheckPointPanel = true;
         },
         hideCheckPointPanel() {

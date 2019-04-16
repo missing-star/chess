@@ -80,7 +80,7 @@ const vm = new Vue({
         saveChessTable(title,level_one_id,level_two_id,level_three_id) {
             //保存棋谱（走法，步骤）
             $.ajax({
-                url:`${url}/index.php?r=api/add-game-end`,
+                url:`${url}/index.php?r=question/add-game-end`,
                 type:'post',
                 dataType:'json',
                 data:{
@@ -91,15 +91,6 @@ const vm = new Vue({
                     level_1:level_one_id,
                     level_2:level_two_id,
                     level_3:level_three_id
-                },
-                success:(res) => {
-                    alert(res.msg);
-                    if(res.status == 1) {
-                        this.hideCreateTipsPanel();
-                    }
-                },
-                error:(err) => {
-                    alert('服务器异常');
                 }
             });
         }

@@ -77,10 +77,10 @@ const vm = new Vue({
             this.isPutOver.value = true;
             alert('保存成功');
         },
-        saveChessTable(title,level_one_id,level_two_id,level_three_id) {
+        saveChessTable(title,level) {
             //保存棋谱（走法，步骤）
             $.ajax({
-                url:`${url}/index.php?r=api/add-game-end`,
+                url:`${url}/index.php?r=question/add-game-end`,
                 type:'post',
                 dataType:'json',
                 data:{
@@ -91,15 +91,6 @@ const vm = new Vue({
                     level_1:level_one_id,
                     level_2:level_two_id,
                     level_3:level_three_id
-                },
-                success:(res) => {
-                    alert(res.msg);
-                    if(res.status == 1) {
-                        this.hideCreateTipsPanel();
-                    }
-                },
-                error:(err) => {
-                    alert('服务器异常');
                 }
             });
         }
@@ -123,20 +114,3 @@ const vm = new Vue({
         initChess('default');
     }
 });
-
-/**
- * 获得分类
- */
-function getCategory() {
-    $.ajax({
-        url:`${url}/index.php?r=api-end-game/get-cate`,
-        type:'post',
-        dataType:'json',
-        success:function(data) {
-            
-        },
-        error:function() {
-            alert('服务器异常');
-        }
-    });
-}

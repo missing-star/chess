@@ -62,7 +62,7 @@ export default {
             });
         },
         goCheckPoint(id) {
-            this.$router.push({name:'endgame-challenge',params:{id:id}})
+
         }
     },
     props:['is-show','level'],

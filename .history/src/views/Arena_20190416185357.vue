@@ -6,12 +6,12 @@
                 <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
             </div>
             <div class="category-item">
-                <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
+                <button class="start-game pointer" @click="openCheckPointPanel">象棋闯关</button>
             </div>
         </div>
         <chess-online-race-panel :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
-        <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
-        <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
+        <chess-check-point-panel @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
+        <chess-check-point-level :is-show="showCheckPointLevelPanel"></chess-check-point-level>
         <chess-back-button></chess-back-button>
     </div>
 </template>
@@ -35,8 +35,7 @@ export default {
             isOnline:true,
             socket:null,
             SearchEngine:SearchEngine,
-            searchEngine:'',
-            selectedLevel:''
+            searchEngine:''
         }
     },
     methods:{
@@ -46,24 +45,20 @@ export default {
         hideOnlineRacePanel() {
             this.showOnlineRacePanel = false;
         },
-        openCheckPointPanel(level,stage) {
-            this.selectedLevel = level;
+        openCheckPointPanel() {
             this.showCheckPointPanel = true;
         },
         hideCheckPointPanel() {
             this.showCheckPointPanel = false;
-            this.showCheckPointLevelPanel = true;
         },
         openCheckPointLevelPanel() {
             this.showCheckPointLevelPanel = true;
-        },
-        hideCheckPointLevelPanel() {
-            this.showCheckPointLevelPanel = false;
         },
         closeCheckPointLevelPanel() {
             this.showCheckPointLevelPanel = false;
         },
         goOnlineRace() {
+            console.log('计时')
             this.interval = setInterval(() => {
                 if (this.waitTime >= 15) {
                     // 重新匹配进入人机
@@ -252,8 +247,7 @@ export default {
     components:{
         [BackButton.name]:BackButton,
         [OnlineRacePanel.name]:OnlineRacePanel,
-        [CheckPointPanel.name]:CheckPointPanel,
-        [CheckPointLevel.name]:CheckPointLevel
+        [CheckPointPanel.name]:CheckPointPanel
     }
 }
 </script>

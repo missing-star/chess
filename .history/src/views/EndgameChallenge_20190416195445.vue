@@ -55,7 +55,6 @@ export default {
     created() {
         this.$axios({
             url:`${process.env.VUE_APP_URL}index.php?r=api/add-pass-question-info`,
-            method:'post',
             data:this.qs.stringify({
                 id:this.$route.params.id
             })

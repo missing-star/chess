@@ -42,7 +42,6 @@ Vue.mixin({
 });
 router.beforeEach((to,from,next) => {
   next();
-  return;
   if(!to.meta.flag) {
     next();
   }

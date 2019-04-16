@@ -91,15 +91,6 @@ const vm = new Vue({
                     level_1:level_one_id,
                     level_2:level_two_id,
                     level_3:level_three_id
-                },
-                success:(res) => {
-                    alert(res.msg);
-                    if(res.status == 1) {
-                        this.hideCreateTipsPanel();
-                    }
-                },
-                error:(err) => {
-                    alert('服务器异常');
                 }
             });
         }

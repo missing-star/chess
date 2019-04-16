@@ -13,7 +13,7 @@
             <div class="swiper-container swiper-no-swiping">
                 <div class="content-wrapper-container swiper-wrapper">
                     <div class="swiper-slide" v-for="n in Math.ceil(checkPointList.length / 12)" :key="n">
-                        <div @click="goCheckPoint(item.id)" :class="{six:index == 5}" class="teacher-item pointer" v-for="(item,index) in checkPointList.slice(12*(n-1),12*(n-1)+12)" :key="item.id">
+                        <div @click="goCheckPoing(item.id)" :class="{six:index == 5}" class="teacher-item pointer" v-for="(item,index) in checkPointList.slice(12*(n-1),12*(n-1)+12)" :key="item.id">
                             <img v-if="n==1&&index==0" src="../assets/images/zhan.png" class="teacher-logo">
                             <img v-else src="../assets/images/guan.png" class="teacher-logo">
                             <img v-if="index != checkPointList.slice(12*(n-1),12*(n-1)+12).length - 1" 
@@ -60,9 +60,6 @@ export default {
             }).catch((err) => {
 
             });
-        },
-        goCheckPoint(id) {
-            this.$router.push({name:'endgame-challenge',params:{id:id}})
         }
     },
     props:['is-show','level'],

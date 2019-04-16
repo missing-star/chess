@@ -47,6 +47,7 @@ export default {
             this.showOnlineRacePanel = false;
         },
         openCheckPointPanel(level,stage) {
+            console.log(level,stage)
             this.selectedLevel = level;
             this.showCheckPointPanel = true;
         },
