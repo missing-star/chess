@@ -589,6 +589,7 @@ export default {
       }
     },
     loginOut() {
+      this.$router.push("/login");
       //退出登录
       this.$axios({
         method: "post",
