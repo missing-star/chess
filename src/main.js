@@ -41,6 +41,11 @@ Vue.mixin({
   }
 });
 router.beforeEach((to,from,next) => {
+  console.log(process.env.NODE_ENV);
+  if(process.env.NODE_ENV == 'development') {
+    next();
+    return;
+  }
   if(!to.meta.flag) {
     next();
   }
