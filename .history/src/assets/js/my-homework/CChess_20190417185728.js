@@ -927,7 +927,7 @@ function JSMove(tmap, c, y, x) {
 var isFreeOper = false;
 var map = [];
 var runNow = false;
-var DeBug = true;
+var DeBug = false;
 var preOperation = {
 	y: null,
 	x: null,

@@ -99,7 +99,7 @@ export default {
   },
   mounted() {
     this.getChessDetail(this.$route.params.id);
-    window.onChoseHomeWork = onChose;
+    window.onChoseSelf = onChose;
   },
   created() {
     

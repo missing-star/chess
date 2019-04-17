@@ -1,20 +1,20 @@
 <template>
     <div class="chess-check-homework-panel">
         <div class="chess-dialog-body chess-check-homework-body" :class="{'hide':!isShow}">
-            <img src=../assets/images/close.png" class="mail-box-close" @click="closeMyself">
+            <img src="/images/close.png" class="mail-box-close" @click="closeMyself">
             <div class="content-wrapper-container">
                 <input type="text" placeholder="搜索" class="search-input">
                 <ul class="apprentice-wrapper">
                     <li v-for="homework in homeworkList" :key="homework.id" class="apprentice-item">
                         <p @click="toggleHomework(homework.id,homework.title,homework.desc,$event)" class="homework-name pointer">{{homework.title}}</p>
-                        <img @click="editHomework" src=../assets/images/edit-homework.png" class="check-icon edit pointer">
-                        <img src=../assets/images/checked-homework.png" class="check-icon checked">
+                        <img @click="editHomework" src="/images/edit-homework.png" class="check-icon edit pointer">
+                        <img src="/images/checked-homework.png" class="check-icon checked">
                     </li>
                 </ul>
             </div>
             <div class="bottom-wrapper">
                 <div class="left-part">
-                    <img src=../assets/images/personal-info-logo-wrapper.png" class="logo-wrapper">
+                    <img src="/images/personal-info-logo-wrapper.png" class="logo-wrapper">
                     <div class="grade-info-wrapper">
                         <p class="grade-title">{{className}}</p>
                     </div>
@@ -24,7 +24,7 @@
                     <input placeholder="请输入作业名称" v-model="homeworkName" type="text" class="select-homework-name">
                 </div>
                 <div class="right-part">
-                    <img src=../assets/images/submit-btn.png" @click="assignHomework" class="submit-btn pointer">
+                    <img src="/images/submit-btn.png" @click="assignHomework" class="submit-btn pointer">
                 </div>
             </div>
         </div>

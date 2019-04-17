@@ -323,7 +323,6 @@ function move(y, x, j, i, eat,isBack) {
 	}, 10);
 	setTimeout(function () {
 		trunH();
-		console.log(recordList.length,currentIndex.value);
 		if(currentIndex.value == recordList.length) {
 			console.log('练习结束');
 			alert('练习结束');
@@ -927,7 +926,7 @@ function JSMove(tmap, c, y, x) {
 var isFreeOper = false;
 var map = [];
 var runNow = false;
-var DeBug = true;
+var DeBug = false;
 var preOperation = {
 	y: null,
 	x: null,

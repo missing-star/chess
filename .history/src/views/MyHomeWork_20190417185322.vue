@@ -44,7 +44,7 @@
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList} from "../assets/js/my-homework/CChess";
+import {initChess,onChose,map,recordList} from "../assets/js/self-study/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
@@ -99,7 +99,7 @@ export default {
   },
   mounted() {
     this.getChessDetail(this.$route.params.id);
-    window.onChoseHomeWork = onChose;
+    window.onChoseSelf = onChose;
   },
   created() {
     

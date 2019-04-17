@@ -44,7 +44,7 @@
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList} from "../assets/js/my-homework/CChess";
+import {initChess,onChose,map,recordList} from "../assets/js/self-study/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
@@ -68,12 +68,11 @@ export default {
               task_log_id:id
           })
       }).then((res) => {
-          console.log(res);
           if(res.data.status == 1) {
               this.title = res.data.data.title;
               this.map.splice(0);
               this.recordList.splice(0);
-              JSON.parse(res.data.data.task.chess_manual.data_code).forEach(array => {
+              JSON.parse(res.data.data.data_code).forEach(array => {
                   let temp = [];
                   array.forEach(item => {
                       temp.push(item)
@@ -81,10 +80,10 @@ export default {
                   this.map.push(temp);
               });
               initChess();
-              JSON.parse(res.data.data.task.chess_manual.data_text).forEach(item => {
+              JSON.parse(res.data.data.data_text).forEach(item => {
                   this.recordList.push(item);
               });
-              this.answerList = res.data.data.task.chess_manual.play_log;
+              this.answerList = res.data.data.play_log;
           }
       }).catch((err) => {
           console.log(err);
@@ -99,7 +98,7 @@ export default {
   },
   mounted() {
     this.getChessDetail(this.$route.params.id);
-    window.onChoseHomeWork = onChose;
+    window.onChoseSelf = onChose;
   },
   created() {
     
