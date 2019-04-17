@@ -12,15 +12,15 @@
         </div>
         <div class="user-name-level-wrapper">
           <div class="user-name-wrapper">
-            <p class="username">张宇鑫</p>
-            <span class="nick-level">大师</span>
+            <p class="username">{{studentInfo.nickname}}</p>
+            <span class="nick-level">{{studentInfo.grade_name}}</span>
           </div>
           <div class="progress-wrapper">
             <span class="title">经验:</span>
             <div class="progress-bar-wrapper">
               <div class="progress-bar"></div>
             </div>
-            <p class="level-number">200/300</p>
+            <p class="level-number">{{studentInfo.experience}}/{{studentInfo.total_experience}}</p>
           </div>
         </div>
       </div>
@@ -80,6 +80,7 @@
       @login-out="loginOut"
       :isShow="showSetPanel"
       @change-volume="changeVolume"
+      :studentInfo="studentInfo"
     ></chess-set-panel>
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
@@ -259,7 +260,8 @@ export default {
       //二级分类
       subCatId: "",
       avter: "", //宠物提示图片
-      btnImg: ""
+      btnImg: "",
+      studentInfo:[],//学生信息
     };
   },
   computed: {
@@ -588,10 +590,11 @@ export default {
       //退出登录
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-integral`,
+        url: `${process.env.VUE_APP_URL}index.php?r=api-student/login-out`,
         data: this.qs.stringify({})
       })
         .then(res => {
+          this.$router.push("/home")
           console.log(res.data);
         })
         .catch(error => {
@@ -602,6 +605,23 @@ export default {
       //提示框
       this.showWaterBox = false;
     }
+  },
+  mounted() {
+    获得老师个人信息;
+    this.$axios({
+      method: "post",
+      url: `${process.env.VUE_APP_URL}index.php?r=api-student/student-login`
+    })
+      .then(res => {
+        if (res.data.status == 1) {
+          this.studentInfo = res.data.data;
+        } else {
+          alert("获取老师信息失败");
+        }
+      })
+      .catch(err => {
+        alert("服务器异常");
+      });
   },
   components: {
     [SetButton.name]: SetButton,
