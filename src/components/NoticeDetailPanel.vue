@@ -4,7 +4,7 @@
       <div class="tips-title"></div>
       <img src="../assets/images/close-tips.png" class="mail-box-close" @click="closeMyself">
       <article>
-        <h3 class="article-title">{{noticeDetail.title}}</h3>
+        <!-- <h3 class="article-title">{{noticeDetail.title}}</h3> -->
         <section class="article-content">
           <span>{{noticeDetail.content}}</span>
         </section>

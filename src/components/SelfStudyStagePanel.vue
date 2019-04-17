@@ -12,11 +12,6 @@
             >{{item}}</p>
             <p class="split-line"></p>
           </div>
-          <!-- <p @click="switchCase(1)" class="title pointer" :class="{active:currentIndex == 1}">标题</p>
-          <p class="split-line"></p>
-          <p @click="switchCase(2)" class="title pointer" :class="{active:currentIndex == 2}">标题</p>
-          <p class="split-line"></p>
-          <p @click="switchCase(3)" class="title pointer" :class="{active:currentIndex == 3}">标题</p>-->
         </div>
         <div class="homework-wrapper">
           <ul class="item-list-wrapper">

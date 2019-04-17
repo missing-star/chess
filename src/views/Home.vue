@@ -36,7 +36,7 @@
         >
       </div>
       <ul class="daily-task-category-wrapper" :class="{hide:!isShowTaskPanel}">
-        <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 4 )</li>
+        <li @click="openTaskPanel" class="daily-task-category-item main-category">日常任务( 0 / 2 )</li>
         <li class="daily-task-category-item">闯关 ( {{day_job}} / 3)</li>
         <li class="daily-task-category-item">在线对战 ( {{pass_log}} / 4)</li>
       </ul>
@@ -486,7 +486,7 @@ export default {
         })
       })
         .then(res => {
-          this.noticeDetail = res.data.data;
+          this.noticeDetail = res.data;
         })
         .catch(error => {
           console.log(error);
@@ -610,20 +610,8 @@ export default {
   },
   //获得学生个人信息;
   mounted() {
-    this.$axios({
-      method: "post",
-      url: `${process.env.VUE_APP_URL}index.php?r=api-student/student-login`
-    })
-      .then(res => {
-        if (res.data.status == 1) {
-          this.studentInfo = res.data.data;
-        } else {
-          // alert("获取学生信息失败");
-        }
-      })
-      .catch(err => {
-        alert("服务器异常");
-      });
+    var info =localStorage.getItem("userInfo")
+    this.studentInfo=JSON.parse(info)
   },
   components: {
     [SetButton.name]: SetButton,

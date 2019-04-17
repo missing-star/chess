@@ -239,6 +239,7 @@ export default {
           .then(res => {
             if (res.data.status == 1) {
               this.$router.push("/home");
+              localStorage.setItem("userInfo", JSON.stringify(res.data.data));
             } else {
               alert(res.data.msg);
             }
@@ -335,7 +336,7 @@ export default {
         this.showLoginAlert = false;
       }, 1500);
     }
-  }
+  },
 };
 </script>
 <style scoped>
