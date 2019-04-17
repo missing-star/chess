@@ -105,6 +105,7 @@ export default {
         })
       })
         .then(res => {
+          console.log(res.data)
           this.teacherInfo = res.data.data;
           this.initSwiper();
         })
@@ -165,7 +166,7 @@ export default {
         .then(res => {
           console.log(res.data);
           if (res.data.status == 1) {
-            alert(res.msg);
+            alert(res.data.msg);
           }
         })
         .catch(err => {
