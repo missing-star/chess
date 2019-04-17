@@ -96,7 +96,7 @@ export default new Router({
     },
     {
       path:'/check-homework',
-      name:'check-homework-teacher',
+      name:'check-homework',
       component:CheckHomework,
       meta:{
         flag:'tea'
@@ -120,7 +120,7 @@ export default new Router({
     },
     {
       path:'/create-chess-table',
-      name:'create-chess-table-teacher',
+      name:'create-chess-table',
       component:CreateChessTable,
       meta:{
         flag:'tea'

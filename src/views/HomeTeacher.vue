@@ -81,6 +81,9 @@
       <img src="../assets/images/mailbox.png" @click="openMailPanel">
       <span class="mailbox-number">{{number}}</span>
     </div>
+    <!-- 创建成功提示 -->
+    <!-- <create-sucess :is-show="showCreateSucess" :avter="avter"></create-sucess> -->
+
   </div>
 </template>
 <script>
@@ -93,6 +96,7 @@ import ManageApprenticePanel from "../components/ManageApprenticePanel";
 import ChessTablePanel from "../components/ChessTablePanel";
 import TipsPanel from "../components/TipsPanel";
 import NoticeDetailPanel from "../components/NoticeDetailPanel";
+import CreateSucess from "../components/CreateSucess";
 export default {
   data() {
     return {
@@ -105,6 +109,8 @@ export default {
       showChessTablePanel: false,
       showNoticeDetailPanel: false,
       showTipsPanel: false,
+      showCreateSucess: false,
+      avter: "",
       roomList: [
         {
           url: "/chief-mansion",
@@ -239,10 +245,11 @@ export default {
     [ManageApprenticePanel.name]: ManageApprenticePanel,
     [ChessTablePanel.name]: ChessTablePanel,
     [NoticeDetailPanel.name]: NoticeDetailPanel,
-    [TipsPanel.name]: TipsPanel
+    [TipsPanel.name]: TipsPanel,
+    CreateSucess
   },
   mounted() {
-    //获得老师个人信息
+    获得老师个人信息
     this.$axios({
       method: "post",
       url: `${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-detail`

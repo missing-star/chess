@@ -148,8 +148,16 @@
       @hide="hideNoticeDetailPanel"
       :noticeDetail="noticeDetail"
     ></chess-notice-detail-panel>
-
+    <!-- 成功提示框 -->
     <water-box :is-show="showWaterBox" @hide="hideWaterBox"></water-box>
+    <!-- 宠物提示 -->
+    <create-sucess
+      :is-show="showCreateSucess"
+      :avter="avter"
+      :btnImg="btnImg"
+      :show1="show1"
+      :show="show"
+    ></create-sucess>
   </div>
 </template>
 <script>
@@ -169,6 +177,7 @@ import NoticeDetailPanel from "../components/NoticeDetailPanel";
 import SelfStudyPanel from "../components/SelfStudyPanel";
 import SelfStudyStagePanel from "../components/SelfStudyStagePanel";
 import WaterBox from "../components/WaterBox";
+import CreateSucess from "../components/CreateSucess";
 import { constants } from "crypto";
 export default {
   data() {
@@ -189,6 +198,9 @@ export default {
       showSelfStudyPanel: false,
       showSelfStudyStagePanel: false,
       showWaterBox: false, //弹框
+      showCreateSucess: false,
+      show: false,
+      show1: false,
       roomList: [
         {
           url: "openChessComPanel",
@@ -245,7 +257,9 @@ export default {
       //一级分类
       mainCatId: "",
       //二级分类
-      subCatId: ""
+      subCatId: "",
+      avter: "", //宠物提示图片
+      btnImg: ""
     };
   },
   computed: {
@@ -254,6 +268,12 @@ export default {
     }
   },
   methods: {
+    isClose() {
+      //提示框消失
+      setTimeout(() => {
+        this.showCreateSucess = false;
+      }, 1500);
+    },
     numLength(id) {
       this.number = id;
     },
@@ -363,8 +383,9 @@ export default {
           console.log(error);
         });
     },
+    // 宠物互动
     getOperation(index) {
-      //宠物互动
+      console.log(index);
       this.$axios({
         method: "post",
         url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
@@ -373,6 +394,41 @@ export default {
         })
       })
         .then(res => {
+          if (res.status == 1) {
+            this.show1 = true;
+            if (index == 0) {
+              this.avter = require("../assets/images/喂食成功.png");
+              this.btnImg = require("../assets/images/喂养icon.png");
+            } else if (index == 1) {
+              this.avter = require("../assets/images/对话成功.png");
+              this.btnImg = require("../assets/images/对话icon.png");
+            } else if (index == 2) {
+              this.avter = require("../assets/images/调教成功.png");
+              this.btnImg = require("../assets/images/调教icon.png");
+            } else if (index == 3) {
+              this.avter = require("../assets/images/嬉戏成功.png");
+              this.btnImg = require("../assets/images/嬉戏icon.png");
+            }
+            this.showCreateSucess = true;
+            this.isClose();
+          } else {
+            this.show1 = true;
+            if (index == 0) {
+              this.avter = require("../assets/images/明天1.png");
+              this.btnImg = require("../assets/images/喂养icon.png");
+            } else if (index == 1) {
+              this.avter = require("../assets/images/明天2.png");
+              this.btnImg = require("../assets/images/对话icon.png");
+            } else if (index == 2) {
+              this.avter = require("../assets/images/明天3.png");
+              this.btnImg = require("../assets/images/调教icon.png");
+            } else if (index == 3) {
+              this.avter = require("../assets/images/明天4.png");
+              this.btnImg = require("../assets/images/嬉戏icon.png");
+            }
+            this.showCreateSucess = true;
+            this.isClose();
+          }
           this.openPetPanel();
         })
         .catch(error => {
@@ -563,7 +619,8 @@ export default {
     [NoticeDetailPanel.name]: NoticeDetailPanel,
     [SelfStudyPanel.name]: SelfStudyPanel,
     [SelfStudyStagePanel.name]: SelfStudyStagePanel,
-    WaterBox
+    WaterBox,
+    CreateSucess
   }
 };
 </script>

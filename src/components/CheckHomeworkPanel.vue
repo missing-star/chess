@@ -57,7 +57,7 @@ export default {
             this.$emit('hide');
         },
         checkHomework(id) {
-            this.$router.push({name:'check-homework',params:{id:id}});
+            this.$router.push({name:'check-homework',query:{id:id}});
         }
     }
 }

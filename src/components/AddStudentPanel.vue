@@ -43,22 +43,32 @@
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
+
+    <!-- 创建成功提示 -->
+    <create-sucess :is-show="showCreateSucess" :avter="avter" :show="show" :show1="show1"></create-sucess>
   </div>
 </template>
 <script>
 import ChessMask from "./Mask";
+import CreateSucess from "../components/CreateSucess";
+import { setTimeout } from "timers";
 export default {
   name: "chess-add-student-panel",
-  props: ["is-show", "class-id","studentList"],
+  props: ["is-show", "class-id", "studentList"],
   data() {
     return {
+      showCreateSucess: false, //创建成功
+      show: true,
+      show1:false,
       selectedList: [],
       // studentList: [],
-      keyword: ""
+      keyword: "",
+      avter: ""
     };
   },
   components: {
-    [ChessMask.name]: ChessMask
+    [ChessMask.name]: ChessMask,
+    CreateSucess
   },
   methods: {
     closeMyself() {
@@ -94,6 +104,7 @@ export default {
         this.selectedList.push(id);
       }
     },
+
     confirmAdd() {
       if (this.selectedList.length == 0) {
         alert("请选择学生!");
@@ -110,9 +121,16 @@ export default {
         })
       })
         .then(res => {
-          alert(res.data.msg);
           if (res.data.status == 1) {
+            this.avter = require("../assets/images/添加学员.png");
+            this.showCreateSucess = true;
+            this.isClose();
             this.getStudentList();
+            setTimeout(() => {
+              this.closeMyself();
+            }, 1500);
+          } else {
+            alert(res.data.msg);
           }
         })
         .catch(res => {
@@ -120,25 +138,13 @@ export default {
         });
     },
     getStudentList() {
-      this.$emit("search")
-      // this.$axios({
-      //   method: "post",
-      //   url: `${
-      //     process.env.VUE_APP_URL
-      //   }index.php?r=api-teach/select-not-teach-student-lists`,
-      //   data: this.qs.stringify({
-      //     keyword: this.keyword
-      //   })
-      // })
-      //   .then(res => {
-      //     console.log(res.data);
-      //     this.studentList = res.data.data;
-      //   })
-      //   .catch(err => {});
+      this.$emit("search");
+    },
+    isClose() {
+      setTimeout(() => {
+        this.showCreateSucess = false;
+      }, 1500);
     }
-  },
-  mounted() {
-    // this.getStudentList();
   },
 };
 </script>

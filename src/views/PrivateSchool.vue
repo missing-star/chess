@@ -58,6 +58,9 @@
       :isShow="showSelectHomeworkPanel"
     ></chess-select-homework-panel>
     <chess-back-button></chess-back-button>
+
+    <!-- 创建成功提示 -->
+    <create-sucess :is-show="showCreateSucess" :avter="avter"></create-sucess>
   </div>
 </template>
 <script>
@@ -70,6 +73,7 @@ import StudentDetailPanel from "../components/StudentDetailPanel";
 import AddStudentPanel from "../components/AddStudentPanel";
 import CheckHomeworkPanel from "../components/CheckHomeworkPanel";
 import SelectHomeworkPanel from "../components/SelectHomeworkPanel";
+import CreateSucess from "../components/CreateSucess";
 export default {
   data() {
     return {
@@ -81,13 +85,15 @@ export default {
       showAddStudentPanel: false,
       showCheckHomeworkPanel: false,
       showSelectHomeworkPanel: false,
+      showCreateSucess: false, //创建成功
       selectedStuId: -1,
       currentGrade: {
         id: "",
         nickname: ""
       },
       pupil: "",
-      studentList:'',
+      studentList: "",
+      avter:'',
     };
   },
   methods: {
@@ -161,8 +167,8 @@ export default {
         .catch(err => {});
     },
     // 添加学生搜素
-    search(){
-      this.openAddStudentPanel()
+    search() {
+      this.openAddStudentPanel();
     },
     hideAddStudentPanel() {
       this.showAddStudentPanel = false;
@@ -195,7 +201,8 @@ export default {
     [StudentInfoPanel.name]: StudentInfoPanel,
     [AddStudentPanel.name]: AddStudentPanel,
     [CheckHomeworkPanel.name]: CheckHomeworkPanel,
-    [SelectHomeworkPanel.name]: SelectHomeworkPanel
+    [SelectHomeworkPanel.name]: SelectHomeworkPanel,
+    CreateSucess
   }
 };
 </script>

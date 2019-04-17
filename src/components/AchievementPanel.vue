@@ -153,11 +153,6 @@ export default {
         this.dayDoneTask = res.data.data.dayDoneTask;
         this.game = res.data.data.game;
         this.dayLogin = res.data.data.dayLogin;
-        // this.num = {
-        //   dayDoneTask: res.data.data.dayDoneTask * 1500,
-        //   game: res.data.data.game * 1500,
-        //   dayLogin: res.data.data.dayLogin * 1500
-        // };
         this.option()
       })
       .catch(error => {

@@ -73,7 +73,7 @@ export default {
                 url:`${process.env.VUE_APP_URL}index.php?r=api-teach/edit-task`,
                 method:'post',
                 data:this.qs.stringify({
-                    task_log_id:this.$route.params.id,
+                    task_log_id:this.$route.query.id,
                     score:this.score,
                     teach_bb:this.evaluation
                 })
