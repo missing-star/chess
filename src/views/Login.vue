@@ -129,6 +129,9 @@
         </div>
       </div>
     </div>
+
+    <!-- 创建成功提示 -->
+    <login-alert :is-show="showLoginAlert"></login-alert>
   </div>
 </template>
 <script>
@@ -136,14 +139,17 @@ import Mask from "../components/Mask";
 import Input from "../components/Input";
 import Select from "../components/Select";
 import { constants } from "crypto";
+import LoginAlert from "../components/LoginAlert";
 export default {
   components: {
     [Mask.name]: Mask,
     [Input.name]: Input,
-    [Select.name]: Select
+    [Select.name]: Select,
+    LoginAlert
   },
   data() {
     return {
+      showLoginAlert: false,
       showSelect: false,
       currentPanel: 1,
       showSelectRole: false,
@@ -272,6 +278,9 @@ export default {
         })
           .then(res => {
             if (res.data.status == 1) {
+              this.avter = require("../assets/images/添加学员.png");
+              this.showLoginAlert = true;
+              this.isClose();
               this.currentPanel = 1;
             } else {
               alert(res.data.msg);
@@ -320,6 +329,11 @@ export default {
       } else {
         alert("请把信息填写完整!!!");
       }
+    },
+    isClose() {
+      setTimeout(() => {
+        this.showLoginAlert = false;
+      }, 1500);
     }
   }
 };

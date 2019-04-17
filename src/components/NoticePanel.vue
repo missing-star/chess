@@ -30,7 +30,7 @@
             :class="{invisible:item.type != currentIndex}"
           >
             <!-- <img src="../assets/images/unread.png" class="unread-icon"> -->
-            <p class="msg-content">{{item.content}}</p>
+            <p class="msg-content">{{item.title}}</p>
             <a @click="showNoticeDetail(item.id)" href="javascript:;" class="detail">详情</a>
           </li>
         </ul>

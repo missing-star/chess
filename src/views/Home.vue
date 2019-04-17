@@ -151,6 +151,9 @@
     ></chess-notice-detail-panel>
     <!-- 成功提示框 -->
     <water-box :is-show="showWaterBox" @hide="hideWaterBox"></water-box>
+
+    <!-- 失败提示框 -->
+    <lose-alert :is-show="showLostAlert"></lose-alert>
     <!-- 宠物提示 -->
     <create-sucess
       :is-show="showCreateSucess"
@@ -179,6 +182,8 @@ import SelfStudyPanel from "../components/SelfStudyPanel";
 import SelfStudyStagePanel from "../components/SelfStudyStagePanel";
 import WaterBox from "../components/WaterBox";
 import CreateSucess from "../components/CreateSucess";
+
+import LoseAlert from "../components/LoseAlert"; //失败提示
 import { constants } from "crypto";
 export default {
   data() {
@@ -199,9 +204,10 @@ export default {
       showSelfStudyPanel: false,
       showSelfStudyStagePanel: false,
       showWaterBox: false, //弹框
-      showCreateSucess: false,
+      showCreateSucess: false, //宠物互动提示
+      showLostAlert: true, //失败提示
       show: false,
-      show1: false,
+      show1: true,
       roomList: [
         {
           url: "openChessComPanel",
@@ -261,7 +267,7 @@ export default {
       subCatId: "",
       avter: "", //宠物提示图片
       btnImg: "",
-      studentInfo:[],//学生信息
+      studentInfo: [] //学生信息
     };
   },
   computed: {
@@ -378,7 +384,6 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data);
           this.petInfo = res.data.data;
         })
         .catch(error => {
@@ -397,7 +402,6 @@ export default {
       })
         .then(res => {
           if (res.status == 1) {
-            this.show1 = true;
             if (index == 0) {
               this.avter = require("../assets/images/喂食成功.png");
               this.btnImg = require("../assets/images/喂养icon.png");
@@ -414,7 +418,6 @@ export default {
             this.showCreateSucess = true;
             this.isClose();
           } else {
-            this.show1 = true;
             if (index == 0) {
               this.avter = require("../assets/images/明天1.png");
               this.btnImg = require("../assets/images/喂养icon.png");
@@ -431,7 +434,6 @@ export default {
             this.showCreateSucess = true;
             this.isClose();
           }
-          this.openPetPanel();
         })
         .catch(error => {
           console.log(error);
@@ -472,7 +474,6 @@ export default {
     },
     openNoticeDetailPanel(index) {
       //公告栏详情页
-      console.log(index);
       this.showNoticeDetailPanel = true;
       this.$axios({
         method: "post",
@@ -594,7 +595,7 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          this.$router.push("/home")
+          this.$router.push("/home");
           console.log(res.data);
         })
         .catch(error => {
@@ -606,8 +607,8 @@ export default {
       this.showWaterBox = false;
     }
   },
+  //获得学生个人信息;
   mounted() {
-    获得老师个人信息;
     this.$axios({
       method: "post",
       url: `${process.env.VUE_APP_URL}index.php?r=api-student/student-login`
@@ -616,7 +617,7 @@ export default {
         if (res.data.status == 1) {
           this.studentInfo = res.data.data;
         } else {
-          alert("获取老师信息失败");
+          alert("获取学生信息失败");
         }
       })
       .catch(err => {
@@ -640,7 +641,8 @@ export default {
     [SelfStudyPanel.name]: SelfStudyPanel,
     [SelfStudyStagePanel.name]: SelfStudyStagePanel,
     WaterBox,
-    CreateSucess
+    CreateSucess,
+    LoseAlert
   }
 };
 </script>

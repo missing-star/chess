@@ -83,7 +83,6 @@
     </div>
     <!-- 创建成功提示 -->
     <!-- <create-sucess :is-show="showCreateSucess" :avter="avter"></create-sucess> -->
-
   </div>
 </template>
 <script>
@@ -248,8 +247,8 @@ export default {
     [TipsPanel.name]: TipsPanel,
     CreateSucess
   },
+  // 获得老师个人信息
   mounted() {
-    // 获得老师个人信息
     this.$axios({
       method: "post",
       url: `${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-detail`

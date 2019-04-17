@@ -65,7 +65,6 @@ export default {
         })
       })
         .then(res => {
-          alert(res.data.msg);
           if (res.data.status == 1) {
             this.avter = require("../assets/images/班级创建成功.png");
             this.showCreateSucess = true;
