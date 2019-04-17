@@ -3,7 +3,7 @@
     <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
-        <img :src="teacherInfo.picture | filterImg" alt>
+        <img src="../assets/images/user-logo.png" alt>
       </div>
       <div class="inform_right">
         <ul class="inform_right_uu">
@@ -14,34 +14,38 @@
         </ul>
         <div class="inform_right_introduce">
           <p>简介:</p>
-          <p>
-            {{teacherInfo.describe}}
-          </p>
+          <p>{{teacherInfo.describe}}</p>
         </div>
       </div>
     </div>
-    <div class="obeying_master">
-    </div>
+    <div class="obeying_master" @click="Vteacher"></div>
     <div id="my-chart"></div>
     <div class="teacher-list-wrapper">
       <div class="pre-wrapper swiper-button-prev">
-          <img v-if="isFirstPage" src="../assets/images/arrow-left-disabled.png" class="page-icon">
-          <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
+        <img v-if="isFirstPage" src="../assets/images/arrow-left-disabled.png" class="page-icon">
+        <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
       </div>
       <div class="next-wrapper swiper-button-next">
-          <img v-if="isLastPage" src="../assets/images/arrow-right-disabled.png" class="page-icon">
-          <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
+        <img v-if="isLastPage" src="../assets/images/arrow-right-disabled.png" class="page-icon">
+        <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
       </div>
       <div class="swiper-container swiper-no-swiping">
-          <div class="content-wrapper-container swiper-wrapper">
-              <div class="swiper-slide" v-for="n in Math.ceil(teacherList.length / 7)" :key="n">
-                  <div @click="selectTeacher(teacher.id)" class="teacher-item pointer" :class="{active:currentId == teacher.id}" v-for="teacher in teacherList.slice(7*(n-1),7*(n-1)+7)" :key="teacher.id">
-                      <img :src="teacher.picture | filterImg" class="teacher-logo">
-                      <p class="teacher-name">{{teacher.admin_name}}</p>
-                  </div>
-              </div>
+        <div class="content-wrapper-container swiper-wrapper">
+          <div class="swiper-slide" v-for="n in Math.ceil(teacherList.length / 7)" :key="n">
+            <div
+              @click="selectTeacher(teacher.id)"
+              class="teacher-item pointer"
+              :class="{active:currentId == teacher.id}"
+              v-for="teacher in teacherList.slice(7*(n-1),7*(n-1)+7)"
+              :key="teacher.id"
+            >
+              <img src="../assets/images/user-logo.png" class="teacher-logo">
+              <!-- :src="teacher.picture == null ? '../assets/images/user-logo.png' : teacher.picture.substring(1) | filterImg" -->
+              <p class="teacher-name">{{teacher.admin_name}}</p>
+            </div>
           </div>
-          <div class="swiper-pagination"></div>
+        </div>
+        <div class="swiper-pagination"></div>
       </div>
     </div>
     <chess-back-button></chess-back-button>
@@ -49,89 +53,124 @@
 </template>
 <script>
 import BackButton from "../components/BackButton";
-import Swiper from 'swiper'
+import Swiper from "swiper";
 export default {
   data() {
     return {
-      teacherList:[1,2,3,4,5,6,7,8,9,10,11,12,13],
-      isFirstPage:true,
-      isLastPage:false,
-      currentId:'',
-      teacherInfo:''
-    }
+      teacherList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      isFirstPage: true,
+      isLastPage: false,
+      currentId: "",
+      teacherInfo: ""
+    };
   },
   components: {
     [BackButton.name]: BackButton
   },
-  methods:{
+  methods: {
     computedLength() {
-        return Math.ceil(this.teacherList.length / 7) > 1;
+      return Math.ceil(this.teacherList.length / 7) > 1;
     },
     selectTeacher(id) {
-      console.log(`id=${id},currentId=${this.currentId}`)
-      if(this.currentId != id) {
+      console.log(id);
+      if (this.currentId != id) {
         this.getTeacherDetail(id);
       }
+      sessionStorage.setItem("teachId", id);
     },
     getTeacherList() {
       this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-lists`,
-        method:'post'
-      }).then((res) => {
-        if(res.data.status == 1) {
-          this.teacherList = res.data.data;
-          this.getTeacherDetail(this.teacherList[0].id);
-        }
-      }).catch((err) => {
-
-      });
+        url: `${
+          process.env.VUE_APP_URL
+        }index.php?r=api-teach/select-teach-lists`,
+        method: "post"
+      })
+        .then(res => {
+          if (res.data.status == 1) {
+            this.teacherList = res.data.data;
+            this.getTeacherDetail(this.teacherList[0].id);
+          }
+        })
+        .catch(err => {});
     },
     getTeacherDetail(id) {
       this.currentId = id;
       this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-detail`,
-        method:'post',
-        data:this.qs.stringify({
-          teach_id:id
+        url: `${
+          process.env.VUE_APP_URL
+        }index.php?r=api-teach/select-teach-detail`,
+        method: "post",
+        data: this.qs.stringify({
+          teach_id: id
         })
-      }).then((res) => {
-        this.teacherInfo = res.data.data;
-        this.initSwiper();
-      }).catch((err) => {
-        alert('服务器异常');
       })
+        .then(res => {
+          this.teacherInfo = res.data.data;
+          this.initSwiper();
+        })
+        .catch(err => {
+          alert("服务器异常");
+        });
     },
     initSwiper() {
-      this.isLastPage = Math.ceil(this.teacherList.length / 7) > 1 ? false : true;
+      this.isLastPage =
+        Math.ceil(this.teacherList.length / 7) > 1 ? false : true;
       this.$nextTick(() => {
-          const vm = this;
-          new Swiper('.swiper-container',{
-              watchSlidesProgress:true,
-                pagination: {
-                  el: '.swiper-pagination',
-              },
-              navigation: {
-                  nextEl: '.swiper-button-next',
-                  prevEl: '.swiper-button-prev',
-              },
-              on:{
-                  progress: function(progress){
-                      if(this.progress == 0) {
-                          //无法点击上一页
-                          vm.isFirstPage = true;
-                          if(vm.computedLength()) {
-                              vm.isLastPage = false;
-                          }
-                      }
-                      if(this.progress == 1) {
-                          //无法点击最后一页
-                          vm.isLastPage = true;
-                          vm.isFirstPage = false;
-                      }
-                  }
+        const vm = this;
+        new Swiper(".swiper-container", {
+          watchSlidesProgress: true,
+          pagination: {
+            el: ".swiper-pagination"
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+          },
+          on: {
+            progress: function(progress) {
+              if (this.progress == 0) {
+                //无法点击上一页
+                vm.isFirstPage = true;
+                if (vm.computedLength()) {
+                  vm.isLastPage = false;
+                }
               }
-          });
+              if (this.progress == 1) {
+                //无法点击最后一页
+                vm.isLastPage = true;
+                vm.isFirstPage = false;
+              }
+            }
+          }
+        });
+      });
+    },
+    Vteacher() {
+      //拜师
+      var teacherId = sessionStorage.getItem("teachId");
+      if (sessionStorage.getItem("teachId")) {
+        var teacherId = sessionStorage.getItem("teachId");
+      } else {
+        teacherId = this.teacherList[0].id
+      }
+      this.$axios({
+        url: `${
+          process.env.VUE_APP_URL
+        }/index.php?r=api-student/apprentice-teacher`,
+        method: "post",
+        data: this.qs.stringify({
+          teach_id: teacherId
+        })
       })
+        .then(res => {
+          console.log(res.data);
+          if (res.data.status == 1) {
+            alert(res.msg);
+          }
+        })
+        .catch(err => {
+          alert("服务器异常");
+        });
     }
   },
   mounted() {
@@ -168,6 +207,10 @@ div.inform_left {
   background-size: 100% 100%;
   margin-right: 7%;
   padding: 4% 3%;
+}
+div.inform_left img {
+  width: 100%;
+  height: 100%;
 }
 div.inform_right {
   width: 48%;
@@ -221,19 +264,19 @@ div.obeying_master {
   left: 45%;
 }
 .teacher-list-wrapper {
-    width: 58%;
-    margin: 0 auto;
-    margin-top: 4%;
-    height: 11rem;
-    position: relative;
+  width: 58%;
+  margin: 0 auto;
+  margin-top: 4%;
+  height: 11rem;
+  position: relative;
 }
 .swiper-slide {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background: transparent;
 }
-.teacher-item{
+.teacher-item {
   background: url(../assets/images/teacher-bg.png) no-repeat;
   background-size: 100% 100%;
   height: 90%;
@@ -243,9 +286,9 @@ div.obeying_master {
   align-items: center;
   justify-content: space-around;
   max-width: 130px;
-  margin:0 1.2%;
+  margin: 0 1.2%;
 }
-.teacher-item.active{
+.teacher-item.active {
   background: url(../assets/images/teacher-bg-active.png) no-repeat;
   background-size: 100% 100%;
   height: 90%;
@@ -258,30 +301,31 @@ div.obeying_master {
   position: relative;
   top: -10%;
 }
-.pre-wrapper.swiper-button-prev, .next-wrapper.swiper-button-next {
-    position: absolute;
-    top: -2.2rem !important;
+.pre-wrapper.swiper-button-prev,
+.next-wrapper.swiper-button-next {
+  position: absolute;
+  top: -2.2rem !important;
 }
-.pre-wrapper.swiper-button-prev{
+.pre-wrapper.swiper-button-prev {
   left: 20%;
 }
-.next-wrapper.swiper-button-next{
+.next-wrapper.swiper-button-next {
   right: 20%;
 }
 img.page-icon {
-    width: 3rem;
+  width: 3rem;
 }
 img.teacher-logo {
-    background: #fff;
-    width: 75%;
+  background: #fff;
+  width: 75%;
 }
-.teacher-item p{
+.teacher-item p {
   color: #fff;
 }
-.teacher-item.active p{
-  color:#7e4f26;
+.teacher-item.active p {
+  color: #7e4f26;
 }
 .swiper-pagination.swiper-pagination-bullets {
-    display: none;
+  display: none;
 }
 </style>

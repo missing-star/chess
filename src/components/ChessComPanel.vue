@@ -24,7 +24,7 @@
             <span class="exp-value">{{information.experience?information.experience:0}}/200</span>
           </div>
           <div class="userinfo-detail-wrapper">
-            <p class="userinfo-item inline">棋力等级：{{information.grade_id}}级</p>
+            <p class="userinfo-item inline">棋力等级：{{information.grade_name}}</p>
             <p
               class="userinfo-item inline"
             >师傅：{{information.master_name?information.master_name:"暂无师傅"}}</p>

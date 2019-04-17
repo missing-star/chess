@@ -32,7 +32,7 @@
                     </p>
                 </div>
                 <div class="right-part">
-                    <img src="../assets/images/submit-btn.png" class="submit-btn pointer">
+                    <!-- <img src="../assets/images/submit-btn.png" class="submit-btn pointer"> -->
                 </div>
             </div>
         </div>
