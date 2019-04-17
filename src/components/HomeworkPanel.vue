@@ -20,26 +20,26 @@
       class="chess-dialog-body chess-homework-panel-body"
       :class="{'hide':!isShow,platform:currentIndex == 1}"
     >
-      <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
+      <img src="/images/close.png" class="mail-box-close" @click="closeMyself">
       <!-- tab1 -->
       <div class="content-wrapper-container" :class="{active:currentIndex == 0}">
         <div class="pre-wrapper swiper-button-prev swiper-button-prev-1" id="prev-1">
           <img
             disabled
             v-if="isFirstPage1"
-            src="../assets/images/arrow-left-disabled.png"
+            src="/images/arrow-left-disabled.png"
             class="page-icon"
           >
-          <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
+          <img v-else src="/images/arrow-left-big.png" class="page-icon">
         </div>
         <div class="next-wrapper swiper-button-next swiper-button-next-1" id="next-1">
           <img
             disabled
             v-if="isLastPage1"
-            src="../assets/images/arrow-right-disabled.png"
+            src="/images/arrow-right-disabled.png"
             class="page-icon"
           >
-          <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
+          <img v-else src="/images/arrow-right-big.png" class="page-icon">
         </div>
         <h3 class="title">2份最新作业</h3>
         <div class="swiper-container swiper-1 swiper-no-swiping">
@@ -58,7 +58,7 @@
                   </div>
                 </div>
                 <template v-if="item.score != null">
-                  <img src="../assets/images/homework-icon.png" class="homework-icon">
+                  <img src="/images/homework-icon.png" class="homework-icon">
                   <p class="show-score">{{item.score}}</p>
                 </template>
                 <template v-else>
@@ -69,7 +69,7 @@
                   </div>
                   <div class="finish-status-wrapper">已提交</div>
                   <!-- <div class="finish-status-wrapper not-finished" v-if="item.status == 1">
-                    <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
+                    <img class="go-finish-icon" src="/images/arrow-right-task.png">
                     去完成
                   </div>-->
                 </template>
@@ -85,19 +85,19 @@
           <img
             disabled
             v-if="isFirstPage2"
-            src="../assets/images/arrow-left-disabled.png"
+            src="/images/arrow-left-disabled.png"
             class="page-icon"
           >
-          <img v-else src="../assets/images/arrow-left-big.png" class="page-icon">
+          <img v-else src="/images/arrow-left-big.png" class="page-icon">
         </div>
         <div class="next-wrapper swiper-button-next swiper-button-next-2" id="next-2">
           <img
             disabled
             v-if="isLastPage2"
-            src="../assets/images/arrow-right-disabled.png"
+            src="/images/arrow-right-disabled.png"
             class="page-icon"
           >
-          <img v-else src="../assets/images/arrow-right-big.png" class="page-icon">
+          <img v-else src="/images/arrow-right-big.png" class="page-icon">
         </div>
         <h3 class="title">2份最新作业</h3>
         <div class="swiper-container swiper-2 swiper-no-swiping">
@@ -118,7 +118,7 @@
                 <template>
                   <div class="finish-bonus-content">
                     <p class="content-title">
-                      <img src="../assets/images/temp-icon.png" class="bonus-icon">30
+                      <img src="/images/temp-icon.png" class="bonus-icon">30
                     </p>
                   </div>
                   <div class="finish-status-wrapper" v-if="item.status == 0">已提交</div>
@@ -127,12 +127,12 @@
                     v-if="item.status = 2"
                     @click="goWork(item.id)"
                   >
-                    <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
+                    <img class="go-finish-icon" src="/images/arrow-right-task.png">
                     去完成
                   </div>
                 </template>
                 <!-- <template v-else>
-                  <img src="../assets/images/homework-icon.png" class="homework-icon">
+                  <img src="/images/homework-icon.png" class="homework-icon">
                   <p class="show-score">{{item.score}}</p>
                 </template>-->
               </li>
@@ -144,10 +144,10 @@
 
       <!-- <div class="content-wrapper-container" :class="{active:currentIndex == 1}">
                 <div class="pre-wrapper">
-                    <img src="../assets/images/arrow-left-big.png" class="page-icon">
+                    <img src="/images/arrow-left-big.png" class="page-icon">
                 </div>
                 <div class="next-wrapper">
-                    <img src="../assets/images/arrow-right-big.png" class="page-icon">
+                    <img src="/images/arrow-right-big.png" class="page-icon">
                 </div>
                 <h3 class="title">
                     tab2
@@ -165,18 +165,18 @@
                         </div>
                         <template  v-if="item.status != 2">
                             <div class="finish-bonus-content">
-                                <p class="content-title"><img src="../assets/images/temp-icon.png" class="bonus-icon">30</p>
+                                <p class="content-title"><img src="/images/temp-icon.png" class="bonus-icon">30</p>
                             </div>
                             <div class="finish-status-wrapper" v-if="item.status == 0">
                                 已提交
                             </div>
                             <div class="finish-status-wrapper not-finished" v-if="item.status == 1">
-                                <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
+                                <img class="go-finish-icon" src="/images/arrow-right-task.png">
                                 去完成
                             </div>
                         </template>
                         <template v-else>
-                            <img src="../assets/images/homework-icon.png" class="homework-icon">
+                            <img src="/images/homework-icon.png" class="homework-icon">
                             <p class="show-score">{{item.score}}</p>
                         </template>
                     </li>
@@ -272,7 +272,7 @@ export default {
     },
     goWork(id) {
       //前往作业页面
-      this.$router.push("/self-study-room/" + id);
+      this.$router.push({path:`/my-homework/${id}`});
     }
   },
   mounted() {
@@ -327,14 +327,14 @@ div.chess-homework-panel.hide {
   opacity: 0;
 }
 div.chess-homework-panel-body {
-  background: url(../assets/images/homework-bg-1.png) no-repeat,
-    url(../assets/images/notice-bg-color.png) no-repeat;
+  background: url(/images/homework-bg-1.png) no-repeat,
+    url(/images/notice-bg-color.png) no-repeat;
   background-size: 100% 100%, 95% 85%;
   background-position: center, center 80%;
 }
 div.chess-homework-panel-body.platform {
-  background: url(../assets/images/homework-bg-2.png) no-repeat,
-    url(../assets/images/notice-bg-color.png) no-repeat;
+  background: url(/images/homework-bg-2.png) no-repeat,
+    url(/images/notice-bg-color.png) no-repeat;
   background-size: 100% 100%, 95% 85%;
   background-position: center, center 80%;
 }
@@ -349,7 +349,7 @@ div.content-wrapper-container.active {
   display: block;
 }
 div.content-wrapper {
-  background: url(../assets/images/yellow-2.png) no-repeat;
+  background: url(/images/yellow-2.png) no-repeat;
   background-size: 100% 100%;
   width: 98%;
   height: 98%;
@@ -380,7 +380,7 @@ img.mail-box-close {
   top: 15%;
   left: calc(25% + 365px);
   z-index: 2;
-  background: url(../assets/images/homework-tab-2.png) no-repeat;
+  background: url(/images/homework-tab-2.png) no-repeat;
   background-size: 100% 100%;
   width: 15.5rem;
   height: 7.5rem;
@@ -404,7 +404,7 @@ img.mail-box-close {
   top: -100%;
 }
 .tabbar-wrapper.platform {
-  background-image: url(../assets/images/homework-tab-1.png);
+  background-image: url(/images/homework-tab-1.png);
   left: calc(25% + 152px);
   top: 15.2%;
 }
@@ -412,7 +412,7 @@ img.mail-box-close {
   background-image: none;
 }
 h3.title {
-  background: url(../assets/images/title-bg.png) no-repeat;
+  background: url(/images/title-bg.png) no-repeat;
   background-size: 100% 100%;
   width: 18%;
   height: 3rem;
