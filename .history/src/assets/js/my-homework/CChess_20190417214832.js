@@ -220,7 +220,7 @@ function cleanChose() {
 	$(".CS").removeClass('selected');
 }
 
-function move(y, x, j, i, eat,isBack) {
+function move(y, x, j, i, eat,isBack,isNext) {
 	//下棋操作
 	onMove = true;
 	if (eat == null)
@@ -257,16 +257,32 @@ function move(y, x, j, i, eat,isBack) {
             cla = T[1];
             tex = T[0];
         }
+        if (eat == null)
+            Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+        else
+            Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
+        if (recordList[currentIndex.value].targetElem == "" || isNext) {
+            map[j][i] = map[y][x];
+            map[y][x] = 0;
+        } else {
+            map[j][i] = map[y][x];
+            map[y][x] = recordList[currentIndex.value].targetElem.value;
+        }
         $("#CS" + j + "-" + i).html(
-            "<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
+            "<section class='C " + recordList[currentIndex.value].sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
         )
-        if(eat) {
-			console.log('cs'+y+''+x);
-			console.log(preOperation.targetElem);
-			$("#CS" + y + "-" + x).html(
-                "<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
+        //(未吃掉棋子和前进吃掉棋子的情况)
+        if (recordList[currentIndex.value].targetElem.value == 0 || isNext) {
+            $("#CS" + y + "-" + x).html(
+                ""
             )
-		}
+        } else {
+            //后退
+            $("#CS" + y + "-" + x).html(
+                "<section class='C " + recordList[currentIndex.value].targetElem.cla + "'>" + tex + "</section>"
+            )
+        }
+        recordList[currentIndex.value].flag = false;
 	}
 	else {	
 		//保存当前的下棋步骤
@@ -286,7 +302,7 @@ function move(y, x, j, i, eat,isBack) {
             tipsCount++;
 			setTimeout(() => {
 				console.log(preOperation);
-				move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
+				move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.eat,true,true);
 				alert('不建议此走法!');
 			}, 800);
 		}

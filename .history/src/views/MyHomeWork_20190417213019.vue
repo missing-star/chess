@@ -25,7 +25,7 @@
         <div class="operation-group-btn">
           <img @click="reDo" src="../assets/images/重做.png" class="operation-item-btn pointer">
           <img src="../assets/images/保存.png" class="operation-item-btn pointer">
-          <img src="../assets/images/确定.png" class="operation-item-btn pointer">
+          <img src="../assets/images/提交.png" class="operation-item-btn pointer">
           <!-- <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer"> -->
           <!-- <img src="../assets/images/上一题.png" class="operation-item-btn pointer">
           <img src="../assets/images/下一题.png" class="operation-item-btn pointer"> -->
@@ -258,7 +258,6 @@ p.content {
 img.operation-item-btn {
   width: 34%;
   margin: 0.5rem;
-  margin:0 15%;
 }
 .operation-group-btn {
   display: flex;

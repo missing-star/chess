@@ -258,7 +258,6 @@ p.content {
 img.operation-item-btn {
   width: 34%;
   margin: 0.5rem;
-  margin:0 15%;
 }
 .operation-group-btn {
   display: flex;

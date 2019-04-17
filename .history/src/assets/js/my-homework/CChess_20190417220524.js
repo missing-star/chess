@@ -257,6 +257,10 @@ function move(y, x, j, i, eat,isBack) {
             cla = T[1];
             tex = T[0];
         }
+        if (eat == null)
+            Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+        else
+            Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
         $("#CS" + j + "-" + i).html(
             "<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
         )

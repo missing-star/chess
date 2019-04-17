@@ -64,7 +64,7 @@ export default {
             }
         },
         editHomework() {
-            // this.$router.push({path:'/check-homework',query:{id:id}});
+            this.$router.push({path:'/check-homework',query:{id:id}});
         },
         assignHomework() {
             if(this.selectedId == '') {

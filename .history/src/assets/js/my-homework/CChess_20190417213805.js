@@ -244,51 +244,52 @@ function move(y, x, j, i, eat,isBack) {
 	} else {
 		Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
 	}
-	if(isBack) {
-        //后退
-        onMove = true;
-        var cla = "";
-        var tex = "";
-        var T = getCText(y, x);
-        if (T == null) {
-            LogError("丢失棋子信息");
-            return;
-        } else {
-            cla = T[1];
-            tex = T[0];
-        }
-        $("#CS" + j + "-" + i).html(
-            "<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
-        )
-        if(eat) {
-			console.log('cs'+y+''+x);
-			console.log(preOperation.targetElem);
-			$("#CS" + y + "-" + x).html(
-                "<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
-            )
-		}
-	}
-	else {	
-		//保存当前的下棋步骤
-		preOperation.y = j;
-		preOperation.x = i;
-		preOperation.j = y;
-		preOperation.i = x;
-		preOperation.sourceElem = cla;
-		preOperation.targetElem.cla = T2 == null ? "" : T2[1];
-		preOperation.targetElem.value = T2 == null ? 0 : targetValue;
-		preOperation.flag = true;
-	}
+	// if(isBack) {
+	// 	if (preOperation.targetElem == "") {
+	// 		map[j][i] = map[y][x];
+	// 		map[y][x] = 0;
+	// 	} else {
+	// 		map[j][i] = map[y][x];
+	// 		map[y][x] = preOperation.targetElem.value;
+	// 	}
+	// 	// sessionStorage.setItem('map', JSON.stringify(map));
+	// 	$("#CS" + j + "-" + i).html(
+	// 		"<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
+	// 	)
+	// 	//是否吃掉棋子
+	// 	if (preOperation.targetElem.value == 0) {
+	// 		$("#CS" + y + "-" + x).html(
+	// 			""
+	// 		)
+	// 	} else {
+	// 		$("#CS" + y + "-" + x).html(
+	// 			"<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
+	// 		)
+	// 	}
+	// 	preOperation.flag = false;
+	// }
+	// else {	
+	// 	//保存当前的下棋步骤
+	// 	preOperation.y = j;
+	// 	preOperation.x = i;
+	// 	preOperation.j = y;
+	// 	preOperation.i = x;
+	// 	preOperation.sourceElem = cla;
+	// 	preOperation.targetElem.cla = T2 == null ? "" : T2[1];
+	// 	preOperation.targetElem.value = T2 == null ? 0 : targetValue;
+	// 	preOperation.flag = true;
+	// }
 	if(sessionStorage.getItem('nowWho') == 0) {
 		let obj = recordList[currentIndex.value];
 		//obj ==> source: (j,i)  target:(y,x)
 		if(obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
+            alert('不建议此走法!');
             tipsCount++;
-			setTimeout(() => {
-				console.log(preOperation);
-				move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
-				alert('不建议此走法!');
-			}, 800);
+			onMove = false;
+			return;
+			// setTimeout(() => {
+			// 	move(preOperation.j,preOperation.i,preOperation.y,preOperation.x,preOperation.eat,true);
+			// }, 800);
 		}
 		else {
 			//根据棋谱走棋

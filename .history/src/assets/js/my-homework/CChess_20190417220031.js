@@ -221,6 +221,7 @@ function cleanChose() {
 }
 
 function move(y, x, j, i, eat,isBack) {
+	console.log(preOperation);
 	//下棋操作
 	onMove = true;
 	if (eat == null)
@@ -257,6 +258,10 @@ function move(y, x, j, i, eat,isBack) {
             cla = T[1];
             tex = T[0];
         }
+        if (eat == null)
+            Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+        else
+            Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
         $("#CS" + j + "-" + i).html(
             "<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
         )
@@ -286,7 +291,7 @@ function move(y, x, j, i, eat,isBack) {
             tipsCount++;
 			setTimeout(() => {
 				console.log(preOperation);
-				move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
+				move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.eat,true);
 				alert('不建议此走法!');
 			}, 800);
 		}

@@ -239,11 +239,11 @@ function move(y, x, j, i, eat,isBack) {
 		cla = T[1];
 		tex = T[0];
 	}
-	if (eat == null) {
-		Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
-	} else {
-		Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
-	}
+	// if (eat == null) {
+	// 	Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+	// } else {
+	// 	Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
+	// }
 	if(isBack) {
         //后退
         onMove = true;

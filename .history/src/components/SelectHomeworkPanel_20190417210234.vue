@@ -7,7 +7,7 @@
                 <ul class="apprentice-wrapper">
                     <li :class="{active:selectedId == homework.id}" v-for="homework in homeworkList" :key="homework.id" class="apprentice-item">
                         <p @click="toggleHomework(homework.id,homework.title,homework.desc,$event)" class="homework-name pointer">{{homework.title}}</p>
-                        <img @click="editHomework(homework.id)" src="../assets/images/edit-homework.png" class="check-icon edit pointer">
+                        <img @click="editHomework" src="../assets/images/edit-homework.png" class="check-icon edit pointer">
                         <img src="../assets/images/checked-homework.png" class="check-icon checked">
                     </li>
                 </ul>
@@ -64,7 +64,7 @@ export default {
             }
         },
         editHomework() {
-            // this.$router.push({path:'/check-homework',query:{id:id}});
+            this.$router.push({path:'/check-homework',query:{id:id}});
         },
         assignHomework() {
             if(this.selectedId == '') {
