@@ -64,7 +64,7 @@
                 <template v-else>
                   <div class="finish-bonus-content">
                     <p class="content-title">
-                      <img src="../assets/images/temp-icon.png" class="bonus-icon">10
+                      <img src="../assets../assets/images/temp-icon.png" class="bonus-icon">10
                     </p>
                   </div>
                   <div class="finish-status-wrapper">已提交</div>
