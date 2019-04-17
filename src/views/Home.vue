@@ -402,7 +402,9 @@ export default {
         })
       })
         .then(res => {
-          if (res.status == 1) {
+          console.log(res.data)
+          console.log(res.data.status)
+          if (res.data.status == 1) {
             if (index == 0) {
               this.avter = require("../assets/images/喂食成功.png");
               this.btnImg = require("../assets/images/喂养icon.png");
