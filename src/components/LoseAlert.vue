@@ -3,7 +3,10 @@
     <div class="chess-dialog-body water-box-wrap" :class="{'hide':!isShow}">
       <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
 
-      <img src="../assets/images/等待对方同意.png" class="water-img" alt>
+      <div class="water-box-mid">
+        <img src="../assets/images/等待对方同意.png" class="water-img" alt v-if="ImgShow">
+        <img src="../assets/images/等待对方同意你和棋.png" class="water-img1" alt v-if="!ImgShow">
+      </div>
 
       <div class="water-box-foot">
         <img src="../assets/images/弹框-再玩一次.png" alt>
@@ -24,7 +27,7 @@ export default {
       this.$emit("hide");
     }
   },
-  props: ["is-show"],
+  props: ["is-show", "ImgShow"],
   components: {
     [ChessMask.name]: ChessMask
   }
@@ -40,18 +43,27 @@ img.mail-box-close {
   right: -3rem;
   top: 2rem;
 }
-
+div.water-box-mid {
+  width: 75%;
+  text-align: center;
+  margin: 36% 0 0 12%;
+}
 img.water-img {
-  width: 67%;
-  position: absolute;
+  width: 54%;
   top: 52%;
   left: 16%;
 }
-
+img.water-img1 {
+  width: 80%;
+  top: 52%;
+  left: 16%;
+}
 .water-box-foot {
+  width: 78%;
   position: absolute;
   bottom: 10%;
-  left: 18%;
+  left: 10%;
+  text-align: center;
 }
 .water-box-foot img {
   width: 24%;

@@ -153,7 +153,7 @@
     <water-box :is-show="showWaterBox" @hide="hideWaterBox"></water-box>
 
     <!-- 失败提示框 -->
-    <lose-alert :is-show="showLostAlert"></lose-alert>
+    <lose-alert :is-show="showLostAlert" :ImgShow="ImgShow"></lose-alert>
     <!-- 宠物提示 -->
     <create-sucess
       :is-show="showCreateSucess"
@@ -205,7 +205,8 @@ export default {
       showSelfStudyStagePanel: false,
       showWaterBox: false, //弹框
       showCreateSucess: false, //宠物互动提示
-      showLostAlert: true, //失败提示
+      showLostAlert: false, //失败提示
+      ImgShow:true,
       show: false,
       show1: true,
       roomList: [
@@ -617,7 +618,7 @@ export default {
         if (res.data.status == 1) {
           this.studentInfo = res.data.data;
         } else {
-          alert("获取学生信息失败");
+          // alert("获取学生信息失败");
         }
       })
       .catch(err => {
