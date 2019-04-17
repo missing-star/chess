@@ -56,8 +56,10 @@ export default {
                 this.selectedId = '';
                 this.homeworkName = '';
                 this.desc = '';
+                e.target.parentNode.classList.remove('active');
             }
             else {
+                e.target.parentNode.classList.add('active');
                 this.selectedId = id;
                 this.homeworkName = title;
                 this.desc = desc;

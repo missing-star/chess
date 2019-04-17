@@ -5,7 +5,7 @@
             <div class="content-wrapper-container">
                 <input type="text" placeholder="搜索" class="search-input">
                 <ul class="apprentice-wrapper">
-                    <li :class="{active:selectedId == homework.id}" v-for="homework in homeworkList" :key="homework.id" class="apprentice-item">
+                    <li v-for="homework in homeworkList" :key="homework.id" class="apprentice-item">
                         <p @click="toggleHomework(homework.id,homework.title,homework.desc,$event)" class="homework-name pointer">{{homework.title}}</p>
                         <img @click="editHomework" src="../assets/images/edit-homework.png" class="check-icon edit pointer">
                         <img src="../assets/images/checked-homework.png" class="check-icon checked">
@@ -56,8 +56,10 @@ export default {
                 this.selectedId = '';
                 this.homeworkName = '';
                 this.desc = '';
+                e.target.parentNode.classList.remove('active');
             }
             else {
+                e.target.parentNode.classList.add('active');
                 this.selectedId = id;
                 this.homeworkName = title;
                 this.desc = desc;
