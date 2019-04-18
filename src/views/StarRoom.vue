@@ -3,7 +3,7 @@
     <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
-        <img src="../assets/images/user-logo.png" alt>
+        <img :src="teacherInfo.picture" alt>
       </div>
       <div class="inform_right">
         <ul class="inform_right_uu">
@@ -39,8 +39,11 @@
               v-for="teacher in teacherList.slice(7*(n-1),7*(n-1)+7)"
               :key="teacher.id"
             >
-              <img src="../assets/images/user-logo.png" class="teacher-logo">
-              <!-- :src="teacher.picture == null ? '../assets/images/user-logo.png' : teacher.picture.substring(1) | filterImg" -->
+              <img
+                :src="teacher.picture == null ? '../assets/images/user-logo.png' : teacher.picture"
+                class="teacher-logo"
+              >
+
               <p class="teacher-name">{{teacher.admin_name}}</p>
             </div>
           </div>
@@ -105,7 +108,7 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data)
+          console.log(res.data);
           this.teacherInfo = res.data.data;
           this.initSwiper();
         })
@@ -152,7 +155,7 @@ export default {
       if (sessionStorage.getItem("teachId")) {
         var teacherId = sessionStorage.getItem("teachId");
       } else {
-        teacherId = this.teacherList[0].id
+        teacherId = this.teacherList[0].id;
       }
       this.$axios({
         url: `${
