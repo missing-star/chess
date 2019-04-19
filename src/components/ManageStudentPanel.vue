@@ -194,7 +194,7 @@ export default {
     checkHomework() {
       //批改作业
       this.closeMyself();
-      this.$emit("open-check-homework");
+      this.$emit("open-class-task-log");
     },
     //编辑班级名称
     editGradeName() {
@@ -265,7 +265,7 @@ export default {
         }index.php?r=api-teach/select-class-lists`
       })
         .then(res => {
-          //   console.log(res.data);
+            console.log(res.data);
           this.gradeList = res.data.data;
           if (this.currentGrade.id == "") {
             this.getStudentsByGradeId(
@@ -352,6 +352,7 @@ export default {
     }
   },
   created() {
+    console.log(this.currentGrade.id)
   }
 };
 </script>

@@ -13,7 +13,7 @@
     <chess-manage-student-panel
       @class-change="classChange"
       @open-assign-homework="openSelectHomeworkPanel"
-      @open-check-homework="openCheckHomeworkPanel"
+      @open-class-task-log="openClassTaskLog"
       @open-add-student="openAddStudentPanel"
       @open-student-detail="openStudentDetailPanel"
       @open-create-grade="openCreateGradePanel"
@@ -49,7 +49,7 @@
     <!-- 创建班级 -->
     <chess-create-grade-panel @hide="hideCreateGradePanel" :isShow="showCreateGradePanel"></chess-create-grade-panel>
     <!-- 批改作业 -->
-    <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel"></chess-check-homework-panel>
+    <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel" :checkList="checkList"></chess-check-homework-panel>
     <!-- 选择作业 -->
     <chess-select-homework-panel
       :class-id="currentGrade.id"
@@ -58,6 +58,13 @@
       :isShow="showSelectHomeworkPanel"
     ></chess-select-homework-panel>
     <chess-back-button></chess-back-button>
+    <!-- 作业列表 -->
+    <class-task-log
+      :isShow="showClassTaskLog"
+      @hide="hideClassTaskLog"
+      @open-home-work="openHomeWork"
+      :homeList="homeList"
+    ></class-task-log>
 
     <!-- 创建成功提示 -->
     <create-sucess :is-show="showCreateSucess" :avter="avter"></create-sucess>
@@ -74,6 +81,8 @@ import AddStudentPanel from "../components/AddStudentPanel";
 import CheckHomeworkPanel from "../components/CheckHomeworkPanel";
 import SelectHomeworkPanel from "../components/SelectHomeworkPanel";
 import CreateSucess from "../components/CreateSucess";
+
+import ClassTaskLog from "../components/ClassTaskLog"; //作业列表
 export default {
   data() {
     return {
@@ -86,6 +95,7 @@ export default {
       showCheckHomeworkPanel: false,
       showSelectHomeworkPanel: false,
       showCreateSucess: false, //创建成功
+      showClassTaskLog: false,
       selectedStuId: -1,
       currentGrade: {
         id: "",
@@ -93,7 +103,9 @@ export default {
       },
       pupil: "",
       studentList: "",
-      avter:'',
+      avter: "",
+      homeList: [],
+      checkList:[],
     };
   },
   methods: {
@@ -174,12 +186,46 @@ export default {
       this.showAddStudentPanel = false;
       this.showManageStudentPanel = true;
     },
-    openCheckHomeworkPanel() {
+    //打开作业列表
+    openClassTaskLog() {
+      this.showClassTaskLog = true;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}index.php?r=api/class-task-log`,
+        data: this.qs.stringify({
+          class_id: id
+        })
+      })
+        .then(res => {
+          console.log(res.data);
+          this.homeList = res.data.data;
+        })
+        .catch(err => {});
+    },
+    hideClassTaskLog() {
+      this.showClassTaskLog = false;
+      this.showManageStudentPanel = true;
+    },
+    // 打开作业下的学生
+    openHomeWork(id) {
+      this.showClassTaskLog = false;
       this.showCheckHomeworkPanel = true;
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}index.php?r=api/task-student-log`,
+        data: this.qs.stringify({
+          task_id: id
+        })
+      })
+        .then(res => {
+          console.log(res.data);
+          this.checkList = res.data.data;
+        })
+        .catch(err => {});
     },
     hideCheckHomeworkPanel() {
       this.showCheckHomeworkPanel = false;
-      this.showManageStudentPanel = true;
+      this.showClassTaskLog = true;
     },
     openSelectHomeworkPanel() {
       this.showSelectHomeworkPanel = true;
@@ -202,7 +248,8 @@ export default {
     [AddStudentPanel.name]: AddStudentPanel,
     [CheckHomeworkPanel.name]: CheckHomeworkPanel,
     [SelectHomeworkPanel.name]: SelectHomeworkPanel,
-    CreateSucess
+    CreateSucess,
+    ClassTaskLog
   }
 };
 </script>

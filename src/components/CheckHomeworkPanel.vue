@@ -5,7 +5,7 @@
             <div class="content-wrapper-container">
                 <input type="text" placeholder="搜索" class="search-input">
                 <ul class="apprentice-wrapper">
-                    <li v-for="n in 20" :key="n" class="apprentice-item">
+                    <li v-for="(item,index) in checkList" :key="index" class="apprentice-item">
                         <p class="homework-name">作业名称</p>
                         <span class="tips-times">提示5次</span>
                         <img v-if="n % 2 ==0" src="../assets/images/check-icon.png" @click="checkHomework(n)" class="check-icon pointer">
@@ -43,7 +43,7 @@
 import ChessMask from './Mask'
 export default {
     name:'chess-check-homework-panel',
-    props:['is-show'],
+    props:['is-show',"checkList"],
     data() {
         return {
             homeworkList:[]
