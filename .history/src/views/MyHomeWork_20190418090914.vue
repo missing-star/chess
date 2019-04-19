@@ -24,7 +24,8 @@
         <p class="title operation">操作台</p>
         <div class="operation-group-btn">
           <img @click="reDo" src="../assets/images/重做.png" class="operation-item-btn pointer">
-          <img @click="submitHomework" src="../assets/images/submit-btn.png" class="operation-item-btn pointer">
+          <img src="../assets/images/保存.png" class="operation-item-btn pointer">
+          <img src="../assets/images/确定.png" class="operation-item-btn pointer">
           <!-- <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer"> -->
           <!-- <img src="../assets/images/上一题.png" class="operation-item-btn pointer">
           <img src="../assets/images/下一题.png" class="operation-item-btn pointer"> -->
@@ -45,7 +46,7 @@
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList,isFinshed, tipsCount} from "../assets/js/my-homework/CChess";
+import {initChess,onChose,map,recordList} from "../assets/js/my-homework/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
@@ -56,9 +57,7 @@ export default {
       map:map,
       recordList:recordList,
       title:'',
-      answerList:[],
-      isFinshed:isFinshed,
-      tipsCount:tipsCount
+      answerList:[]
     };
   },
   methods:{
@@ -96,19 +95,6 @@ export default {
     reDo(){
       this.getChessDetail(this.$route.params.id);
     },
-    submitHomework() {
-      this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-student/update-task-notice-log-status`,
-        data:this.qs.stringify({
-          is_read:1,
-          status:1,
-          data_text:'',
-          play_log:'',
-          tip_num:'',
-          post_at:''
-        })
-      })
-    },
     showAnswer() {
       alert(this.answerList);
     }
@@ -119,8 +105,7 @@ export default {
   },
   watch:{
     map:function() {
-      console.log('this.map发生变化');
-      console.log(this.map);
+      console.log('this.map发生变化：=====>'+this.map);
     }
   },
   created() {

@@ -45,7 +45,7 @@
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList,isFinshed, tipsCount} from "../assets/js/my-homework/CChess";
+import {initChess,onChose,map,recordList} from "../assets/js/my-homework/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
@@ -56,9 +56,7 @@ export default {
       map:map,
       recordList:recordList,
       title:'',
-      answerList:[],
-      isFinshed:isFinshed,
-      tipsCount:tipsCount
+      answerList:[]
     };
   },
   methods:{
@@ -102,10 +100,7 @@ export default {
         data:this.qs.stringify({
           is_read:1,
           status:1,
-          data_text:'',
-          play_log:'',
-          tip_num:'',
-          post_at:''
+          data_text:''
         })
       })
     },

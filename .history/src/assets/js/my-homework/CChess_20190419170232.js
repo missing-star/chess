@@ -297,6 +297,8 @@ function move(y, x, j, i, eat,isBack) {
 		preOperation.flag = true;
 		map[j][i] = map[y][x];
 		map[y][x] = 0;
+		console.log('下棋')
+		console.log(map)
 		if(sessionStorage.getItem('nowWho') == 0) {
 			let obj = recordList[currentIndex.value];
 			//obj ==> source: (j,i)  target:(y,x)
@@ -313,7 +315,7 @@ function move(y, x, j, i, eat,isBack) {
 				if(currentIndex.value < recordList.length) {
 					let obj2 = recordList[currentIndex.value];
 					setTimeout(() => {
-						move(obj2.j,obj2.i,obj2.y,obj2.x,obj2.targetElem.value == 0 ? false : true,false);
+						move(obj2.j,obj2.i,obj2.y,obj2.x);
 					}, 800);
 				}
 			}
@@ -333,7 +335,6 @@ function move(y, x, j, i, eat,isBack) {
 			})
 		}, 10);
 		setTimeout(function () {
-			console.log('index='+currentIndex.value,recordList.length)
 			trunH();
 			if(currentIndex.value == recordList.length) {
 				alert('练习结束');

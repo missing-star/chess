@@ -336,7 +336,7 @@ function move(y, x, j, i, eat,isBack) {
 			console.log('index='+currentIndex.value,recordList.length)
 			trunH();
 			if(currentIndex.value == recordList.length) {
-				alert('练习结束');
+				alert('您一');
 				return;
 			}
 			onMove = false;

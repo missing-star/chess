@@ -12,6 +12,7 @@ var tipsCount = 0;
 
 function LoadGround() { //生成旗子
 	var g = '';
+	console.log(map);
 	for (var j = 0; j < 10; j++) {
 		for (var i = 0; i < 9; i++) {
 			g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChoseHomeWork(" + j + "," + i + ",true)'></article>";
@@ -220,6 +221,7 @@ function cleanChose() {
 }
 
 function move(y, x, j, i, eat,isBack) {
+	console.log(map);
 	//下棋操作
 	onMove = true;
 	if (eat == null)
@@ -238,24 +240,12 @@ function move(y, x, j, i, eat,isBack) {
 		cla = T[1];
 		tex = T[0];
 	}
-	// if (eat == null) {
-	// 	Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
-	// } else {
-	// 	Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
-	// }
+	if (eat == null) {
+		Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+	} else {
+		Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
+	}
 	if(isBack) {
-        //后退
-        onMove = true;
-        var cla = "";
-        var tex = "";
-		var T = getCText(y, x);
-        if (T == null) {
-            LogError("丢失棋子信息");
-            return;
-        } else {
-            cla = T[1];
-            tex = T[0];
-		}
 		if (preOperation.targetElem == "") {
 			map[j][i] = map[y][x];
 			map[y][x] = 0;
@@ -263,29 +253,30 @@ function move(y, x, j, i, eat,isBack) {
 			map[j][i] = map[y][x];
 			map[y][x] = preOperation.targetElem.value;
 		}
+        //后退
+        onMove = true;
+        var cla = "";
+        var tex = "";
+        var T = getCText(y, x);
+        if (T == null) {
+            LogError("丢失棋子信息");
+            return;
+        } else {
+            cla = T[1];
+            tex = T[0];
+        }
         $("#CS" + j + "-" + i).html(
-			"<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
-		)
-		setTimeout(() => {
-			$("#CS" + j + "-" + i + " section").css({
-				transform: ""
-			})
-		}, 10);
-		//是否吃掉棋子
-		if (preOperation.targetElem.value == 0) {
+            "<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
+        )
+        if(eat) {
+			console.log('cs'+y+''+x);
+			console.log(preOperation.targetElem);
 			$("#CS" + y + "-" + x).html(
-				""
-			)
-		} else {
-			$("#CS" + y + "-" + x).html(
-				"<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
-			)
+                "<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
+            )
 		}
-		trunH();
-		onMove = false;
 	}
 	else {	
-		var targetValue = map[j][i];
 		//保存当前的下棋步骤
 		preOperation.y = j;
 		preOperation.x = i;
@@ -295,6 +286,7 @@ function move(y, x, j, i, eat,isBack) {
 		preOperation.targetElem.cla = T2 == null ? "" : T2[1];
 		preOperation.targetElem.value = T2 == null ? 0 : targetValue;
 		preOperation.flag = true;
+		var targetValue = map[j][i];
 		map[j][i] = map[y][x];
 		map[y][x] = 0;
 		if(sessionStorage.getItem('nowWho') == 0) {
@@ -303,6 +295,7 @@ function move(y, x, j, i, eat,isBack) {
 			if(obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
 				tipsCount++;
 				setTimeout(() => {
+					console.log(preOperation);
 					move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
 					alert('不建议此走法!');
 				}, 800);
@@ -313,7 +306,7 @@ function move(y, x, j, i, eat,isBack) {
 				if(currentIndex.value < recordList.length) {
 					let obj2 = recordList[currentIndex.value];
 					setTimeout(() => {
-						move(obj2.j,obj2.i,obj2.y,obj2.x,obj2.targetElem.value == 0 ? false : true,false);
+						move(obj2.j,obj2.i,obj2.y,obj2.x);
 					}, 800);
 				}
 			}
@@ -333,9 +326,9 @@ function move(y, x, j, i, eat,isBack) {
 			})
 		}, 10);
 		setTimeout(function () {
-			console.log('index='+currentIndex.value,recordList.length)
 			trunH();
 			if(currentIndex.value == recordList.length) {
+				console.log('练习结束');
 				alert('练习结束');
 				return;
 			}

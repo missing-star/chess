@@ -7,6 +7,9 @@ var recordList = [];
 var currentIndex = {
 	value:0
 }
+var isFinshed = {
+	value:false
+}
 //提示次数
 var tipsCount = 0;
 
@@ -333,10 +336,9 @@ function move(y, x, j, i, eat,isBack) {
 			})
 		}, 10);
 		setTimeout(function () {
-			console.log('index='+currentIndex.value,recordList.length)
 			trunH();
 			if(currentIndex.value == recordList.length) {
-				alert('练习结束');
+				alert('恭喜你！完成了作业，请提交!');
 				return;
 			}
 			onMove = false;
