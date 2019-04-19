@@ -49,7 +49,13 @@
     <!-- 创建班级 -->
     <chess-create-grade-panel @hide="hideCreateGradePanel" :isShow="showCreateGradePanel"></chess-create-grade-panel>
     <!-- 批改作业 -->
-    <chess-check-homework-panel @hide="hideCheckHomeworkPanel" :isShow="showCheckHomeworkPanel" :checkList="checkList"></chess-check-homework-panel>
+    <chess-check-homework-panel
+      @hide="hideCheckHomeworkPanel"
+      :isShow="showCheckHomeworkPanel"
+      :checkList="checkList"
+      :num="num"
+      :info="info"
+    ></chess-check-homework-panel>
     <!-- 选择作业 -->
     <chess-select-homework-panel
       :class-id="currentGrade.id"
@@ -64,6 +70,7 @@
       @hide="hideClassTaskLog"
       @open-home-work="openHomeWork"
       :homeList="homeList"
+      :info="info"
     ></class-task-log>
 
     <!-- 创建成功提示 -->
@@ -83,6 +90,8 @@ import SelectHomeworkPanel from "../components/SelectHomeworkPanel";
 import CreateSucess from "../components/CreateSucess";
 
 import ClassTaskLog from "../components/ClassTaskLog"; //作业列表
+import { constants } from "crypto";
+import { filter } from "minimatch";
 export default {
   data() {
     return {
@@ -105,7 +114,9 @@ export default {
       studentList: "",
       avter: "",
       homeList: [],
-      checkList:[],
+      checkList: [],
+      info: [],
+      num: "",
     };
   },
   methods: {
@@ -188,12 +199,15 @@ export default {
     },
     //打开作业列表
     openClassTaskLog() {
+      var userInfo = sessionStorage.getItem("classId");
+      this.info = JSON.parse(userInfo);
       this.showClassTaskLog = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}index.php?r=api/class-task-log`,
+        url: `${process.env.VUE_APP_URL}index.php?r=api-teach/class-task-log`,
         data: this.qs.stringify({
-          class_id: id
+          class_id: this.info.id,
+          keyword: ""
         })
       })
         .then(res => {
@@ -212,7 +226,7 @@ export default {
       this.showCheckHomeworkPanel = true;
       this.$axios({
         method: "post",
-        url: `${process.env.VUE_APP_URL}index.php?r=api/task-student-log`,
+        url: `${process.env.VUE_APP_URL}index.php?r=api-teach/task-student-log`,
         data: this.qs.stringify({
           task_id: id
         })
@@ -220,6 +234,10 @@ export default {
         .then(res => {
           console.log(res.data);
           this.checkList = res.data.data;
+          var inform = this.checkList.filter(item => {
+            return item.is_read == 0;
+          });
+          this.num = inform.length;
         })
         .catch(err => {});
     },

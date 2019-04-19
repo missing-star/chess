@@ -14,6 +14,7 @@
           <div class="user-name-wrapper">
             <p class="username">{{studentInfo.nickname}}</p>
             <span class="nick-level">{{studentInfo.grade_name}}</span>
+            <span class="user-socre">{{studentInfo.score}}分</span>
           </div>
           <div class="progress-wrapper">
             <span class="title">经验:</span>
@@ -206,7 +207,7 @@ export default {
       showWaterBox: false, //弹框
       showCreateSucess: false, //宠物互动提示
       showLostAlert: false, //失败提示
-      ImgShow:true,
+      ImgShow: true,
       show: false,
       show1: true,
       roomList: [
@@ -402,8 +403,8 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data)
-          console.log(res.data.status)
+          console.log(res.data);
+          console.log(res.data.status);
           if (res.data.status == 1) {
             if (index == 0) {
               this.avter = require("../assets/images/喂食成功.png");
@@ -612,8 +613,8 @@ export default {
   },
   //获得学生个人信息;
   mounted() {
-    var info =localStorage.getItem("userInfo")
-    this.studentInfo=JSON.parse(info)
+    var info = localStorage.getItem("userInfo");
+    this.studentInfo = JSON.parse(info);
   },
   components: {
     [SetButton.name]: SetButton,
@@ -834,5 +835,13 @@ img.arrow-right.rotate {
 p.black-name {
   width: 22%;
   text-align: left;
+}
+
+span.user-socre {
+  color: #ffffff;
+  font-size: 1.2rem;
+  display: inline-block;
+  float: right;
+  margin-right: 30%;
 }
 </style>

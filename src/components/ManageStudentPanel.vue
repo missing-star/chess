@@ -225,7 +225,6 @@ export default {
     },
     //删除学生
     deleteStudent() {
-      console.log(this.currentGrade.id);
       var ids = sessionStorage.getItem("stiudentId");
       this.$axios({
         method: "post",
@@ -265,7 +264,7 @@ export default {
         }index.php?r=api-teach/select-class-lists`
       })
         .then(res => {
-            console.log(res.data);
+          console.log(res.data);
           this.gradeList = res.data.data;
           if (this.currentGrade.id == "") {
             this.getStudentsByGradeId(
@@ -294,6 +293,8 @@ export default {
         id: id,
         nickname: name
       };
+      console.log(this.currentGrade.nickname)
+      sessionStorage.setItem("classId", JSON.stringify(this.currentGrade));
       this.$axios({
         method: "post",
         url: `${
@@ -343,6 +344,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.currentGrade.id);
     this.isLastPage = Math.ceil(this.gradeList.length / 4) > 1 ? false : true;
     this.getMyGradeList();
   },
@@ -351,9 +353,7 @@ export default {
       this.$emit("class-change", this.currentGrade);
     }
   },
-  created() {
-    console.log(this.currentGrade.id)
-  }
+  created() {}
 };
 </script>
 <style scoped>

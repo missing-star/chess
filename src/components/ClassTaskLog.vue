@@ -3,10 +3,16 @@
     <div class="chess-dialog-body chess-check-homework-body" :class="{'hide':!isShow}">
       <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
       <div class="content-wrapper-container">
-        <input type="text" placeholder="搜索" class="search-input">
+        <input
+          type="text"
+          placeholder="搜索"
+          class="search-input"
+          v-model="keyword"
+          @keydown.enter="searchChange"
+        >
         <ul class="apprentice-wrapper">
           <li v-for="(item,index) in homeList" :key="index" class="apprentice-item">
-            <p class="homework-name">作业名称</p>
+            <p class="homework-name">{{item.title}}</p>
             <span class="score" @click="openHomeWork(item.id)">查看</span>
           </li>
         </ul>
@@ -15,8 +21,8 @@
         <div class="left-part">
           <img src="../assets/images/personal-info-logo-wrapper.png" class="logo-wrapper">
           <div class="grade-info-wrapper">
-            <p class="grade-title">一期3班</p>
-            <p class="total-homework">作业总计23份</p>
+            <p class="grade-title">{{info.nickname}}</p>
+            <p class="total-homework">作业总计{{homeList.length}}份</p>
           </div>
         </div>
       </div>
@@ -26,11 +32,12 @@
 </template>
 <script>
 import ChessMask from "./Mask";
+import { constants } from "crypto";
 export default {
-  props: ["is-show","homeList"],
+  props: ["is-show", "homeList", "info"],
   data() {
     return {
-      homeworkList: []
+      keyword: "",
     };
   },
   components: {
@@ -40,10 +47,25 @@ export default {
     closeMyself() {
       this.$emit("hide");
     },
-    openHomeWork(id){
-        this.$emit("open-home-work",id);
+    openHomeWork(id) {
+      this.$emit("open-home-work", id);
+    },
+    searchChange() {
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}index.php?r=api-teach/class-task-log`,
+        data: this.qs.stringify({
+          class_id: this.info.id,
+          keyword: this.keyword
+        })
+      })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {});
     }
-  }
+  },
+  created() {}
 };
 </script>
 <style scoped>
