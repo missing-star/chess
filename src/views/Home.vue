@@ -272,7 +272,8 @@ export default {
       subCatId: "",
       avter: "", //宠物提示图片
       btnImg: "",
-      studentInfo: [] //学生信息
+      studentInfo: [], //学生信息
+      nickname:'',
     };
   },
   computed: {
