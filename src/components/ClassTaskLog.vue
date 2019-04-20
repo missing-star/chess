@@ -97,8 +97,8 @@ ul.apprentice-wrapper {
   overflow-x: hidden;
   padding: 0 3rem;
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-wrap: wrap;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -112,7 +112,7 @@ li.apprentice-item {
   width: 48%;
   background: url(../assets/images/homework-list-bg.png) no-repeat;
   background-size: 100% 100%;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0.4rem;
   border-radius: 0.8rem;
   display: flex;
   align-items: center;
