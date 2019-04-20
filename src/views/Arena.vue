@@ -12,7 +12,7 @@
         <chess-online-race-panel :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
         <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
         <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
-        <chess-back-button></chess-back-button>
+        <chess-back-button @go-back="gohome"></chess-back-button>
     </div>
 </template>
 <script>
@@ -22,6 +22,7 @@ import CheckPointPanel from '../components/CheckPointPanel'
 import CheckPointLevel from '../components/ChessCheckPointLevel'
 
 import {SearchEngine} from '../assets/js/online/CChess'
+import { constants } from 'crypto';
 export default {
     data() {
         return {
@@ -40,6 +41,10 @@ export default {
         }
     },
     methods:{
+        gohome(){
+            this.$router.push("/home")
+            console.log(111)
+        },
         openOnlineRacePanel() {
             this.showOnlineRacePanel = true;
         },
