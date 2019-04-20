@@ -60,6 +60,7 @@ export default {
     methods:{
         gohome(){
             this.$router.push("/home")
+            console.log(111)
         },
         countTimes:countTimes,
         countTimes2:countTimes2,
