@@ -5,15 +5,15 @@
       <div class="content-wrapper">
         <div class="user-and-time-wrapper">
           <section class="user-wrapper">
-            <img src="../assets/images/user-logo.png" class="user-logo">
-            <p class="username">用户名称</p>
+            <img :src="teacherInfo.picture" class="user-logo">
+            <p class="username">{{teacherInfo.admin_name}}</p>
           </section>
           <section class="time-wrapper">
             <div class="button-wrapper">
               <img src="../assets/images/exit-login.png" alt="退出登录" @click="loginOut">
             </div>
             <div class="button-wrapper">
-              <img src="../assets/images/change-pwd.png" alt="修改密码">
+              <!-- <img src="../assets/images/change-pwd.png" alt="修改密码"> -->
             </div>
           </section>
         </div>
@@ -105,7 +105,7 @@ export default {
         });
     }
   },
-  props: ["is-show"],
+  props: ["is-show","teacherInfo"],
   components: {
     [ChessMask.name]: ChessMask,
     [Switch.name]: Switch

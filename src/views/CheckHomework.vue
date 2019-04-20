@@ -55,7 +55,8 @@ export default {
   data() {
     return {
       score: "",
-      evaluation: ""
+      evaluation: "",
+      hide:false,
     };
   },
   methods: {
