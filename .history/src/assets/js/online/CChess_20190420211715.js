@@ -410,8 +410,6 @@ function gameOver() {
 	}
 	sessionStorage.clear();
 	isGameEnd.value = true;
-	recordList.splice(0);
-	showRecordList.splice(0);
 	countTimes('over');
 	countTimes2('over');
 	countRaceTime('over');
@@ -728,8 +726,7 @@ function saveGameResult(user_type, socket_key) {
         data: {
             user_type: user_type,
 			socket_key: socket_key,
-			play_log:JSON.stringify(recordList),
-			tips_log:JSON.stringify(showRecordList)
+			play_log:JSON.stringify(recordList)
         },
         success: function (res) {
 			if(res.status == 1) {

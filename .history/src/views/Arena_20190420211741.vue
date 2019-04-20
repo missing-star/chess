@@ -37,8 +37,7 @@ export default {
             searchEngine:'',
             selectedLevel:'',
             isTimeUp:false,
-            preOperation:preOperation,
-            isGameEnd:isGameEnd
+            preOperation:preOperation
         }
     },
     methods:{
@@ -121,7 +120,6 @@ export default {
                          * 未匹配则匹配用户开始对战 
                          * */
                         if (!sessionStorage.getItem('user_type2')) {
-                            clearInterval(this.interval);
                             sessionStorage.setItem('user_type2', msg.data);
                             //我匹配对方，我是红方
                             sessionStorage.setItem('nowWho', 0);
@@ -141,7 +139,7 @@ export default {
                             //我方先手，开始计时
                             this.countTimes();
                         }
-                    } else if (msg.data == 'offline' && !this.isGameEnd.value) {
+                    } else if (msg.data == 'offline') {
                         //对方刷新或关闭浏览器
                         alert('对方已离线，你赢了');
                         this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
@@ -153,7 +151,6 @@ export default {
                             case 'user':
                                 //用户发送消息给我
                                 if (data.content === 'yes' && !sessionStorage.getItem('user_type2')) {
-                                    clearInterval(this.interval)
                                     //对方匹配我，我是黑方
                                     sessionStorage.setItem('isRed', false);
                                     sessionStorage.setItem('user_type', 'b');
@@ -162,7 +159,7 @@ export default {
                                     //开始游戏
                                     this.startGame();
                                     this.countTimes2();
-                                } else if (data.content == 'out' && !isGameEnd.value) {
+                                } else if (data.content == 'out') {
                                     //对方1分钟未操作
                                     alert('由于对方长时间未操作，您赢得了本局比赛');
                                     this.isTimeUp = true;

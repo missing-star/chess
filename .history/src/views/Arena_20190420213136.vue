@@ -75,6 +75,7 @@ export default {
         },
         goOnlineRace() {
             this.interval = setInterval(() => {
+                console.log('计时')
                 if (this.waitTime >= 15) {
                     // 重新匹配进入人机
                     clearInterval(this.interval);
@@ -87,7 +88,8 @@ export default {
                 }
             }, 1000);
         },
-        goGame() {
+        goGame() 
+            clearInterval(this.interval)
             if (this.isOnline) {
                 //在线对战
                 if (this.waitTime != 0) {
@@ -121,7 +123,6 @@ export default {
                          * 未匹配则匹配用户开始对战 
                          * */
                         if (!sessionStorage.getItem('user_type2')) {
-                            clearInterval(this.interval);
                             sessionStorage.setItem('user_type2', msg.data);
                             //我匹配对方，我是红方
                             sessionStorage.setItem('nowWho', 0);
@@ -153,7 +154,6 @@ export default {
                             case 'user':
                                 //用户发送消息给我
                                 if (data.content === 'yes' && !sessionStorage.getItem('user_type2')) {
-                                    clearInterval(this.interval)
                                     //对方匹配我，我是黑方
                                     sessionStorage.setItem('isRed', false);
                                     sessionStorage.setItem('user_type', 'b');

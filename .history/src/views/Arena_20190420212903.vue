@@ -22,6 +22,7 @@ import CheckPointPanel from '../components/CheckPointPanel'
 import CheckPointLevel from '../components/ChessCheckPointLevel'
 
 import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver,isGameEnd} from '../assets/js/online/CChess'
+import { clearInterval } from 'timers';
 export default {
     data() {
         return {
@@ -88,6 +89,7 @@ export default {
             }, 1000);
         },
         goGame() {
+            clearInterval
             if (this.isOnline) {
                 //在线对战
                 if (this.waitTime != 0) {
@@ -121,7 +123,6 @@ export default {
                          * 未匹配则匹配用户开始对战 
                          * */
                         if (!sessionStorage.getItem('user_type2')) {
-                            clearInterval(this.interval);
                             sessionStorage.setItem('user_type2', msg.data);
                             //我匹配对方，我是红方
                             sessionStorage.setItem('nowWho', 0);
@@ -153,7 +154,6 @@ export default {
                             case 'user':
                                 //用户发送消息给我
                                 if (data.content === 'yes' && !sessionStorage.getItem('user_type2')) {
-                                    clearInterval(this.interval)
                                     //对方匹配我，我是黑方
                                     sessionStorage.setItem('isRed', false);
                                     sessionStorage.setItem('user_type', 'b');

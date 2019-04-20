@@ -22,6 +22,7 @@ import CheckPointPanel from '../components/CheckPointPanel'
 import CheckPointLevel from '../components/ChessCheckPointLevel'
 
 import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver,isGameEnd} from '../assets/js/online/CChess'
+import { clearInterval } from 'timers';
 export default {
     data() {
         return {
@@ -75,6 +76,7 @@ export default {
         },
         goOnlineRace() {
             this.interval = setInterval(() => {
+                console.log('计时')
                 if (this.waitTime >= 15) {
                     // 重新匹配进入人机
                     clearInterval(this.interval);

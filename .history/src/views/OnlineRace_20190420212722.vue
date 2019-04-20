@@ -161,7 +161,7 @@ export default {
         }
     },
     mounted() {
-        if(!window.gameSocket && this.isOnline) {
+        if(!window.gameSocket && ) {
             alert('对战不存在或已结束!');
             this.$router.push('arena');
             return;

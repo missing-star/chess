@@ -75,6 +75,7 @@ export default {
         },
         goOnlineRace() {
             this.interval = setInterval(() => {
+                console.log('计时')
                 if (this.waitTime >= 15) {
                     // 重新匹配进入人机
                     clearInterval(this.interval);

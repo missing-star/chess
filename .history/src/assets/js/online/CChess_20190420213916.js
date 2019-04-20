@@ -411,7 +411,7 @@ function gameOver() {
 	sessionStorage.clear();
 	isGameEnd.value = true;
 	recordList.splice(0);
-	showRecordList.splice(0);
+	showRecordList.splice(0)
 	countTimes('over');
 	countTimes2('over');
 	countRaceTime('over');
