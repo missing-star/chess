@@ -19,7 +19,10 @@
           <div class="progress-wrapper">
             <span class="title">经验:</span>
             <div class="progress-bar-wrapper">
-              <div class="progress-bar" :style="studentInfo.experience/studentInfo.total_experience*100+'%' | filterWidth"></div>
+              <div
+                class="progress-bar"
+                :style="studentInfo.experience/studentInfo.total_experience*100+'%' | filterWidth"
+              ></div>
             </div>
             <p class="level-number">{{studentInfo.experience}}/{{studentInfo.total_experience}}</p>
           </div>
@@ -638,6 +641,18 @@ export default {
     WaterBox,
     CreateSucess,
     LoseAlert
+  },
+  created() {
+    $.ajax({
+      type: "post",
+      url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
+      async: true,
+      data: {},
+      dataType: "json",
+      success: res => {
+        this.information = res.data;
+      }
+    });
   }
 };
 </script>
