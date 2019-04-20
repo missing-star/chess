@@ -175,10 +175,10 @@ export default {
         this.searchEngine.engine = window.searchEngine;
         this.initChess();
         this.countRaceTime();
-        console.log(this.Back)
-        this.Back.back = () => {
-            this.$router.back(-1);
-        }
+        console.log(this.goBack)
+        // this.goBack.back = function() {
+        //     this.$router.back(-1);
+        // }
     },
     methods:{
         backOperation:backOperation,

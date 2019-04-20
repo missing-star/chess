@@ -175,8 +175,7 @@ export default {
         this.searchEngine.engine = window.searchEngine;
         this.initChess();
         this.countRaceTime();
-        console.log(this.Back)
-        this.Back.back = () => {
+        this.Back.back = function() {
             this.$router.back(-1);
         }
     },

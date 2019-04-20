@@ -1,73 +1,46 @@
 <template>
-  <div class="chess-arena-wrapper">
-    <h2>竞技场</h2>
-    <div class="category-wrapper">
-      <div class="category-item">
-        <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
-      </div>
-      <div class="category-item">
-        <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
-      </div>
+    <div class="chess-arena-wrapper">
+        <h2>竞技场</h2>
+        <div class="category-wrapper">
+            <div class="category-item">
+                <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
+            </div>
+            <div class="category-item">
+                <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
+            </div>
+        </div>
+        <chess-online-race-panel :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
+        <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
+        <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
+        <chess-back-button></chess-back-button>
     </div>
-    <chess-online-race-panel
-      :wait-time="waitTime"
-      @start-game="goGame"
-      @hide="hideOnlineRacePanel"
-      :is-show="showOnlineRacePanel"
-    ></chess-online-race-panel>
-    <chess-check-point-panel
-      :level="selectedLevel"
-      @hide="hideCheckPointPanel"
-      :is-show="showCheckPointPanel"
-    ></chess-check-point-panel>
-    <chess-check-point-level
-      @hide="hideCheckPointLevelPanel"
-      @open-check-point-panel="openCheckPointPanel"
-      :is-show="showCheckPointLevelPanel"
-    ></chess-check-point-level>
-
-    <div class="back-btn-wrapper">
-      <img @click="gohome" src="../assets/images/back.png" class="back-icon pointer">
-    </div>
-  </div>
 </template>
 <script>
-import BackButton from "../components/BackButton";
-import OnlineRacePanel from "../components/OnlineRacePanel";
-import CheckPointPanel from "../components/CheckPointPanel";
-import CheckPointLevel from "../components/ChessCheckPointLevel";
+import BackButton from '../components/BackButton'
+import OnlineRacePanel from '../components/OnlineRacePanel'
+import CheckPointPanel from '../components/CheckPointPanel'
+import CheckPointLevel from '../components/ChessCheckPointLevel'
 
-import {
-  SearchEngine,
-  countTimes,
-  countTimes2,
-  saveGameResult,
-  preOperation,
-  gameOver
-} from "../assets/js/online/CChess";
+import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver} from '../assets/js/online/CChess'
 export default {
-  data() {
-    return {
-      showOnlineRacePanel: false,
-      showCheckPointPanel: false,
-      showCheckPointLevelPanel: false,
-      waitTime: 0,
-      interval: "",
-      //在线对战或人机
-      isOnline: true,
-      socket: null,
-      SearchEngine: SearchEngine,
-      searchEngine: "",
-      selectedLevel: "",
-      isTimeUp: false,
-      preOperation: preOperation
-    };
-  },
-methods:{
-        gohome(){
-            this.$router.push("/home")
-            console.log(111)
-        },
+    data() {
+        return {
+            showOnlineRacePanel:false,
+            showCheckPointPanel:false,
+            showCheckPointLevelPanel:false,
+            waitTime:0,
+            interval:'',
+            //在线对战或人机
+            isOnline:true,
+            socket:null,
+            SearchEngine:SearchEngine,
+            searchEngine:'',
+            selectedLevel:'',
+            isTimeUp:false,
+            preOperation:preOperation
+        }
+    },
+    methods:{
         countTimes:countTimes,
         countTimes2:countTimes2,
         saveGameResult:saveGameResult,
@@ -96,18 +69,18 @@ methods:{
             this.showCheckPointLevelPanel = false;
         },
         goOnlineRace() {
-            this.interval = setInterval(() => {
-                if (this.waitTime >= 15) {
-                    // 重新匹配进入人机
-                    clearInterval(this.interval);
-                    this.waitTime = 0;
-                    this.isOnline = false;
-                    this.goGame();
-                }
-                else {
-                    this.waitTime += 1;
-                }
-            }, 1000);
+            // this.interval = setInterval(() => {
+            //     if (this.waitTime >= 15) {
+            //         // 重新匹配进入人机
+            //         clearInterval(this.interval);
+            //         this.waitTime = 0;
+            //         this.isOnline = false;
+            //         this.goGame();
+            //     }
+            //     else {
+            //         this.waitTime += 1;
+            //     }
+            // }, 1000);
         },
         goGame() {
             if (this.isOnline) {
@@ -136,7 +109,7 @@ methods:{
                         //自己登录成功
                         sessionStorage.setItem('code', msg.data.substring(msg.data.indexOf('user')));
                     } else if (msg.data.indexOf('user') == 0) {
-                        console.log('有人登陆了')
+                        console.log('有人')
                         //b方登录
                         /**
                          * 其他用户登录成功
@@ -286,57 +259,48 @@ methods:{
             this.$router.push({path:'/endgame-challenge'});
         }
     },
-  components: {
-    [BackButton.name]: BackButton,
-    [OnlineRacePanel.name]: OnlineRacePanel,
-    [CheckPointPanel.name]: CheckPointPanel,
-    [CheckPointLevel.name]: CheckPointLevel
-  }
-};
+    components:{
+        [BackButton.name]:BackButton,
+        [OnlineRacePanel.name]:OnlineRacePanel,
+        [CheckPointPanel.name]:CheckPointPanel,
+        [CheckPointLevel.name]:CheckPointLevel
+    }
+}
 </script>
 <style scoped>
 .chess-arena-wrapper {
-  width: 100%;
-  height: 100%;
-  background: url(../assets/images/home-bg.png) no-repeat;
-  background-size: 100% 100%;
-  padding-top: 10%;
+    width: 100%;
+    height: 100%;
+    background: url(../assets/images/home-bg.png) no-repeat;
+    background-size: 100% 100%;
+    padding-top: 10%;
 }
 h2 {
-  text-align: center;
-  font-size: 2rem;
+    text-align: center;
+    font-size: 2rem;
 }
 .category-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem;
 }
 .category-item {
-  width: 20rem;
-  height: 25rem;
-  background: #f6f6f6;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  margin-right: 1rem;
+    width: 20rem;
+    height: 25rem;
+    background: #f6f6f6;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-right: 1rem;
 }
 button.start-game {
-  border: none;
-  width: 55%;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  color: #fff;
-  margin-bottom: 3rem;
-  outline: 0;
-}
-div.back-btn-wrapper {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  width: 5rem;
-}
-img.back-icon {
-  width: 100%;
+    border: none;
+    width: 55%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    margin-bottom: 3rem;
+    outline: 0;
 }
 </style>
