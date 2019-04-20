@@ -3,7 +3,10 @@
     <!-- 老师信息 -->
     <div class="inform">
       <div class="inform_left">
-        <img :src="teacherInfo.picture" alt>
+        <img
+          :src="teacherInfo.picture == null ? require('../assets/images/user-logo.png') : teacherInfo.picture"
+          alt
+        >
       </div>
       <div class="inform_right">
         <ul class="inform_right_uu">
@@ -40,7 +43,7 @@
               :key="teacher.id"
             >
               <img
-                :src="teacher.picture == null ? '../assets/images/user-logo.png' : teacher.picture"
+                :src="teacher.picture == null ? require('../assets/images/user-logo.png') : teacher.picture"
                 class="teacher-logo"
               >
 
@@ -52,10 +55,19 @@
       </div>
     </div>
     <chess-back-button></chess-back-button>
+    <!-- 拜师成功 -->
+    <create-sucess
+      :is-show="showCreateSucess"
+      :avter="avter"
+      :btnImg="btnImg"
+      :show1="show1"
+      :show="show"
+    ></create-sucess>
   </div>
 </template>
 <script>
 import BackButton from "../components/BackButton";
+import CreateSucess from "../components/CreateSucess";
 import Swiper from "swiper";
 export default {
   data() {
@@ -63,19 +75,30 @@ export default {
       teacherList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       isFirstPage: true,
       isLastPage: false,
+      showCreateSucess: false, //成功
       currentId: "",
-      teacherInfo: ""
+      teacherInfo: "",
+      avter: "",
+      btnImg: "",
+      show1: false,
+      show: true
     };
   },
   components: {
-    [BackButton.name]: BackButton
+    [BackButton.name]: BackButton,
+    CreateSucess
   },
   methods: {
+    isClose() {
+      //提示框消失
+      setTimeout(() => {
+        this.showCreateSucess = false;
+      }, 1500);
+    },
     computedLength() {
       return Math.ceil(this.teacherList.length / 7) > 1;
     },
     selectTeacher(id) {
-      console.log(id);
       if (this.currentId != id) {
         this.getTeacherDetail(id);
       }
@@ -108,7 +131,6 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data);
           this.teacherInfo = res.data.data;
           this.initSwiper();
         })
@@ -149,8 +171,8 @@ export default {
         });
       });
     },
+    //拜师
     Vteacher() {
-      //拜师
       var teacherId = sessionStorage.getItem("teachId");
       if (sessionStorage.getItem("teachId")) {
         var teacherId = sessionStorage.getItem("teachId");
@@ -167,9 +189,12 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data);
           if (res.data.status == 1) {
-            alert(res.data.msg);
+            this.avter = require("../assets/images/拜师成功.png");
+            this.showCreateSucess = true;
+            this.isClose();
+          } else {
+            alert("你已拜师")
           }
         })
         .catch(err => {

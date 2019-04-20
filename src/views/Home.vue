@@ -19,7 +19,7 @@
           <div class="progress-wrapper">
             <span class="title">经验:</span>
             <div class="progress-bar-wrapper">
-              <div class="progress-bar"></div>
+              <div class="progress-bar" :style="studentInfo.experience/studentInfo.total_experience*100+'%' | filterWidth"></div>
             </div>
             <p class="level-number">{{studentInfo.experience}}/{{studentInfo.total_experience}}</p>
           </div>
@@ -277,6 +277,16 @@ export default {
       return this.isShowTaskPanel ? "隐藏" : "显示";
     }
   },
+  filters: {
+    filterWidth(chartWidth) {
+      if (chartWidth == "0%") {
+        chartWidth = "0%";
+      }
+      return {
+        width: `${chartWidth}`
+      };
+    }
+  },
   methods: {
     isClose() {
       //提示框消失
@@ -345,7 +355,6 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data.data);
           this.workList1 = res.data.data.list1;
           this.workList2 = res.data.data.list2;
         })
@@ -366,7 +375,6 @@ export default {
         data: this.qs.stringify({})
       })
         .then(res => {
-          console.log(res.data);
           this.achieve = res.data.data;
         })
         .catch(error => {
@@ -394,7 +402,6 @@ export default {
     },
     // 宠物互动
     getOperation(index) {
-      console.log(index);
       this.$axios({
         method: "post",
         url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
@@ -403,8 +410,6 @@ export default {
         })
       })
         .then(res => {
-          console.log(res.data);
-          console.log(res.data.status);
           if (res.data.status == 1) {
             if (index == 0) {
               this.avter = require("../assets/images/喂食成功.png");
@@ -421,6 +426,7 @@ export default {
             }
             this.showCreateSucess = true;
             this.isClose();
+            this.openPetPanel();
           } else {
             if (index == 0) {
               this.avter = require("../assets/images/明天1.png");
@@ -518,7 +524,6 @@ export default {
           this.gameList2.id = ids[1];
           this.gameList3.list = res.data.data[ids[2]];
           this.gameList3.id = ids[2];
-          console.log(this.gameList1, this.gameList2, this.gameList3);
         })
         .catch(error => {
           console.log(error);
@@ -550,7 +555,6 @@ export default {
           data: this.qs.stringify({})
         })
           .then(res => {
-            console.log(res.data);
             this.day_job = res.data.data.day_job_count;
             this.pass_log = res.data.data.pass_log_count;
           })
@@ -600,7 +604,6 @@ export default {
       })
         .then(res => {
           this.$router.push("/login");
-          console.log(res.data);
         })
         .catch(error => {
           console.log(error);
@@ -751,7 +754,7 @@ p.level-number {
 .progress-bar {
   height: 100%;
   border-radius: 1rem;
-  width: 50%;
+  width: 0;
   background: #ff9036;
 }
 div.mailbox-wrapper {

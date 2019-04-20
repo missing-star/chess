@@ -222,6 +222,7 @@ export default {
     },
     // 打开作业下的学生
     openHomeWork(id) {
+      console.log(id)
       this.showClassTaskLog = false;
       this.showCheckHomeworkPanel = true;
       this.$axios({

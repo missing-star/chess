@@ -19,9 +19,9 @@
           <div class="exp-wrapper">
             <p class="exp-title">经验值</p>
             <div class="exp-progressbar-wrapper">
-              <div class="exp-progressbar"></div>
+              <div class="exp-progressbar" :style="information.experience/information.total_experience*100+'%' | filterWidth"></div>
             </div>
-            <span class="exp-value">{{information.experience?information.experience:0}}/200</span>
+            <span class="exp-value">{{information.experience}}/{{information.total_experience}}</span>
           </div>
           <div class="userinfo-detail-wrapper">
             <p class="userinfo-item inline">棋力等级：{{information.grade_name}}</p>
@@ -83,7 +83,17 @@ export default {
           break;
       }
     }
-  }
+  },
+   filters: {
+    filterWidth(chartWidth) {
+      if (chartWidth == "0%") {
+        chartWidth = "0%";
+      }
+      return {
+        width: `${chartWidth}`
+      };
+    }
+  },
 };
 </script>
 <style scoped>
@@ -142,7 +152,7 @@ p.nickname {
 }
 .exp-progressbar {
   height: 100%;
-  width: 40%;
+  width: auto;
   background: #ff7226;
   border-radius: 1rem;
 }
