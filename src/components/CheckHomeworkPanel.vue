@@ -5,7 +5,7 @@
       <div class="content-wrapper-container">
         <!-- <input type="text" placeholder="搜索" class="search-input"> -->
         <ul class="apprentice-wrapper">
-          <li v-for="(item,index) in checkList" :key="index" class="apprentice-item" @click="checkHomework(index)">
+          <li v-for="(item,index) in checkList" :key="index" class="apprentice-item" @click="checkHomework(item.task_id)">
             <p class="homework-name">{{item.student_name}}</p>
             <span class="tips-times" v-if="item.score==null">提示{{item.tip_num==null?0:item.tip_num}}次</span>
               <img
@@ -59,7 +59,7 @@ export default {
     checkHomework(id) {
       this.$router.push({ name: "check-homework", query: { id: id } });
     },
-  }
+  },
 };
 </script>
 <style scoped>

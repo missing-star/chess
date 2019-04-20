@@ -255,6 +255,7 @@ export default {
       url: `${process.env.VUE_APP_URL}index.php?r=api-teach/select-teach-detail`
     })
       .then(res => {
+        console.log(res.data)
         if (res.data.status == 1) {
           this.teacherInfo = res.data.data;
         } else {

@@ -118,7 +118,7 @@
                 <template>
                   <div class="finish-bonus-content">
                     <p class="content-title">
-                      <img src="../assets/images/temp-icon.png" class="bonus-icon">30
+                      <img src="../assets/images/temp-icon.png" class="bonus-icon">10
                     </p>
                   </div>
                   <div class="finish-status-wrapper" v-if="item.status == 0">已提交</div>
@@ -131,57 +131,12 @@
                     去完成
                   </div>
                 </template>
-                <!-- <template v-else>
-                  <img src="../assets/images/homework-icon.png" class="homework-icon">
-                  <p class="show-score">{{item.score}}</p>
-                </template>-->
               </li>
             </ul>
           </div>
           <div class="swiper-pagination swiper-pagination-2"></div>
         </div>
       </div>
-
-      <!-- <div class="content-wrapper-container" :class="{active:currentIndex == 1}">
-                <div class="pre-wrapper">
-                    <img src="../assets/images/arrow-left-big.png" class="page-icon">
-                </div>
-                <div class="next-wrapper">
-                    <img src="../assets/images/arrow-right-big.png" class="page-icon">
-                </div>
-                <h3 class="title">
-                    tab2
-                </h3>
-                <ul class="task-list-wrapper">
-                    <li v-for="item in taskList" :key="item.id" class="task-item">
-                        <p class="finish-bonus" v-if="item.status != 2">
-                            完成奖励
-                        </p>
-                        <div class="task-title-wrapper">
-                            <p class="task-title">{{item.title}}</p>
-                            <div class="task-progress-wrapper">
-                                <p class="end-time">截止时间：{{item.endTime}}</p>
-                            </div>
-                        </div>
-                        <template  v-if="item.status != 2">
-                            <div class="finish-bonus-content">
-                                <p class="content-title"><img src="../assets/images/temp-icon.png" class="bonus-icon">30</p>
-                            </div>
-                            <div class="finish-status-wrapper" v-if="item.status == 0">
-                                已提交
-                            </div>
-                            <div class="finish-status-wrapper not-finished" v-if="item.status == 1">
-                                <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
-                                去完成
-                            </div>
-                        </template>
-                        <template v-else>
-                            <img src="../assets/images/homework-icon.png" class="homework-icon">
-                            <p class="show-score">{{item.score}}</p>
-                        </template>
-                    </li>
-                </ul>
-      </div>-->
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
   </div>

@@ -160,6 +160,7 @@ p.title {
   width: auto;
   height: 1rem;
   text-align: center;
+  background: #fcf3d6;
   color: #d3b090;
   border-radius: 1rem;
   flex: 0.8;
@@ -176,7 +177,7 @@ p.title {
   background: #68bf21;
 }
 p.exp-progress-value {
-  min-width: 10%;
+  min-width: 16%;
   text-align: center;
   color: #d3b090;
 }

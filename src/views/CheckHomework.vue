@@ -56,7 +56,8 @@ export default {
     return {
       score: "",
       evaluation: "",
-      hide:false,
+      hide: false,
+      task_log_id:'',
     };
   },
   methods: {
@@ -84,6 +85,23 @@ export default {
   },
   mounted() {
     initChess();
+  },
+  created() {
+    this.task_log_id = this.$route.query.id;
+    console.log(this.task_log_id)
+    this.$axios({
+      url: `${process.env.VUE_APP_URL}index.php?r=api-student/open-task`,
+      method: "post",
+      data: this.qs.stringify({
+        task_log_id: this.task_log_id
+      })
+    })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        alert("服务器异常");
+      });
   }
 };
 </script>

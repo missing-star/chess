@@ -19,8 +19,6 @@ import ChessMask from "./Mask";
 export default {
   data() {
     return {
-    //   show: false,
-    //   show1: false
     };
   },
   methods: {
