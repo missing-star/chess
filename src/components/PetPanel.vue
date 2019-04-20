@@ -9,14 +9,14 @@
             <div class="exp-wrapper">
               <p class="title">成长值：</p>
               <div class="exp-progressbar-wrapper">
-                <div class="exp-progressbar exp"></div>
+                <div class="exp-progressbar exp" :style="petInfo.grow_value/petInfo.grade_experience*100+'%' | filterWidth"></div>
               </div>
               <p class="exp-progress-value">{{petInfo.grow_value}} / {{petInfo.grade_experience}}</p>
             </div>
             <div class="exp-wrapper">
               <p class="title">成长点：</p>
               <div class="exp-progressbar-wrapper">
-                <div class="exp-progressbar growth"></div>
+                <div class="exp-progressbar growth" :style="petInfo.grow_num/20*100+'%' | filterWidth"></div>
               </div>
               <p class="exp-progress-value">{{petInfo.grow_num}} /20</p>
             </div>
@@ -92,7 +92,17 @@ export default {
   props: ["is-show", "petInfo"],
   components: {
     [ChessMask.name]: ChessMask
-  }
+  },
+   filters: {
+        filterWidth(chartWidth) {
+            if (chartWidth == '0%') {
+                chartWidth = '0%';
+            }
+            return {
+                width: `${chartWidth}`
+            }
+        }
+    }
 };
 </script>
 <style scoped>

@@ -19,7 +19,7 @@
           <div class="progress-wrapper">
             <span class="title">经验:</span>
             <div class="progress-bar-wrapper">
-              <div class="progress-bar"></div>
+              <div class="progress-bar" :style="studentInfo.experience/studentInfo.total_experience*100+'%' | filterWidth"></div>
             </div>
             <p class="level-number">{{studentInfo.experience}}/{{studentInfo.total_experience}}</p>
           </div>
@@ -277,6 +277,16 @@ export default {
       return this.isShowTaskPanel ? "隐藏" : "显示";
     }
   },
+  filters: {
+    filterWidth(chartWidth) {
+      if (chartWidth == "0%") {
+        chartWidth = "0%";
+      }
+      return {
+        width: `${chartWidth}`
+      };
+    }
+  },
   methods: {
     isClose() {
       //提示框消失
@@ -421,6 +431,7 @@ export default {
             }
             this.showCreateSucess = true;
             this.isClose();
+            this.openPetPanel();
           } else {
             if (index == 0) {
               this.avter = require("../assets/images/明天1.png");
@@ -751,7 +762,7 @@ p.level-number {
 .progress-bar {
   height: 100%;
   border-radius: 1rem;
-  width: 50%;
+  width: 0;
   background: #ff9036;
 }
 div.mailbox-wrapper {
