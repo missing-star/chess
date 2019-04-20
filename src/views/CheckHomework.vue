@@ -2,9 +2,9 @@
   <div class="chess-self-study-wrapper">
     <div class="left-part-wrapper">
       <div class="content-wrapper">
-        <p class="title">作业标题</p>
+        <p class="title">{{list.task.title}}</p>
         <div class="dashed-line"></div>
-        <p class="content">作业简介</p>
+        <p class="content">{{list.chess_manual}}</p>
       </div>
     </div>
     <div class="middle-part-wrapper">
@@ -12,18 +12,18 @@
     </div>
     <div class="right-part-wrapper">
       <div class="finish-condition">
-        <img src="../assets/images/完成.png" class="logo-wrapper" v-if="hide">
+        <img src="../assets/images/完成.png" class="logo-wrapper" v-if="list.status==1">
         <img src="../assets/images/未完成.png" alt class="logo-wrapper" v-else>
         <div class="description">
-          <p class="finish-status">学生姓名</p>
-          <p class="tips-times">提示2次</p>
+          <p class="finish-status">{{list.student_name}}</p>
+          <p class="tips-times">提示{{list.tip_num==null?'0':"list.tip_num"}}次</p>
         </div>
       </div>
       <div class="race-operation-wrapper">
         <p class="title operation">老师打分</p>
         <div class="operation-group-btn">
           <div class="input-score-wrapper">
-            <label class="scroe">分数：</label>
+            <label class="scroe">分数：{{list.score}}</label>
             <input v-model="score" type="number" class="score-number">
           </div>
           <img
@@ -57,7 +57,8 @@ export default {
       score: "",
       evaluation: "",
       hide: false,
-      task_log_id:'',
+      task_log_id: "",
+      list: []
     };
   },
   methods: {
@@ -88,7 +89,7 @@ export default {
   },
   created() {
     this.task_log_id = this.$route.query.id;
-    console.log(this.task_log_id)
+    console.log(this.task_log_id);
     this.$axios({
       url: `${process.env.VUE_APP_URL}index.php?r=api-student/open-task`,
       method: "post",
@@ -97,7 +98,8 @@ export default {
       })
     })
       .then(res => {
-        console.log(res.data);
+        this.list = res.data.data;
+        console.log(res.data.data);
       })
       .catch(err => {
         alert("服务器异常");
