@@ -21,8 +21,7 @@ import OnlineRacePanel from '../components/OnlineRacePanel'
 import CheckPointPanel from '../components/CheckPointPanel'
 import CheckPointLevel from '../components/ChessCheckPointLevel'
 
-import {SearchEngine} from '../assets/js/online/CChess'
-import { constants } from 'crypto';
+import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver} from '../assets/js/online/CChess'
 export default {
     data() {
         return {
@@ -31,13 +30,14 @@ export default {
             showCheckPointLevelPanel:false,
             waitTime:0,
             interval:'',
-            intervalWait:'',
             //在线对战或人机
             isOnline:true,
             socket:null,
             SearchEngine:SearchEngine,
             searchEngine:'',
-            selectedLevel:''
+            selectedLevel:'',
+            isTimeUp:false,
+            preOperation:preOperation
         }
     },
     methods:{
@@ -45,6 +45,10 @@ export default {
             this.$router.push("/home")
             console.log(111)
         },
+        countTimes:countTimes,
+        countTimes2:countTimes2,
+        saveGameResult:saveGameResult,
+        gameOver:gameOver,
         openOnlineRacePanel() {
             this.showOnlineRacePanel = true;
         },
@@ -69,18 +73,18 @@ export default {
             this.showCheckPointLevelPanel = false;
         },
         goOnlineRace() {
-            this.interval = setInterval(() => {
-                if (this.waitTime >= 15) {
-                    // 重新匹配进入人机
-                    clearInterval(this.interval);
-                    this.waitTime = 0;
-                    this.isOnline = false;
-                    this.goGame();
-                }
-                else {
-                    this.waitTime += 1;
-                }
-            }, 1000);
+            // this.interval = setInterval(() => {
+            //     if (this.waitTime >= 15) {
+            //         // 重新匹配进入人机
+            //         clearInterval(this.interval);
+            //         this.waitTime = 0;
+            //         this.isOnline = false;
+            //         this.goGame();
+            //     }
+            //     else {
+            //         this.waitTime += 1;
+            //     }
+            // }, 1000);
         },
         goGame() {
             if (this.isOnline) {
@@ -138,7 +142,7 @@ export default {
                     } else if (msg.data == 'offline') {
                         //对方刷新或关闭浏览器
                         alert('对方已离线，你赢了');
-                        saveGameResult(sessionStorage.getItem('user_type'), uuid);
+                        this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
                         this.gameOver();
                     } else {
                         //用户之间发送消息
@@ -153,19 +157,20 @@ export default {
                                     sessionStorage.setItem('nowWho', 1);
                                     sessionStorage.setItem('user_type2', data.user_type);
                                     //开始游戏
-                                    startGame();
+                                    this.startGame();
+                                    this.countTimes2();
                                 } else if (data.content == 'out') {
                                     //对方1分钟未操作
                                     alert('由于对方长时间未操作，您赢得了本局比赛');
-                                    isTimeUp = true;
-                                    saveGameResult(sessionStorage.getItem('user_type'), uuid);
+                                    this.isTimeUp = true;
+                                    this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
                                     this.gameOver();
                                 } else if (data.content == 'back') {
                                     var result = '';
                                     //对方要求悔棋
                                     if (confirm('您同意对方悔棋吗')) {
                                         result = 'agree';
-                                        move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true,true);
+                                        moveOnline(this.preOperation.y, this.preOperation.x, this.preOperation.j, this.preOperation.i, this.preOperation.eat, true,true);
                                     } else {
                                         result = 'refuse';
                                     }
@@ -176,14 +181,14 @@ export default {
                                     })}`);
                                 } else if (data.content == 'agree') {
                                     //同意悔棋
-                                    move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true,true);
+                                    moveOnline(this.preOperation.y, this.preOperation.x, this.preOperation.j, this.preOperation.i, this.preOperation.eat, true,true);
                                 } else if (data.content == 'refuse') {
                                     //拒绝悔棋
                                     alert('对方拒绝您悔棋!');
                                 } else if (data.content == 'quit') {
                                     //对方认输
                                     alert('对方已认输，您赢得了本局比赛');
-                                    saveGameResult(sessionStorage.getItem('user_type'), uuid);
+                                    this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
                                     this.gameOver();
                                 } else if (data.user_type == sessionStorage.getItem('user_type2')) {
                                     /**
@@ -192,22 +197,23 @@ export default {
                                     var content = JSON.parse(data.content);
                                     if (content.chose) {
                                         //选中棋子
-                                        onChose(9 - content.j, 8 - content.i, false, true);
+                                        onChoseOnline(9 - content.j, 8 - content.i, false, true);
                                     } else {
                                         //对方走棋,同步棋子位置
-                                        move(9 - content.y, 8 - content.x, 9 - content.j, 8 - content.i, content.eat, false, false);
+                                        moveOnline(9 - content.y, 8 - content.x, 9 - content.j, 8 - content.i, content.eat, false, false);
                                         //对方走棋，我方重新计时
                                         this.countTimes();
+                                        this.countTimes2('over');
                                     }
                                 }
                                 break;
                             case 'logout':
-                                if (isTimeUp || isFailed) {
+                                if (this.isTimeUp || isFailed) {
                                     //对方未操作结束比赛或者自己输掉比赛
                                     return;
                                 }
                                 alert('对方已离线，你赢了');
-                                saveGameResult(sessionStorage.getItem('user_type'), uuid);
+                                this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
                                 this.gameOver();
                         }
                     }
