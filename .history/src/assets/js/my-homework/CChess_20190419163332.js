@@ -244,11 +244,13 @@ function move(y, x, j, i, eat,isBack) {
 	// 	Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
 	// }
 	if(isBack) {
+		console.log(preOperation);
         //后退
         onMove = true;
         var cla = "";
         var tex = "";
 		var T = getCText(y, x);
+		
         if (T == null) {
             LogError("丢失棋子信息");
             return;
@@ -266,11 +268,6 @@ function move(y, x, j, i, eat,isBack) {
         $("#CS" + j + "-" + i).html(
 			"<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
 		)
-		setTimeout(() => {
-			$("#CS" + j + "-" + i + " section").css({
-				transform: ""
-			})
-		}, 10);
 		//是否吃掉棋子
 		if (preOperation.targetElem.value == 0) {
 			$("#CS" + y + "-" + x).html(
@@ -281,8 +278,6 @@ function move(y, x, j, i, eat,isBack) {
 				"<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
 			)
 		}
-		trunH();
-		onMove = false;
 	}
 	else {	
 		var targetValue = map[j][i];
@@ -313,7 +308,7 @@ function move(y, x, j, i, eat,isBack) {
 				if(currentIndex.value < recordList.length) {
 					let obj2 = recordList[currentIndex.value];
 					setTimeout(() => {
-						move(obj2.j,obj2.i,obj2.y,obj2.x,obj2.targetElem.value == 0 ? false : true,false);
+						move(obj2.j,obj2.i,obj2.y,obj2.x);
 					}, 800);
 				}
 			}
@@ -333,7 +328,6 @@ function move(y, x, j, i, eat,isBack) {
 			})
 		}, 10);
 		setTimeout(function () {
-			console.log('index='+currentIndex.value,recordList.length)
 			trunH();
 			if(currentIndex.value == recordList.length) {
 				alert('练习结束');

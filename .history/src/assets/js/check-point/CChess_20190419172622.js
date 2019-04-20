@@ -14,7 +14,7 @@ function LoadGround() { //生成旗子
 	var g = '';
 	for (var j = 0; j < 10; j++) {
 		for (var i = 0; i < 9; i++) {
-			g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChoseHomeWork(" + j + "," + i + ",true)'></article>";
+			g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChoseEnd(" + j + "," + i + ",true)'></article>";
 		}
 	}
 
@@ -301,7 +301,6 @@ function move(y, x, j, i, eat,isBack) {
 			let obj = recordList[currentIndex.value];
 			//obj ==> source: (j,i)  target:(y,x)
 			if(obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
-				tipsCount++;
 				setTimeout(() => {
 					move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
 					alert('不建议此走法!');

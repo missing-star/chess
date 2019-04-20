@@ -14,7 +14,7 @@ function LoadGround() { //生成旗子
 	var g = '';
 	for (var j = 0; j < 10; j++) {
 		for (var i = 0; i < 9; i++) {
-			g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChoseHomeWork(" + j + "," + i + ",true)'></article>";
+			g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChoseEnd(" + j + "," + i + ",true)'></article>";
 		}
 	}
 

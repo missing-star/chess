@@ -313,7 +313,7 @@ function move(y, x, j, i, eat,isBack) {
 				if(currentIndex.value < recordList.length) {
 					let obj2 = recordList[currentIndex.value];
 					setTimeout(() => {
-						move(obj2.j,obj2.i,obj2.y,obj2.x,obj2.targetElem.value == 0 ? false : true,false);
+						move(obj2.j,obj2.i,obj2.y,obj2.x,targetElem.value == 0 ? false : true,false);
 					}, 800);
 				}
 			}

@@ -45,7 +45,7 @@
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList,isFinshed, tipsCount} from "../assets/js/my-homework/CChess";
+import {initChess,onChose,map,recordList,isFinshed, tipsCount,show} from "../assets/js/my-homework/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
