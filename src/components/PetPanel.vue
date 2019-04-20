@@ -9,16 +9,17 @@
             <div class="exp-wrapper">
               <p class="title">成长值：</p>
               <div class="exp-progressbar-wrapper">
-                <div class="exp-progressbar exp" :style="petInfo.grow_value/petInfo.grade_experience*100+'%' | filterWidth"></div>
+                <div
+                  class="exp-progressbar exp"
+                  :style="petInfo.grow_value/petInfo.grade_experience*100+'%' | filterWidth"
+                ></div>
               </div>
               <p class="exp-progress-value">{{petInfo.grow_value}} / {{petInfo.grade_experience}}</p>
             </div>
             <div class="exp-wrapper">
               <p class="title">成长点：</p>
-              <div class="exp-progressbar-wrapper">
-                <div class="exp-progressbar growth" :style="petInfo.grow_num/20*100+'%' | filterWidth"></div>
-              </div>
-              <p class="exp-progress-value">{{petInfo.grow_num}} /20</p>
+              <div class="exp-progressbar-wrapper1">{{petInfo.grow_num}}</div>
+              <p class="exp-progress-value"></p>
             </div>
             <div class="pet-name-leve-wrapper">
               <div class="pet-info-item">等级：{{petInfo.grade}}级</div>
@@ -93,16 +94,16 @@ export default {
   components: {
     [ChessMask.name]: ChessMask
   },
-   filters: {
-        filterWidth(chartWidth) {
-            if (chartWidth == '0%') {
-                chartWidth = '0%';
-            }
-            return {
-                width: `${chartWidth}`
-            }
-        }
+  filters: {
+    filterWidth(chartWidth) {
+      if (chartWidth == "0%") {
+        chartWidth = "0%";
+      }
+      return {
+        width: `${chartWidth}`
+      };
     }
+  }
 };
 </script>
 <style scoped>
@@ -148,9 +149,18 @@ p.title {
   margin: 2rem 1rem;
 }
 .exp-progressbar-wrapper {
-  width: 50%;
+  width: auto;
   height: 1rem;
   background: #fffcf2;
+  border-radius: 1rem;
+  flex: 0.8;
+}
+
+.exp-progressbar-wrapper1 {
+  width: auto;
+  height: 1rem;
+  text-align: center;
+  color: #d3b090;
   border-radius: 1rem;
   flex: 0.8;
 }
