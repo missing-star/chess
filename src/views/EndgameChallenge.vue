@@ -93,9 +93,9 @@ export default {
   created() {
     this.getCheckPointDetail();
     console.log(showValue);
-    if (showValue.value == true) {
-      alert(111111111111);
-    }
+    // if (showValue.value == true) {
+    //   alert(111111111111);
+    // }
   },
   watch: {
     handle() {
