@@ -194,6 +194,7 @@ export default {
             this.showCreateSucess = true;
             this.isClose();
           } else {
+            alert("你已拜师")
           }
         })
         .catch(err => {

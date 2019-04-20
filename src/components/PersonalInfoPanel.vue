@@ -5,7 +5,7 @@
             <div class="content-wrapper-container">
                 <div class="user-info-logo-wrapper">
                     <div class="user-logo-wrapper">
-                        <img src="../assets/images/user-logo.png" class="user-logo">
+                        <img :src="teacherInfo.picture" class="user-logo">
                     </div>
                     <div class="username">
                         {{teacherInfo.admin_name}}
