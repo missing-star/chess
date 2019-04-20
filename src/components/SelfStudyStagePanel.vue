@@ -4,13 +4,15 @@
       <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
       <div class="content-wrapper-container">
         <div class="category-wrapper">
-          <div class="category_wrap" v-for="(item,index) in list" :key="index">
-            <p
-              @click="switchCase(mainCatId,subCatId,index)"
-              class="title pointer"
-              :class="{active:currentIndex == index}"
-            >{{item}}</p>
-            <p class="split-line"></p>
+          <div class="category-scroll">
+            <div class="category_wrap" v-for="(item,index) in list" :key="index">
+              <p
+                @click="switchCase(mainCatId,subCatId,index)"
+                class="title pointer"
+                :class="{active:currentIndex == index}"
+              >{{item}}</p>
+              <p class="split-line"></p>
+            </div>
           </div>
         </div>
         <div class="homework-wrapper">
@@ -39,7 +41,7 @@
               <div class="right-part pointer active">
                 <p class="go-study active">再练习</p>
               </div>
-            </li> -->
+            </li>-->
           </ul>
         </div>
       </div>
@@ -51,7 +53,7 @@
 import ChessMask from "./Mask";
 export default {
   name: "chess-self-study-stage-panel",
-  props: ["is-show","main-cat-id","sub-cat-id"],
+  props: ["is-show", "main-cat-id", "sub-cat-id"],
   data() {
     return {
       categoryList: [
@@ -76,60 +78,62 @@ export default {
     },
     getCategory() {
       this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-end-game/get-three-cate`,
-        method:"post",
-        data:this.qs.stringify({
-          level_1:this.mainCatId,
-          level_2:this.subCatId
+        url: `${
+          process.env.VUE_APP_URL
+        }index.php?r=api-end-game/get-three-cate`,
+        method: "post",
+        data: this.qs.stringify({
+          level_1: this.mainCatId,
+          level_2: this.subCatId
         })
-      }).then((res) => {
-        if(res.data.status == 1) {
-          this.list = res.data.data;
-          this.currentIndex = Object.keys(res.data.data)[0];
-          this.getList(this.mainCatId,this.subCatId,this.currentIndex);
-        }
-      }).catch((err) => {
-        alert('服务器异常');
-      });
+      })
+        .then(res => {
+          if (res.data.status == 1) {
+            this.list = res.data.data;
+            this.currentIndex = Object.keys(res.data.data)[0];
+            this.getList(this.mainCatId, this.subCatId, this.currentIndex);
+          }
+        })
+        .catch(err => {
+          alert("服务器异常");
+        });
     },
-    getList(level_1,level_2,level_3) {
-        this.$axios({
-          method: "post",
-          url: `${process.env.VUE_APP_URL}/index.php?r=api-end-game/get-end-game`,
-          data: this.qs.stringify({
-            level_1: level_1,
-            level_2: level_2,
-            level_3: level_3
-          })
+    getList(level_1, level_2, level_3) {
+      this.$axios({
+        method: "post",
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-end-game/get-end-game`,
+        data: this.qs.stringify({
+          level_1: level_1,
+          level_2: level_2,
+          level_3: level_3
         })
-          .then(res => {
-            console.log(res.data.data.title);
-            this.title = res.data.data;
-          })
-          .catch(error => {
-            console.log(error);
-          });
+      })
+        .then(res => {
+          console.log(res.data.data.title);
+          this.title = res.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     closeMyself() {
       this.$emit("hide");
     },
     //去练习
     goPartice(id) {
-      this.$router.push({path:`/self-study-room/${id}`});
+      this.$router.push({ path: `/self-study-room/${id}` });
     },
-    switchCase(level_1,level_2,level_3) {
+    switchCase(level_1, level_2, level_3) {
       this.currentIndex = level_3;
-      this.getList(level_1,level_2,level_3);
+      this.getList(level_1, level_2, level_3);
     }
   },
-  created() {
-    
-  },
-  watch:{
+  created() {},
+  watch: {
     mainCatId() {
-      if(this.mainCatId != '') {
+      if (this.mainCatId != "") {
         console.log(this.mainCatId);
-        this.getCategory(this.mainCatId,this.subCatId);
+        this.getCategory(this.mainCatId, this.subCatId);
       }
     }
   }
@@ -158,10 +162,10 @@ div.content-wrapper-container {
   justify-content: space-between;
   overflow-x: hidden;
   -ms-overflow-style: none;
-  scrollbar-width:none;
+  scrollbar-width: none;
   overflow-y: scroll;
 }
-.category-wrapper::-webkit-scrollbar{
+.category-wrapper::-webkit-scrollbar {
   width: 0;
 }
 .student-info-wrapper,
@@ -315,17 +319,23 @@ p.go-study.active {
 
 .category_wrap {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   text-align: center;
 }
 ul.item-list-wrapper {
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width:none;
-    -ms-overflow-style: none;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-ul.item-list-wrapper::-webkit-scrollbar{
+ul.item-list-wrapper::-webkit-scrollbar {
   width: 0;
+}
+
+div.category-scroll {
+  width: 106%;
+  height: 100%;
+  overflow-y:scroll;
 }
 </style>

@@ -8,7 +8,7 @@
     <div @click="openPersonalInfoPanel" class="user-info-wrapper-container pointer">
       <div class="user-info-wrapper">
         <div class="user-logo-wrapper">
-          <img src="../assets/images/user-logo.png" class="user-logo">
+          <img :src="teacherInfo.picture" class="user-logo">
         </div>
         <div class="user-name-level-wrapper">
           <p class="teacher-name">{{teacherInfo.admin_name}}</p>
@@ -52,6 +52,7 @@
       @control-bgm="controlBgm"
       :isShow="showSetPanel"
       @change-volume="changeVolume"
+      :teacherInfo="teacherInfo"
     ></chess-teacher-set-panel>
     <!-- 老师个人信息 -->
     <chess-personal-info-panel
