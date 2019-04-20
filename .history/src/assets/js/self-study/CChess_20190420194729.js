@@ -164,6 +164,7 @@ function getCText(j, i) {
 }
 
 function showC() {
+	console.log('showc')
 	for (var j = 0; j < 10; j++) {
 		for (var i = 0; i < 9; i++) {
 			//class类名

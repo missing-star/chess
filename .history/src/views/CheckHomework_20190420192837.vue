@@ -2,9 +2,9 @@
   <div class="chess-self-study-wrapper">
     <div class="left-part-wrapper">
       <div class="content-wrapper">
-        <p class="title">{{title}}</p>
+        <p class="title">{{list.task.title}}</p>
         <div class="dashed-line"></div>
-        <p class="content"></p>
+        <p class="content">{{list.chess_manual}}</p>
       </div>
     </div>
     <div class="middle-part-wrapper">
@@ -58,9 +58,7 @@ export default {
       evaluation: "",
       hide: false,
       task_log_id: "",
-      list: [],
-      map:map,
-      title:''
+      list: []
     };
   },
   methods: {
@@ -84,8 +82,10 @@ export default {
           }
         })
         .catch(err => {});
-    },
-    initChess:initChess
+    }
+  },
+  mounted() {
+    initChess();
   },
   created() {
     this.task_log_id = this.$route.query.id;
@@ -99,18 +99,7 @@ export default {
     })
       .then(res => {
         this.list = res.data.data;
-        this.title = res.data.data.task.title;
-        let list = [[0,0,0,-6,-7,0,0,0,0],[0,-3,0,0,0,0,-4,0,0],[0,0,0,0,0,0,0,0,0],[0,0,-1,0,0,0,0,0,0],[0,0,0,0,0,0,-1,0,0],[0,0,0,0,1,0,0,0,0],[0,0,2,0,0,0,0,0,0],[0,0,0,0,0,0,4,0,0],[0,0,0,0,6,0,0,0,0],[0,0,0,7,0,0,0,0,0]];
-        // JSON.parse(res.data.data.task.chess_manual.data_code).forEach(array => {
-          list.forEach(array =>{
-            let temp = [];
-            array.forEach(item => {
-                temp.push(item)
-            });
-            this.map.push(temp);
-        });
-        console.log(this.map)
-        this.initChess();
+        console.log(res.data.data);
       })
       .catch(err => {
         alert("服务器异常");

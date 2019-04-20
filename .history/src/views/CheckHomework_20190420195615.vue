@@ -2,7 +2,7 @@
   <div class="chess-self-study-wrapper">
     <div class="left-part-wrapper">
       <div class="content-wrapper">
-        <p class="title">{{title}}</p>
+        <p class="title">{{list.task.title}}</p>
         <div class="dashed-line"></div>
         <p class="content"></p>
       </div>
