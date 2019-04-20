@@ -405,7 +405,7 @@ function gameOver() {
     if (isOnline.value) {
         gameSocket.close();
 	}
-	sessionStorage.clear();
+	
 	countTimes('over');
 	countTimes2('over');
 	countRaceTime('over');

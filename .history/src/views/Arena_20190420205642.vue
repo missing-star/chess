@@ -109,7 +109,7 @@ export default {
                         //自己登录成功
                         sessionStorage.setItem('code', msg.data.substring(msg.data.indexOf('user')));
                     } else if (msg.data.indexOf('user') == 0) {
-                        console.log('有人登陆了')
+                        console.log('')
                         //b方登录
                         /**
                          * 其他用户登录成功

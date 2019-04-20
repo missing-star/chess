@@ -176,7 +176,7 @@ export default {
         this.initChess();
         this.countRaceTime();
         console.log(this.Back)
-        this.Back.back = () => {
+        this.Back.back = () {
             this.$router.back(-1);
         }
     },

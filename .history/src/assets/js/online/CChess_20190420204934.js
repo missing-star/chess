@@ -404,12 +404,11 @@ function gameOver() {
     map = [];
     if (isOnline.value) {
         gameSocket.close();
-	}
-	sessionStorage.clear();
+    }
 	countTimes('over');
 	countTimes2('over');
 	countRaceTime('over');
-	Back.back();
+	bac
 }
 //我计时一分钟
 function countTimes(flag) {
@@ -720,9 +719,9 @@ function saveGameResult(user_type, socket_key) {
         dataType: 'json',
         async: false,
         data: {
-            user_type: user_type,
-			socket_key: socket_key,
-			play_log:JSON.stringify(recordList)
+            a_key: user_type,
+			play_log:JSON.stringify(recordList),
+			tips_log:JSON.stringify(showRecordList)
         },
         success: function (res) {
 			if(res.status == 1) {

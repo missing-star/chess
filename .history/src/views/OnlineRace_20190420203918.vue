@@ -100,7 +100,7 @@
 import BackButton from '../components/BackButton'
 import '../assets/js/jquery.min'
 import {initChess,onChose,isOnline,searchEngine,backOperation,
-quitGame,move,waitTimes,fightTimes,showGameTime,countRaceTime,api,recordList,showRecordList,Back} from '../assets/js/online/CChess'
+quitGame,move,waitTimes,fightTimes,showGameTime,countRaceTime,api,recordList,showRecordList,goBack} from '../assets/js/online/CChess'
 import '../assets/css/Chess.css'
 import { constants } from 'crypto';
 export default {
@@ -116,7 +116,7 @@ export default {
             recordList:recordList,
             showRecordList:showRecordList,
             isRed:sessionStorage.getItem('isRed') == 'true',
-            Back:Back
+            goBack:goBack
         }
     },
     components:{
@@ -175,10 +175,10 @@ export default {
         this.searchEngine.engine = window.searchEngine;
         this.initChess();
         this.countRaceTime();
-        console.log(this.Back)
-        this.Back.back = () => {
-            this.$router.back(-1);
-        }
+        console.log(this.goBack)
+        // this.goBack.back = function() {
+        //     this.$router.back(-1);
+        // }
     },
     methods:{
         backOperation:backOperation,
