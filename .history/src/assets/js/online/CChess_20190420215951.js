@@ -406,6 +406,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 function gameOver() {
 	map = [];
 	if(gameSocket != null) {
+
 		gameSocket.close();
 	}
 	sessionStorage.clear();

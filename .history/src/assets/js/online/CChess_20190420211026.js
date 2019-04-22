@@ -41,9 +41,7 @@ var Back ={
 
 	}
 }
-var isGameEnd = {
-	value:false
-}
+var 
 function LoadGround() { //生成旗子
     var g = "";
     if (map.length != 0) {
@@ -404,14 +402,11 @@ function move(y, x, j, i, eat, isBack, isSend) {
     }
 }
 function gameOver() {
-	map = [];
-	if(gameSocket != null) {
-		gameSocket.close();
+    map = [];
+    if (isOnline.value) {
+        gameSocket.close();
 	}
 	sessionStorage.clear();
-	isGameEnd.value = true;
-	recordList.splice(0);
-	showRecordList.splice(0);
 	countTimes('over');
 	countTimes2('over');
 	countRaceTime('over');
@@ -426,7 +421,7 @@ function countTimes(flag) {
 		else {
 			waitTimes.value = 60;
 			interval = setInterval(function () {
-				if (waitTimes.value == 0 && !isGameEnd.value) {
+				if (waitTimes.value == 0) {
 					gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 						'type': 'user',
 						'content': 'out',
@@ -728,8 +723,7 @@ function saveGameResult(user_type, socket_key) {
         data: {
             user_type: user_type,
 			socket_key: socket_key,
-			play_log:JSON.stringify(recordList),
-			tips_log:JSON.stringify(showRecordList)
+			play_log:JSON.stringify(recordList)
         },
         success: function (res) {
 			if(res.status == 1) {
@@ -3522,6 +3516,5 @@ export {
 	gameOver,
 	recordList,
 	showRecordList,
-	Back,
-	isGameEnd
+	Back
 }

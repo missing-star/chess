@@ -404,9 +404,9 @@ function move(y, x, j, i, eat, isBack, isSend) {
     }
 }
 function gameOver() {
-	map = [];
-	if(gameSocket != null) {
-		gameSocket.close();
+    map = [];
+    if (isOnline.value) {
+        gameSocket.close();
 	}
 	sessionStorage.clear();
 	isGameEnd.value = true;
@@ -426,7 +426,7 @@ function countTimes(flag) {
 		else {
 			waitTimes.value = 60;
 			interval = setInterval(function () {
-				if (waitTimes.value == 0 && !isGameEnd.value) {
+				if (waitTimes.value == 0 && isGameEnd.value) {
 					gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 						'type': 'user',
 						'content': 'out',

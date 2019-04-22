@@ -404,9 +404,9 @@ function move(y, x, j, i, eat, isBack, isSend) {
     }
 }
 function gameOver() {
-	map = [];
-	if(gameSocket != null) {
-		gameSocket.close();
+    map = [];
+    if (isOnline.value) {
+        gameSocket.close();
 	}
 	sessionStorage.clear();
 	isGameEnd.value = true;

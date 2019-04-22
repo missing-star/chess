@@ -1,43 +1,27 @@
 <template>
-  <div class="chess-arena-wrapper">
-    <h2>竞技场</h2>
-    <div class="category-wrapper">
-      <div class="category-item">
-        <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
-      </div>
-      <div class="category-item">
-        <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
-      </div>
+    <div class="chess-arena-wrapper">
+        <h2>竞技场</h2>
+        <div class="category-wrapper">
+            <div class="category-item">
+                <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
+            </div>
+            <div class="category-item">
+                <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
+            </div>
+        </div>
+        <chess-online-race-panel :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
+        <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel"></chess-check-point-panel>
+        <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel" :is-show="showCheckPointLevelPanel"></chess-check-point-level>
+        <chess-back-button @go-back="gohome"></chess-back-button>
     </div>
-    <chess-online-race-panel
-      :wait-time="waitTime"
-      @start-game="goGame"
-      @hide="hideOnlineRacePanel"
-      :is-show="showOnlineRacePanel"
-    ></chess-online-race-panel>
-    <chess-check-point-panel
-      :level="selectedLevel"
-      @hide="hideCheckPointPanel"
-      :is-show="showCheckPointPanel"
-    ></chess-check-point-panel>
-    <chess-check-point-level
-      @hide="hideCheckPointLevelPanel"
-      @open-check-point-panel="openCheckPointPanel"
-      :is-show="showCheckPointLevelPanel"
-    ></chess-check-point-level>
-
-    <div class="back-btn-wrapper">
-      <img @click="gohome" src="../assets/images/back.png" class="back-icon pointer">
-    </div>
-  </div>
 </template>
 <script>
-import BackButton from "../components/BackButton";
-import OnlineRacePanel from "../components/OnlineRacePanel";
-import CheckPointPanel from "../components/CheckPointPanel";
-import CheckPointLevel from "../components/ChessCheckPointLevel";
+import BackButton from '../components/BackButton'
+import OnlineRacePanel from '../components/OnlineRacePanel'
+import CheckPointPanel from '../components/CheckPointPanel'
+import CheckPointLevel from '../components/ChessCheckPointLevel'
 
-import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver,isGameEnd} from '../assets/js/online/CChess'
+import {SearchEngine,countTimes,countTimes2,saveGameResult,preOperation,gameOver} from '../assets/js/online/CChess'
 export default {
     data() {
         return {
@@ -53,13 +37,13 @@ export default {
             searchEngine:'',
             selectedLevel:'',
             isTimeUp:false,
-            preOperation:preOperation,
-            isGameEnd:isGameEnd
+            preOperation:preOperation
         }
     },
     methods:{
         gohome(){
             this.$router.push("/home")
+            console.log(111)
         },
         countTimes:countTimes,
         countTimes2:countTimes2,
@@ -111,9 +95,7 @@ export default {
                 const uuid = `user${this.getUuuid(8, 16)}`;
                 sessionStorage.setItem('uuid', uuid);
                 this.goOnlineRace();
-                if(this.socket == null) {
-                    this.socket = new WebSocket('ws://47.99.241.87:1234');
-                }
+                this.socket = new WebSocket('ws://47.99.241.87:1234');
                 // this.socket = new WebSocket('ws://127.0.0.1:8001');
                 this.socket.onopen = ()=> {
                     //状态为1证明握手成功
@@ -138,7 +120,6 @@ export default {
                          * 未匹配则匹配用户开始对战 
                          * */
                         if (!sessionStorage.getItem('user_type2')) {
-                            clearInterval(this.interval);
                             sessionStorage.setItem('user_type2', msg.data);
                             //我匹配对方，我是红方
                             sessionStorage.setItem('nowWho', 0);
@@ -158,7 +139,7 @@ export default {
                             //我方先手，开始计时
                             this.countTimes();
                         }
-                    } else if (msg.data == 'offline' && !this.isGameEnd.value) {
+                    } else if (msg.data == 'offline') {
                         //对方刷新或关闭浏览器
                         alert('对方已离线，你赢了');
                         this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
@@ -170,7 +151,6 @@ export default {
                             case 'user':
                                 //用户发送消息给我
                                 if (data.content === 'yes' && !sessionStorage.getItem('user_type2')) {
-                                    clearInterval(this.interval)
                                     //对方匹配我，我是黑方
                                     sessionStorage.setItem('isRed', false);
                                     sessionStorage.setItem('user_type', 'b');
@@ -179,7 +159,7 @@ export default {
                                     //开始游戏
                                     this.startGame();
                                     this.countTimes2();
-                                } else if (data.content == 'out' && !isGameEnd.value) {
+                                } else if (data.content == 'out') {
                                     //对方1分钟未操作
                                     alert('由于对方长时间未操作，您赢得了本局比赛');
                                     this.isTimeUp = true;
@@ -205,7 +185,7 @@ export default {
                                 } else if (data.content == 'refuse') {
                                     //拒绝悔棋
                                     alert('对方拒绝您悔棋!');
-                                } else if (data.content == 'quit') {
+                                } else if (data.content == 'quit' && ) {
                                     //对方认输
                                     alert('对方已认输，您赢得了本局比赛');
                                     this.saveGameResult(sessionStorage.getItem('user_type'), uuid);
@@ -282,57 +262,48 @@ export default {
             this.$router.push({path:'/endgame-challenge'});
         }
     },
-  components: {
-    [BackButton.name]: BackButton,
-    [OnlineRacePanel.name]: OnlineRacePanel,
-    [CheckPointPanel.name]: CheckPointPanel,
-    [CheckPointLevel.name]: CheckPointLevel
-  }
-};
+    components:{
+        [BackButton.name]:BackButton,
+        [OnlineRacePanel.name]:OnlineRacePanel,
+        [CheckPointPanel.name]:CheckPointPanel,
+        [CheckPointLevel.name]:CheckPointLevel
+    }
+}
 </script>
 <style scoped>
 .chess-arena-wrapper {
-  width: 100%;
-  height: 100%;
-  background: url(../assets/images/home-bg.png) no-repeat;
-  background-size: 100% 100%;
-  padding-top: 10%;
+    width: 100%;
+    height: 100%;
+    background: url(../assets/images/home-bg.png) no-repeat;
+    background-size: 100% 100%;
+    padding-top: 10%;
 }
 h2 {
-  text-align: center;
-  font-size: 2rem;
+    text-align: center;
+    font-size: 2rem;
 }
 .category-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem;
 }
 .category-item {
-  width: 20rem;
-  height: 25rem;
-  background: #f6f6f6;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  margin-right: 1rem;
+    width: 20rem;
+    height: 25rem;
+    background: #f6f6f6;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-right: 1rem;
 }
 button.start-game {
-  border: none;
-  width: 55%;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  color: #fff;
-  margin-bottom: 3rem;
-  outline: 0;
-}
-div.back-btn-wrapper {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  width: 5rem;
-}
-img.back-icon {
-  width: 100%;
+    border: none;
+    width: 55%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    margin-bottom: 3rem;
+    outline: 0;
 }
 </style>

@@ -111,8 +111,8 @@ export default {
                 const uuid = `user${this.getUuuid(8, 16)}`;
                 sessionStorage.setItem('uuid', uuid);
                 this.goOnlineRace();
-                if(this.socket == null) {
-                    this.socket = new WebSocket('ws://47.99.241.87:1234');
+                if(this.socket != null) {
+                                    this.socket = new WebSocket('ws://47.99.241.87:1234');
                 }
                 // this.socket = new WebSocket('ws://127.0.0.1:8001');
                 this.socket.onopen = ()=> {
