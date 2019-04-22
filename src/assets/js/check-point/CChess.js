@@ -253,10 +253,8 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		console.log(y, x, j, i);
 		console.log(obj);
 		if (obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
-			alert('闯关失败!');
-			console.log(111)
+			// alert('闯关失败!');
 			showValue.value = true
-			console.log(showValue)
 			return;
 		}
 		else {

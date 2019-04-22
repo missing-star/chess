@@ -1,16 +1,15 @@
 <template>
   <div class="water-box">
     <div class="chess-dialog-body water-box-wrap" :class="{'hide':!isShow}">
-      <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
+      <!-- <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself"> -->
 
       <div class="water-box-mid">
-        <img :src="avter" class="water-img" alt v-if="ImgShow">
-        <img :src="avter" class="water-img1" alt v-if="!ImgShow">
+        <img :src="avter" class="water-img" alt>
       </div>
 
       <div class="water-box-foot">
-        <img src="../assets/images/弹框-再玩一次.png" alt>
-        <img src="../assets/images/弹框-下一关.png" alt>
+        <img src="../assets/images/弹框-退出.png" alt @click="goHistroy">
+        <img src="../assets/images/弹框-再玩一次.png" alt @click="doAgain">
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -20,15 +19,20 @@
 import ChessMask from "./Mask";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     closeMyself() {
       this.$emit("hide");
+    },
+    doAgain() {
+      this.$emit("do-again");
+    },
+    goHistroy() {
+      this.$router.push("/arena");
     }
   },
-  props: ["is-show", "ImgShow","avter","avter1"],
+  props: ["is-show", "ImgShow", "avter"],
   components: {
     [ChessMask.name]: ChessMask
   }
@@ -49,12 +53,8 @@ div.water-box-mid {
   text-align: center;
   margin: 36% 0 0 12%;
 }
+
 img.water-img {
-  width: 54%;
-  top: 52%;
-  left: 16%;
-}
-img.water-img1 {
   width: 80%;
   top: 52%;
   left: 16%;
