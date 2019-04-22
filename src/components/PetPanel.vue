@@ -167,7 +167,7 @@ p.title {
 }
 .exp-progressbar {
   height: 100%;
-  width: 50%;
+  width: 0;
   border-radius: 1rem;
 }
 .exp-progressbar.exp {

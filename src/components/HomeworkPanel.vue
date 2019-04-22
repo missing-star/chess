@@ -50,7 +50,7 @@
               :key="n"
             >
               <li v-for="item in workList1" :key="item.id" class="task-item">
-                <p class="finish-bonus" v-if="item.status != 2">完成奖励</p>
+                <p class="finish-bonus" v-if="item.score == null">完成奖励</p>
                 <div class="task-title-wrapper">
                   <p class="task-title">{{item.title}}</p>
                   <div class="task-progress-wrapper">
