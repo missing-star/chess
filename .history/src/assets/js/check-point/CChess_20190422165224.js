@@ -263,8 +263,8 @@ function move(y, x, j, i, eat, isBack, isSend) {
 			let obj2 = recordList[currentIndex.value];
 			setTimeout(() => {
 				move(obj2.j, obj2.i, obj2.y, obj2.x);
-				currentIndex.value += 1;
 			}, 800);
+			currentIndex.value += 1;
 		}
 	}
 
@@ -890,7 +890,7 @@ function JSMove(tmap, c, y, x) {
 var isFreeOper = false;
 var map = [];
 var runNow = false;
-var DeBug = false;
+var DeBug = true;
 var preOperation = {
 	y: null,
 	x: null,

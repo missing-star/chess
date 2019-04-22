@@ -11,9 +11,7 @@ var currentIndex = {
 var showValue = {
 	value: false
 }
-var isFinshed = {
-	value:false
-}
+var isFinshed
 
 function LoadGround() { //生成旗子
 	var g = '';
@@ -250,8 +248,13 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
 	}
 	if (sessionStorage.getItem('nowWho') == 0) {
+		if(currentIndex.value != 0) {
+			currentIndex.value += 1;
+		}
 		let obj = recordList[currentIndex.value];
 		//obj ==> source: (j,i)  target:(y,x)
+		console.log(y, x, j, i);
+		console.log(obj);
 		if (obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
 			// alert('闯关失败!');
 			showValue.value = true
@@ -260,10 +263,10 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		else {
 			//根据棋谱走棋
 			currentIndex.value += 1;
+			console.log(currentIndex);
 			let obj2 = recordList[currentIndex.value];
 			setTimeout(() => {
 				move(obj2.j, obj2.i, obj2.y, obj2.x);
-				currentIndex.value += 1;
 			}, 800);
 		}
 	}
@@ -284,9 +287,9 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		})
 	}, 10);
 	setTimeout(function () {
-		console.log('结束currentindex='+currentIndex.value)
+		console.log('currentindex='+currentIndex.value)
 		trunH();
-		if(currentIndex.value == recordList.length) {
+		if(currentIndex.value == recordList.length - 1) {
 			isFinshed.value = true;
 			alert('恭喜你闯关成功!');
 			return;
@@ -890,7 +893,7 @@ function JSMove(tmap, c, y, x) {
 var isFreeOper = false;
 var map = [];
 var runNow = false;
-var DeBug = false;
+var DeBug = true;
 var preOperation = {
 	y: null,
 	x: null,
