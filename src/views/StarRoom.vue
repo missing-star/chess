@@ -100,7 +100,23 @@ export default {
     },
     selectTeacher(id) {
       if (this.currentId != id) {
-        this.getTeacherDetail(id);
+        // this.getTeacherDetail(id);
+        this.currentId = id;
+        this.$axios({
+          url: `${
+            process.env.VUE_APP_URL
+          }index.php?r=api-teach/select-teach-detail`,
+          method: "post",
+          data: this.qs.stringify({
+            teach_id: id
+          })
+        })
+          .then(res => {
+            this.teacherInfo = res.data.data;
+          })
+          .catch(err => {
+            alert("服务器异常");
+          });
       }
       sessionStorage.setItem("teachId", id);
     },
@@ -194,7 +210,10 @@ export default {
             this.showCreateSucess = true;
             this.isClose();
           } else {
-            alert("你已拜师")
+            this.avter = require("../assets/images/你已拜师.png");
+            this.showCreateSucess = true;
+            this.isClose();
+            // alert("你已拜师");
           }
         })
         .catch(err => {

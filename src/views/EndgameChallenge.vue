@@ -5,7 +5,7 @@
         <p class="title">{{endGameTitle}}</p>
         <div class="dashed-line"></div>
         <p class="content"></p>
-        <img @click="getCheckPointDetail" src="../assets/images/重做.png" class="redo-icon pointer">
+        <!-- <img @click="getCheckPointDetail" src="../assets/images/重做.png" class="redo-icon pointer"> -->
       </div>
     </div>
     <div class="middle-part-wrapper">
@@ -32,7 +32,12 @@
     <chess-back-button></chess-back-button>
 
     <!-- 失败提示框 -->
-    <lose-alert :is-show="showLostAlert" :ImgShow="ImgShow"></lose-alert>
+    <lose-game
+      :is-show="showLostAlert"
+      :ImgShow="ImgShow"
+      :avter="avter"
+      @do-again="getCheckPointDetail"
+    ></lose-game>
   </div>
 </template>
 <script>
@@ -46,11 +51,11 @@ import {
   showValue
 } from "../assets/js/check-point/CChess";
 import "../assets/css/Chess.css";
-import LoseAlert from "../components/LoseAlert"; //失败提示
+import LoseGame from "../components/LoseGame"; //失败提示
 export default {
   components: {
     [BackButton.name]: BackButton,
-    LoseAlert
+    LoseGame
   },
   data() {
     return {
@@ -58,7 +63,9 @@ export default {
       ImgShow: false,
       map: map,
       recordList: recordList,
-      endGameTitle: ""
+      endGameTitle: "",
+      showValue: showValue,
+      avter: ""
     };
   },
   methods: {
@@ -72,6 +79,9 @@ export default {
       })
         .then(res => {
           if (res.data.status == 1) {
+            showValue.value = false;
+            this.showLostAlert = false;
+
             this.endGameTitle = res.data.data.title;
             this.map.splice(0);
             JSON.parse(res.data.data.data_code).forEach(array => {
@@ -92,18 +102,18 @@ export default {
   },
   created() {
     this.getCheckPointDetail();
-    console.log(showValue);
-    // if (showValue.value == true) {
-    //   alert(111111111111);
-    // }
+    console.log(showValue.value);
   },
   watch: {
-    handle() {
-      if (showValue.value == true) {
-        console.log("成功");
-      }else {
-          console.log("失败")
-      }
+    "showValue.value": {
+      handler: function(a, b) {
+        console.log(a);
+        if (a == true) {
+          this.avter = require("../assets/images/很遗憾，闯关失败咯.png");
+          this.showLostAlert = true;
+        }
+      },
+      deep: true
     }
   },
   mounted() {

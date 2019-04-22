@@ -279,7 +279,6 @@ export default {
         })
           .then(res => {
             if (res.data.status == 1) {
-              this.avter = require("../assets/images/添加学员.png");
               this.showLoginAlert = true;
               this.isClose();
               this.currentPanel = 1;
