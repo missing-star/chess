@@ -210,7 +210,10 @@ export default {
             this.showCreateSucess = true;
             this.isClose();
           } else {
-            alert("你已拜师");
+            this.avter = require("../assets/images/你已拜师.png");
+            this.showCreateSucess = true;
+            this.isClose();
+            // alert("你已拜师");
           }
         })
         .catch(err => {
