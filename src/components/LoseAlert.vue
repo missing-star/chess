@@ -9,8 +9,8 @@
       </div>
 
       <div class="water-box-foot">
-        <img src="../assets/images/弹框-再玩一次.png" alt>
-        <img src="../assets/images/弹框-下一关.png" alt>
+        <img :src="BtnImg" alt>
+        <img :src="BtnImg1" alt>
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -20,15 +20,14 @@
 import ChessMask from "./Mask";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     closeMyself() {
       this.$emit("hide");
     }
   },
-  props: ["is-show", "ImgShow","avter","avter1"],
+  props: ["is-show", "ImgShow", "avter", "BtnImg", "BtnImg1"],
   components: {
     [ChessMask.name]: ChessMask
   }
@@ -55,7 +54,7 @@ img.water-img {
   left: 16%;
 }
 img.water-img1 {
-  width: 80%;
+  width: 70%;
   top: 52%;
   left: 16%;
 }
