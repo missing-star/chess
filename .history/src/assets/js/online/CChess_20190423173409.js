@@ -430,8 +430,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 				//清空上一次定时器，防止多次调用机器走法
 				clearTimeout(setTimoutMachine);
 				setTimoutMachine = setTimeout(function () {
-					console.log(isGameEnd.value);
-					if (!isBackOrGo && !isGameEnd.value) {
+					if (!isBackOrGo) {
 						getEngineeMove(map);
 					}
 				}, getRandomTime());
@@ -491,17 +490,15 @@ function gameOver() {
 	recordList.splice(0);
 	showRecordList.splice(0);
 	currentIndex.value = -1;
-	countTimes('over','over');
-	countTimes2('over','over');
+	countTimes('over');
+	countTimes2('over');
 	Back.back();
 }
 //我计时一分钟
-function countTimes(flag,all) {
+function countTimes(flag) {
 	if (flag == 'over') {
 		waitTimes.value = 0;
-		if(all == 'over') {
-			totalTimesRed.value = 0;
-		}
+		totalTimesRed.value = 0;
 		clearInterval(interval);
 	} else {
 		waitTimes.value = 60;
@@ -524,12 +521,10 @@ function countTimes(flag,all) {
 	}
 }
 //对方计时一分钟
-function countTimes2(flag,all) {
+function countTimes2(flag) {
 	if (flag == 'over') {
 		fightTimes.value = 0;
-		if(all == 'over') {
-			totalTimesBlack.value = 0;
-		}
+		totalTimesBlack.value = 0;
 		clearInterval(interval2);
 	} else {
 		fightTimes.value = 60;
