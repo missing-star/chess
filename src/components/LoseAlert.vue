@@ -54,7 +54,7 @@ img.water-img {
   left: 16%;
 }
 img.water-img1 {
-  width: 80%;
+  width: 70%;
   top: 52%;
   left: 16%;
 }

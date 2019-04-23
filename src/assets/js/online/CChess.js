@@ -47,10 +47,15 @@ var isGameEnd = {
 
 var setTimoutMachine = '';
 var totalTimesRed = {
-	value:0
+	value: 0
 }
 var totalTimesBlack = {
-	value:0
+	value: 0
+}
+
+
+var isMove = {
+	value: 1
 }
 //是否为自由操作模式
 var isFreeOper = false;
@@ -450,7 +455,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		}, 500);
 	}
 	//计时转换角色
-	if(sessionStorage.getItem('nowWho') == 1) {
+	if (sessionStorage.getItem('nowWho') == 1) {
 		countTimes('over');
 		countTimes2();
 	}
@@ -503,7 +508,7 @@ function countTimes(flag) {
 		waitTimes.value = 60;
 		interval = setInterval(function () {
 			if (waitTimes.value == 0 && !isGameEnd.value) {
-				if(isOnline.value) {
+				if (isOnline.value) {
 					gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 						'type': 'user',
 						'content': 'out',
@@ -871,9 +876,8 @@ function backOperation() {
 	}
 	if (!isOnline.value) {
 		//要求悔棋（人机）
+		isMove.value = 2
 		setTimeout(function () {
-			isMove.value = 2
-			console.log(isMove.value)
 			move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true, true);
 			return;
 		}, 1000);
@@ -3632,5 +3636,6 @@ export {
 	noWinner,
 	isGameEnd,
 	totalTimesRed,
-	totalTimesBlack
+	totalTimesBlack,
+	isMove,
 }

@@ -108,6 +108,14 @@
       </div>
     </div>
     <chess-back-button></chess-back-button>
+    <!-- 失败提示框 -->
+    <lose-alert
+      :is-show="showLostAlert"
+      :avter="avter"
+      :BtnImg="BtnImg"
+      :BtnImg1="BtnImg1"
+      :ImgShow="ImgShow"
+    ></lose-alert>
   </div>
 </template>
 <script>
@@ -131,13 +139,17 @@ import {
   countTimes,
   countTimes2,
   totalTimesBlack,
-  totalTimesRed
+  totalTimesRed,
+  isMove
 } from "../assets/js/online/CChess";
 import "../assets/css/Chess.css";
+import LoseAlert from "../components/LoseAlert"; //失败提示
 import { constants } from "crypto";
 export default {
   data() {
     return {
+      showLostAlert: false,
+      ImgShow: false,
       isOnline: isOnline,
       searchEngine: searchEngine,
       nowTimes: new Date().getTime(),
@@ -151,11 +163,16 @@ export default {
       isRed: sessionStorage.getItem("isRed") == "true",
       Back: Back,
       surplusTimeRed: "20:00",
-      surplusTimeBlack: "20:00"
+      surplusTimeBlack: "20:00",
+      isMove: isMove,
+      avter: "",
+      BtnImg: "",
+      BtnImg1: ""
     };
   },
   components: {
-    [BackButton.name]: BackButton
+    [BackButton.name]: BackButton,
+    LoseAlert
   },
   computed: {
     redTime() {
@@ -263,6 +280,21 @@ export default {
     totalTimesBlack: {
       handler() {
         this.surplusTimeBlack = this.calculateTimes(this.totalTimesBlack.value);
+      },
+      deep: true
+    },
+    "isMove.value": {
+      handler: function(a, b) {
+        console.log(a);
+        if (a == 2) {
+          this.ImgShow = false;
+          this.avter = require("../assets/images/等待对方同意.png");
+          this.showLostAlert = true;
+          setTimeout(() => {
+            this.showLostAlert = false;
+          }, 2500);
+          isMove.value = 1;
+        }
       },
       deep: true
     }

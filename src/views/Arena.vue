@@ -90,7 +90,7 @@ export default {
         },
         goOnlineRace() {
             this.interval = setInterval(() => {
-                if (this.waitTime >= 15) {
+                if (this.waitTime >= 1) {
                     // 重新匹配进入人机
                     clearInterval(this.interval);
                     this.waitTime = 0;
