@@ -39,70 +39,136 @@
       </div>
     </div>
     <chess-back-button></chess-back-button>
+    <!-- 成功提示框 -->
+    <water-box
+      :is-show="showWaterBox"
+      :waterImg="waterImg"
+      @hide="hideWaterBox"
+      :againImg="againImg"
+      :nextImg="nextImg"
+      @do-again="goBack"
+      @nextLevel="define"
+    ></water-box>
   </div>
 </template>
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList} from "../assets/js/self-study/CChess";
+import WaterBox from "../components/WaterBox";
+import {
+  initChess,
+  onChose,
+  map,
+  recordList,
+  advise,
+  isFinsh
+} from "../assets/js/self-study/CChess";
 import "../assets/css/Chess.css";
 export default {
   components: {
-    [BackButton.name]: BackButton
+    [BackButton.name]: BackButton,
+    WaterBox
   },
   data() {
     return {
-      map:map,
-      recordList:recordList,
-      title:'',
-      answerList:[]
+      map: map,
+      recordList: recordList,
+      title: "",
+      answerList: [],
+      advise: advise,
+      isFinsh: isFinsh,
+      showWaterBox: false,
+      waterImg: "",
+      againImg: "",
+      nextImg: ""
     };
   },
-  methods:{
+  methods: {
     //获得棋谱详情
     getChessDetail(id) {
       this.$axios({
-          url:`${process.env.VUE_APP_URL}index.php?r=api/game-end-info`,
-          method:'post',
-          data:this.qs.stringify({
-              id:id
-          })
-      }).then((res) => {
-          if(res.data.status == 1) {
-              this.title = res.data.data.title;
-              this.map.splice(0);
-              this.recordList.splice(0);
-              JSON.parse(res.data.data.data_code).forEach(array => {
-                  let temp = [];
-                  array.forEach(item => {
-                      temp.push(item)
-                  });
-                  this.map.push(temp);
+        url: `${process.env.VUE_APP_URL}index.php?r=api/game-end-info`,
+        method: "post",
+        data: this.qs.stringify({
+          id: id
+        })
+      })
+        .then(res => {
+          if (res.data.status == 1) {
+            advise.value = false;
+            isFinsh.value = false;
+            this.showWaterBox = false;
+            this.title = res.data.data.title;
+            this.map.splice(0);
+            this.recordList.splice(0);
+            JSON.parse(res.data.data.data_code).forEach(array => {
+              let temp = [];
+              array.forEach(item => {
+                temp.push(item);
               });
-              initChess();
-              JSON.parse(res.data.data.data_text).forEach(item => {
-                  this.recordList.push(item);
-              });
-              this.answerList = res.data.data.play_log;
+              this.map.push(temp);
+            });
+            initChess();
+            JSON.parse(res.data.data.data_text).forEach(item => {
+              this.recordList.push(item);
+            });
+            this.answerList = res.data.data.play_log;
           }
-      }).catch((err) => {
+        })
+        .catch(err => {
           console.log(err);
-      });
+        });
     },
-    reDo(){
+    reDo() {
       this.getChessDetail(this.$route.params.id);
     },
     showAnswer() {
       alert(this.answerList);
+    },
+    hideWaterBox() {
+      advise.value = false;
+      isFinsh.value = false;
+      this.showWaterBox = false;
+    },
+    // 退出
+    goBack() {
+      this.$router.push("/home");
+    },
+    define() {
+      advise.value = false;
+      isFinsh.value = false;
+      this.showWaterBox = false;
+    }
+  },
+  watch: {
+    "advise.value": {
+      handler: function(c, b) {
+        if (c == true) {
+          this.waterImg = require("../assets/images/走错咯，再来一次呗.png");
+          this.againImg = require("../assets/images/弹框-退出.png");
+          this.nextImg = require("../assets/images/弹框-再玩一次.png");
+          this.showWaterBox = true;
+        }
+      },
+      deep: true
+    },
+    "isFinsh.value": {
+      handler: function(c, b) {
+        if (c == true) {
+          this.waterImg = require("../assets/images/恭喜你，获得胜利.png");
+          this.againImg = require("../assets/images/弹框-退出.png");
+          this.nextImg = require("../assets/images/弹框-再玩一次.png");
+          this.showWaterBox = true;
+        }
+      },
+      deep: true
     }
   },
   mounted() {
     this.getChessDetail(this.$route.params.id);
     window.onChoseSelf = onChose;
   },
-  created() {
-    
-  }
+  created() {}
 };
 </script>
 <style scoped>

@@ -1,3 +1,5 @@
+import { isFinshed } from "../check-point/CChess";
+
 var onMove = false;
 var OnChoseNow = false;
 var nowChoseC = [];
@@ -5,10 +7,19 @@ var moveList = [];
 var eatList = [];
 var recordList = [];
 var currentIndex = {
-	value:0
+	value: 0
 }
 //提示次数
 var tipsCount = 0;
+
+
+var advise = {
+	value: false,
+}
+
+var isFinsh = {
+	value: false,
+}
 
 function LoadGround() { //生成旗子
 	var g = '';
@@ -219,7 +230,7 @@ function cleanChose() {
 	$(".CS").removeClass('selected');
 }
 
-function move(y, x, j, i, eat,isBack) {
+function move(y, x, j, i, eat, isBack) {
 	//下棋操作
 	onMove = true;
 	if (eat == null)
@@ -243,18 +254,18 @@ function move(y, x, j, i, eat,isBack) {
 	// } else {
 	// 	Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
 	// }
-	if(isBack) {
-        //后退
-        onMove = true;
-        var cla = "";
-        var tex = "";
+	if (isBack) {
+		//后退
+		onMove = true;
+		var cla = "";
+		var tex = "";
 		var T = getCText(y, x);
-        if (T == null) {
-            LogError("丢失棋子信息");
-            return;
-        } else {
-            cla = T[1];
-            tex = T[0];
+		if (T == null) {
+			LogError("丢失棋子信息");
+			return;
+		} else {
+			cla = T[1];
+			tex = T[0];
 		}
 		if (preOperation.targetElem == "") {
 			map[j][i] = map[y][x];
@@ -263,7 +274,7 @@ function move(y, x, j, i, eat,isBack) {
 			map[j][i] = map[y][x];
 			map[y][x] = preOperation.targetElem.value;
 		}
-        $("#CS" + j + "-" + i).html(
+		$("#CS" + j + "-" + i).html(
 			"<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
 		)
 		setTimeout(() => {
@@ -284,7 +295,7 @@ function move(y, x, j, i, eat,isBack) {
 		trunH();
 		onMove = false;
 	}
-	else {	
+	else {
 		var targetValue = map[j][i];
 		//保存当前的下棋步骤
 		preOperation.y = j;
@@ -297,23 +308,25 @@ function move(y, x, j, i, eat,isBack) {
 		preOperation.flag = true;
 		map[j][i] = map[y][x];
 		map[y][x] = 0;
-		if(sessionStorage.getItem('nowWho') == 0) {
+		if (sessionStorage.getItem('nowWho') == 0) {
 			let obj = recordList[currentIndex.value];
 			//obj ==> source: (j,i)  target:(y,x)
-			if(obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
+			if (obj.j != y || obj.i != x || obj.y != j || obj.x != i) {
 				tipsCount++;
 				setTimeout(() => {
-					move(preOperation.y,preOperation.x,preOperation.j,preOperation.i,preOperation.targetElem.value == 0 ? false : true,true);
-					alert('不建议此走法!');
+					move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.targetElem.value == 0 ? false : true, true);
+					advise.value = true
+					console.log(advise.value)
+					// alert('不建议此走法!');
 				}, 800);
 			}
 			else {
 				//根据棋谱走棋
 				currentIndex.value += 1;
-				if(currentIndex.value < recordList.length) {
+				if (currentIndex.value < recordList.length) {
 					let obj2 = recordList[currentIndex.value];
 					setTimeout(() => {
-						move(obj2.j,obj2.i,obj2.y,obj2.x,obj2.targetElem.value == 0 ? false : true,false);
+						move(obj2.j, obj2.i, obj2.y, obj2.x, obj2.targetElem.value == 0 ? false : true, false);
 					}, 800);
 				}
 			}
@@ -333,15 +346,16 @@ function move(y, x, j, i, eat,isBack) {
 			})
 		}, 10);
 		setTimeout(function () {
-			console.log('index='+currentIndex.value,recordList.length)
+			console.log('index=' + currentIndex.value, recordList.length)
 			trunH();
-			if(currentIndex.value == recordList.length) {
-				alert('练习结束');
+			if (currentIndex.value == recordList.length) {
+				isFinsh.value = true
+				// alert('练习结束');
 				return;
 			}
 			onMove = false;
 		}, 500);
-	
+
 	}
 }
 //计时一分钟
@@ -357,10 +371,10 @@ function countTimes(flag) {
 	var interval = setInterval(function () {
 		if (time == 60) {
 			socket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-                'type': 'user',
-                'content': 'out',
-                'user_type': sessionStorage.getItem('user_type')
-            })}`);
+				'type': 'user',
+				'content': 'out',
+				'user_type': sessionStorage.getItem('user_type')
+			})}`);
 			alert('由于您长时间未操作，对局已结束');
 			gameOver();
 		}
@@ -434,10 +448,10 @@ function sendMessage(y, x, j, i, eat) {
 		role: sessionStorage.getItem('isRed') == 'true' ? 'red' : 'black'
 	});
 	socket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-        content: obj,
-        type: 'user',
-        user_type: sessionStorage.getItem('user_type')
-    })}`);
+		content: obj,
+		type: 'user',
+		user_type: sessionStorage.getItem('user_type')
+	})}`);
 	//清空计时器
 	countTimes('over');
 }
@@ -520,10 +534,10 @@ function backOperation() {
 	} else {
 		//发送悔棋请求对方确认
 		socket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-            'type': 'user',
-            'content': 'back',
-            'user_type': sessionStorage.getItem('user_type')
-        })}`);
+			'type': 'user',
+			'content': 'back',
+			'user_type': sessionStorage.getItem('user_type')
+		})}`);
 	}
 }
 
@@ -535,10 +549,10 @@ function quitGame() {
 	if (confirm('您确定放弃本局比赛吗？')) {
 		if (isOnline.value) {
 			socket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-                'type': 'user',
-                'content': 'quit',
-                'user_type': sessionStorage.getItem('user_type')
-            })}`);
+				'type': 'user',
+				'content': 'quit',
+				'user_type': sessionStorage.getItem('user_type')
+			})}`);
 		}
 		gameOver();
 	}
@@ -610,10 +624,10 @@ function senMessageChose(j, i, isSend) {
 		chose: true
 	});
 	socket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-        content:obj,
-        type:'user',
-        user_type:sessionStorage.getItem('user_type')
-    })}`);
+		content: obj,
+		type: 'user',
+		user_type: sessionStorage.getItem('user_type')
+	})}`);
 }
 
 function binMove(tmap, c, y, x) { //0红 1黑
@@ -1225,7 +1239,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红将
+		//红将
 		case R_KING:
 			if (target == B_KING) {
 				if (from.x != to.x) {
@@ -1249,7 +1263,7 @@ function isValidMove(board, from, to) {
 			break;
 
 
-			//红士
+		//红士
 		case R_BISHOP:
 			//console.log( to )
 			if (to.y < 7 || to.x < 3 || to.x > 5) {
@@ -1262,7 +1276,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑士
+		//黑士
 		case B_BISHOP:
 			if (to.y > 2 || to.x < 3 || to.x > 5) {
 				return false;
@@ -1273,7 +1287,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红相
+		//红相
 		case R_ELEPHANT:
 			if (to.y < 5) {
 				return false;
@@ -1288,7 +1302,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑相
+		//黑相
 		case B_ELEPHANT:
 			if (to.y > 4) {
 				return false;
@@ -1303,7 +1317,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑兵	
+		//黑兵	
 		case B_PAWN:
 			if (to.y < from.y) {
 				return false;
@@ -1318,7 +1332,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红兵	
+		//红兵	
 		case R_PAWN:
 			if (to.y > from.y) {
 				return false;
@@ -1333,7 +1347,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//车
+		//车
 		case B_CAR:
 		case R_CAR:
 			if (from.y != to.y && from.x != to.x) {
@@ -1371,13 +1385,13 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//马
+		//马
 		case B_HORSE:
 		case R_HORSE:
 			var i;
 			var j;
 			if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+				Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 				return false;
 			}
 
@@ -1400,7 +1414,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//炮
+		//炮
 		case B_CANON:
 		case R_CANON:
 			if (from.y != to.y && from.x != to.x) {
@@ -2135,7 +2149,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红将
+			//红将
 			case R_KING:
 				if (target == B_KING) {
 					if (from.x != to.x) {
@@ -2159,7 +2173,7 @@ var Evaluation = function () {
 				break;
 
 
-				//红士
+			//红士
 			case R_BISHOP:
 				if (to.y < 7 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2170,7 +2184,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑士
+			//黑士
 			case B_BISHOP:
 				if (to.y > 2 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2181,7 +2195,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红相
+			//红相
 			case R_ELEPHANT:
 				if (to.y < 5) {
 					return false;
@@ -2196,7 +2210,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑相
+			//黑相
 			case B_ELEPHANT:
 				if (to.y > 4) {
 					return false;
@@ -2211,7 +2225,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑兵	
+			//黑兵	
 			case B_PAWN:
 				if (to.y < from.y) {
 					return false;
@@ -2226,7 +2240,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红兵	
+			//红兵	
 			case R_PAWN:
 				if (to.y > from.y) {
 					return false;
@@ -2241,7 +2255,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//车
+			//车
 			case B_CAR:
 			case R_CAR:
 				if (from.y != to.y && from.x != to.x) {
@@ -2279,13 +2293,13 @@ var Evaluation = function () {
 				}
 				break;
 
-				//马
+			//马
 			case B_HORSE:
 			case R_HORSE:
 				var j;
 				var i;
 				if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-						Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 					return false;
 				}
 
@@ -2308,7 +2322,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//炮
+			//炮
 			case B_CANON:
 			case R_CANON:
 				if (from.y != to.y && from.x != to.x) {
@@ -3270,5 +3284,7 @@ export {
 	searchEngine,
 	backOperation,
 	quitGame,
-	recordList
+	recordList,
+	advise,
+	isFinsh,
 }
