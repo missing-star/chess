@@ -38,6 +38,16 @@
       :avter="avter"
       @do-again="getCheckPointDetail"
     ></lose-game>
+
+    <!-- 成功提示框 -->
+    <water-box
+      :is-show="showWaterBox"
+      :waterImg="waterImg"
+      @hide="hideWaterBox"
+      :againImg="againImg"
+      :nextImg="nextImg"
+      @do-again="getCheckPointDetail"
+    ></water-box>
   </div>
 </template>
 <script>
@@ -48,24 +58,33 @@ import {
   onChose,
   map,
   recordList,
-  showValue
+  showValue,
+  isFinshed
 } from "../assets/js/check-point/CChess";
 import "../assets/css/Chess.css";
 import LoseGame from "../components/LoseGame"; //失败提示
+import WaterBox from "../components/WaterBox";
+import { createSign } from "crypto";
 export default {
   components: {
     [BackButton.name]: BackButton,
-    LoseGame
+    LoseGame,
+    WaterBox
   },
   data() {
     return {
       showLostAlert: false,
       ImgShow: false,
+      showWaterBox: false,
       map: map,
       recordList: recordList,
       endGameTitle: "",
       showValue: showValue,
-      avter: ""
+      avter: "",
+      isFinshed: isFinshed,
+      waterImg: "",
+      againImg: "",
+      nextImg: ""
     };
   },
   methods: {
@@ -81,9 +100,11 @@ export default {
           if (res.data.status == 1) {
             showValue.value = false;
             this.showLostAlert = false;
-
+            isFinshed.value = false;
+            this.showWaterBox = false;
             this.endGameTitle = res.data.data.title;
             this.map.splice(0);
+            this.recordList.splice(0);
             JSON.parse(res.data.data.data_code).forEach(array => {
               let temp = [];
               array.forEach(item => {
@@ -98,16 +119,32 @@ export default {
           }
         })
         .catch(err => {});
-    }
+    },
+    hideWaterBox() {
+      //提示框
+      this.showWaterBox = false;
+    },
+    // 下一关
+    nextLevel() {}
   },
   created() {
     this.getCheckPointDetail();
-    console.log(showValue.value);
   },
   watch: {
+    "isFinshed.value": {
+      handler: function(c, b) {
+        console.log(c + "监视c");
+        if (c == true) {
+          this.waterImg = require("../assets/images/water-1.png");
+          this.againImg = require("../assets/images/弹框-再玩一次.png");
+          this.nextImg = require("../assets/images/弹框-下一关.png");
+          this.showWaterBox = true;
+        }
+      },
+      deep: true
+    },
     "showValue.value": {
       handler: function(a, b) {
-        console.log(a);
         if (a == true) {
           this.avter = require("../assets/images/很遗憾，闯关失败咯.png");
           this.showLostAlert = true;
@@ -122,6 +159,21 @@ export default {
 };
 </script>
 <style scoped>
+div.chess-dialog-body {
+  z-index: 2;
+  background-size: 100% 100%;
+  width: 50%;
+  height: 70%;
+  min-width: 850px;
+  position: absolute;
+  left: 25%;
+  top: 2% !important;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  min-width: 960px;
+  min-height: 768px !important;
+  opacity: 1;
+}
 div.chess-my-homework-wrapper {
   display: flex;
   align-items: center;

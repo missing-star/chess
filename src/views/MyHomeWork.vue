@@ -24,10 +24,14 @@
         <p class="title operation">操作台</p>
         <div class="operation-group-btn">
           <img @click="reDo" src="../assets/images/重做.png" class="operation-item-btn pointer">
-          <img @click="submitHomework" src="../assets/images/submit-btn.png" class="operation-item-btn pointer">
+          <img
+            @click="submitHomework"
+            src="../assets/images/submit-btn.png"
+            class="operation-item-btn pointer"
+          >
           <!-- <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer"> -->
           <!-- <img src="../assets/images/上一题.png" class="operation-item-btn pointer">
-          <img src="../assets/images/下一题.png" class="operation-item-btn pointer"> -->
+          <img src="../assets/images/下一题.png" class="operation-item-btn pointer">-->
         </div>
       </div>
       <div class="red-wrapper">
@@ -40,115 +44,198 @@
       </div>
     </div>
     <chess-back-button></chess-back-button>
+    <!-- 提示框 -->
+    <water-box
+      :is-show="showWaterBox"
+      :waterImg="waterImg"
+      @hide="hideWaterBox"
+      :againImg="againImg"
+      :nextImg="nextImg"
+      @do-again="goBack"
+      @nextLevel="define"
+    ></water-box>
   </div>
 </template>
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {initChess,onChose,map,recordList,isFinshed, tipsCount,currentIndex} from "../assets/js/my-homework/CChess";
+import {
+  initChess,
+  onChose,
+  map,
+  recordList,
+  isFinshed,
+  tipsCount,
+  currentIndex,
+  advise,
+  isFinsh
+} from "../assets/js/my-homework/CChess";
 import "../assets/css/Chess.css";
+import WaterBox from "../components/WaterBox";
 export default {
   components: {
-    [BackButton.name]: BackButton
+    [BackButton.name]: BackButton,
+    WaterBox
   },
   data() {
     return {
-      map:map,
-      recordList:recordList,
-      showrecordList:[],
-      title:'',
-      answerList:[],
-      isFinshed:isFinshed,
-      tipsCount:tipsCount,
-      currentIndex:currentIndex,
+      map: map,
+      recordList: recordList,
+      showrecordList: [],
+      title: "",
+      answerList: [],
+      isFinshed: isFinshed,
+      tipsCount: tipsCount,
+      currentIndex: currentIndex,
+      advise: advise,
+      isFinsh: isFinsh,
+      showWaterBox: false,
+      waterImg: "",
+      againImg: "",
+      nextImg: ""
     };
   },
-  methods:{
+  methods: {
     //获得棋谱详情
     getChessDetail(id) {
       this.$axios({
-          url:`${process.env.VUE_APP_URL}index.php?r=api-student/open-task`,
-          method:'post',
-          data:this.qs.stringify({
-              task_log_id:id
-          })
-      }).then((res) => {
-          if(res.data.status == 1) {
-              this.title = res.data.data.task.chess_manual.title;
-              this.map.splice(0);
-              this.recordList.splice(0);
-              this.showrecordList.splice(0);
-              JSON.parse(res.data.data.task.chess_manual.data_code).forEach(array => {
-                  let temp = [];
-                  array.forEach(item => {
-                      temp.push(item)
-                  });
-                  this.map.push(temp);
-              });
-              initChess();
-              JSON.parse(res.data.data.task.chess_manual.data_text).forEach(item => {
-                  this.recordList.push(item);
-              });
-              JSON.parse(res.data.data.task.chess_manual.play_log).forEach(item => {
-                this.showrecordList.push(item)
-              });
-              this.answerList = res.data.data.task.chess_manual.play_log;
+        url: `${process.env.VUE_APP_URL}index.php?r=api-student/open-task`,
+        method: "post",
+        data: this.qs.stringify({
+          task_log_id: id
+        })
+      })
+        .then(res => {
+          if (res.data.status == 1) {
+            // 重置监听的值
+            advise.value = false;
+            isFinsh.value = false;
+            this.showWaterBox = false;
+
+            this.title = res.data.data.task.chess_manual.title;
+            this.map.splice(0);
+            this.recordList.splice(0);
+            this.showrecordList.splice(0);
+            JSON.parse(res.data.data.task.chess_manual.data_code).forEach(
+              array => {
+                let temp = [];
+                array.forEach(item => {
+                  temp.push(item);
+                });
+                this.map.push(temp);
+              }
+            );
+            initChess();
+            JSON.parse(res.data.data.task.chess_manual.data_text).forEach(
+              item => {
+                this.recordList.push(item);
+              }
+            );
+            JSON.parse(res.data.data.task.chess_manual.play_log).forEach(
+              item => {
+                this.showrecordList.push(item);
+              }
+            );
+            this.answerList = res.data.data.task.chess_manual.play_log;
           }
-      }).catch((err) => {
+        })
+        .catch(err => {
           console.log(err);
-      });
+        });
     },
-    reDo(){
+    reDo() {
       this.getChessDetail(this.$route.params.id);
     },
     submitHomework() {
       let temp = [];
       if (currentIndex.value % 2 == 0) {
-          temp = this.showrecordList.slice(0,parseInt(currentIndex.value / 2));
+        temp = this.showrecordList.slice(0, parseInt(currentIndex.value / 2));
       } else {
-          temp = this.showrecordList.slice(0,parseInt(currentIndex.value / 2) + 1);
-          temp[parseInt(currentIndex.value / 2)].black = '';
+        temp = this.showrecordList.slice(
+          0,
+          parseInt(currentIndex.value / 2) + 1
+        );
+        temp[parseInt(currentIndex.value / 2)].black = "";
       }
       this.$axios({
-        url:`${process.env.VUE_APP_URL}index.php?r=api-student/update-task-notice-log-status`,
-        method:'post',
-        data:this.qs.stringify({
-          task_log_id:this.$route.params.id,
-          is_read:1,
-          status:1,
-          data_text:JSON.stringify(this.recordList.slice(0,this.currentIndex.value)),
-          play_log:JSON.stringify(temp),
-          tip_num:this.tipsCount.value,
-          post_at:(new Date().getTime()) / 1000
+        url: `${
+          process.env.VUE_APP_URL
+        }index.php?r=api-student/update-task-notice-log-status`,
+        method: "post",
+        data: this.qs.stringify({
+          task_log_id: this.$route.params.id,
+          is_read: 1,
+          status: 1,
+          data_text: JSON.stringify(
+            this.recordList.slice(0, this.currentIndex.value)
+          ),
+          play_log: JSON.stringify(temp),
+          tip_num: this.tipsCount.value,
+          post_at: new Date().getTime() / 1000
         })
-      }).then(res => {
-        if(res.data.status == 1) {
-          alert('提交成功');
-          window.onChoseHomeWork = function(){return;}
-        }
-        else {
-          alert(res.data.msg);
-        }
-      }).catch(err => {
-        alert('服务器异常');
       })
+        .then(res => {
+          if (res.data.status == 1) {
+            alert("提交成功");
+            window.onChoseHomeWork = function() {
+              return;
+            };
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch(err => {
+          alert("服务器异常");
+        });
     },
     showAnswer() {
       alert(this.answerList);
+    },
+    hideWaterBox() {
+      advise.value = false;
+      isFinsh.value = false;
+      this.showWaterBox = false;
+    },
+    define() {
+      advise.value = false;
+      isFinsh.value = false;
+      this.showWaterBox = false;
+    },
+    // 退出
+    goBack() {
+      this.$router.push("/home");
     }
   },
   mounted() {
     this.getChessDetail(this.$route.params.id);
     window.onChoseHomeWork = onChose;
   },
-  watch:{
-    map:function() {
-      
+  watch: {
+    map: function() {},
+    "advise.value": {
+      handler: function(c, b) {
+        if (c == true) {
+          this.waterImg = require("../assets/images/走错咯，再来一次呗.png");
+          this.againImg = require("../assets/images/弹框-退出.png");
+          this.nextImg = require("../assets/images/弹框-再玩一次.png");
+          this.showWaterBox = true;
+        }
+      },
+      deep: true
+    },
+    "isFinsh.value": {
+      handler: function(c, b) {
+        if (c == true) {
+          this.waterImg = require("../assets/images/恭喜你，获得胜利.png");
+          this.againImg = require("../assets/images/弹框-退出.png");
+          this.nextImg = require("../assets/images/弹框-再玩一次.png");
+          this.showWaterBox = true;
+        }
+      },
+      deep: true
     }
   },
-  created() {
-    
-  }
+  created() {}
 };
 </script>
 <style scoped>
@@ -301,7 +388,7 @@ p.content {
 img.operation-item-btn {
   width: 34%;
   margin: 0.5rem;
-  margin:0 15%;
+  margin: 0 15%;
 }
 .operation-group-btn {
   display: flex;

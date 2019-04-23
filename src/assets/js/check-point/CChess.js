@@ -288,7 +288,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		trunH();
 		if(currentIndex.value == recordList.length) {
 			isFinshed.value = true;
-			alert('恭喜你闯关成功!');
+			// alert('恭喜你闯关成功!');
 			return;
 		}
 		onMove = false;
@@ -425,7 +425,7 @@ function cleanSt() {
 }
 
 function trunH() {
-	console.log('trunH', sessionStorage.getItem('nowWho') == '0');
+	// console.log('trunH', sessionStorage.getItem('nowWho') == '0');
 	if (sessionStorage.getItem('nowWho') == 0) {
 		sessionStorage.setItem('nowWho', 1);
 	} else {
@@ -3222,5 +3222,6 @@ export {
 	backOperation,
 	quitGame,
 	recordList,
-	showValue
+	showValue,
+	isFinshed
 }

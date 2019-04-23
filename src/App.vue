@@ -54,6 +54,25 @@ div.chess-dialog-body.hide {
   top: -100%;
   opacity: 0;
 }
+
+div.chess-dialog-body1 {
+  z-index: 2;
+  background-size: 100% 100%;
+  width: 50%;
+  height: 70%;
+  min-width: 850px;
+  position: absolute;
+  left: 25%;
+  transition: all 0.3s ease-out;
+  min-width: 960px;
+  opacity: 1;
+  top: 2%;
+  min-height: 768px;
+}
+div.chess-dialog-body1.hide {
+  top: -100%;
+  opacity: 0;
+}
 img.mail-box-close {
   position: absolute;
   right: -4.5rem;

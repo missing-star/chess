@@ -1,13 +1,13 @@
 <template>
   <div class="water-box">
-    <div class="chess-dialog-body water-box-wrap" :class="{'hide':!isShow}">
+    <div class="chess-dialog-body1 water-box-wrap" :class="{'hide':!isShow}">
       <img src="../assets/images/close.png" class="mail-box-close" @click="closeMyself">
 
-      <img src="../assets/images/water-1.png" class="water-img" alt>
+      <img :src="waterImg" class="water-img" alt>
 
       <div class="water-box-foot">
-        <img src="../assets/images/弹框-再玩一次.png" alt>
-        <img src="../assets/images/弹框-下一关.png" alt>
+        <img :src="againImg" alt @click="doAgain">
+        <img :src="nextImg" alt @click="nextLevel">
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -22,9 +22,16 @@ export default {
   methods: {
     closeMyself() {
       this.$emit("hide");
-    }
+    },
+    doAgain(){
+      this.$emit("do-again");
+    },
+      nextLevel(){
+      this.$emit("nextLevel");
+    },
+    
   },
-  props: ["is-show"],
+  props: ["is-show","waterImg","againImg","nextImg"],
   components: {
     [ChessMask.name]: ChessMask
   }
