@@ -46,13 +46,12 @@ var isGameEnd = {
 }
 
 var setTimoutMachine = '';
-
-
-// 悔棋
-var isMove = {
-	value: 1
+var totalTimesRed = {
+	value:0
 }
-
+var totalTimesBlack = {
+	value:0
+}
 //是否为自由操作模式
 var isFreeOper = false;
 var map = [];
@@ -450,6 +449,15 @@ function move(y, x, j, i, eat, isBack, isSend) {
 			onMove = false;
 		}, 500);
 	}
+	//计时转换角色
+	if(sessionStorage.getItem('nowWho') == 1) {
+		countTimes('over');
+		countTimes2();
+	}
+	else {
+		countTimes2('over');
+		countTimes();
+	}
 
 }
 /**
@@ -465,7 +473,10 @@ function noWinner() {
 			})}`);
 		}
 		else {
-			gameOver();
+			setTimeout(() => {
+				alert('对方已同意和棋，对战结束');
+				gameOver();
+			}, 1000);
 		}
 	}
 }
@@ -480,11 +491,11 @@ function gameOver() {
 	showRecordList.splice(0);
 	countTimes('over');
 	countTimes2('over');
-	countRaceTime('over');
 	Back.back();
 }
 //我计时一分钟
 function countTimes(flag) {
+	console.log('开始计时');
 	if (flag == 'over') {
 		waitTimes.value = 0;
 		clearInterval(interval);
@@ -492,15 +503,18 @@ function countTimes(flag) {
 		waitTimes.value = 60;
 		interval = setInterval(function () {
 			if (waitTimes.value == 0 && !isGameEnd.value) {
-				gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-					'type': 'user',
-					'content': 'out',
-					'user_type': sessionStorage.getItem('user_type')
-				})}`);
+				if(isOnline.value) {
+					gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
+						'type': 'user',
+						'content': 'out',
+						'user_type': sessionStorage.getItem('user_type')
+					})}`);
+				}
 				alert('由于您长时间未操作，对局已结束');
 				gameOver();
 				return;
 			}
+			totalTimesRed.value += 1;
 			waitTimes.value -= 1;
 		}, 1000);
 	}
@@ -518,6 +532,7 @@ function countTimes2(flag) {
 				return;
 			}
 			fightTimes.value -= 1;
+			totalTimesBlack.value += 1;
 		}, 1000);
 	}
 }
@@ -3607,8 +3622,6 @@ export {
 	move,
 	waitTimes,
 	fightTimes,
-	countRaceTime,
-	showGameTime,
 	saveGameResult,
 	preOperation,
 	api,
@@ -3618,5 +3631,6 @@ export {
 	Back,
 	noWinner,
 	isGameEnd,
-	isMove
+	totalTimesRed,
+	totalTimesBlack
 }

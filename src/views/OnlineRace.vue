@@ -59,11 +59,14 @@
         </div>
         <div class="current-percent-wrapper">
           <div class="progressbar-wrapper">
-            <div class="progressbar"></div>
+            <div
+              class="progressbar"
+              :style="{width:((1200 - totalTimesBlack.value) / 1200)*100+'%'}"
+            ></div>
           </div>
-          <p class="percent">86%</p>
+          <p class="percent">{{parseFloat((1200 - totalTimesBlack.value) / 1200).toFixed(2)*100}}%</p>
         </div>
-        <div class="current-time-info-wrapper">局时：{{showGameTime.value}} 步时：{{blackTime}}</div>
+        <div class="current-time-info-wrapper">局时：{{surplusTimeBlack}} 步时：{{blackTime}}</div>
       </div>
       <div class="race-operation-wrapper">
         <p class="title operation">操作台</p>
@@ -97,17 +100,14 @@
         </div>
         <div class="current-percent-wrapper">
           <div class="progressbar-wrapper">
-            <div class="progressbar"></div>
+            <div class="progressbar" :style="{width:((1200 - totalTimesRed.value) / 1200)*100+'%'}"></div>
           </div>
-          <p class="percent">86%</p>
+          <p class="percent">{{parseFloat((1200 - totalTimesRed.value) / 1200).toFixed(2)*100}}%</p>
         </div>
-        <div class="current-time-info-wrapper">局时：{{showGameTime.value}} 步时：{{redTime}}</div>
+        <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
       </div>
     </div>
     <chess-back-button></chess-back-button>
-
-    <!-- 提示框 -->
-    <lose-alert :is-show="showLoseAlert" :BtnImg="BtnImg" :BtnImg1="BtnImg1"></lose-alert>
   </div>
 </template>
 <script>
@@ -123,41 +123,39 @@ import {
   move,
   waitTimes,
   fightTimes,
-  showGameTime,
-  countRaceTime,
   api,
   recordList,
   showRecordList,
   Back,
   noWinner,
-  isMove
+  countTimes,
+  countTimes2,
+  totalTimesBlack,
+  totalTimesRed
 } from "../assets/js/online/CChess";
 import "../assets/css/Chess.css";
 import { constants } from "crypto";
-import LoseAlert from "../components/LoseAlert";
 export default {
   data() {
     return {
       isOnline: isOnline,
       searchEngine: searchEngine,
       nowTimes: new Date().getTime(),
-      showGameTime: showGameTime,
       waitTimes: waitTimes,
       fightTimes: fightTimes,
+      totalTimesRed: totalTimesRed,
+      totalTimesBlack: totalTimesBlack,
       api: api,
       recordList: recordList,
       showRecordList: showRecordList,
       isRed: sessionStorage.getItem("isRed") == "true",
       Back: Back,
-      showLoseAlert: false,
-      ImgShow: false,
-      BtnImg: "",
-      BtnImg1: ""
+      surplusTimeRed: "20:00",
+      surplusTimeBlack: "20:00"
     };
   },
   components: {
-    [BackButton.name]: BackButton,
-    LoseAlert
+    [BackButton.name]: BackButton
   },
   computed: {
     redTime() {
@@ -225,7 +223,7 @@ export default {
     this.api.url = process.env.VUE_APP_URL;
     this.searchEngine.engine = window.searchEngine;
     this.initChess();
-    this.countRaceTime();
+    this.countTimes();
     this.Back.back = () => {
       this.$router.push("/arena");
     };
@@ -234,10 +232,20 @@ export default {
     backOperation: backOperation,
     quitGame: quitGame,
     initChess: initChess,
-    countRaceTime: countRaceTime,
     noWinner: noWinner,
+    countTimes: countTimes,
+    countTimes2: countTimes2,
     printList() {
       console.log(this.recordList, this.showRecordList);
+    },
+    calculateTimes(number) {
+      var minute = parseInt((1200 - number) / 60);
+      var seconds = parseInt((1200 - number) % 60);
+      return (
+        (minute < 10 ? "0" + minute : minute) +
+        ":" +
+        (seconds < 10 ? "0" + seconds : seconds)
+      );
     }
   },
   watch: {
@@ -246,11 +254,15 @@ export default {
         this.$refs.recordWrapper.scrollTop = this.$refs.recordWrapper.scrollHeight;
       });
     },
-    "isMove.value": {
-      handler: function(a, b) {
-        if (a == 2) {
-          this.showLoseAlert = true;
-        }
+    totalTimesRed: {
+      handler() {
+        this.surplusTimeRed = this.calculateTimes(this.totalTimesRed.value);
+      },
+      deep: true
+    },
+    totalTimesBlack: {
+      handler() {
+        this.surplusTimeBlack = this.calculateTimes(this.totalTimesBlack.value);
       },
       deep: true
     }
