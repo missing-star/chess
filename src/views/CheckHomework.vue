@@ -245,6 +245,7 @@ p.finish-status {
   text-align: center;
   color: #ffc061;
   font-size: 3rem;
+  line-height: 4rem;
 }
 p.tips-times {
   width: 90%;

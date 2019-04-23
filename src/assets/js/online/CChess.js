@@ -47,6 +47,12 @@ var isGameEnd = {
 
 var setTimoutMachine = '';
 
+
+// 悔棋
+var isMove = {
+	value: 1
+}
+
 //是否为自由操作模式
 var isFreeOper = false;
 var map = [];
@@ -348,7 +354,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		preOperation.flag = false;
 		preOperation.eat = null;
 		var end = false;
-		if (isBackOrGo ||(currentIndex.value != -1 && currentIndex.value != recordList.length - 1)) {
+		if (isBackOrGo || (currentIndex.value != -1 && currentIndex.value != recordList.length - 1)) {
 			console.log('重置长度')
 			//操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
 			recordList.splice(currentIndex.value);
@@ -450,8 +456,8 @@ function move(y, x, j, i, eat, isBack, isSend) {
  * 和棋
  */
 function noWinner() {
-	if(confirm('您确定要和棋吗？')) {
-		if(isOnline.value) {
+	if (confirm('您确定要和棋吗？')) {
+		if (isOnline.value) {
 			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 				'type': 'user',
 				'content': 'nowinner',
@@ -487,10 +493,10 @@ function countTimes(flag) {
 		interval = setInterval(function () {
 			if (waitTimes.value == 0 && !isGameEnd.value) {
 				gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-						'type': 'user',
-						'content': 'out',
-						'user_type': sessionStorage.getItem('user_type')
-					})}`);
+					'type': 'user',
+					'content': 'out',
+					'user_type': sessionStorage.getItem('user_type')
+				})}`);
 				alert('由于您长时间未操作，对局已结束');
 				gameOver();
 				return;
@@ -615,11 +621,11 @@ function showSource(y, x, t) {
 	let result = '';
 	// t<0黑旗 t>0红棋
 	if (t < 0) {
-		result = `${getQiName(t)}${numToChara(x+1)}`;
+		result = `${getQiName(t)}${numToChara(x + 1)}`;
 		source.y = y;
 		source.x = x + 1;
 	} else {
-		result = `${getQiName(t)}${numToChara(9-x)}`;
+		result = `${getQiName(t)}${numToChara(9 - x)}`;
 		source.y = y;
 		source.x = 9 - x;
 	}
@@ -737,10 +743,10 @@ function sendMessage(y, x, j, i, eat) {
 		role: sessionStorage.getItem('isRed') == 'true' ? 'red' : 'black'
 	});
 	gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-        content: obj,
-        type: 'user',
-        user_type: sessionStorage.getItem('user_type')
-    })}`);
+		content: obj,
+		type: 'user',
+		user_type: sessionStorage.getItem('user_type')
+	})}`);
 	//清空计时器
 	countTimes('over');
 	countTimes2();
@@ -851,16 +857,18 @@ function backOperation() {
 	if (!isOnline.value) {
 		//要求悔棋（人机）
 		setTimeout(function () {
+			isMove.value = 2
+			console.log(isMove.value)
 			move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true, true);
 			return;
 		}, 1000);
 	} else {
 		//发送悔棋请求对方确认
 		gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-            'type': 'user',
-            'content': 'back',
-            'user_type': sessionStorage.getItem('user_type')
-        })}`);
+			'type': 'user',
+			'content': 'back',
+			'user_type': sessionStorage.getItem('user_type')
+		})}`);
 	}
 }
 
@@ -872,10 +880,10 @@ function quitGame() {
 	if (confirm('您确定放弃本局比赛吗？')) {
 		if (isOnline.value) {
 			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-                'type': 'user',
-                'content': 'quit',
-                'user_type': sessionStorage.getItem('user_type')
-            })}`);
+				'type': 'user',
+				'content': 'quit',
+				'user_type': sessionStorage.getItem('user_type')
+			})}`);
 		}
 		else {
 			gameOver();
@@ -958,10 +966,10 @@ function senMessageChose(j, i, isSend) {
 		chose: true
 	});
 	gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-        content:obj,
-        type:'user',
-        user_type:sessionStorage.getItem('user_type')
-    })}`);
+		content: obj,
+		type: 'user',
+		user_type: sessionStorage.getItem('user_type')
+	})}`);
 }
 
 function binMove(tmap, c, y, x) { //0红 1黑
@@ -1549,7 +1557,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红将
+		//红将
 		case R_KING:
 			if (target == B_KING) {
 				if (from.x != to.x) {
@@ -1573,7 +1581,7 @@ function isValidMove(board, from, to) {
 			break;
 
 
-			//红士
+		//红士
 		case R_BISHOP:
 			//console.log( to )
 			if (to.y < 7 || to.x < 3 || to.x > 5) {
@@ -1586,7 +1594,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑士
+		//黑士
 		case B_BISHOP:
 			if (to.y > 2 || to.x < 3 || to.x > 5) {
 				return false;
@@ -1597,7 +1605,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红相
+		//红相
 		case R_ELEPHANT:
 			if (to.y < 5) {
 				return false;
@@ -1612,7 +1620,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑相
+		//黑相
 		case B_ELEPHANT:
 			if (to.y > 4) {
 				return false;
@@ -1627,7 +1635,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑兵	
+		//黑兵	
 		case B_PAWN:
 			if (to.y < from.y) {
 				return false;
@@ -1642,7 +1650,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红兵	
+		//红兵	
 		case R_PAWN:
 			if (to.y > from.y) {
 				return false;
@@ -1657,7 +1665,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//车
+		//车
 		case B_CAR:
 		case R_CAR:
 			if (from.y != to.y && from.x != to.x) {
@@ -1695,13 +1703,13 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//马
+		//马
 		case B_HORSE:
 		case R_HORSE:
 			var i;
 			var j;
 			if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+				Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 				return false;
 			}
 
@@ -1724,7 +1732,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//炮
+		//炮
 		case B_CANON:
 		case R_CANON:
 			if (from.y != to.y && from.x != to.x) {
@@ -2459,7 +2467,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红将
+			//红将
 			case R_KING:
 				if (target == B_KING) {
 					if (from.x != to.x) {
@@ -2483,7 +2491,7 @@ var Evaluation = function () {
 				break;
 
 
-				//红士
+			//红士
 			case R_BISHOP:
 				if (to.y < 7 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2494,7 +2502,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑士
+			//黑士
 			case B_BISHOP:
 				if (to.y > 2 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2505,7 +2513,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红相
+			//红相
 			case R_ELEPHANT:
 				if (to.y < 5) {
 					return false;
@@ -2520,7 +2528,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑相
+			//黑相
 			case B_ELEPHANT:
 				if (to.y > 4) {
 					return false;
@@ -2535,7 +2543,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑兵	
+			//黑兵	
 			case B_PAWN:
 				if (to.y < from.y) {
 					return false;
@@ -2550,7 +2558,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红兵	
+			//红兵	
 			case R_PAWN:
 				if (to.y > from.y) {
 					return false;
@@ -2565,7 +2573,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//车
+			//车
 			case B_CAR:
 			case R_CAR:
 				if (from.y != to.y && from.x != to.x) {
@@ -2603,13 +2611,13 @@ var Evaluation = function () {
 				}
 				break;
 
-				//马
+			//马
 			case B_HORSE:
 			case R_HORSE:
 				var j;
 				var i;
 				if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-						Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 					return false;
 				}
 
@@ -2632,7 +2640,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//炮
+			//炮
 			case B_CANON:
 			case R_CANON:
 				if (from.y != to.y && from.x != to.x) {
@@ -3609,5 +3617,6 @@ export {
 	showRecordList,
 	Back,
 	noWinner,
-	isGameEnd
+	isGameEnd,
+	isMove
 }
