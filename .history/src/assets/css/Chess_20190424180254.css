@@ -1,0 +1,133 @@
+
+ #line{
+    width: 100%;
+    height: 100%;
+}
+ #line #rows{
+	position: relative;
+	top: 0;
+	left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+ #line #lines{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -100%;
+    left: 0;
+    overflow: hidden;
+}
+ #line .row{
+    width: 100%;
+    height: 1px;
+    margin-bottom: 0.93rem;
+}
+ #line .line{
+    width: 1px;
+    height: 100%;
+    margin-right: 0.93rem;
+    float: left;
+}
+ #line .end{
+    margin: 0;
+}
+#space article{
+   width: calc(100% / 9);
+   height: 10%;
+   padding: 1% 0;
+   display: inline-block;
+   vertical-align: top;
+    transition: box-shadow 0.35s,outline 0.35s,border 0.35s,transform 0.35s;
+  
+}
+ /* #space article:hover{
+    box-shadow:0 0 25pt rgba(0, 0, 0, 0.35);
+} */
+/* .CS{
+    border-radius: 50%;
+} */
+.C{
+    font-family: "微软雅黑 light", "微软雅黑", Arial,sans-serif;
+    width: 100%;
+    height: 100%;
+    font-size: 0.5rem;
+    border-radius: 50%;
+    line-height: 0.82rem;
+    text-align: center;
+    /* box-shadow: 0 0 25pt rgba(0, 0, 0, 0.35); */
+    transition:transform 0.35s ;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.BR{
+   background: url(../images/bing.png) no-repeat;
+   
+}
+.BB{
+   background: url(../images/zu.png) no-repeat;
+   
+}
+.PR{
+  background: url(../images/pao1.png) no-repeat;
+   
+}
+.PB{
+  background: url(../images/pao2.png) no-repeat;
+   
+ 
+  
+}
+.JR{
+   background: url(../images/che1.png) no-repeat;
+   
+}
+.JB{
+    background: url(../images/che2.png) no-repeat;
+   
+    
+}
+.MR{
+   background: url(../images/ma1.png) no-repeat;
+   
+}
+.MB{
+    background: url(../images/ma2.png) no-repeat;
+   
+}
+.XR{
+    background: url(../images/xiang1.png) no-repeat;
+   
+}
+.XB{
+   background: url(../images/xiang2.png) no-repeat;
+   
+}
+.SR{
+  background: url(../images/shi1.png) no-repeat;
+   
+}
+.SB{
+   background: url(../images/shi2.png) no-repeat;
+   
+}
+.J{
+   background: url(../images/shuai.png) no-repeat;
+   
+}
+.S{
+   background: url(../images/jiang.png) no-repeat;
+   
+}
+section.C{
+   background-size: auto 100%;
+}
+article.selected {
+   background: url(../images/select-chess.png) no-repeat;
+   background-size: 100% 100%;
+}
+article.CS:nth-child(9n),article.CS:nth-child(9n - 8) {
+   margin-left: 0 !important;
+   margin-right: 0 !important;
+}
