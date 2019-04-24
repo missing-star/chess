@@ -9,8 +9,8 @@
       </div>
 
       <div class="water-box-foot">
-        <img :src="BtnImg" alt>
-        <img :src="BtnImg1" alt>
+        <img :src="BtnImg" alt @click="goRquest">
+        <img :src="BtnImg1" alt  @click="goClose">
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -25,6 +25,12 @@ export default {
   methods: {
     closeMyself() {
       this.$emit("hide");
+    },
+    goRquest(){
+      this.$emit("go-rquest")
+    },
+    goClose(){
+      this.$emit("go-close")
     }
   },
   props: ["is-show", "ImgShow", "avter", "BtnImg", "BtnImg1"],

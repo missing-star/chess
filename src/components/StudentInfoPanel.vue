@@ -21,7 +21,10 @@
             <div class="detail-info-item block progress">
               <p class="tilte">经验值：</p>
               <div class="progressbar-wrapper">
-                <div class="progressbar"></div>
+                <div
+                  class="progressbar"
+                  :style="pupil.experience/pupil.total_experience*100+'%' | filterWidth"
+                ></div>
               </div>
               <p class="percent-value">{{pupil.experience}} / {{pupil.total_experience}}</p>
             </div>
@@ -79,6 +82,16 @@ export default {
         case 3:
           break;
       }
+    }
+  },
+  filters: {
+    filterWidth(chartWidth) {
+      if (chartWidth == "0%") {
+        chartWidth = "0%";
+      }
+      return {
+        width: `${chartWidth}`
+      };
     }
   }
 };

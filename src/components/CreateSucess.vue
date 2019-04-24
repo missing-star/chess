@@ -36,6 +36,7 @@ export default {
 div.create-sucess-wrap {
   background: url(../assets/images/弹框底-红书.png) no-repeat;
   background-size: 100% 100%;
+  z-index: 14;
 }
 
 img.create-sucess-img {
