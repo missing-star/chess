@@ -47,7 +47,23 @@
       </div>
     </div>
     <div class="middle-part-wrapper">
-      <div class="chess-panel" id="space"></div>
+      <ul class="number-wrapper black">
+          <li class="number-item" v-for="n in 9" :key="n">{{n}}</li>
+      </ul>
+      <div class="chess-panel" id="space">
+
+      </div>
+      <ul class="number-wrapper red">
+          <li class="number-item">九</li>
+          <li class="number-item">八</li>
+          <li class="number-item">七</li>
+          <li class="number-item">六</li>
+          <li class="number-item">五</li>
+          <li class="number-item">四</li>
+          <li class="number-item">三</li>
+          <li class="number-item">二</li>
+          <li class="number-item">一</li>
+      </ul>
     </div>
     <div class="right-part-wrapper">
       <div class="black-wrapper">
@@ -107,7 +123,7 @@
         <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
       </div>
     </div>
-    <chess-back-button></chess-back-button>
+    <chess-back-button @go-back="testBack"></chess-back-button>
     <!-- 失败提示框 -->
     <lose-alert
       :is-show="showLostAlert"
@@ -367,17 +383,38 @@ div.right-part-wrapper {
   padding: 2rem;
   min-width: 400px;
 }
-div.middle-part-wrapper {
-  background: url(../assets/images/棋盘底.png) no-repeat;
-  background-size: 100% 100%;
-  width: 100vh;
-  height: 100vh;
-  min-height: 900px;
-  min-width: 900px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+div.middle-part-wrapper{
+        background: url(../assets/images/棋盘底.png) no-repeat;
+        background-size: 100% 100%;
+        width: 100vh;
+        height: 100vh;
+        min-height: 900px;
+        min-width: 900px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    ul.number-wrapper.black {
+        position: absolute;
+        top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 75%;
+        color: #f0e5c4;
+        font-size: 1.2rem;
+    }
+    ul.number-wrapper.red {
+        position: absolute;
+        bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 75%;
+        color: #f0e5c4;
+        font-size: 1.2rem;
+    }
 div.chess-panel {
   width: 81%;
   height: 90%;

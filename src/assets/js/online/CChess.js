@@ -435,7 +435,8 @@ function move(y, x, j, i, eat, isBack, isSend) {
 				//清空上一次定时器，防止多次调用机器走法
 				clearTimeout(setTimoutMachine);
 				setTimoutMachine = setTimeout(function () {
-					if (!isBackOrGo) {
+					console.log(isGameEnd.value);
+					if (!isBackOrGo && !isGameEnd.value) {
 						getEngineeMove(map);
 					}
 				}, getRandomTime());
@@ -494,15 +495,18 @@ function gameOver() {
 	isGameEnd.value = true;
 	recordList.splice(0);
 	showRecordList.splice(0);
-	countTimes('over');
-	countTimes2('over');
+	currentIndex.value = -1;
+	countTimes('over','over');
+	countTimes2('over','over');
 	Back.back();
 }
 //我计时一分钟
-function countTimes(flag) {
-	console.log('开始计时');
+function countTimes(flag,all) {
 	if (flag == 'over') {
 		waitTimes.value = 0;
+		if(all == 'over') {
+			totalTimesRed.value = 0;
+		}
 		clearInterval(interval);
 	} else {
 		waitTimes.value = 60;
@@ -525,9 +529,12 @@ function countTimes(flag) {
 	}
 }
 //对方计时一分钟
-function countTimes2(flag) {
+function countTimes2(flag,all) {
 	if (flag == 'over') {
 		fightTimes.value = 0;
+		if(all == 'over') {
+			totalTimesBlack.value = 0;
+		}
 		clearInterval(interval2);
 	} else {
 		fightTimes.value = 60;
@@ -569,7 +576,7 @@ function getEngineeMove(map) {
  */
 function showTarget(y, x, end) {
 	console.log(recordList);
-	if (end || end === 0) {
+	if (end || (end === 0 && showRecordList.length != 0)) {
 		console.log('end==0')
 		if (end % 2 == 0) {
 			showRecordList.splice(parseInt(end / 2));
@@ -585,26 +592,26 @@ function showTarget(y, x, end) {
 			//进退
 			if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
 				//马，相，士斜线走法的棋子
-				record.black = source.name + (x + 1 - source.x < 0 ? '退' : '进') + numToChara(Math.abs(x + 1));
+				record.black = source.name + (x + 1 - source.x < 0 ? '退' : '进') + (Math.abs(x + 1));
 			} else {
-				record.black = source.name + (y - source.y < 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
+				record.black = source.name + (y - source.y < 0 ? '退' : '进') + (Math.abs(y - source.y));
 			}
 		} else {
 			//平
-			record.black = source.name + '平' + numToChara((x + 1));
+			record.black = source.name + '平' + ((x + 1));
 		}
 	} else {
 		//红棋
 		if (y - source.y != 0) {
 			//进退
 			if ([4, 5, 6].indexOf(Math.abs(source.t)) != -1) {
-				record.red = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + numToChara(Math.abs(9 - x));
+				record.red = source.name + (source.x - (9 - x) > 0 ? '退' : '进') + (Math.abs(9 - x));
 			} else {
-				record.red = source.name + (y - source.y > 0 ? '退' : '进') + numToChara(Math.abs(y - source.y));
+				record.red = source.name + (y - source.y > 0 ? '退' : '进') + (Math.abs(y - source.y));
 			}
 		} else {
 			//平
-			record.red = source.name + '平' + numToChara((9 - x));
+			record.red = source.name + '平' + ((9 - x));
 		}
 	}
 	if (recordList.length != 0) {
@@ -641,7 +648,7 @@ function showSource(y, x, t) {
 	let result = '';
 	// t<0黑旗 t>0红棋
 	if (t < 0) {
-		result = `${getQiName(t)}${numToChara(x + 1)}`;
+		result = `${getQiName(t)}${x + 1}`;
 		source.y = y;
 		source.x = x + 1;
 	} else {
@@ -1006,26 +1013,35 @@ function binMove(tmap, c, y, x) { //0红 1黑
 		h = 1;
 	}
 	if (w) {
-		if (y + h >= 0 && y + h < map.length) {
-			var t1 = [];
-			t1[0] = y + h;
-			t1[1] = x;
-			tmap.push(t1);
-		}
-		var t2 = [];
-		var t3 = [];
-		t2[0] = y;
-		t3[0] = y;
-		t2[1] = x - 1;
-		t3[1] = x + 1;
-		tmap.push(t2);
-		tmap.push(t3);
-	} else {
-		var t = [];
-		t[0] = y + h;
-		t[1] = x;
-		tmap.push(t);
-	}
+        if (y + h >= 0 && y + h < map.length) {
+            var t1 = [];
+            t1[0] = y + h;
+            t1[1] = x;
+            if(map[t1[0]][t1[1]]*map[y][x] <= 0) {
+                tmap.push(t1);
+            }
+        }
+        var t2 = [];
+        var t3 = [];
+        t2[0] = y;
+        t3[0] = y;
+        t2[1] = x - 1;
+        t3[1] = x + 1;
+        if(map[t2[0]][t2[1]]*map[y][x] <= 0) {
+            tmap.push(t2);
+        }
+        if(map[t3[0]][t3[1]]*map[y][x] <= 0) {
+            tmap.push(t3);
+        }
+    } else {
+        var t = [];
+        t[0] = y + h;
+        t[1] = x;
+        console.log(t);
+        if(map[t[0]][t[1]]*map[y][x] <= 0) {
+            tmap.push(t);
+        }
+    }
 }
 
 function paoMove(tmap, c, y, x) {
