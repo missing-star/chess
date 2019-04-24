@@ -123,7 +123,7 @@
         <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
       </div>
     </div>
-    <chess-back-button @go-back="testBack"></chess-back-button>
+    <chess-back-button></chess-back-button>
     <!-- 失败提示框 -->
     <lose-alert
       :is-show="showLostAlert"
