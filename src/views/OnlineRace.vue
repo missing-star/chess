@@ -115,7 +115,18 @@
       :BtnImg="BtnImg"
       :BtnImg1="BtnImg1"
       :ImgShow="ImgShow"
+      @go-close="goClose"
+      @go-rquest="goRequest"
+      @hide="hideLostAlert"
     ></lose-alert>
+    <!--  -->
+    <create-sucess
+      :is-show="showCreateSucess"
+      :avter="avter"
+      :btnImg="btnImg"
+      :show1="show1"
+      :show="show"
+    ></create-sucess>
   </div>
 </template>
 <script>
@@ -140,16 +151,19 @@ import {
   countTimes2,
   totalTimesBlack,
   totalTimesRed,
-  isMove
+  isMove,
+  gameOver
 } from "../assets/js/online/CChess";
 import "../assets/css/Chess.css";
 import LoseAlert from "../components/LoseAlert"; //失败提示
 import { constants } from "crypto";
+import CreateSucess from "../components/CreateSucess";
 export default {
   data() {
     return {
       showLostAlert: false,
       ImgShow: false,
+      showCreateSucess: false,
       isOnline: isOnline,
       searchEngine: searchEngine,
       nowTimes: new Date().getTime(),
@@ -167,12 +181,16 @@ export default {
       isMove: isMove,
       avter: "",
       BtnImg: "",
-      BtnImg1: ""
+      BtnImg1: "",
+      show: true,
+      show1: false,
+      btnImg: ""
     };
   },
   components: {
     [BackButton.name]: BackButton,
-    LoseAlert
+    LoseAlert,
+    CreateSucess
   },
   computed: {
     redTime() {
@@ -252,6 +270,7 @@ export default {
     noWinner: noWinner,
     countTimes: countTimes,
     countTimes2: countTimes2,
+    goRequest: gameOver,
     printList() {
       console.log(this.recordList, this.showRecordList);
     },
@@ -263,6 +282,12 @@ export default {
         ":" +
         (seconds < 10 ? "0" + seconds : seconds)
       );
+    },
+    goClose() {
+      this.showLostAlert = false;
+    },
+    hideLostAlert() {
+      this.showLostAlert = false;
     }
   },
   watch: {
@@ -286,6 +311,7 @@ export default {
     "isMove.value": {
       handler: function(a, b) {
         console.log(a);
+        // 悔棋
         if (a == 2) {
           this.ImgShow = false;
           this.avter = require("../assets/images/等待对方同意.png");
@@ -293,6 +319,27 @@ export default {
           setTimeout(() => {
             this.showLostAlert = false;
           }, 2500);
+          isMove.value = 1;
+        }
+        // 和棋
+        if (a == 3) {
+          setTimeout(() => {
+            this.showCreateSucess = true;
+          }, 1000);
+          this.ImgShow = false;
+          this.avter = require("../assets/images/同意和棋.png");
+          setTimeout(() => {
+            this.showCreateSucess = false;
+          }, 2000);
+          isMove.value = 1;
+        }
+        // 认输
+        if (a == 4) {
+          this.ImgShow = false;
+          this.avter = require("../assets/images/你确定要认输吗.png");
+          this.BtnImg = require("../assets/images/确定.png");
+          this.BtnImg1 = require("../assets/images/取消.png");
+          this.showLostAlert = true;
           isMove.value = 1;
         }
       },
