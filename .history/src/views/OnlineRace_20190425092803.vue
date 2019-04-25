@@ -1,6 +1,6 @@
 <template>
   <div class="chess-online-race-wrapper">
-    <div class="left-part-wrapper">
+    <!-- <div class="left-part-wrapper">
       <div class="content-wrapper">
         <p class="title">对战路线步骤</p>
         <div class="dashed-line"></div>
@@ -45,8 +45,8 @@
           </template>
         </ul>
       </div>
-    </div>
-    <div class="middle-part-wrapper">
+    </div> -->
+    <!-- <div class="middle-part-wrapper">
       <ul class="number-wrapper black">
           <li class="number-item" v-for="n in 9" :key="n">{{n}}</li>
       </ul>
@@ -64,7 +64,7 @@
           <li class="number-item">二</li>
           <li class="number-item">一</li>
       </ul>
-    </div>
+    </div> -->
     <div class="right-part-wrapper">
       <div class="black-wrapper">
         <div class="user-wrapper">
@@ -107,7 +107,7 @@
           >
         </div>
       </div>
-      <!-- <div class="red-wrapper">
+      <div class="red-wrapper">
         <div class="user-wrapper">
           <div class="user-logo-wrapper red">
             <img src="../assets/images/user-logo.png" class="user-logo">
@@ -121,7 +121,7 @@
           <p class="percent">{{parseFloat((1200 - totalTimesRed.value) / 1200).toFixed(2)*100}}%</p>
         </div>
         <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
-      </div> -->
+      </div>
     </div>
     <chess-back-button></chess-back-button>
     <!-- 失败提示框 -->
