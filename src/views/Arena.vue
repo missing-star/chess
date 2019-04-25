@@ -79,10 +79,13 @@ export default {
       avter: "",
       BtnImg: "",
       BtnImg1: "",
-      ImgShow: true,
+      ImgShow: true
     };
   },
   methods: {
+    gohome(){
+      this.$router.push("/home")
+    },
     goClose() {
       this.showLostAlert = false;
     },
@@ -90,74 +93,50 @@ export default {
       this.showLostAlert = false;
     },
     goRequest() {},
-        countTimes:countTimes,
-        countTimes2:countTimes2,
-        saveGameResult:saveGameResult,
-        gameOver:gameOver,
-        openOnlineRacePanel() {
-            this.showOnlineRacePanel = true;
-        },
-        hideOnlineRacePanel() {
-            this.showOnlineRacePanel = false;
-            clearInterval(this.interval);
-            this.waitTime = 0;
-        },
-        openCheckPointPanel(level,stage) {
-            this.selectedLevel = level;
-            this.showCheckPointPanel = true;
-        },
-        hideCheckPointPanel() {
-            this.showCheckPointPanel = false;
-            this.showCheckPointLevelPanel = true;
-        },
-        openCheckPointLevelPanel() {
-            this.showCheckPointLevelPanel = true;
-        },
-        hideCheckPointLevelPanel() {
-            this.showCheckPointLevelPanel = false;
-        },
-        closeCheckPointLevelPanel() {
-            this.showCheckPointLevelPanel = false;
-        },
-        goOnlineRace() {
-            //清空对局信息，防止计时器重复计时
-            this.gameOver(true);
-            this.interval = setInterval(() => {
-                if (this.waitTime >= 1) {
-                    // 重新匹配进入人机
-                    clearInterval(this.interval);
-                    this.waitTime = 0;
-                    this.isOnline = false;
-                    this.goGame();
-                }
-                else {
-                    this.waitTime += 1;
-                }
-            }, 1000);
-        },
-        goGame() {
-            if (this.isOnline) {
-                //在线对战
-                if (this.waitTime != 0) {
-                    return;
-                }
-                const uuid = `user${this.getUuuid(8, 16)}`;
-                sessionStorage.setItem('uuid', uuid);
-                this.goOnlineRace();
-                if(this.socket == null) {
-                    this.socket = new WebSocket('ws://47.99.241.87:1234');
-                }
-                // this.socket = new WebSocket('ws://127.0.0.1:8001');
-                this.socket.onopen = ()=> {
-                    //状态为1证明握手成功
-                    if (this.socket.readyState == 1) {
-                        //发送uuid
-                        this.socket.send(uuid);
-                    }
-                };
-                //握手失败或者其他原因连接this.socket失败，则清除so对象并做相应提示操作
-                this.socket.onclose = () => {
-                    this.socket = null;
+    countTimes: countTimes,
+    countTimes2: countTimes2,
+    saveGameResult: saveGameResult,
+    gameOver: gameOver,
+    openOnlineRacePanel() {
+      this.showOnlineRacePanel = true;
+    },
+    hideOnlineRacePanel() {
+      this.showOnlineRacePanel = false;
+      clearInterval(this.interval);
+      this.waitTime = 0;
+    },
+    openCheckPointPanel(level, stage) {
+      this.selectedLevel = level;
+      this.showCheckPointPanel = true;
+    },
+    hideCheckPointPanel() {
+      this.showCheckPointPanel = false;
+      this.showCheckPointLevelPanel = true;
+    },
+    openCheckPointLevelPanel() {
+      this.showCheckPointLevelPanel = true;
+    },
+    hideCheckPointLevelPanel() {
+      this.showCheckPointLevelPanel = false;
+    },
+    closeCheckPointLevelPanel() {
+      this.showCheckPointLevelPanel = false;
+    },
+    goOnlineRace() {
+      //清空对局信息，防止计时器重复计时
+      this.gameOver(true);
+      this.interval = setInterval(() => {
+        if (this.waitTime >= 1) {
+          // 重新匹配进入人机
+          clearInterval(this.interval);
+          this.waitTime = 0;
+          this.isOnline = false;
+          this.goGame();
+        } else {
+          this.waitTime += 1;
+        }
+      }, 1000);
+    },
     goGame() {
       if (this.isOnline) {
         //在线对战
