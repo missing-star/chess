@@ -80,7 +80,7 @@
               :style="{width:((1200 - totalTimesBlack.value) / 1200)*100+'%'}"
             ></div>
           </div>
-          <p class="percent">{{parseFloat((1200 - totalTimesBlack.value) / 1200).toFixed(2)*100}}%</p>
+          <!-- <p class="percent">{{parseFloat((1200 - totalTimesBlack.value) / 1200).toFixed(2)*100}}%</p> -->
         </div>
         <div class="current-time-info-wrapper">局时：{{surplusTimeBlack}} 步时：{{blackTime}}</div>
       </div>

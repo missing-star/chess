@@ -107,7 +107,7 @@
           >
         </div>
       </div>
-      <!-- <div class="red-wrapper">
+      <div class="red-wrapper">
         <div class="user-wrapper">
           <div class="user-logo-wrapper red">
             <img src="../assets/images/user-logo.png" class="user-logo">
@@ -121,11 +121,11 @@
           <p class="percent">{{parseFloat((1200 - totalTimesRed.value) / 1200).toFixed(2)*100}}%</p>
         </div>
         <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
-      </div> -->
+      </div>
     </div>
     <chess-back-button></chess-back-button>
     <!-- 失败提示框 -->
-    <lose-alert
+    <!-- <lose-alert
       :is-show="showLostAlert"
       :avter="avter"
       :BtnImg="BtnImg"
@@ -134,15 +134,15 @@
       @go-close="goClose"
       @go-rquest="goRequest"
       @hide="hideLostAlert"
-    ></lose-alert>
+    ></lose-alert> -->
     <!--  -->
-    <create-sucess
+    <!-- <create-sucess
       :is-show="showCreateSucess"
       :avter="avter"
       :btnImg="btnImg"
       :show1="show1"
       :show="show"
-    ></create-sucess>
+    ></create-sucess> -->
   </div>
 </template>
 <script>

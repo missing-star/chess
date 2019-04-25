@@ -65,9 +65,6 @@
       };
     },
     methods: {
-      gohome() {
-        this.$router.push("/home")
-      },
       goClose() {
         this.showLostAlert = false;
       },
