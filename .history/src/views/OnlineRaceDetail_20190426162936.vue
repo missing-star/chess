@@ -126,11 +126,12 @@
 
     },
     mounted() {
+      // index.php?r=api/get-game-detail
       this.$axios({
-        url: `${process.env.VUE_APP_URL}index.php?r=api/get-game-detail`,
+        url: `${process.env.VUE_APP_URL}index.php?r=api-teach-chess-manual/get-manual-detail`,
         method: 'post',
         data: this.qs.stringify({
-          game_id: this.$route.params.id
+          manual_id: this.$route.params.id
         })
       }).then(res => {
         if (res.data.status == 1) {

@@ -257,7 +257,7 @@ div.race-operation-wrapper{
     justify-content: space-between;
 }
 p.title.operation {
-    margin-top: 7%;
+    margin-top: 2rem;
 }
 .operation-group-btn {
     display: flex;
@@ -296,8 +296,7 @@ textarea::-webkit-input-placeholder{
     text-shadow:0 1px 1px #5b2e16;
 }
 .operation-group-btn.content {
-    padding: 10% 5%;
-    padding-bottom: 20%;
+    padding: 4rem 2rem;
 }
 div.operation-item img.operation-item-icon.not-active {
     display: block;

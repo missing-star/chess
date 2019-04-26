@@ -5,44 +5,18 @@
         <p class="title">对战路线步骤</p>
         <div class="dashed-line"></div>
         <ul ref="recordWrapper" class="record-list-wrapper">
-          <template v-if="isRed">
             <li v-for="(item,index) in showRecordList" :key="index" class="record-item">
-              <p
-                class="record-item number"
-                :class="{active:index == showRecordList.length - 1}"
-              >{{index+1}}</p>
-              <p class="record-item detail" :class="{active:index == showRecordList.length - 1}">
-                <span
-                  class="record-item detail red"
-                  :class="{active:index == showRecordList.length - 1}"
-                >{{item.red}}</span>
-                <span class="split-line"></span>
-                <span
-                  class="record-item detail black"
-                  :class="{active:item.black == ''}"
-                >{{item.black == '' ? '等待中' : item.black}}</span>
-              </p>
+                <p class="record-item number" >{{index+1}}</p>
+                <p class="record-item detail" >
+                    <span class="record-item detail red" >
+                        {{item.red}}
+                    </span>
+                    <span class="split-line"></span>
+                    <span class="record-item detail black" :class="{active:item.black == ''}">
+                        {{item.black}}
+                    </span>
+                </p>
             </li>
-          </template>
-          <template v-else>
-            <li v-for="(item,index) in showRecordList" :key="index" class="record-item">
-              <p
-                class="record-item number"
-                :class="{active:index == showRecordList.length - 1}"
-              >{{index+1}}</p>
-              <p class="record-item detail" :class="{active:index == showRecordList.length - 1}">
-                <span
-                  class="record-item detail red"
-                  :class="{active:index == showRecordList.length - 1}"
-                >{{item.black}}</span>
-                <span class="split-line"></span>
-                <span
-                  class="record-item detail black"
-                  :class="{active:item.red == ''}"
-                >{{item.red == '' ? '等待中' : item.red}}</span>
-              </p>
-            </li>
-          </template>
         </ul>
       </div>
     </div>
@@ -77,32 +51,26 @@
           <div class="progressbar-wrapper">
             <div
               class="progressbar"
-              :style="{width:((1200 - totalTimesBlack.value) / 1200)*100+'%'}"
+              :style="{width:'100%'}"
             ></div>
           </div>
-          <p class="percent">{{parseFloat((1200 - totalTimesBlack.value) / 1200).toFixed(2)* 100}}%</p>
+          <p class="percent">100%</p>
         </div>
-        <div class="current-time-info-wrapper">局时：{{surplusTimeBlack}} 步时：{{blackTime}}</div>
+        <div class="current-time-info-wrapper">局时：00:00 步时：00:00</div>
       </div>
       <div class="race-operation-wrapper">
         <p class="title operation">操作台</p>
         <div class="operation-group-btn">
           <img
-            @click="backOperation"
-            src="../assets/images/悔棋.png"
-            alt="悔棋"
+            @click="backOff"
+            src="../assets/images/后退.png"
+            alt="后退"
             class="operation-item pointer"
           >
           <img
-            @click="noWinner"
-            src="../assets/images/和棋.png"
-            alt="和棋"
-            class="operation-item pointer"
-          >
-          <img
-            @click="quitGame"
-            src="../assets/images/认输.png"
-            alt="认输"
+            @click="forward"
+            src="../assets/images/前进.png"
+            alt="前进"
             class="operation-item pointer"
           >
         </div>
@@ -116,191 +84,77 @@
         </div>
         <div class="current-percent-wrapper">
           <div class="progressbar-wrapper">
-            <div class="progressbar" :style="{width:((1200 - totalTimesRed.value) / 1200)*100+'%'}"></div>
+            <div class="progressbar" :style="{width:'100%'}"></div>
           </div>
-          <p class="percent">{{parseFloat((1200 - totalTimesRed.value) / 1200).toFixed(2)*100}}%</p>
+          <p class="percent">100%</p>
         </div>
-        <div class="current-time-info-wrapper">局时：{{surplusTimeRed}} 步时：{{redTime}}</div>
+        <div class="current-time-info-wrapper">局时：00:00 步时：00:00</div>
       </div>
     </div>
     <chess-back-button></chess-back-button>
-    <!-- 失败提示框 -->
-    <lose-alert
-      :is-show="showLostAlert"
-      :avter="avter"
-      :BtnImg="BtnImg"
-      :BtnImg1="BtnImg1"
-      :ImgShow="ImgShow"
-      @go-close="goClose"
-      @go-rquest="goRequest"
-      @hide="hideLostAlert"
-    ></lose-alert>
-    <!--  -->
-    <create-sucess
-      :is-show="showCreateSucess"
-      :avter="avter"
-      :btnImg="btnImg"
-      :show1="show1"
-      :show="show"
-    ></create-sucess>
   </div>
 </template>
 <script>
 import BackButton from "../components/BackButton";
 import "../assets/js/jquery.min";
-import {
-  initChess,
-  onChose,
-  isOnline,
-  searchEngine,
-  backOperation,
-  quitGame,
-  move,
-  waitTimes,
-  fightTimes,
-  api,
-  recordList,
-  showRecordList,
-  Back,
-  noWinner,
-  countTimes,
-  countTimes2,
-  totalTimesBlack,
-  totalTimesRed,
-  isMove,
-  gameOver
-} from "../assets/js/online/CChess";
+import {initChess,resetPanel,backRecord,nextRecord,recordList,showrecordList,currentIndex,map, numberList, selectedQi, isPutOver,initAll} from '../assets/js/chess-detail/CChess'
 import "../assets/css/Chess.css";
 import LoseAlert from "../components/LoseAlert"; //失败提示
 import { constants } from "crypto";
-import CreateSucess from "../components/CreateSucess";
 export default {
   data() {
     return {
-      showLostAlert: false,
-      ImgShow: false,
-      showCreateSucess: false,
-      isOnline: isOnline,
-      searchEngine: searchEngine,
-      nowTimes: new Date().getTime(),
-      waitTimes: waitTimes,
-      fightTimes: fightTimes,
-      totalTimesRed: totalTimesRed,
-      totalTimesBlack: totalTimesBlack,
-      api: api,
-      recordList: recordList,
-      showRecordList: showRecordList,
-      isRed: sessionStorage.getItem("isRed") == "true",
-      Back: Back,
-      surplusTimeRed: "20:00",
-      surplusTimeBlack: "20:00",
-      isMove: isMove,
-      avter: "",
-      BtnImg: "",
-      BtnImg1: "",
-      show: true,
-      show1: false,
-      btnImg: ""
+      showRecordList:showrecordList,
+      recordList:recordList,
+      currentIndex:currentIndex,
+      map:map,
+      list:map,
+      comments:'',
+      selectedQi: selectedQi,
+      numberList:numberList,
+      isPutOver:isPutOver,
+      saveMap:[]
     };
   },
   components: {
     [BackButton.name]: BackButton,
-    LoseAlert,
-    CreateSucess
+    LoseAlert
   },
   computed: {
-    redTime() {
-      if (sessionStorage.getItem("isRed") == "true") {
-        if (this.waitTimes.value == 60) {
-          return "00:00";
-        } else {
-          return (
-            "00:" +
-            (this.waitTimes.value < 10
-              ? "0" + this.waitTimes.value
-              : this.waitTimes.value)
-          );
-        }
-      } else {
-        if (this.fightTimes.value == 60) {
-          return "00:00";
-        } else {
-          return (
-            "00:" +
-            (this.fightTimes.value < 10
-              ? "0" + this.fightTimes.value
-              : this.fightTimes.value)
-          );
-        }
-      }
-    },
-    blackTime() {
-      if (sessionStorage.getItem("isRed") == "true") {
-        if (this.fightTimes.value == 60) {
-          return "00:00";
-        } else {
-          return (
-            "00:" +
-            (this.fightTimes.value < 10
-              ? "0" + this.fightTimes.value
-              : this.fightTimes.value)
-          );
-        }
-      } else {
-        if (waitTimes.value == 60) {
-          return "00:00";
-        } else {
-          return (
-            "00:" +
-            (this.waitTimes.value < 10
-              ? "0" + this.waitTimes.value
-              : this.waitTimes.value)
-          );
-        }
-      }
-    }
+    
   },
   mounted() {
-    if (!window.gameSocket && this.isOnline) {
-      alert("对战不存在或已结束!");
-      this.$router.push("arena");
-      return;
-    }
-    window.onChoseOnline = onChose;
-    window.moveOnline = move;
-    if (this.isOnline.value != this.$route.params.isOnline) {
-      this.isOnline.value = this.$route.params.isOnline;
-    }
-    this.api.url = process.env.VUE_APP_URL;
-    this.searchEngine.engine = window.searchEngine;
-    this.initChess();
-    this.countTimes();
-    this.Back.back = () => {
-      // this.$router.push("/arena");
-    };
+    var obj = {
+            create_at: "1555494727",
+            data_code: "[[-3,-4,-5,-6,-7,-6,-5,-4,-3],[0,0,0,0,0,0,0,0,0],[0,-2,0,0,0,0,0,-2,0],[-1,0,-1,0,-1,0,-1,0,-1],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0,1],[0,2,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0],[3,4,5,6,7,6,5,4,3]]",
+            data_text: '[{"y":7,"x":4,"j":7,"i":7,"sourceElem":"PR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":4,"x":4,"j":3,"i":4,"sourceElem":"BB","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":5,"x":4,"j":6,"i":4,"sourceElem":"BR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":4,"x":6,"j":3,"i":6,"sourceElem":"BB","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":5,"x":6,"j":6,"i":6,"sourceElem":"BR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":9,"x":1,"j":2,"i":1,"sourceElem":"PB","targetElem":{"cla":"MR","value":4},"flag":true,"eat":null},{"y":9,"x":1,"j":9,"i":0,"sourceElem":"JR","targetElem":{"cla":"PB","value":-2},"flag":true,"eat":null}]',
+            desc: "",
+            id: "7",
+            play_log: '[{"red":"炮二平五","black":"卒五进一"},{"red":"兵五进一","black":"卒七进一"},{"red":"兵三进一","black":"炮二进七"},{"red":"车九平八","black":""}]',
+            teach_id: "1",
+            title: "作业1",
+            type: "2"
+        };
+        JSON.parse(obj.data_code).forEach(array => {      
+            this.map.push(array);
+        });
+        JSON.parse(obj.data_text).forEach(item => {
+            this.recordList.push(item);
+        });
+        JSON.parse(obj.play_log).forEach(item => {
+            this.showRecordList.push(item);
+        });
+        sessionStorage.clear();
+        initChess('default');
   },
   methods: {
-    backOperation: backOperation,
-    quitGame: quitGame,
-    initChess: initChess,
-    noWinner: noWinner,
-    countTimes: countTimes,
-    countTimes2: countTimes2,
-    goRequest: gameOver,
-    calculateTimes(number) {
-      var minute = parseInt((1200 - number) / 60);
-      var seconds = parseInt((1200 - number) % 60);
-      return (
-        (minute < 10 ? "0" + minute : minute) +
-        ":" +
-        (seconds < 10 ? "0" + seconds : seconds)
-      );
+    // 前进
+    forward() {
+        nextRecord();
     },
-    goClose() {
-      this.showLostAlert = false;
-    },
-    hideLostAlert() {
-      this.showLostAlert = false;
+    //后退
+    backOff() {
+        backRecord();
     }
   },
   watch: {
@@ -324,7 +178,6 @@ export default {
     "isMove.value": {
       handler: function(a, b) {
         console.log(a);
-        // 悔棋
         if (a == 2) {
           this.ImgShow = false;
           this.avter = require("../assets/images/等待对方同意.png");
@@ -332,27 +185,6 @@ export default {
           setTimeout(() => {
             this.showLostAlert = false;
           }, 2500);
-          isMove.value = 1;
-        }
-        // 和棋
-        if (a == 3) {
-          setTimeout(() => {
-            this.showCreateSucess = true;
-          }, 1000);
-          this.ImgShow = false;
-          this.avter = require("../assets/images/同意和棋.png");
-          setTimeout(() => {
-            this.showCreateSucess = false;
-          }, 2000);
-          isMove.value = 1;
-        }
-        // 认输
-        if (a == 4) {
-          this.ImgShow = false;
-          this.avter = require("../assets/images/你确定要认输吗.png");
-          this.BtnImg = require("../assets/images/确定.png");
-          this.BtnImg1 = require("../assets/images/取消.png");
-          this.showLostAlert = true;
           isMove.value = 1;
         }
       },

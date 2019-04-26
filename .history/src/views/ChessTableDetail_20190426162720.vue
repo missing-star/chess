@@ -293,7 +293,7 @@ export default {
         justify-content: space-between;
     }
     p.title.operation {
-        margin-top: 7%;
+        margin-top: 2rem;
     }
     .operation-group-btn {
         display: flex;

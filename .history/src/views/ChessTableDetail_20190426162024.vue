@@ -113,33 +113,29 @@ export default {
         }
     },
     mounted() {
-        this.$axios({
-            url:`${process.env.VUE_APP_URL}index.php?r=api-teach-chess-manual/get-manual-detail`,
-            method:'post',
-            data:this.qs.stringify({
-                manual_id:this.$route.params.id
-            })
-        }).then(res => {
-            if(res.data.status == 1) {
-                JSON.parse(res.data.data.data_code).forEach(array => {        
-                    console.log(array);   
-                    this.map.push(array);
-                });
-                JSON.parse(res.data.data.data_text).forEach(item => {
-                    this.recordList.push(item);
-                });
-                JSON.parse(res.data.data.play_log).forEach(item => {
-                    this.showRecordList.push(item);
-                });
-                sessionStorage.clear();
-                initChess('default');
-            }
-            else {
-                alert(res.data.msg);
-            }
-        }).catch(err => {
-            alert('服务器异常');
+        var obj = {
+            create_at: "1555494727",
+            data_code: "[[-3,-4,-5,-6,-7,-6,-5,-4,-3],[0,0,0,0,0,0,0,0,0],[0,-2,0,0,0,0,0,-2,0],[-1,0,-1,0,-1,0,-1,0,-1],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[1,0,1,0,1,0,1,0,1],[0,2,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0],[3,4,5,6,7,6,5,4,3]]",
+            data_text: '[{"y":7,"x":4,"j":7,"i":7,"sourceElem":"PR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":4,"x":4,"j":3,"i":4,"sourceElem":"BB","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":5,"x":4,"j":6,"i":4,"sourceElem":"BR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":4,"x":6,"j":3,"i":6,"sourceElem":"BB","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":5,"x":6,"j":6,"i":6,"sourceElem":"BR","targetElem":{"cla":"","value":0},"flag":true,"eat":null},{"y":9,"x":1,"j":2,"i":1,"sourceElem":"PB","targetElem":{"cla":"MR","value":4},"flag":true,"eat":null},{"y":9,"x":1,"j":9,"i":0,"sourceElem":"JR","targetElem":{"cla":"PB","value":-2},"flag":true,"eat":null}]',
+            desc: "",
+            id: "7",
+            play_log: '[{"red":"炮二平五","black":"卒五进一"},{"red":"兵五进一","black":"卒七进一"},{"red":"兵三进一","black":"炮二进七"},{"red":"车九平八","black":""}]',
+            teach_id: "1",
+            title: "作业1",
+            type: "2"
+        };
+        JSON.parse(obj.data_code).forEach(array => {        
+            console.log(array);   
+            this.map.push(array);
         });
+        JSON.parse(obj.data_text).forEach(item => {
+            this.recordList.push(item);
+        });
+        JSON.parse(obj.play_log).forEach(item => {
+            this.showRecordList.push(item);
+        });
+        sessionStorage.clear();
+        initChess('default');
     }
 }
 </script>
@@ -150,7 +146,6 @@ export default {
         justify-content: space-between;
         width: 100%;
         height: 100%;
-        overflow:hidden;
     }
     div.left-part-wrapper,div.right-part-wrapper{
         background: url(../assets/images/信息显示底.png) no-repeat;
@@ -293,7 +288,7 @@ export default {
         justify-content: space-between;
     }
     p.title.operation {
-        margin-top: 7%;
+        margin-top: 2rem;
     }
     .operation-group-btn {
         display: flex;

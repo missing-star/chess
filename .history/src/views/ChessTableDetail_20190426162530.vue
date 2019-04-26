@@ -121,14 +121,14 @@ export default {
             })
         }).then(res => {
             if(res.data.status == 1) {
-                JSON.parse(res.data.data.data_code).forEach(array => {        
+                JSON.parse(res.data.data_code).forEach(array => {        
                     console.log(array);   
                     this.map.push(array);
                 });
-                JSON.parse(res.data.data.data_text).forEach(item => {
+                JSON.parse(res.data.data_text).forEach(item => {
                     this.recordList.push(item);
                 });
-                JSON.parse(res.data.data.play_log).forEach(item => {
+                JSON.parse(res.data.play_log).forEach(item => {
                     this.showRecordList.push(item);
                 });
                 sessionStorage.clear();
@@ -293,7 +293,7 @@ export default {
         justify-content: space-between;
     }
     p.title.operation {
-        margin-top: 7%;
+        margin-top: 2rem;
     }
     .operation-group-btn {
         display: flex;

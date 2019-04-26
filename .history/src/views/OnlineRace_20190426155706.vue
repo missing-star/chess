@@ -534,7 +534,6 @@ span.user-category {
   margin-left: 1.5rem;
 }
 .current-percent-wrapper {
-  width: 95%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -562,12 +561,12 @@ p.percent {
   width: 80%;
   margin: 0 auto;
   height: 20%;
-  border-radius: 10rem;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  margin-top: 2%;
+  margin-top: 5%;
   font-size:0.8rem;
 }
 div.race-operation-wrapper {

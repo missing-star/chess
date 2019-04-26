@@ -120,7 +120,7 @@ export default {
                 manual_id:this.$route.params.id
             })
         }).then(res => {
-            if(res.data.status == 1) {
+            if(res.data.data.status == 200) {
                 JSON.parse(res.data.data.data_code).forEach(array => {        
                     console.log(array);   
                     this.map.push(array);
@@ -293,7 +293,7 @@ export default {
         justify-content: space-between;
     }
     p.title.operation {
-        margin-top: 7%;
+        margin-top: 2rem;
     }
     .operation-group-btn {
         display: flex;

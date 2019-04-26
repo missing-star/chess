@@ -276,7 +276,7 @@ export default {
     this.initChess();
     this.countTimes();
     this.Back.back = () => {
-      // this.$router.push("/arena");
+      this.$router.push("/arena");
     };
   },
   methods: {
@@ -497,7 +497,7 @@ div.back-btn-wrapper {
   width: 100%;
   background: url(../assets/images/棋手信息底.png) no-repeat;
   background-size: 100% 100%;
-  height: 25%;
+  height: 15rem;
 }
 div.user-logo-wrapper {
   background: url(../assets/images/黑方头像底.png) no-repeat;
@@ -520,7 +520,8 @@ div.user-logo-wrapper.red {
 .user-wrapper {
   display: flex;
   align-items: center;
-  padding: 6%;
+  padding: 3rem 2rem;
+  padding-bottom: 1rem;
 }
 img.user-logo {
   width: 80%;
@@ -534,11 +535,10 @@ span.user-category {
   margin-left: 1.5rem;
 }
 .current-percent-wrapper {
-  width: 95%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1%;
+  margin-bottom: 1.5rem;
 }
 .progressbar-wrapper {
   width: 60%;
@@ -561,14 +561,12 @@ p.percent {
   box-shadow: 0 1px 1px 0 #d8ad96, inset 0 1px 1px 0 #59301b;
   width: 80%;
   margin: 0 auto;
-  height: 20%;
-  border-radius: 10rem;
+  height: 2rem;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  margin-top: 2%;
-  font-size:0.8rem;
 }
 div.race-operation-wrapper {
   background: url(../assets/images/操作台底.png) no-repeat;

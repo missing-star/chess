@@ -562,7 +562,7 @@ p.percent {
   width: 80%;
   margin: 0 auto;
   height: 20%;
-  border-radius: 10rem;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;

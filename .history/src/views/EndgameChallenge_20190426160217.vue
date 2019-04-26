@@ -196,7 +196,7 @@ div.chess-my-homework-wrapper {
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  min-height: 900px;
 }
 div.left-part-wrapper,
 div.right-part-wrapper {
@@ -206,12 +206,15 @@ div.right-part-wrapper {
   width: 15%;
   flex: 1;
   padding: 2rem;
+  min-width: 400px;
 }
 div.middle-part-wrapper{
         background: url(../assets/images/棋盘底.png) no-repeat;
         background-size: 100% 100%;
         width: 100vh;
         height: 100vh;
+        min-height: 900px;
+        min-width: 900px;
         display: flex;
         align-items: center;
         justify-content: center;

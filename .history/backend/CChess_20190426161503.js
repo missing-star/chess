@@ -448,7 +448,7 @@ function onChose(j, i, isSend, program) {
     }
     else {
         if(!isPutOver.value && map[j][i] != 0) {
-            alert('请先确定当前局面!');
+            alert('请先确认当前局面!');
             return;
         }
     }
