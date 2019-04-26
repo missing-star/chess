@@ -449,7 +449,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 	}, 10);
 	if(isMachineWin) {
 		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
-		alert('你输了');
+		alert('机器-你输了');
 		return;
 	}
 	if (isOnline.value) {
@@ -481,7 +481,6 @@ function noWinner() {
 		})}`);
 	} else {
 		isMove.value = 3
-		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
 		setTimeout(() => {
 			gameOver();
 		}, 2000);
@@ -918,9 +917,8 @@ function quitGame() {
 		})}`);
 	} else {
 		isMove.value = 4
-		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
 		setTimeout(function () {
-			gameOver();
+			// gameOver();
 		}, 1000);
 
 	}

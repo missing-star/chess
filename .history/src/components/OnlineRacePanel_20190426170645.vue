@@ -6,7 +6,7 @@
                 <div class="user-fight-wrapper">
                     <div class="user-left">
                         <p class="username">{{userName}}</p>
-                        <img :src="picture" alt="" class="user-logo">
+                        <img src="../assets/images/user-logo.png" alt="" class="user-logo">
                     </div>
                     <img src="../assets/images/vs.png" alt="vs" class="vs-icon">
                     <div class="user-right">

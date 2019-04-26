@@ -141,7 +141,7 @@
             this.showRecordList.push(item);
           });
           sessionStorage.clear();
-          initChess('all');
+          initChess('default');
         } else {
           alert(res.data.msg);
         }

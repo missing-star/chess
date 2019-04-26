@@ -481,7 +481,6 @@ function noWinner() {
 		})}`);
 	} else {
 		isMove.value = 3
-		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
 		setTimeout(() => {
 			gameOver();
 		}, 2000);
@@ -918,7 +917,7 @@ function quitGame() {
 		})}`);
 	} else {
 		isMove.value = 4
-		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
+		saveGameResult()
 		setTimeout(function () {
 			gameOver();
 		}, 1000);

@@ -39,12 +39,12 @@ body {
 }
 @media screen and (min-width:1500px) {
   body{
-    min-width: 1500px;
+    background: red;
   }
 }
 @media screen and (max-width:1499px) {
   body{
-    min-width: 1200px;
+    background:green;
   }
 }
 div.chess-dialog-body {

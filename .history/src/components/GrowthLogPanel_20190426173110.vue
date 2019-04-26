@@ -51,7 +51,7 @@
                   class="race-result-icon"
                 >
                 <span class="race-title">{{item.game==1?"赢":'item.game==2'?"平":"输"}}</span>
-                <img @click="getRaceDetail(item.id)" src="../assets/images/右键头.png" class="race-result-detail-icon pointer">
+                <img @click="getRaceDetail(item.id)" src="../assets/images/右键头.png" class="race-result-detail-icon">
               </p>
             </li>
           </ul>

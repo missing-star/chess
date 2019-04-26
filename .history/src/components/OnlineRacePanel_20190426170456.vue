@@ -5,12 +5,12 @@
             <div class="content-wrapper-container">
                 <div class="user-fight-wrapper">
                     <div class="user-left">
-                        <p class="username">{{userName}}</p>
-                        <img :src="picture" alt="" class="user-logo">
+                        <p class="username">{{}}</p>
+                        <img src="../assets/images/user-logo.png" alt="" class="user-logo">
                     </div>
                     <img src="../assets/images/vs.png" alt="vs" class="vs-icon">
                     <div class="user-right">
-                        <p class="username">等待中</p>
+                        <p class="username">用户名</p>
                         <img src="../assets/images/user-logo.png" alt="" class="user-logo">
                     </div>
                 </div>
@@ -33,8 +33,7 @@ export default {
     data() {
         return {
             userId:JSON.parse(localStorage.getItem('userInfo')).id,
-            userName:JSON.parse(localStorage.getItem('userInfo')).nickname,
-            picture:process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture
+            userName:JSON.parse(localStorage.getItem('userInfo')).nickname
         }
     },
     methods:{

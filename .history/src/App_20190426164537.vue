@@ -34,19 +34,16 @@ body {
   line-height: 1rem;
   overflow-y: hidden;
   font-size: calc(100vw / 20);
+  min-width: 1200px;
   min-height: 600px;
   overflow: auto;
 }
 @media screen and (min-width:1500px) {
   body{
-    min-width: 1500px;
+    min-width:1500px;
   }
 }
-@media screen and (max-width:1499px) {
-  body{
-    min-width: 1200px;
-  }
-}
+
 div.chess-dialog-body {
   z-index: 2;
   background-size: 100% 100%;

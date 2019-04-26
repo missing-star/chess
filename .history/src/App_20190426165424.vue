@@ -44,7 +44,7 @@ body {
 }
 @media screen and (max-width:1499px) {
   body{
-    min-width: 1200px;
+    min-width: 1300px;
   }
 }
 div.chess-dialog-body {

@@ -134,19 +134,19 @@
         })
       }).then(res => {
         if (res.data.status == 1) {
-          JSON.parse(res.data.data.play_log).forEach(item => {
+          JSON.parse(res.data.data.data_text).forEach(item => {
             this.recordList.push(item);
           });
-          JSON.parse(res.data.data.tips_log).forEach(item => {
+          JSON.parse(res.data.data.play_log).forEach(item => {
             this.showRecordList.push(item);
           });
           sessionStorage.clear();
-          initChess('all');
+          initChess('default');
         } else {
           alert(res.data.msg);
         }
       }).catch(err => {
-        console.log(err);
+        alert(err);
       });
     },
     methods: {

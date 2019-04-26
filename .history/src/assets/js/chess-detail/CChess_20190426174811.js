@@ -941,11 +941,9 @@ function putDef(flag) {
         putQi(true);
         return;
     }
+    console.log('map变化');
     //flag==>all(摆满棋盘)，flag==>default(只显示将,帅)
     if (flag == 'all') {
-        for(var i = 0; i < 10; i++) {
-            map.push([0,0,0,0,0,0,0,0,0]);
-        }
         //默认的棋子布局         
         map[0][0] = -3;
         map[9][0] = 3;

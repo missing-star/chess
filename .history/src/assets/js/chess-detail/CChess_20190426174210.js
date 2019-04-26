@@ -1,5 +1,3 @@
-import { loadavg } from "os";
-
 // const socket = new WebSocket('ws://127.0.0.1:8000');
 let counts = 0;
 let isPutOver = {
@@ -107,6 +105,8 @@ var currentIndex = {
 sessionStorage.clear();
 
 function LoadGround() { //生成旗子
+    console.log('aa')
+    console.log(map);
     var g = "";
     for (var j = 0; j < 10; j++) {
         for (var i = 0; i < 9; i++) {
@@ -943,9 +943,6 @@ function putDef(flag) {
     }
     //flag==>all(摆满棋盘)，flag==>default(只显示将,帅)
     if (flag == 'all') {
-        for(var i = 0; i < 10; i++) {
-            map.push([0,0,0,0,0,0,0,0,0]);
-        }
         //默认的棋子布局         
         map[0][0] = -3;
         map[9][0] = 3;
