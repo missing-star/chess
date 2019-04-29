@@ -718,7 +718,6 @@
           .then(res => {
             this.showLoginPanel = true;
             localStorage.removeItem('userInfo');
-            location.reload();
           })
           .catch(error => {
             console.log(error);

@@ -4,9 +4,9 @@
     <div class="cloud-wrapper">
       <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index)" class="cloud-icon">
     </div>
-    <div class="cloud-wrapper reverse">
-      <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index,true)" class="cloud-icon reverse">
-    </div>
+    <!-- <div class="cloud-wrapper">
+      <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index)" class="cloud-icon">
+    </div> -->
     <!-- 背景音乐 -->
     <audio ref="audio" id="audio-music" loop>
       <source src="../assets/audio/bg.mp3">
@@ -177,8 +177,31 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-2.png'),
+          require('../assets/images/cloud-3.png'),
+          require('../assets/images/cloud-4.png'),
+          require('../assets/images/cloud-5.png'),
+          require('../assets/images/cloud-6.png'),
+          require('../assets/images/cloud-7.png'),
+          require('../assets/images/cloud-8.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-2.png'),
+          require('../assets/images/cloud-3.png'),
+          require('../assets/images/cloud-4.png'),
+          require('../assets/images/cloud-5.png'),
+          require('../assets/images/cloud-6.png'),
+          require('../assets/images/cloud-7.png'),
+          require('../assets/images/cloud-8.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-2.png'),
+          require('../assets/images/cloud-3.png'),
+          require('../assets/images/cloud-4.png'),
+          require('../assets/images/cloud-5.png'),
+          require('../assets/images/cloud-6.png'),
+          require('../assets/images/cloud-7.png'),
+          require('../assets/images/cloud-8.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -205,33 +228,6 @@
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
           require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
           require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
@@ -348,17 +344,10 @@
 
         }
       },
-      getStyle(index, flag) {
-        if (flag) {
-          return {
-            right: this.getRandom(true) * index + 'px',
-            top: this.getRandom() * index + 'px'
-          }
-        } else {
-          return {
-            left: this.getRandom(true) * index + 'px',
-            top: this.getRandom() * index + 'px'
-          }
+      getStyle(index) {
+        return {
+          left: this.getRandom(true) * index + 'px',
+          top: this.getRandom() * index + 'px'
         }
       },
       changeLogo(url) {
@@ -680,7 +669,7 @@
         }
       },
       isLogin() {
-        this.$axios({
+        axios({
           url: `${process.env.VUE_APP_URL}index.php?r=api/if-login`
         }).then((res) => {
           if (res.data.status == 1) {
@@ -702,7 +691,12 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            if (localStorage.getItem('loginInfo')) {
+              this.rememberMe = true;
+              const loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
+              this.username = loginInfo.username;
+              this.password = loginInfo.password;
+            }
           }
         }).catch((err) => {
 
@@ -716,9 +710,7 @@
             data: this.qs.stringify({})
           })
           .then(res => {
-            this.showLoginPanel = true;
-            localStorage.removeItem('userInfo');
-            location.reload();
+            this.$router.push("/login");
           })
           .catch(error => {
             console.log(error);
@@ -1028,27 +1020,15 @@
   }
 
   .cloud-wrapper {
-    height: 30%;
+    height: 25%;
     overflow: hidden;
     position: relative;
-  }
-
-  .cloud-wrapper.reverse {
-    position: absolute;
-    width: 100%;
-    top: 0;
   }
 
   img.cloud-icon {
     width: 10%;
     position: absolute;
-    animation: move 120s linear infinite;
-  }
-
-  img.cloud-icon.reverse {
-    width: 10%;
-    position: absolute;
-    animation: moveReverse 120s linear infinite;
+    animation: move 35s linear infinite;
   }
 
   @keyframes move {
@@ -1058,16 +1038,6 @@
 
     to {
       margin-left: 100vw;
-    }
-  }
-
-  @keyframes moveReverse {
-    from {
-      margin-right: 0;
-    }
-
-    to {
-      margin-right: 100vw;
     }
   }
 </style>

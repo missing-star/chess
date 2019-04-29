@@ -290,7 +290,7 @@
                 msg.data.substring(msg.data.indexOf("user"))
               );
             } else if (msg.data.indexOf("b login success") == 0) {
-              alert(666)
+              
               let fightId = JSON.parse(msg.data.substring(15)).userId;
               this.getPersonInfo(fightId);
               //b方登录

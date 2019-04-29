@@ -177,8 +177,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -186,8 +185,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -195,8 +193,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -204,8 +201,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -703,6 +699,12 @@
             this.showLoginPanel = false;
           } else {
             this.showLoginPanel = true;
+            if (localStorage.getItem('loginInfo')) {
+              this.rememberMe = true;
+              const loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
+              this.username = loginInfo.username;
+              this.password = loginInfo.password;
+            }
           }
         }).catch((err) => {
 
@@ -716,9 +718,7 @@
             data: this.qs.stringify({})
           })
           .then(res => {
-            this.showLoginPanel = true;
-            localStorage.removeItem('userInfo');
-            location.reload();
+            this.$router.push("/home");
           })
           .catch(error => {
             console.log(error);

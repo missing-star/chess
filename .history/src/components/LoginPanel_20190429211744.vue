@@ -260,7 +260,7 @@
                             else {
                                 localStorage.removeItem('loginInfo');
                             }
-                            if (this.role == '老师') {
+                            if (this.role == 1) {
                                 //老师
                                 this.$router.push("/home-teacher");
                             } else {

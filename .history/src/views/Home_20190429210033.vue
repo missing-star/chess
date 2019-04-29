@@ -177,8 +177,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -186,8 +185,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -195,8 +193,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -204,8 +201,7 @@
           require('../assets/images/cloud-6.png'),
           require('../assets/images/cloud-7.png'),
           require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'), 
-          require('../assets/images/cloud-1.png'),
+          require('../assets/images/cloud-9.png'), require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
@@ -718,7 +714,6 @@
           .then(res => {
             this.showLoginPanel = true;
             localStorage.removeItem('userInfo');
-            location.reload();
           })
           .catch(error => {
             console.log(error);

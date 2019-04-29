@@ -27,14 +27,13 @@ Vue.mixin({
         return true;
       }
       return false;
-    }
-  },
-  created() {
-    console.log('gogoog')
-    if(localStorage.getItem('userInfo')) {
-      this.userId = JSON.parse(localStorage.getItem('userInfo')).id,
-      this.userName = JSON.parse(localStorage.getItem('userInfo')).nickname,
-      this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture
+    },
+    created() {
+      if(localStorage.getItem('userInfo')) {
+        this.userId = JSON.parse(localStorage.getItem('userInfo')).id,
+        this.userName = JSON.parse(localStorage.getItem('userInfo')).nickname,
+        this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture
+      }
     }
   },
   filters:{

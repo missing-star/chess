@@ -26,8 +26,8 @@
                 </div>
                 <div class="dashed-line"></div>
                 <div class="btn-group-wrapper">
-                    <!-- <button v-if="isMatchSuccess" @click="startGame" class="online-match-btn pointer success"></button> -->
-                    <button :disabled="waitTime < 15 && waitTime != 0" @click="startFight" class="online-match-btn pointer"></button>
+                    <button v-if="isMatchSuccess" @click="startGame" class="online-match-btn pointer success"></button>
+                    <button :disabled="waitTime < 15 && waitTime != 0" v-else @click="startFight" class="online-match-btn pointer"></button>
                 </div>
             </div>
         </div>

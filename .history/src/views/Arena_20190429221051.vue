@@ -282,7 +282,6 @@
             this.socket = null;
           };
           this.socket.onmessage = msg => {
-            alert(msg.data);
             if (msg.data.indexOf("login success") != -1) {
               //自己登录成功
               sessionStorage.setItem(
@@ -290,8 +289,7 @@
                 msg.data.substring(msg.data.indexOf("user"))
               );
             } else if (msg.data.indexOf("b login success") == 0) {
-              alert(666)
-              let fightId = JSON.parse(msg.data.substring(15)).userId;
+              let fightId = JSON.parse(msg.data.substring(msg.data.indexOf(15))).userId;
               this.getPersonInfo(fightId);
               //b方登录
               /**
@@ -346,8 +344,7 @@
                     sessionStorage.setItem("nowWho", 1);
                     sessionStorage.setItem("user_type2", data.user_type);
                     //开始游戏
-                    this.isMatchSuccess = true;
-                    // this.startGame();
+                    this.startGame();
                     this.countTimes2();
                   } else if (data.content == "out" && !isGameEnd.value) {
                     //对方1分钟未操作
@@ -540,15 +537,6 @@
         this.$router.push({
           path: "/endgame-challenge"
         });
-      }
-    },
-    watch:{
-      isMatchSuccess() {
-        if(this.isMatchSuccess) {
-          setTimeout(() => {
-            this.startGame();
-          }, 2000);
-        }
       }
     },
     components: {

@@ -282,7 +282,6 @@
             this.socket = null;
           };
           this.socket.onmessage = msg => {
-            alert(msg.data);
             if (msg.data.indexOf("login success") != -1) {
               //自己登录成功
               sessionStorage.setItem(
@@ -290,7 +289,7 @@
                 msg.data.substring(msg.data.indexOf("user"))
               );
             } else if (msg.data.indexOf("b login success") == 0) {
-              alert(666)
+              alert(msg.data);
               let fightId = JSON.parse(msg.data.substring(15)).userId;
               this.getPersonInfo(fightId);
               //b方登录

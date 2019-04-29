@@ -1,13 +1,5 @@
 <template>
   <div class="chess-arena-wrapper">
-    <!-- 白云container -->
-    <div class="cloud-wrapper">
-      <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index)" class="cloud-icon">
-    </div>
-    <div class="cloud-wrapper reverse">
-      <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index,true)"
-        class="cloud-icon reverse">
-    </div>
     <h2>竞技场</h2>
     <div class="category-wrapper">
       <div class="category-item">
@@ -17,16 +9,15 @@
         <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
       </div>
     </div>
-    <chess-online-race-panel :fightLogl="fightLogo" :fightName="fightName" @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime"
-      @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
+    <chess-online-race-panel @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime" @start-game="goGame" @hide="hideOnlineRacePanel"
+      :is-show="showOnlineRacePanel"></chess-online-race-panel>
     <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel">
     </chess-check-point-panel>
     <chess-check-point-level @hide="hideCheckPointLevelPanel" @open-check-point-panel="openCheckPointPanel"
       :is-show="showCheckPointLevelPanel"></chess-check-point-level>
 
     <div class="back-btn-wrapper">
-      <img v-if="waitTime < 15" :disabled="waitTime != 0" @click="gohome" src="../assets/images/back.png"
-        class="back-icon pointer">
+      <img v-if="waitTime < 15" :disabled="waitTime != 0" @click="gohome" src="../assets/images/back.png" class="back-icon pointer">
     </div>
 
     <!-- 提示框 -->
@@ -52,91 +43,8 @@
   export default {
     data() {
       return {
-        cloudList: [
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png'),
-          require('../assets/images/cloud-1.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-6.png'),
-          require('../assets/images/cloud-7.png'),
-          require('../assets/images/cloud-8.png'),
-          require('../assets/images/cloud-9.png')
-        ],
         //是否匹配成功
-        isMatchSuccess: false,
+        isMatchSuccess:false,
         showOnlineRacePanel: false,
         showCheckPointPanel: false,
         showCheckPointLevelPanel: false,
@@ -156,33 +64,10 @@
         BtnImg: "",
         BtnImg1: "",
         ImgShow: true,
-        uuid: '',
-        fightName:'',
-        fightLogo:''
+        uuid:''
       };
     },
     methods: {
-      getRandom(flag) {
-        let index = Math.random() > 0.5 ? -1 : 1;
-        if (flag) {
-          return Math.random() * 200 * index;
-        } else {
-          return Math.random() * 5;
-        }
-      },
-      getStyle(index, flag) {
-        if (flag) {
-          return {
-            right: this.getRandom(true) * index + 'px',
-            top: this.getRandom() * index + 'px'
-          }
-        } else {
-          return {
-            left: this.getRandom(true) * index + 'px',
-            top: this.getRandom() * index + 'px'
-          }
-        }
-      },
       gohome() {
         this.$router.push("/home")
       },
@@ -237,23 +122,8 @@
           }
         }, 1000);
       },
-      getPersonInfo(id) {
-        this.$axios({
-          url: `${process.env.VUE_APP_URL}index.php?r=api-teach/select-student-detail`,
-          data: this.qs.stringify({
-            student_id: id
-          })
-        }).then(res => {
-          if (res.data.status == 1) {
-            this.fightName = res.data.data.nickname;
-            this.fightLogo = process.env.VUE_APP_URL + res.data.data.picture;
-          }
-        }).catch(err => {
-          console.log(err);
-        });
-      },
       goGame(flag) {
-        if (!flag) {
+        if(!flag) {
           this.uuid = `user${this.getUuuid(8, 16)}`;
         }
         if (this.isOnline) {
@@ -261,7 +131,7 @@
           if (this.waitTime != 0) {
             return;
           }
-          sessionStorage.setItem("uuid", this.uuid);
+          sessionStorage.setItem("uuid", uuid);
           this.goOnlineRace();
           if (this.socket == null) {
             this.socket = new WebSocket("ws://47.99.241.87:1234");
@@ -272,8 +142,9 @@
             if (this.socket.readyState == 1) {
               //发送uuid
               this.socket.send(JSON.stringify({
-                uid: this.uuid,
-                userId: JSON.parse(localStorage.getItem('userInfo')).id
+                uid:uuid,
+                // userId:JSON.parse(localStorage.getItem('userInfo')).id
+                userId:2
               }));
             }
           };
@@ -282,17 +153,13 @@
             this.socket = null;
           };
           this.socket.onmessage = msg => {
-            alert(msg.data);
             if (msg.data.indexOf("login success") != -1) {
               //自己登录成功
               sessionStorage.setItem(
                 "code",
                 msg.data.substring(msg.data.indexOf("user"))
               );
-            } else if (msg.data.indexOf("b login success") == 0) {
-              alert(666)
-              let fightId = JSON.parse(msg.data.substring(15)).userId;
-              this.getPersonInfo(fightId);
+            } else if (msg.data.indexOf("user") == 0) {
               //b方登录
               /**
                * 其他用户登录成功
@@ -326,7 +193,7 @@
             } else if (msg.data == "offline" && !this.isGameEnd.value) {
               //对方刷新或关闭浏览器
               alert("对方已离线，你赢了");
-              this.saveGameResult(sessionStorage.getItem("user_type"), this.uuid);
+              this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
               this.gameOver();
             } else {
               //用户之间发送消息
@@ -346,8 +213,7 @@
                     sessionStorage.setItem("nowWho", 1);
                     sessionStorage.setItem("user_type2", data.user_type);
                     //开始游戏
-                    this.isMatchSuccess = true;
-                    // this.startGame();
+                    this.startGame();
                     this.countTimes2();
                   } else if (data.content == "out" && !isGameEnd.value) {
                     //对方1分钟未操作
@@ -355,7 +221,7 @@
                     this.isTimeUp = true;
                     this.saveGameResult(
                       sessionStorage.getItem("user_type"),
-                      this.uuid
+                      uuid
                     );
                     this.gameOver();
                   } else if (data.content == "nowinner") {
@@ -378,7 +244,7 @@
                     //保存比赛结果
                     this.saveGameResult(
                       sessionStorage.getItem("user_type"),
-                      this.uuid
+                      uuid
                     );
                     this.gameOver();
                   } else if (data.content == "agree-nowinner") {
@@ -434,7 +300,7 @@
                     alert("对方已认输，您赢得了本局比赛");
                     this.saveGameResult(
                       sessionStorage.getItem("user_type"),
-                      this.uuid
+                      uuid
                     );
                     this.gameOver();
                   } else if (
@@ -470,7 +336,7 @@
                     return;
                   }
                   alert("对方已离线，你赢了");
-                  this.saveGameResult(sessionStorage.getItem("user_type"), this.uuid);
+                  this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
                   this.gameOver();
               }
             }
@@ -481,17 +347,17 @@
           gameSocket.close();
           //发送请求确定该对战为人机
           this.$axios({
-            url: `${process.env.VUE_APP_URL}index.php?r=api/add-socket-key`,
-            method: 'post',
-            data: this.qs.stringify({
-              a_user_socket_key: this.uuid,
-              a_user_id: JSON.parse(localStorage.getItem('userInfo')).id,
-              b_user_socket_key: `user${this.getUuuid(8, 16)}`
+            url:`${process.env.VUE_APP_URL}index.php?r=api/add-socket-key`,
+            method:'post',
+            data:this.qs.stringify({
+              a_user_socket_key:uuid,
+              a_user_id:JSON.parse(localStorage.getItem('userInfo')).id,
+              b_user_socket_key:`user${this.getUuuid(8, 16)}`
             })
           })
           //人机
-          sessionStorage.setItem("user_type", "a");
-          sessionStorage.setItem("uuid", this.uuid);
+          sessionStorage.setItem("user_type","a");
+          sessionStorage.setItem("uuid",uuid);
           this.isOnline = false;
           sessionStorage.setItem("isRed", true);
           sessionStorage.setItem("nowWho", 0);
@@ -542,15 +408,6 @@
         });
       }
     },
-    watch:{
-      isMatchSuccess() {
-        if(this.isMatchSuccess) {
-          setTimeout(() => {
-            this.startGame();
-          }, 2000);
-        }
-      }
-    },
     components: {
       [BackButton.name]: BackButton,
       [OnlineRacePanel.name]: OnlineRacePanel,
@@ -564,12 +421,9 @@
   .chess-arena-wrapper {
     width: 100%;
     height: 100%;
-    height: 100%;
-    background: url(../assets/images/home-bg.png) no-repeat, url(../assets/images/mountain-light.png) no-repeat, url(../assets/images/mountain-dark.png) no-repeat, url(../assets/images/sky.png) no-repeat;
-    background-size: 100% 100%, 100%, 100%, 100%;
-    background-position: center, center 8%, center 8%, top;
-    overflow: hidden;
-    display: flex;
+    background: url(../assets/images/home-bg.png) no-repeat;
+    background-size: 100% 100%;
+    display:flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -616,49 +470,5 @@
 
   img.back-icon {
     width: 100%;
-  }
-
-  .cloud-wrapper {
-    height: 30%;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .cloud-wrapper.reverse {
-    position: absolute;
-    width: 100%;
-    top: 0;
-  }
-
-  img.cloud-icon {
-    width: 10%;
-    position: absolute;
-    animation: move 120s linear infinite;
-  }
-
-  img.cloud-icon.reverse {
-    width: 10%;
-    position: absolute;
-    animation: moveReverse 120s linear infinite;
-  }
-
-  @keyframes move {
-    from {
-      margin-left: 0;
-    }
-
-    to {
-      margin-left: 100vw;
-    }
-  }
-
-  @keyframes moveReverse {
-    from {
-      margin-right: 0;
-    }
-
-    to {
-      margin-right: 100vw;
-    }
   }
 </style>

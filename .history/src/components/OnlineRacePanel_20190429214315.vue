@@ -20,14 +20,14 @@
                         </div>
                     </div>
                     <div class="user-item">
-                        <img :src="fightLogo" class="user-logo">
-                        <p class="nickname">{{fightName}}</p>
+                        <img src="../assets/images/user-logo.png" class="user-logo">
+                        <p class="nickname">李四</p>
                     </div>
                 </div>
                 <div class="dashed-line"></div>
                 <div class="btn-group-wrapper">
-                    <!-- <button v-if="isMatchSuccess" @click="startGame" class="online-match-btn pointer success"></button> -->
-                    <button :disabled="waitTime < 15 && waitTime != 0" @click="startFight" class="online-match-btn pointer"></button>
+                    <button v-if="isMatchSuccess" @click="startGame" class="online-match-btn pointer success"></button>
+                    <button :disabled="waitTime < 15 && waitTime != 0" v-else @click="startFight" class="online-match-btn pointer"></button>
                 </div>
             </div>
         </div>
@@ -40,7 +40,8 @@ export default {
     name:'chess-online-race-panel',
     data() {
         return {
-           
+            fightUserName:'',
+            fightUserLogo:''
         }
     },
     methods:{

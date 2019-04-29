@@ -17,7 +17,7 @@
         <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
       </div>
     </div>
-    <chess-online-race-panel :fightLogl="fightLogo" :fightName="fightName" @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime"
+    <chess-online-race-panel @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime"
       @start-game="goGame" @hide="hideOnlineRacePanel" :is-show="showOnlineRacePanel"></chess-online-race-panel>
     <chess-check-point-panel :level="selectedLevel" @hide="hideCheckPointPanel" :is-show="showCheckPointPanel">
     </chess-check-point-panel>
@@ -156,9 +156,7 @@
         BtnImg: "",
         BtnImg1: "",
         ImgShow: true,
-        uuid: '',
-        fightName:'',
-        fightLogo:''
+        uuid: ''
       };
     },
     methods: {
@@ -168,6 +166,11 @@
           return Math.random() * 200 * index;
         } else {
           return Math.random() * 5;
+        }
+      },
+      getAnimation() {
+        return {
+
         }
       },
       getStyle(index, flag) {
@@ -282,7 +285,6 @@
             this.socket = null;
           };
           this.socket.onmessage = msg => {
-            alert(msg.data);
             if (msg.data.indexOf("login success") != -1) {
               //自己登录成功
               sessionStorage.setItem(
@@ -290,8 +292,7 @@
                 msg.data.substring(msg.data.indexOf("user"))
               );
             } else if (msg.data.indexOf("b login success") == 0) {
-              alert(666)
-              let fightId = JSON.parse(msg.data.substring(15)).userId;
+              let fightId = JSON.parse(msg.data.substring(msg.data.indexOf(15))).userId;
               this.getPersonInfo(fightId);
               //b方登录
               /**
@@ -346,8 +347,7 @@
                     sessionStorage.setItem("nowWho", 1);
                     sessionStorage.setItem("user_type2", data.user_type);
                     //开始游戏
-                    this.isMatchSuccess = true;
-                    // this.startGame();
+                    this.startGame();
                     this.countTimes2();
                   } else if (data.content == "out" && !isGameEnd.value) {
                     //对方1分钟未操作
@@ -540,15 +540,6 @@
         this.$router.push({
           path: "/endgame-challenge"
         });
-      }
-    },
-    watch:{
-      isMatchSuccess() {
-        if(this.isMatchSuccess) {
-          setTimeout(() => {
-            this.startGame();
-          }, 2000);
-        }
       }
     },
     components: {

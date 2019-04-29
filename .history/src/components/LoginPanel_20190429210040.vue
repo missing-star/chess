@@ -260,7 +260,7 @@
                             else {
                                 localStorage.removeItem('loginInfo');
                             }
-                            if (this.role == '老师') {
+                            if (this.role == 1) {
                                 //老师
                                 this.$router.push("/home-teacher");
                             } else {
@@ -393,7 +393,6 @@
               const loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
               this.username = loginInfo.username;
               this.password = loginInfo.password;
-              this.isCanLogin = true;
             }
         },
         props: ['is-show'],
