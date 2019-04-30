@@ -8,10 +8,13 @@
       <img v-for="(img,index) in cloudList" :src="img" :key="index" :style="getStyle(index,true)"
         class="cloud-icon reverse">
     </div>
+    <h2>竞技场</h2>
     <div class="category-wrapper">
-      <div class="category-item pointer left" @click="openOnlineRacePanel">
+      <div class="category-item">
+        <button class="start-game pointer" @click="openOnlineRacePanel">在线对战</button>
       </div>
-      <div class="category-item pointer right" @click="openCheckPointLevelPanel">
+      <div class="category-item">
+        <button class="start-game pointer" @click="openCheckPointLevelPanel">象棋闯关</button>
       </div>
     </div>
     <chess-online-race-panel :fightLogl="fightLogo" :fightName="fightName" @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime"
@@ -581,13 +584,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-   width:100%;
+    padding: 5rem;
   }
 
   .category-item {
-    width: 28%;
+    width: 20rem;
     height: 25rem;
-    background: transparent;
+    background: #f6f6f6;
     display: flex;
     align-items: flex-end;
     justify-content: center;

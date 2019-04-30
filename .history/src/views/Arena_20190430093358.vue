@@ -9,9 +9,9 @@
         class="cloud-icon reverse">
     </div>
     <div class="category-wrapper">
-      <div class="category-item pointer left" @click="openOnlineRacePanel">
+      <div class="category-item pointer" @click="openOnlineRacePanel">
       </div>
-      <div class="category-item pointer right" @click="openCheckPointLevelPanel">
+      <div class="category-item pointer" @click="openCheckPointLevelPanel">
       </div>
     </div>
     <chess-online-race-panel :fightLogl="fightLogo" :fightName="fightName" @start-fight="startGame" :is-match-success="isMatchSuccess" :wait-time="waitTime"
@@ -581,13 +581,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-   width:100%;
+    padding: 5rem;
   }
 
   .category-item {
-    width: 28%;
+    width: 20rem;
     height: 25rem;
-    background: transparent;
+    background: #f6f6f6;
     display: flex;
     align-items: flex-end;
     justify-content: center;

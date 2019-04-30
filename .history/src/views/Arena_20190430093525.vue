@@ -585,9 +585,9 @@
   }
 
   .category-item {
-    width: 28%;
+    width: 20rem;
     height: 25rem;
-    background: transparent;
+    background: #f6f6f6;
     display: flex;
     align-items: flex-end;
     justify-content: center;
