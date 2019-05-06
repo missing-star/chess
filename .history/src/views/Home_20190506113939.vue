@@ -165,22 +165,7 @@
           require('../assets/images/cloud-3.png'),
           require('../assets/images/cloud-4.png'),
           require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png'),
-          require('../assets/images/cloud-2.png'),
-          require('../assets/images/cloud-3.png'),
-          require('../assets/images/cloud-4.png'),
-          require('../assets/images/cloud-5.png')
+          
         ],
         //登录弹窗
         showLoginPanel: false,
