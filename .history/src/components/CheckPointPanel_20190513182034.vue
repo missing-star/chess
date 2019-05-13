@@ -58,8 +58,8 @@
                     url: `${process.env.VUE_APP_URL}index.php?r=api-pass/get-pass`,
                     data: this.qs.stringify({
                         level: this.level,
-                        begin: this.begin,
-                        end: this.end
+                        begin: 1,
+                        end: 100
                     }),
                     method: 'post'
                 }).then((res) => {
@@ -127,7 +127,7 @@
                 });
             }
         },
-        props: ['is-show', 'level', 'show-title','begin','end'],
+        props: ['is-show', 'level', 'show-title','satrt','end'],
         components: {
             [ChessMask.name]: ChessMask
         },

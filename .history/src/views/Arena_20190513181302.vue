@@ -87,7 +87,7 @@
         avter: "",
         BtnImg: "",
         BtnImg1: "",
-        beginNum:'',
+        beginNmum:'',
         endNum:'',
         ImgShow: true,
         machineNams: ["盛鹏", "晨康", "锐弘", "禄贤", "炳翰", "强鑫", "权皓", "鹏喆", "鸿峰", "梓勇", "远谷", "锐升", "乘沛", "仕博", "礼强", "谷泽",
@@ -186,7 +186,7 @@
       openCheckPointPanel(level, stage,title,start,end) {
         this.selectedLevel = level;
         this.selectedTitle = title;
-        this.beginNum = start;
+        this.beginNmum = start;
         this.endNum = end;
         this.showCheckPointPanel = true;
       },

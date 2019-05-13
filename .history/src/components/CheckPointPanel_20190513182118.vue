@@ -127,7 +127,7 @@
                 });
             }
         },
-        props: ['is-show', 'level', 'show-title','begin','end'],
+        props: ['is-show', 'level', 'show-title','satrt','end'],
         components: {
             [ChessMask.name]: ChessMask
         },

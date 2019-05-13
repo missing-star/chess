@@ -127,7 +127,7 @@
                 });
             }
         },
-        props: ['is-show', 'level', 'show-title','begin','end'],
+        props: ['is-show', 'level', 'show-title','satrt','end'],
         components: {
             [ChessMask.name]: ChessMask
         },
@@ -138,6 +138,7 @@
                 }
             },
             begin: function () {
+                console.log('begin变化了')
                 if (this.begin != '') {
                     this.getCheckPointList();
                 }

@@ -127,17 +127,19 @@
                 });
             }
         },
-        props: ['is-show', 'level', 'show-title','begin','end'],
+        props: ['is-show', 'level', 'show-title','satrt','end'],
         components: {
             [ChessMask.name]: ChessMask
         },
         watch: {
             level: function () {
+                console.log('level变化了');
                 if (this.level != '') {
                     this.getCheckPointList();
                 }
             },
             begin: function () {
+                console.log('begin变化了')
                 if (this.begin != '') {
                     this.getCheckPointList();
                 }

@@ -21,8 +21,7 @@
                             <img v-if="n==currentPage&&index==currentIndex" src="../assets/images/zhan.png"
                                 class="teacher-logo">
                             <img v-else src="../assets/images/guan.png" class="teacher-logo">
-                            <p v-if="currentPage!=n || index!=currentIndex" class="show-guan-title">
-                                第{{8*n - 7 + index}}关</p>
+                            <p v-if="currentPage!=n || index!=currentIndex" class="show-guan-title">第{{8*n - 7 + index}}关</p>
                         </div>
                     </div>
                 </div>
@@ -58,8 +57,8 @@
                     url: `${process.env.VUE_APP_URL}index.php?r=api-pass/get-pass`,
                     data: this.qs.stringify({
                         level: this.level,
-                        begin: this.begin,
-                        end: this.end
+                        begin:1,
+                        end:100
                     }),
                     method: 'post'
                 }).then((res) => {
@@ -127,18 +126,13 @@
                 });
             }
         },
-        props: ['is-show', 'level', 'show-title','begin','end'],
+        props: ['is-show', 'level', 'show-title'],
         components: {
             [ChessMask.name]: ChessMask
         },
         watch: {
             level: function () {
                 if (this.level != '') {
-                    this.getCheckPointList();
-                }
-            },
-            begin: function () {
-                if (this.begin != '') {
                     this.getCheckPointList();
                 }
             }
