@@ -186,6 +186,8 @@ export default {
         alert('保存闯关记录失败!');
       });
     };
+    
+    console.log(this.saveCheckPoint)
   }
 };
 </script>

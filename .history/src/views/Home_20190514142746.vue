@@ -605,14 +605,14 @@
           }
         }, 300);
       },
-      openLink(url,params) {
+      openLink(url) {
         //棋社
         if (url.includes("/")) {
           this.$router.push({
             path: url
           });
         } else {
-          this[url](params);
+          this[url]();
         }
         if (url == "openChessComPanel") {
           $.ajax({

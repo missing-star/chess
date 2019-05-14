@@ -384,7 +384,7 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: rgb(88, 86, 86);
+    background: #f6f6f6;
     border-radius: 1rem;
   }
 </style>

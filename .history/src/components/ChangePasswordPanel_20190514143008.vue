@@ -62,10 +62,10 @@
                     })
                 }).then(res => {
                     alert(res.data.msg);
-                    if(res.data.status == 1) {
-                        // 退出登录
-                        this.$emit('login-out');
-                    }
+                    // if(res.data.data.status == 1) {
+                    //     // 退出登录
+                    //     this.$emit('login-out');
+                    // }
                 }).catch(err => {
                     alert(err);
                 });

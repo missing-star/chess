@@ -294,7 +294,7 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		trunH();
 		if(currentIndex.value == recordList.length) {
 			isFinshed.value = true;
-			saveCheckPoint.save();
+			saveCheckPoint();
 			return;
 		}
 		onMove = false;

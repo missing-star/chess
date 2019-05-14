@@ -373,18 +373,18 @@
   }
 
   .scrollbar::-webkit-scrollbar {
-    width: 0.4rem;
+    width: 0.5rem;
     height: 0;
   }
 
   .scrollbar::-webkit-scrollbar-track {
-    background: #fff;
+    background: #f5e4b2;
     width: 100%;
     border-radius: 1rem;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: rgb(88, 86, 86);
+    background: #b88061;
     border-radius: 1rem;
   }
 </style>

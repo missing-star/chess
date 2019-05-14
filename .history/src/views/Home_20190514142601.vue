@@ -47,7 +47,7 @@
     <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
     <!-- 自习室、将星阁等 -->
     <div class="room-container">
-      <div @click="openLink(item.url,item.params)" class="room-item" :class="item.id" :key="index" v-for="(item,index) in roomList">
+      <div @click="openLink(item.url)" class="room-item" :class="item.id" :key="index" v-for="(item,index) in roomList">
         <img class="room-item-icon" :src="item.icon" :alt="item.name">
       </div>
     </div>
@@ -184,8 +184,7 @@
         show: false,
         show1: true,
         roomList: [{
-            url: "openChessComPanel",
-            params:'',
+            url: "openChessComPanel()",
             name: "棋社",
             id: 'qishe',
             icon: require("../assets/images/chess-room.png")
@@ -203,9 +202,8 @@
             icon: require("../assets/images/jiangxingge.png")
           },
           {
-            url: "openSelfStudyPanel",
+            url: "openSelfStudyPanel(false)",
             name: "自习室",
-            params:false,
             id: 'zixishi',
             icon: require("../assets/images/study-room.png")
           }
@@ -605,14 +603,14 @@
           }
         }, 300);
       },
-      openLink(url,params) {
+      openLink(url) {
         //棋社
         if (url.includes("/")) {
           this.$router.push({
             path: url
           });
         } else {
-          this[url](params);
+          this[url];
         }
         if (url == "openChessComPanel") {
           $.ajax({

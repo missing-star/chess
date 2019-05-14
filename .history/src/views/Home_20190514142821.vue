@@ -606,6 +606,7 @@
         }, 300);
       },
       openLink(url,params) {
+        alert(params);
         //棋社
         if (url.includes("/")) {
           this.$router.push({

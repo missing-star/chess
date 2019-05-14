@@ -172,6 +172,7 @@ export default {
   },
   mounted() {
     window.onChoseEnd = onChose;
+    console.log(this.saveCheckPoint)
     this.saveCheckPoint.save = () => {
       this.$axios({
         url:`${process.env.VUE_APP_URL}index.php?r=api-pass/create-student-passLog`,
@@ -185,7 +186,7 @@ export default {
       }).then(err => {
         alert('保存闯关记录失败!');
       });
-    };
+    }
   }
 };
 </script>

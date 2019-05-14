@@ -104,7 +104,6 @@ export default {
     };
   },
   methods: {
-    saveCheckPoint:saveCheckPoint,
     getCheckPointDetail() {
       this.$axios({
         url: `${process.env.VUE_APP_URL}index.php?r=api/add-pass-question-info`,
@@ -185,7 +184,7 @@ export default {
       }).then(err => {
         alert('保存闯关记录失败!');
       });
-    };
+    }
   }
 };
 </script>

@@ -61,8 +61,8 @@
                         password:this.password
                     })
                 }).then(res => {
-                    alert(res.data.msg);
-                    if(res.data.status == 1) {
+                    alert(res.data.data.msg);
+                    if(res.data.data.status == 1) {
                         // 退出登录
                         this.$emit('login-out');
                     }
