@@ -340,7 +340,7 @@
         this.showLoginPanel = true;
       },
       hideLoginPanel() {
-        this.showLoginPanel = false;
+        // this.showLoginPanel = false;
       },
       openChangePsswordPanel() {
         this.showChangePasswordPanel = true;
@@ -647,7 +647,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            // this.showLoginPanel = true;
+            this.showLoginPanel = true;
           }
         }).catch((err) => {
 
