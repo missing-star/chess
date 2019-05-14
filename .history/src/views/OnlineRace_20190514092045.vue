@@ -321,19 +321,17 @@
       },
       "isMove.value": {
         handler: function (a, b) {
-          // 悔棋(人机/人人)
-          if (a == 2 || a == 5) {
+          // 悔棋
+          if (a == 2) {
             this.ImgShow = false;
-            this.avter = require("../assets/images/等待对方同意你悔棋.png");
+            this.avter = require("../assets/images/等待对方同意.png");
             this.showLostAlert = true;
-            if (a == 2) {
-              setTimeout(() => {
-                this.showLostAlert = false;
-              }, 2500);
-              isMove.value = 1;
-            }
+            setTimeout(() => {
+              this.showLostAlert = false;
+            }, 2500);
+            isMove.value = 1;
           }
-          // 和棋(人机)
+          // 和棋
           if (a == 3) {
             setTimeout(() => {
               this.showCreateSucess = true;

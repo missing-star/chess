@@ -328,7 +328,10 @@
             this.showLostAlert = true;
             if (a == 2) {
               setTimeout(() => {
-                this.showLostAlert = false;
+                this.avter = require("../assets/images/等待对方同意你悔棋.png");
+                setTimeout(() => {
+                  this.showLostAlert = false;
+                }, 2000);
               }, 2500);
               isMove.value = 1;
             }

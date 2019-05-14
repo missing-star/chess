@@ -99,12 +99,9 @@ const vm = new Vue({
                     success: (res) => {
                         if (res.status == 0) {
                             if (confirm('该关卡已存在，是否覆盖？')) {
-                                this.editId = res.id;
+                                this.editId = res.data.id;
                                 this.saveDetail(title,level,checkPointNum);
                             }
-                        }
-                        else {
-                            this.saveDetail(title,level,checkPointNum);
                         }
                     },
                     error: (err) => {

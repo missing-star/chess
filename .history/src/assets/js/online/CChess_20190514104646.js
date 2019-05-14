@@ -3721,5 +3721,5 @@ export {
 	isGameEnd,
 	totalTimesRed,
 	totalTimesBlack,
-	isMove
+	isMove,
 }

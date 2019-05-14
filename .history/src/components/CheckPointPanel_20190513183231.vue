@@ -81,14 +81,9 @@
                 });
             },
             goCheckPoint(id, page, index) {
-                const preIndex = 8*page - 9 + index;
                 if (this.currentPage != page || this.currentIndex != index) {
                     this.currentPage = page;
                     this.currentIndex = index;
-                    return;
-                }
-                if(preIndex != -1 && this.checkPointList[preIndex].is_show == 0) {
-                    alert('您还没有通过上一关!');
                     return;
                 }
                 this.$router.push({

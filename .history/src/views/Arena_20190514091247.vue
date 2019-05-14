@@ -39,8 +39,7 @@
     saveGameResult,
     preOperation,
     gameOver,
-    isGameEnd,
-    isMove
+    isGameEnd
   } from "../assets/js/online/CChess";
   export default {
     data() {
@@ -208,7 +207,7 @@
         //清空对局信息，防止计时器重复计时
         this.gameOver(true);
         this.interval = setInterval(() => {
-          if (this.waitTime >= 5) {
+          if (this.waitTime >= 2) {
             // 重新匹配进入人机
             clearInterval(this.interval);
             this.waitTime = 0;

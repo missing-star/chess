@@ -22,18 +22,27 @@
               <div class="left-part">
                 <p class="item-title">{{item.title}}</p>
                 <div class="progressbar-wrapper">
-                  <p class="progressbar" :class="{active:item.is_show == 1}"></p>
-                  <span class="finish-status">{{item.is_show == 0 ? '0' : '1'}} / 1</span>
+                  <p class="progressbar"></p>
+                  <span class="finish-status">0 / 1</span>
                 </div>
               </div>
-              <div v-if="item.is_show == 0" @click="goPartice(item.id)" class="right-part pointer">
+              <div @click="goPartice(item.id)" class="right-part pointer">
                 <img src="../assets/images/arrow-right-task.png" class="arrow-right-icon">
                 <p class="go-study">去练习</p>
               </div>
-              <div v-else @click="goPartice(item.id)" class="right-part pointer active">
+            </li>
+            <!-- <li class="item">
+              <div class="left-part">
+                <p class="item-title">标题</p>
+                <div class="progressbar-wrapper">
+                  <p class="progressbar active"></p>
+                  <span class="finish-status">1 / 1</span>
+                </div>
+              </div>
+              <div class="right-part pointer active">
                 <p class="go-study active">再练习</p>
               </div>
-            </li>
+            </li>-->
           </ul>
         </div>
       </div>

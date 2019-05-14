@@ -39,8 +39,7 @@
     saveGameResult,
     preOperation,
     gameOver,
-    isGameEnd,
-    isMove
+    isGameEnd
   } from "../assets/js/online/CChess";
   export default {
     data() {

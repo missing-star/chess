@@ -322,7 +322,7 @@
       "isMove.value": {
         handler: function (a, b) {
           // 悔棋(人机/人人)
-          if (a == 2 || a == 5) {
+          if (a == 2 || a == 4) {
             this.ImgShow = false;
             this.avter = require("../assets/images/等待对方同意你悔棋.png");
             this.showLostAlert = true;

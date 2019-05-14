@@ -952,7 +952,7 @@ function backOperation() {
 			return;
 		}, 1000);
 	} else {
-		isMove.value = 5;
+		isMove.value = 4;
 		//发送悔棋请求对方确认
 		gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 			'type': 'user',
@@ -3721,5 +3721,5 @@ export {
 	isGameEnd,
 	totalTimesRed,
 	totalTimesBlack,
-	isMove
+	isMove,
 }
