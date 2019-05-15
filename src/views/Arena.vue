@@ -763,14 +763,13 @@ export default {
                   alert("对方拒绝您悔棋!");
                 } else if (data.content == "quit") {
                   //对方认输
-                  // this.avter1 = require("../assets/images/water-2.png");
-                  // this.showCreateSucess = true;
-                  alert("对方已认输，您赢得了本局比赛");
-                  this.saveGameResult(
-                    sessionStorage.getItem("user_type"),
-                    this.uuid
-                  );
-                  this.gameOver();
+                  isMove.value = 11
+                  // alert("对方已认输，您赢得了本局比赛");
+                  // this.saveGameResult(
+                  //   sessionStorage.getItem("user_type"),
+                  //   this.uuid
+                  // );
+                  // this.gameOver();
                 } else if (
                   data.user_type == sessionStorage.getItem("user_type2")
                 ) {

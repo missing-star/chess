@@ -233,7 +233,9 @@ import {
   totalTimesBlack,
   totalTimesRed,
   isMove,
-  gameOver
+  gameOver,
+  saveGameResult,
+  isGameEnd
 } from "../assets/js/online/CChess";
 import "../assets/css/Chess.css";
 import LoseAlert from "../components/LoseAlert"; //失败提示
@@ -331,6 +333,7 @@ export default {
     countTimes: countTimes,
     countTimes2: countTimes2,
     goRequest: quitGame,
+    saveGameResult:saveGameResult,
     calculateTimes(number) {
       var minute = parseInt((1200 - number) / 60);
       var seconds = parseInt((1200 - number) % 60);
@@ -375,6 +378,8 @@ export default {
     },
     "isMove.value": {
       handler: function(a, b) {
+        console.log(a + "a");
+        console.log(b + "b");
         // 悔棋(人机/人人)
         if (a == 2 || a == 5) {
           this.ImgShow = false;
@@ -407,6 +412,17 @@ export default {
           // this.BtnImg1 = require("../assets/images/取消.png");
           // this.showLostAlert = true;
           // isMove.value = 1;
+        }
+        if (a == 11) {
+          var uuid = sessionStorage.getItem("uuid");
+          this.showLostAlert = true;
+          this.ImgShow = false;
+          this.avter = require("../assets/images/water-2.png");
+          isMove.value = 1;
+          isGameEnd.value = true;
+          setTimeout(() => {
+            this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
+          },2000);
         }
       },
       deep: true

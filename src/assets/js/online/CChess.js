@@ -80,9 +80,9 @@ var isMachineWin = false;
 //保存悔棋步骤（最多两步）
 var backOperationGroup = {
 	// 当前是否可以悔棋
-	flag:false,
+	flag: false,
 	// 下棋步骤
-	list:[]
+	list: []
 }
 
 function LoadGround() { //生成旗子
@@ -499,10 +499,10 @@ function noWinner() {
 	if (confirm('您确定要和棋吗？')) {
 		if (isOnline.value) {
 			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-			'type': 'user',
-			'content': 'nowinner',
-			'user_type': sessionStorage.getItem('user_type')
-		})}`);
+				'type': 'user',
+				'content': 'nowinner',
+				'user_type': sessionStorage.getItem('user_type')
+			})}`);
 		} else {
 			isMove.value = 3
 			saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
@@ -968,17 +968,17 @@ function backOperation() {
 
 function quitGame() {
 	// if (confirm('您确定放弃本局比赛吗？')) {
-		if (isOnline.value) {
-			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
+	if (isOnline.value) {
+		gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 			'type': 'user',
 			'content': 'quit',
 			'user_type': sessionStorage.getItem('user_type')
 		})}`);
 		gameOver();
-		} else {
-			isMove.value = 4
-			saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
-		}
+	} else {
+		isMove.value = 4
+		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
+	}
 	// }
 }
 //选中棋子
@@ -1657,7 +1657,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红将
+		//红将
 		case R_KING:
 			if (target == B_KING) {
 				if (from.x != to.x) {
@@ -1681,7 +1681,7 @@ function isValidMove(board, from, to) {
 			break;
 
 
-			//红士
+		//红士
 		case R_BISHOP:
 			//console.log( to )
 			if (to.y < 7 || to.x < 3 || to.x > 5) {
@@ -1694,7 +1694,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑士
+		//黑士
 		case B_BISHOP:
 			if (to.y > 2 || to.x < 3 || to.x > 5) {
 				return false;
@@ -1705,7 +1705,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红相
+		//红相
 		case R_ELEPHANT:
 			if (to.y < 5) {
 				return false;
@@ -1720,7 +1720,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑相
+		//黑相
 		case B_ELEPHANT:
 			if (to.y > 4) {
 				return false;
@@ -1735,7 +1735,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//黑兵	
+		//黑兵	
 		case B_PAWN:
 			if (to.y < from.y) {
 				return false;
@@ -1750,7 +1750,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//红兵	
+		//红兵	
 		case R_PAWN:
 			if (to.y > from.y) {
 				return false;
@@ -1765,7 +1765,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//车
+		//车
 		case B_CAR:
 		case R_CAR:
 			if (from.y != to.y && from.x != to.x) {
@@ -1803,13 +1803,13 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//马
+		//马
 		case B_HORSE:
 		case R_HORSE:
 			var i;
 			var j;
 			if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+				Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 				return false;
 			}
 
@@ -1832,7 +1832,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-			//炮
+		//炮
 		case B_CANON:
 		case R_CANON:
 			if (from.y != to.y && from.x != to.x) {
@@ -2567,7 +2567,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红将
+			//红将
 			case R_KING:
 				if (target == B_KING) {
 					if (from.x != to.x) {
@@ -2591,7 +2591,7 @@ var Evaluation = function () {
 				break;
 
 
-				//红士
+			//红士
 			case R_BISHOP:
 				if (to.y < 7 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2602,7 +2602,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑士
+			//黑士
 			case B_BISHOP:
 				if (to.y > 2 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2613,7 +2613,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红相
+			//红相
 			case R_ELEPHANT:
 				if (to.y < 5) {
 					return false;
@@ -2628,7 +2628,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑相
+			//黑相
 			case B_ELEPHANT:
 				if (to.y > 4) {
 					return false;
@@ -2643,7 +2643,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//黑兵	
+			//黑兵	
 			case B_PAWN:
 				if (to.y < from.y) {
 					return false;
@@ -2658,7 +2658,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//红兵	
+			//红兵	
 			case R_PAWN:
 				if (to.y > from.y) {
 					return false;
@@ -2673,7 +2673,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//车
+			//车
 			case B_CAR:
 			case R_CAR:
 				if (from.y != to.y && from.x != to.x) {
@@ -2711,13 +2711,13 @@ var Evaluation = function () {
 				}
 				break;
 
-				//马
+			//马
 			case B_HORSE:
 			case R_HORSE:
 				var j;
 				var i;
 				if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-						Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 					return false;
 				}
 
@@ -2740,7 +2740,7 @@ var Evaluation = function () {
 				}
 				break;
 
-				//炮
+			//炮
 			case B_CANON:
 			case R_CANON:
 				if (from.y != to.y && from.x != to.x) {
