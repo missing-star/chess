@@ -650,10 +650,11 @@ export default {
               msg.data.substring(msg.data.indexOf("user"))
             );
           } else if (msg.data == "offline" && !this.isGameEnd.value) {
+            isMove.value = 12;
             //对方刷新或关闭浏览器
-            alert("对方已离线，你赢了");
-            this.saveGameResult(sessionStorage.getItem("user_type"), this.uuid);
-            this.gameOver();
+            // alert("对方已离线，你赢了");
+            // this.saveGameResult(sessionStorage.getItem("user_type"), this.uuid);
+            // this.gameOver();
           } else {
             //用户之间发送消息
             var data = JSON.parse(msg.data);
@@ -682,71 +683,78 @@ export default {
                   );
                 } else if (data.content == "out" && !isGameEnd.value) {
                   //对方1分钟未操作
-                  alert("由于对方长时间未操作，您赢得了本局比赛");
-                  this.isTimeUp = true;
-                  this.saveGameResult(
-                    sessionStorage.getItem("user_type"),
-                    this.uuid
-                  );
-                  this.gameOver();
+                  isMove.value = 13;
+                  // alert("由于对方长时间未操作，您赢得了本局比赛");
+                  // this.isTimeUp = true;
+                  // this.saveGameResult(
+                  //   sessionStorage.getItem("user_type"),
+                  //   this.uuid
+                  // );
+                  // this.gameOver();
                 } else if (data.content == "nowinner") {
+                  isMove.value = 15;
                   //对方要求和棋
-                  var result = "";
-                  if (confirm("您同意和棋吗？")) {
-                    result = "agreenowinner";
-                  } else {
-                    result = "refusenowinner";
-                  }
-                  this.socket.send(
-                    `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
-                      "user_type"
-                    )}-${JSON.stringify({
-                      type: "user",
-                      content: result,
-                      user_type: sessionStorage.getItem("user_type")
-                    })}`
-                  );
-                  if (result == "agreenowinner") {
-                    //保存比赛结果
-                    this.saveGameResult(
-                      sessionStorage.getItem("user_type"),
-                      this.uuid
-                    );
-                    this.gameOver();
-                  }
+                  // var result = "";
+                  // if (confirm("您同意和棋吗？")) {
+                  //   result = "agreenowinner";
+                  // } else {
+                  //   result = "refusenowinner";
+                  // }
+                  // this.socket.send(
+                  //   `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+                  //     "user_type"
+                  //   )}-${JSON.stringify({
+                  //     type: "user",
+                  //     content: result,
+                  //     user_type: sessionStorage.getItem("user_type")
+                  //   })}`
+                  // );
+                  // if (result == "agreenowinner") {
+                  //   //保存比赛结果
+                  //   this.saveGameResult(
+                  //     sessionStorage.getItem("user_type"),
+                  //     this.uuid
+                  //   );
+                  //   this.gameOver();
+                  // }
                 } else if (data.content == "agreenowinner") {
                   //同意和棋
-                  alert("对方已同意和棋，对战结束");
-                  this.gameOver();
+
+                  isMove.value = 16;
+                  // alert("对方已同意和棋，对战结束");
+                  // this.gameOver();
                 } else if (data.content == "refusenowinner") {
                   //拒绝和棋
-                  alert("对方拒绝和棋!");
+                   isMove.value = 17;
+                  // alert("对方拒绝和棋!");
                 } else if (data.content == "back") {
-                  var result = "";
+                  // var result = "";
+
+                  isMove.value = 14;
                   //对方要求悔棋
-                  if (confirm("您同意对方悔棋吗？")) {
-                    result = "agree";
-                    moveOnline(
-                      this.preOperation.y,
-                      this.preOperation.x,
-                      this.preOperation.j,
-                      this.preOperation.i,
-                      this.preOperation.eat,
-                      true,
-                      true
-                    );
-                  } else {
-                    result = "refuse";
-                  }
-                  this.socket.send(
-                    `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
-                      "user_type"
-                    )}-${JSON.stringify({
-                      type: "user",
-                      content: result,
-                      user_type: sessionStorage.getItem("user_type")
-                    })}`
-                  );
+                  // if (confirm("您同意对方悔棋吗？")) {
+                  //   result = "agree";
+                  //   moveOnline(
+                  //     this.preOperation.y,
+                  //     this.preOperation.x,
+                  //     this.preOperation.j,
+                  //     this.preOperation.i,
+                  //     this.preOperation.eat,
+                  //     true,
+                  //     true
+                  //   );
+                  // } else {
+                  //   result = "refuse";
+                  // }
+                  // this.socket.send(
+                  //   `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+                  //     "user_type"
+                  //   )}-${JSON.stringify({
+                  //     type: "user",
+                  //     content: result,
+                  //     user_type: sessionStorage.getItem("user_type")
+                  //   })}`
+                  // );
                 } else if (data.content == "agree") {
                   //同意悔棋
                   moveOnline(
@@ -760,10 +768,11 @@ export default {
                   );
                 } else if (data.content == "refuse") {
                   //拒绝悔棋
-                  alert("对方拒绝您悔棋!");
+                  isMove.value = 18;
+                  // alert("对方拒绝您悔棋!");
                 } else if (data.content == "quit") {
                   //对方认输
-                  isMove.value = 11
+                  isMove.value = 11;
                   // alert("对方已认输，您赢得了本局比赛");
                   // this.saveGameResult(
                   //   sessionStorage.getItem("user_type"),

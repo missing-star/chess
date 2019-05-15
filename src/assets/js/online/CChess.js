@@ -496,21 +496,22 @@ function move(y, x, j, i, eat, isBack, isSend) {
  * 和棋
  */
 function noWinner() {
-	if (confirm('您确定要和棋吗？')) {
-		if (isOnline.value) {
-			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
-				'type': 'user',
-				'content': 'nowinner',
-				'user_type': sessionStorage.getItem('user_type')
-			})}`);
-		} else {
-			isMove.value = 3
-			saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
-			setTimeout(() => {
-				gameOver();
-			}, 2000);
-		}
+	// if (confirm('您确定要和棋吗？')) {
+	if (isOnline.value) {
+		isMove.value = 3
+		gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
+			'type': 'user',
+			'content': 'nowinner',
+			'user_type': sessionStorage.getItem('user_type')
+		})}`);
+	} else {
+		isMove.value = 3
+		saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
+		setTimeout(() => {
+			gameOver();
+		}, 2000);
 	}
+	// }
 }
 
 function gameOver(flag) {
@@ -952,7 +953,7 @@ function backOperation() {
 			return;
 		}, 1000);
 	} else {
-		isMove.value = 5;
+		isMove.value = 2;
 		//发送悔棋请求对方确认
 		gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 			'type': 'user',

@@ -9,8 +9,12 @@
       </div>
 
       <div class="water-box-foot">
-        <img :src="BtnImg" alt @click="goRquest">
-        <img :src="BtnImg1" alt @click="goClose">
+        <img :src="BtnImg" alt @click="goRquest" v-if="istrue1">
+        <img :src="BtnImg2" alt @click="goRquest1" v-if="istrue2">
+        <img :src="BtnImg3" alt @click="goRquest2" v-if="istrue3">
+        <img :src="BtnImg1" alt @click="goClose" v-if="isfalse1">
+        <img :src="BtnImg1" alt @click="goClose1" v-if="isfalse2">
+        <img :src="BtnImg1" alt @click="goClose2" v-if="isfalse3">
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -29,11 +33,37 @@ export default {
     goRquest() {
       this.$emit("go-rquest");
     },
+    goRquest1() {
+      this.$emit("go-rquest1");
+    },
+    goRquest2() {
+      this.$emit("go-rquest2");
+    },
     goClose() {
       this.$emit("go-close");
+    },
+    goClose1() {
+      this.$emit("go-close1");
+    },
+    goClose2() {
+      this.$emit("go-close2");
     }
   },
-  props: ["is-show", "ImgShow", "avter", "BtnImg", "BtnImg1"],
+  props: [
+    "is-show",
+    "ImgShow",
+    "avter",
+    "BtnImg",
+    "BtnImg1",
+    "istrue1",
+    "istrue2",
+    "istrue3",
+    "BtnImg2",
+    "BtnImg3",
+    "isfalse1",
+    "isfalse2",
+    "isfalse3"
+  ],
   components: {
     [ChessMask.name]: ChessMask
   }
