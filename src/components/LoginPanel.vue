@@ -50,7 +50,7 @@
                                         styles="width:36.5%;margin:2% 0;margin-left:1%;" readonly label="性别" type="text"
                                         width="100%" v-model="sex.text"></chess-input>
                                     <chess-select :option-list="sexList" @select="selectSex" :is-show="showSelectSex"
-                                        styles="position:absolute;right:15%;top:28%;z-index:1"></chess-select>
+                                        styles="position:absolute;right:12%;top:22%;z-index:1"></chess-select>
                                     <chess-input styles="width:36.5%;margin:2% 0;margin-left:1%;" label="卡号" type="text"
                                         width="50%" v-model="cardNumber"></chess-input>
                                     <chess-input styles="width:36.5%;margin:2% 0;margin-left:1%;" label="激活码"

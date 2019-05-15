@@ -40,9 +40,9 @@
         <p class="title operation">操作台</p>
         <div class="operation-group-btn">
           <img @click="reDo" src="../assets/images/重做.png" class="operation-item-btn pointer">
-          <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer">
-          <img src="../assets/images/上一题.png" class="operation-item-btn pointer">
-          <img src="../assets/images/下一题.png" class="operation-item-btn pointer">
+          <!-- <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer"> -->
+          <img @click="preQues" src="../assets/images/上一题.png" class="operation-item-btn pointer">
+          <img @click="nextQues" src="../assets/images/下一题.png" class="operation-item-btn pointer">
         </div>
       </div>
       <div class="red-wrapper">
@@ -57,7 +57,7 @@
     <chess-back-button></chess-back-button>
     <!-- 成功提示框 -->
     <water-box :is-show="showWaterBox" :waterImg="waterImg" @hide="hideWaterBox" :againImg="againImg" :nextImg="nextImg"
-      @do-again="goBack" @nextLevel="define"></water-box>
+      @do-again="goBack" @next-level="reDo"></water-box>
   </div>
 </template>
 <script>
@@ -87,11 +87,14 @@
         answerList: [],
         advise: advise,
         isFinsh: isFinsh,
-        showWaterBox: false,
+        showWaterBox: true,
         waterImg: "",
         againImg: "",
         nextImg: "",
-        saveSelfStudy:saveSelfStudy
+        saveSelfStudy:saveSelfStudy,
+        nextQuesId:'',
+        preQuesId:'',
+        nowQuesId:''
       };
     },
     methods: {
@@ -106,6 +109,19 @@
           })
           .then(res => {
             if (res.data.status == 1) {
+              this.nowQuesId = id;
+              if(res.data.info.next_info != null) {
+                this.nextQuesId = res.data.info.next_info.id;
+              }
+              else {
+                this.nextQuesId = '';
+              }
+              if(res.data.info.up_info != null) {
+                this.preQuesId = res.data.info.up_info.id;
+              }
+              else {
+                this.preQuesId = '';
+              }
               advise.value = false;
               isFinsh.value = false;
               this.showWaterBox = false;
@@ -130,8 +146,23 @@
             console.log(err);
           });
       },
+      nextQues() {
+        if(this.nextQuesId == '') {
+          alert('没有下一题了!');
+          return;
+        }
+        this.getChessDetail(this.nextQuesId);
+      },
+      preQues(){
+        if(this.preQuesId == '') {
+          alert('没有上一题了!');
+          return;
+        }
+        this.getChessDetail(this.preQuesId);
+      },
       reDo() {
-        this.getChessDetail(this.$route.params.id);
+        this.showWaterBox = false;
+        this.getChessDetail(this.nowQuesId);
       },
       showAnswer() {
         // alert(this.answerList);
@@ -176,13 +207,15 @@
       }
     },
     mounted() {
-      this.getChessDetail(this.$route.params.id);
+      this.nowQuesId = this.$route.params.id;
+      this.getChessDetail(this.nowQuesId);
       window.onChoseSelf = onChose;
       this.saveSelfStudy.save = () => {
         this.$axios({
-          url:`${process.env.VUE_APP_URL}index.php?r=api-pass/create-student-do-question-log`,
+          url:`${process.env.VUE_APP_URL}index.php?r=api-student/create-student-do-question-log`,
+          method:'post',
           data:this.qs.stringify({
-            question_id:this.$route.params.id
+            question_id:this.nowQuesId
           })
         }).then(res => {
           if(res.data.data.status != 1) {
@@ -192,8 +225,7 @@
           alert('保存练习记录失败!');
         });
       }
-    },
-    created() {}
+    }
   };
 </script>
 <style scoped>
@@ -378,7 +410,7 @@
 
   img.operation-item-btn {
     width: 34%;
-    margin: 0.5rem;
+    margin: 0.5rem 20%;
   }
 
   .operation-group-btn {

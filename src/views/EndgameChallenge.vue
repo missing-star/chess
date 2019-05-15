@@ -63,6 +63,7 @@
       :againImg="againImg"
       :nextImg="nextImg"
       @do-again="getCheckPointDetail"
+      @next-level="nextLevel"
     ></water-box>
   </div>
 </template>
@@ -76,7 +77,8 @@ import {
   recordList,
   showValue,
   isFinshed,
-  saveCheckPoint
+  saveCheckPoint,
+  nextId
 } from "../assets/js/check-point/CChess";
 import "../assets/css/Chess.css";
 import LoseGame from "../components/LoseGame"; //失败提示
@@ -102,6 +104,7 @@ export default {
       againImg: "",
       nextImg: "",
       saveCheckPoint:saveCheckPoint,
+      nextId:nextId
     };
   },
   methods: {
@@ -110,7 +113,7 @@ export default {
         url: `${process.env.VUE_APP_URL}index.php?r=api/add-pass-question-info`,
         method: "post",
         data: this.qs.stringify({
-          id: this.$route.query.id
+          id: this.nextId.value
         })
       })
         .then(res => {
@@ -142,9 +145,16 @@ export default {
       this.showWaterBox = false;
     },
     // 下一关
-    nextLevel() {}
+    nextLevel() {
+      if(this.nextId.value == '') {
+        alert('已经是最后一关!');
+        return;
+      }
+      this.getCheckPointDetail();
+    }
   },
   created() {
+    this.nextId.value = this.$route.query.id;
     this.getCheckPointDetail();
   },
   watch: {
@@ -175,15 +185,24 @@ export default {
     this.saveCheckPoint.save = () => {
       this.$axios({
         url:`${process.env.VUE_APP_URL}index.php?r=api-pass/create-student-pass-log`,
+        method:'post',
         data:this.qs.stringify({
-          pass_id:this.$route.query.id
+          pass_id:this.nextId.value
         })
       }).then(res => {
-        if(res.data.data.status != 1) {
-          alert(res.data.data.msg);
+        if(res.data.status != 1) {
+          alert(res.data.msg);
         }
-      }).then(err => {
-        alert('保存闯关记录失败!');
+        else {
+          if(res.data.data != null) {
+            this.nextId.value = res.data.data.id;
+          }
+          else {
+            this.nextId.value = '';
+          }
+        }
+      }).catch(err => {
+        alert(err);
       });
     };
   }
