@@ -47,7 +47,8 @@
     <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
     <!-- 自习室、将星阁等 -->
     <div class="room-container">
-      <div @click="openLink(item.url,item.params)" class="room-item" :class="item.id" :key="index" v-for="(item,index) in roomList">
+      <div @click="openLink(item.url,item.params)" class="room-item" :class="item.id" :key="index"
+        v-for="(item,index) in roomList">
         <img class="room-item-icon" :src="item.icon" :alt="item.name">
       </div>
     </div>
@@ -62,8 +63,9 @@
     <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel" @open-notice-detail="openNoticeDetailPanel">
     </chess-notice-panel>
     <!-- 设置弹框 -->
-    <chess-set-panel @change-password="openChangePsswordPanel" @hide="hideSetPanel" @control-bgm="controlBgm" @login-out="loginOut" :isShow="showSetPanel"
-      @change-volume="changeVolume" :studentInfo="studentInfo" @change-logo="changeLogo"></chess-set-panel>
+    <chess-set-panel @change-password="openChangePsswordPanel" @hide="hideSetPanel" @control-bgm="controlBgm"
+      @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume" :studentInfo="studentInfo"
+      @change-logo="changeLogo"></chess-set-panel>
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
     <!-- 小象 -->
@@ -73,7 +75,8 @@
     </chess-pet-panel>
     <!-- 棋社 -->
     <chess-com-panel @open-homework="openHomeworkPanel" @open-ach="openAchievePanel" @open-log="openGrowthLogPanel"
-      @open-self="openSelfStudyPanel(true)" @hide="hideChessComPanel" :is-show="showChessComPanel" :information="information">
+      @open-self="openSelfStudyPanel(true)" @hide="hideChessComPanel" :is-show="showChessComPanel"
+      :information="information">
     </chess-com-panel>
     <!-- 成长日志 -->
     <chess-growth-panel @hide="hideGrowthLogPanel" :is-show="showGrowthLogPanel" :growthLog="growthLog">
@@ -108,7 +111,8 @@
     <create-sucess :is-show="showCreateSucess" :avter="avter" :btnImg="btnImg" :show1="show1" :show="show">
     </create-sucess>
     <!-- 修改密码 -->
-    <chess-change-password-panel @login-out="loginOut" :is-show="showChangePasswordPanel" @hide="hideChangePsswordPanel"></chess-change-password-panel>
+    <chess-change-password-panel @login-out="loginOut" :is-show="showChangePasswordPanel"
+      @hide="hideChangePsswordPanel"></chess-change-password-panel>
   </div>
 </template>
 <script>
@@ -185,7 +189,7 @@
         show1: true,
         roomList: [{
             url: "openChessComPanel",
-            params:'',
+            params: '',
             name: "棋社",
             id: 'qishe',
             icon: require("../assets/images/chess-room.png")
@@ -205,7 +209,7 @@
           {
             url: "openSelfStudyPanel",
             name: "自习室",
-            params:false,
+            params: false,
             id: 'zixishi',
             icon: require("../assets/images/study-room.png")
           }
@@ -217,7 +221,7 @@
         petInfo: [], //宠物
         maildetail: [], //信件详情
         workList1: [], //我的作业
-        workList2: [], //我的作业
+        workList2:[],
         achieve: [], //我的成就
         gameList1: {
           id: "",
@@ -245,7 +249,7 @@
         //二级分类
         subCatId: "",
         //二级标题
-        subCatTitle:"",
+        subCatTitle: "",
         avter: "", //宠物提示图片
         btnImg: "",
         studentInfo: [], //学生信息
@@ -253,7 +257,7 @@
         isLoginFlag: false,
         isOpenTask: false,
         //关闭自习室是否打开棋社
-        isOpenParent:false
+        isOpenParent: false
       };
     },
     computed: {
@@ -340,12 +344,12 @@
         this.showLoginPanel = true;
       },
       hideLoginPanel() {
-        // this.showLoginPanel = false;
+        this.showLoginPanel = false;
       },
       openChangePsswordPanel() {
         this.showChangePasswordPanel = true;
       },
-      hideChangePsswordPanel(){
+      hideChangePsswordPanel() {
         this.showSetPanel = true;
         this.showChangePasswordPanel = false;
       },
@@ -558,11 +562,11 @@
       },
       hideSelfStudeyPanel() {
         this.showSelfStudyPanel = false;
-        if(this.isOpenParent) {
+        if (this.isOpenParent) {
           this.openChessComPanel();
         }
       },
-      openStudyStagePanel(id, index,title) {
+      openStudyStagePanel(id, index, title) {
         this.mainCatId = id;
         this.subCatId = index;
         this.subCatTitle = title;
@@ -575,7 +579,7 @@
         this.showChessComPanel = false;
         this.showSelfStudyStagePanel = false;
       },
-      triggerTask() {
+      getMyTask() {
         //每日任务
         this.isShowTaskPanel = !this.isShowTaskPanel;
         if (this.isShowTaskPanel) {
@@ -605,7 +609,7 @@
           }
         }, 300);
       },
-      openLink(url,params) {
+      openLink(url, params) {
         //棋社
         if (url.includes("/")) {
           this.$router.push({
@@ -719,6 +723,7 @@
           this.information = res.data;
         }
       });
+      this.getMyTask();
     }
   };
 </script>

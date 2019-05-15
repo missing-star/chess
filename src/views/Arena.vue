@@ -935,7 +935,7 @@ h2 {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 9%;
+  height: 10%;
   position: absolute;
   bottom: 23%;
 }

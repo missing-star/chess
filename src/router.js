@@ -16,12 +16,18 @@ import ChiefMansion from './views/ChiefMansion'
 import ChessTableDetail from './views/ChessTableDetail'
 import OnlineRaceDetail from './views/OnlineRaceDetail'
 import Forbbiden from './views/Forbbiden'
+import Test from './views/Test'
 Vue.use(Router)
 
 export default new Router({
   mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
+    },
     {
       path: '/',
       name: 'loading',

@@ -27,7 +27,7 @@ export default {
       this.$emit("do-again");
     },
       nextLevel(){
-      this.$emit("nextLevel");
+      this.$emit("next-level");
     },
     
   },

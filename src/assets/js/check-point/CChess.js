@@ -12,13 +12,16 @@ var showValue = {
 	value: false
 }
 var isFinshed = {
-	value:false
+	value: false
 }
 // 保存闯关成功方法
 var saveCheckPoint = {
-	save:function() {
-		
+	save: function () {
+
 	}
+}
+var nextId = {
+	value: ''
 }
 
 function LoadGround() { //生成旗子
@@ -262,15 +265,15 @@ function move(y, x, j, i, eat, isBack, isSend) {
 			// alert('闯关失败!');
 			showValue.value = true
 			return;
-		}
-		else {
+		} else {
 			//根据棋谱走棋
 			currentIndex.value += 1;
 			let obj2 = recordList[currentIndex.value];
 			setTimeout(() => {
-				move(obj2.j, obj2.i, obj2.y, obj2.x);
+				move(obj2.j, obj2.i, obj2.y, obj2.x,(obj2.targetElem.value == '0' ? null : true));
 				currentIndex.value += 1;
 			}, 800);
+
 		}
 	}
 
@@ -290,9 +293,8 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		})
 	}, 10);
 	setTimeout(function () {
-		console.log('结束currentindex='+currentIndex.value)
 		trunH();
-		if(currentIndex.value == recordList.length) {
+		if (currentIndex.value == recordList.length) {
 			isFinshed.value = true;
 			saveCheckPoint.save();
 			return;
@@ -584,35 +586,35 @@ function binMove(tmap, c, y, x) { //0红 1黑
 		h = 1;
 	}
 	if (w) {
-        if (y + h >= 0 && y + h < map.length) {
-            var t1 = [];
-            t1[0] = y + h;
-            t1[1] = x;
-            if(map[t1[0]][t1[1]]*map[y][x] <= 0) {
-                tmap.push(t1);
-            }
-        }
-        var t2 = [];
-        var t3 = [];
-        t2[0] = y;
-        t3[0] = y;
-        t2[1] = x - 1;
-        t3[1] = x + 1;
-        if(map[t2[0]][t2[1]]*map[y][x] <= 0) {
-            tmap.push(t2);
-        }
-        if(map[t3[0]][t3[1]]*map[y][x] <= 0) {
-            tmap.push(t3);
-        }
-    } else {
-        var t = [];
-        t[0] = y + h;
-        t[1] = x;
-        console.log(t);
-        if(map[t[0]][t[1]]*map[y][x] <= 0) {
-            tmap.push(t);
-        }
-    }
+		if (y + h >= 0 && y + h < map.length) {
+			var t1 = [];
+			t1[0] = y + h;
+			t1[1] = x;
+			if (map[t1[0]][t1[1]] * map[y][x] <= 0) {
+				tmap.push(t1);
+			}
+		}
+		var t2 = [];
+		var t3 = [];
+		t2[0] = y;
+		t3[0] = y;
+		t2[1] = x - 1;
+		t3[1] = x + 1;
+		if (map[t2[0]][t2[1]] * map[y][x] <= 0) {
+			tmap.push(t2);
+		}
+		if (map[t3[0]][t3[1]] * map[y][x] <= 0) {
+			tmap.push(t3);
+		}
+	} else {
+		var t = [];
+		t[0] = y + h;
+		t[1] = x;
+		console.log(t);
+		if (map[t[0]][t[1]] * map[y][x] <= 0) {
+			tmap.push(t);
+		}
+	}
 }
 
 function paoMove(tmap, c, y, x) {
@@ -1191,7 +1193,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//红将
+			//红将
 		case R_KING:
 			if (target == B_KING) {
 				if (from.x != to.x) {
@@ -1215,7 +1217,7 @@ function isValidMove(board, from, to) {
 			break;
 
 
-		//红士
+			//红士
 		case R_BISHOP:
 			//console.log( to )
 			if (to.y < 7 || to.x < 3 || to.x > 5) {
@@ -1228,7 +1230,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//黑士
+			//黑士
 		case B_BISHOP:
 			if (to.y > 2 || to.x < 3 || to.x > 5) {
 				return false;
@@ -1239,7 +1241,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//红相
+			//红相
 		case R_ELEPHANT:
 			if (to.y < 5) {
 				return false;
@@ -1254,7 +1256,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//黑相
+			//黑相
 		case B_ELEPHANT:
 			if (to.y > 4) {
 				return false;
@@ -1269,7 +1271,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//黑兵	
+			//黑兵	
 		case B_PAWN:
 			if (to.y < from.y) {
 				return false;
@@ -1284,7 +1286,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//红兵	
+			//红兵	
 		case R_PAWN:
 			if (to.y > from.y) {
 				return false;
@@ -1299,7 +1301,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//车
+			//车
 		case B_CAR:
 		case R_CAR:
 			if (from.y != to.y && from.x != to.x) {
@@ -1337,13 +1339,13 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//马
+			//马
 		case B_HORSE:
 		case R_HORSE:
 			var i;
 			var j;
 			if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-				Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 				return false;
 			}
 
@@ -1366,7 +1368,7 @@ function isValidMove(board, from, to) {
 			}
 			break;
 
-		//炮
+			//炮
 		case B_CANON:
 		case R_CANON:
 			if (from.y != to.y && from.x != to.x) {
@@ -2101,7 +2103,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//红将
+				//红将
 			case R_KING:
 				if (target == B_KING) {
 					if (from.x != to.x) {
@@ -2125,7 +2127,7 @@ var Evaluation = function () {
 				break;
 
 
-			//红士
+				//红士
 			case R_BISHOP:
 				if (to.y < 7 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2136,7 +2138,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//黑士
+				//黑士
 			case B_BISHOP:
 				if (to.y > 2 || to.x < 3 || to.x > 5) {
 					return false;
@@ -2147,7 +2149,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//红相
+				//红相
 			case R_ELEPHANT:
 				if (to.y < 5) {
 					return false;
@@ -2162,7 +2164,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//黑相
+				//黑相
 			case B_ELEPHANT:
 				if (to.y > 4) {
 					return false;
@@ -2177,7 +2179,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//黑兵	
+				//黑兵	
 			case B_PAWN:
 				if (to.y < from.y) {
 					return false;
@@ -2192,7 +2194,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//红兵	
+				//红兵	
 			case R_PAWN:
 				if (to.y > from.y) {
 					return false;
@@ -2207,7 +2209,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//车
+				//车
 			case B_CAR:
 			case R_CAR:
 				if (from.y != to.y && from.x != to.x) {
@@ -2245,13 +2247,13 @@ var Evaluation = function () {
 				}
 				break;
 
-			//马
+				//马
 			case B_HORSE:
 			case R_HORSE:
 				var j;
 				var i;
 				if (!(Math.abs(from.x - to.x) == 1 && Math.abs(from.y - to.y) == 2 ||
-					Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
+						Math.abs(from.x - to.x) == 2 && Math.abs(from.y - to.y) == 1)) {
 					return false;
 				}
 
@@ -2274,7 +2276,7 @@ var Evaluation = function () {
 				}
 				break;
 
-			//炮
+				//炮
 			case B_CANON:
 			case R_CANON:
 				if (from.y != to.y && from.x != to.x) {
@@ -3239,5 +3241,6 @@ export {
 	recordList,
 	showValue,
 	isFinshed,
-	saveCheckPoint
+	saveCheckPoint,
+	nextId
 }

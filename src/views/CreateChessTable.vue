@@ -284,6 +284,8 @@ export default {
         }
     },
     mounted() {
+        this.recordList.splice(0);
+        this.showRecordList.splice(0);
         sessionStorage.clear();
         window.onChose = onChose;
         initChess('default');

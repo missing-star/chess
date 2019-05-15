@@ -369,7 +369,7 @@
   div.user-info-wrapper-bg {
     width: 100%;
     height: 100%;
-    background: url(../assets/images/用户头像框.png) no-repeat;
+    background: url(../assets/images/user-bg.png) no-repeat;
     background-size: 100% 100%;
     z-index: 2;
     position: relative;

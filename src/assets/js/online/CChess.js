@@ -13,7 +13,6 @@ var currentIndex = {
 }
 var interval = '';
 var interval2 = '';
-var intervalAll = '';
 var waitTimes = {
 	value: 60
 }
@@ -81,9 +80,11 @@ var isMachineWin = false;
 var backOperationGroup = {
 	// 当前是否可以悔棋
 	flag: false,
-	// 下棋步骤
+	// 下棋步骤（最多两步）
 	list: []
 }
+
+var isOver = false;
 
 function LoadGround() { //生成旗子
 	var g = "";
@@ -304,79 +305,102 @@ function cleanChose() {
 	$(".CS").removeClass('selected');
 }
 
-function move(y, x, j, i, eat, isBack, isSend) {
+function move(y, x, j, i, eat, isBack, isSend, backOperationTemp) {
 	if (isBack) {
 		isBackOrGo = true;
 		//悔棋操作
-		if (!preOperation.sourceElem || !preOperation.flag) {
-			//第一次移动或者已经点击过悔棋，无法悔棋
-			return false;
+		onMove = true;
+		var cla = "";
+		var tex = "";
+		var T = getCText(y, x);
+		if (T == null) {
+			LogError("丢失棋子信息");
+			return;
 		} else {
-			onMove = true;
-			var cla = "";
-			var tex = "";
-			var T = getCText(y, x);
-			if (T == null) {
-				LogError("丢失棋子信息");
-				return;
-			} else {
-				cla = T[1];
-				tex = T[0];
-			}
-			if (eat == null)
-				Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
-			else
-				Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
-			if (preOperation.targetElem == "") {
-				map[j][i] = map[y][x];
-				map[y][x] = 0;
-			} else {
-				map[j][i] = map[y][x];
-				map[y][x] = preOperation.targetElem.value;
-			}
-			$("#CS" + j + "-" + i).html(
-				"<section class='C " + preOperation.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
+			cla = T[1];
+			tex = T[0];
+		}
+		if (eat == null)
+			Log(y + "-" + x + " " + tex + " 移动到" + j + "-" + i);
+		else
+			Log(y + "-" + x + " " + tex + " 吃" + j + "-" + i + " " + getCText(j, i)[0]);
+		if (backOperationTemp.targetElem == "") {
+			map[j][i] = map[y][x];
+			map[y][x] = 0;
+		} else {
+			map[j][i] = map[y][x];
+			map[y][x] = backOperationTemp.targetElem.value;
+		}
+		$("#CS" + j + "-" + i).html(
+			"<section class='C " + backOperationTemp.sourceElem + "' style='transform:translate(" + (x - i) * 45 + "px," + (y - j) * 45 + "px);'>" + tex + "</section>"
+		)
+		//是否吃掉棋子
+		if (backOperationTemp.targetElem.value == 0) {
+			$("#CS" + y + "-" + x).html(
+				""
 			)
-			//是否吃掉棋子
-			if (preOperation.targetElem.value == 0) {
-				$("#CS" + y + "-" + x).html(
-					""
-				)
-			} else {
-				$("#CS" + y + "-" + x).html(
-					"<section class='C " + preOperation.targetElem.cla + "'>" + tex + "</section>"
-				)
-			}
-			preOperation.flag = false;
-			if (!isOnline.value) {
-				trunH();
-				//计时转换角色
-				if (sessionStorage.getItem('nowWho') == 1) {
-					countTimes('over');
-					countTimes2();
-				} else {
-					countTimes2('over');
-					countTimes();
+		} else {
+			$("#CS" + y + "-" + x).html(
+				"<section class='C " + backOperationTemp.targetElem.cla + "'>" + tex + "</section>"
+			)
+		}
+		if (!isOnline.value) {
+			trunH();
+			//计时转换角色
+			if (sessionStorage.getItem('nowWho') == 1) {
+				console.log('isOver=' + isOver);
+				countTimes('over');
+				countTimes2();
+				if (isOver) {
+					isBackOrGo = false;
+					clearTimeout(setTimoutMachine);
+					setTimoutMachine = setTimeout(function () {
+						console.log('获得机器走法');
+						if (!isBackOrGo && !isGameEnd.value) {
+							getEngineeMove(map);
+						}
+					}, getRandomTime());
+					isOver = false;
 				}
-				onMove = false;
+			} else {
+				countTimes2('over');
+				countTimes();
 			}
-			sessionStorage.setItem('preOperation', JSON.stringify(preOperation));
+			onMove = false;
 		}
+		if(isOver) {
+			console.log('撤回两步')
+			currentIndex.value -= 1;
+		}
+		// sessionStorage.setItem('backOperationTemp', JSON.stringify(preOperation));
+
 	} else {
-		preOperation.y = null;
-		preOperation.x = null;
-		preOperation.j = null;
-		preOperation.i = null;
-		preOperation.sourceElem = {};
-		preOperation.targetElem = {
-			cla: '',
-			value: ''
-		}
-		preOperation.flag = false;
-		preOperation.eat = null;
+		preOperation = {
+			y: null,
+			x: null,
+			j: null,
+			i: null,
+			sourceElem: {},
+			targetElem: {
+				cla: '',
+				value: ''
+			},
+			flag: false,
+			eat: null
+		};
+		// preOperation.y = null;
+		// preOperation.x = null;
+		// preOperation.j = null;
+		// preOperation.i = null;
+		// preOperation.sourceElem = {};
+		// preOperation.targetElem = {
+		// 	cla: '',
+		// 	value: ''
+		// }
+		// preOperation.flag = false;
+		// preOperation.eat = null;
 		var end = false;
 		if (isBackOrGo || (currentIndex.value != -1 && currentIndex.value != recordList.length - 1)) {
-			console.log('重置长度')
 			//操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
 			recordList.splice(currentIndex.value);
 			end = currentIndex.value;
@@ -432,9 +456,21 @@ function move(y, x, j, i, eat, isBack, isSend) {
 		preOperation.targetElem.cla = T2 == null ? "" : T2[1];
 		preOperation.targetElem.value = T2 == null ? 0 : targetValue;
 		preOperation.flag = true;
-		recordList.push(preOperation);
+		var temp = preOperation;
+		recordList.push(temp);
+		console.log(recordList);
+		/**
+		 * 将当前步骤加入悔棋数组中
+		 */
+		// 移除数组首个元素
+		if (backOperationGroup.list.length >= 2) {
+			backOperationGroup.list.shift();
+		}
+		backOperationGroup.list.push(temp);
+		backOperationGroup.flag = true;
+		console.log(backOperationGroup.list);
 		currentIndex.value = recordList.length - 1;
-		sessionStorage.setItem('preOperation', JSON.stringify(preOperation));
+		// sessionStorage.setItem('preOperation', JSON.stringify(preOperation));
 		showTarget(j, i, end);
 		/**
 		 * 通信，同步操作
@@ -517,6 +553,7 @@ function noWinner() {
 function gameOver(flag) {
 	map = [];
 	if (window.gameSocket != null) {
+		console.log('关闭')
 		gameSocket.close();
 	}
 	if (!flag) {
@@ -534,7 +571,6 @@ function gameOver(flag) {
 }
 //我计时一分钟
 function countTimes(flag, all) {
-	console.log(flag, all);
 	if (flag == 'over') {
 		waitTimes.value = 0;
 		if (all == 'over') {
@@ -563,7 +599,6 @@ function countTimes(flag, all) {
 }
 //对方计时一分钟
 function countTimes2(flag, all) {
-	console.log(new Date().getTime());
 	if (flag == 'over') {
 		fightTimes.value = 0;
 		if (all == 'over') {
@@ -598,7 +633,6 @@ function getEngineeMove(map) {
  */
 function showTarget(y, x, end) {
 	if (end || (end === 0 && showRecordList.length != 0)) {
-		console.log('end==0')
 		if (end % 2 == 0) {
 			showRecordList.splice(parseInt(end / 2));
 		} else {
@@ -941,7 +975,7 @@ function showSt(j, i, t) {
  * 悔棋
  */
 function backOperation() {
-	if (!preOperation.flag || sessionStorage.getItem('nowWho') == 0) {
+	if (!backOperationGroup.flag || backOperationGroup.list.length == 0) {
 		alert('当前无法悔棋!');
 		return;
 	}
@@ -949,7 +983,14 @@ function backOperation() {
 		//要求悔棋（人机）
 		isMove.value = 2
 		setTimeout(function () {
-			move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true, true);
+			backOperationGroup.list.reverse().forEach((preOperation, index) => {
+				if (index == 1) {
+					isOver = true;
+				}
+				move(preOperation.y, preOperation.x, preOperation.j, preOperation.i, preOperation.eat, true, true, preOperation);
+			});
+			backOperationGroup.list.splice(0);
+			backOperationGroup.flag = false;
 			return;
 		}, 1000);
 	} else {
@@ -1099,7 +1140,6 @@ function binMove(tmap, c, y, x) { //0红 1黑
 		var t = [];
 		t[0] = y + h;
 		t[1] = x;
-		console.log(t);
 		if (map[t[0]][t[1]] * map[y][x] <= 0) {
 			tmap.push(t);
 		}
