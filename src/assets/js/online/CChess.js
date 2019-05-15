@@ -967,22 +967,19 @@ function backOperation() {
  */
 
 function quitGame() {
-	if (confirm('您确定放弃本局比赛吗？')) {
+	// if (confirm('您确定放弃本局比赛吗？')) {
 		if (isOnline.value) {
 			gameSocket.send(`${sessionStorage.getItem('uuid')}-${sessionStorage.getItem('user_type')}-${JSON.stringify({
 			'type': 'user',
 			'content': 'quit',
 			'user_type': sessionStorage.getItem('user_type')
 		})}`);
+		gameOver();
 		} else {
 			isMove.value = 4
 			saveGameResult(sessionStorage.getItem('user_type'), sessionStorage.getItem('uuid'));
-			setTimeout(function () {
-				gameOver();
-			}, 1000);
-
 		}
-	}
+	// }
 }
 //选中棋子
 function onChoseC(j, i, t, program) {
