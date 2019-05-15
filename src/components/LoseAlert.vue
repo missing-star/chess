@@ -10,7 +10,7 @@
 
       <div class="water-box-foot">
         <img :src="BtnImg" alt @click="goRquest">
-        <img :src="BtnImg1" alt  @click="goClose">
+        <img :src="BtnImg1" alt @click="goClose">
       </div>
     </div>
     <chess-mask :is-show="isShow"></chess-mask>
@@ -26,11 +26,11 @@ export default {
     closeMyself() {
       this.$emit("hide");
     },
-    goRquest(){
-      this.$emit("go-rquest")
+    goRquest() {
+      this.$emit("go-rquest");
     },
-    goClose(){
-      this.$emit("go-close")
+    goClose() {
+      this.$emit("go-close");
     }
   },
   props: ["is-show", "ImgShow", "avter", "BtnImg", "BtnImg1"],
@@ -52,7 +52,10 @@ img.mail-box-close {
 div.water-box-mid {
   width: 75%;
   text-align: center;
-  margin: 36% 0 0 12%;
+  /* margin: 36% 0 0 12%; */
+  position: absolute;
+  top: 53%;
+  left: 12%;
 }
 img.water-img {
   width: 54%;
