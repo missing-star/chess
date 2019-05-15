@@ -195,15 +195,27 @@
       :avter="avter"
       :BtnImg="BtnImg"
       :BtnImg1="BtnImg1"
+      :BtnImg2="BtnImg2"
+      :BtnImg3="BtnImg3"
+      :istrue1="istrue1"
+      :istrue2="istrue2"
+      :istrue3="istrue3"
+      :isfalse1="isfalse1"
+      :isfalse2="isfalse2"
+      :isfalse3="isfalse3"
       :ImgShow="ImgShow"
+      @go-close1="goClose1"
+      @go-close2="goClose2"
       @go-close="goClose"
       @go-rquest="goRequest"
+      @go-rquest1="goRequest1"
+      @go-rquest2="goRequest2"
       @hide="hideLostAlert"
     ></lose-alert>
     <!--  -->
     <create-sucess
       :is-show="showCreateSucess"
-      :avter="avter"
+      :avter="avter1"
       :btnImg="btnImg"
       :show1="show1"
       :show="show"
@@ -235,7 +247,8 @@ import {
   isMove,
   gameOver,
   saveGameResult,
-  isGameEnd
+  isGameEnd,
+  preOperation
 } from "../assets/js/online/CChess";
 import "../assets/css/Chess.css";
 import LoseAlert from "../components/LoseAlert"; //失败提示
@@ -244,6 +257,7 @@ import CreateSucess from "../components/CreateSucess";
 export default {
   data() {
     return {
+      preOperation: preOperation,
       showLostAlert: false,
       ImgShow: false,
       showCreateSucess: false,
@@ -263,6 +277,7 @@ export default {
       surplusTimeBlack: "20:00",
       isMove: isMove,
       avter: "",
+      avter1: "",
       BtnImg: "",
       BtnImg1: "",
       show: true,
@@ -271,7 +286,15 @@ export default {
       //对方昵称，头像
       fightLogo: sessionStorage.getItem("fightLogo"),
       fightNickName: sessionStorage.getItem("fightName"),
-      fightLevel: sessionStorage.getItem("fightLevel")
+      fightLevel: sessionStorage.getItem("fightLevel"),
+      istrue1: false,
+      istrue2: false,
+      istrue3: false,
+      BtnImg2: "",
+      BtnImg3: "",
+      isfalse1: false,
+      isfalse2: false,
+      isfalse3: false
     };
   },
   components: {
@@ -327,13 +350,13 @@ export default {
   },
   methods: {
     backOperation: backOperation,
-    // quitGame: quitGame,
     initChess: initChess,
     noWinner: noWinner,
     countTimes: countTimes,
     countTimes2: countTimes2,
     goRequest: quitGame,
-    saveGameResult:saveGameResult,
+    saveGameResult: saveGameResult,
+    gameOver:gameOver,
     calculateTimes(number) {
       var minute = parseInt((1200 - number) / 60);
       var seconds = parseInt((1200 - number) % 60);
@@ -344,18 +367,100 @@ export default {
       );
     },
     goClose() {
+      //取消认输
       this.showLostAlert = false;
+    },
+    goClose1() {
+      //拒绝晦气
+      this.showLostAlert = false;
+      var result = "refuse";
+      gameSocket.send(
+        `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+          "user_type"
+        )}-${JSON.stringify({
+          type: "user",
+          content: result,
+          user_type: sessionStorage.getItem("user_type")
+        })}`
+      );
+    },
+    goClose2() {
+      // 拒绝和其
+      this.showLostAlert = false;
+      var result = "refusenowinner";
+      gameSocket.send(
+        `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+          "user_type"
+        )}-${JSON.stringify({
+          type: "user",
+          content: result,
+          user_type: sessionStorage.getItem("user_type")
+        })}`
+      );
     },
     hideLostAlert() {
       this.showLostAlert = false;
     },
     showLose() {
+      this.isfalse1 = true;
       this.ImgShow = false;
+      this.istrue1 = true;
       this.avter = require("../assets/images/你确定要认输吗.png");
       this.BtnImg = require("../assets/images/确定.png");
       this.BtnImg1 = require("../assets/images/取消.png");
       this.showLostAlert = true;
       isMove.value = 1;
+    },
+    goRequest1() {
+      var result = "agree";
+      this.preOperation.y,
+        this.preOperation.x,
+        this.preOperation.j,
+        this.preOperation.i,
+        this.preOperation.eat,
+        true,
+        true;
+      // } else {
+      //   result = "refuse";
+      // }
+      gameSocket.send(
+        `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+          "user_type"
+        )}-${JSON.stringify({
+          type: "user",
+          content: result,
+          user_type: sessionStorage.getItem("user_type")
+        })}`
+      );
+      this.showLostAlert = false;
+    },
+    goRequest2() {  //同意和棋
+     var uuid = sessionStorage.getItem("uuid");
+      var result = "agreenowinner";
+      this.preOperation.y,
+        this.preOperation.x,
+        this.preOperation.j,
+        this.preOperation.i,
+        this.preOperation.eat,
+        true,
+        true;
+      // } else {
+      //   result = "refuse";
+      // }
+      gameSocket.send(
+        `${sessionStorage.getItem("uuid")}-${sessionStorage.getItem(
+          "user_type"
+        )}-${JSON.stringify({
+          type: "user",
+          content: result,
+          user_type: sessionStorage.getItem("user_type")
+        })}`
+      );
+      isGameEnd.value = true;
+      setTimeout(() => {
+        this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
+      }, 2000);
+      this.showLostAlert = false;
     }
   },
   watch: {
@@ -378,10 +483,8 @@ export default {
     },
     "isMove.value": {
       handler: function(a, b) {
-        console.log(a + "a");
-        console.log(b + "b");
         // 悔棋(人机/人人)
-        if (a == 2 || a == 5) {
+        if (a == 2) {
           this.ImgShow = false;
           this.avter = require("../assets/images/等待对方同意你悔棋.png");
           this.showLostAlert = true;
@@ -394,24 +497,25 @@ export default {
         }
         // 和棋(人机)
         if (a == 3) {
-          setTimeout(() => {
-            this.showCreateSucess = true;
-          }, 1000);
-          this.ImgShow = false;
-          this.avter = require("../assets/images/同意和棋.png");
-          setTimeout(() => {
-            this.showCreateSucess = false;
-          }, 2000);
-          isMove.value = 1;
-        }
-        // 认输
-        if (a == 4) {
-          // this.ImgShow = false;
-          // this.avter = require("../assets/images/你确定要认输吗.png");
-          // this.BtnImg = require("../assets/images/确定.png");
-          // this.BtnImg1 = require("../assets/images/取消.png");
-          // this.showLostAlert = true;
-          // isMove.value = 1;
+          if (this.isOnline.value) {
+            this.showLostAlert = true;
+            this.ImgShow = false;
+            this.avter = require("../assets/images/等待对方同意你和棋.png");
+            setTimeout(() => {
+              this.showLostAlert = false;
+            }, 2000);
+            isMove.value = 1;
+          } else {
+            setTimeout(() => {
+              this.showCreateSucess = true;
+            }, 1000);
+            this.ImgShow = false;
+            this.avter1 = require("../assets/images/同意和棋.png");
+            setTimeout(() => {
+              this.showCreateSucess = false;
+            }, 2000);
+            isMove.value = 1;
+          }
         }
         if (a == 11) {
           var uuid = sessionStorage.getItem("uuid");
@@ -422,7 +526,90 @@ export default {
           isGameEnd.value = true;
           setTimeout(() => {
             this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
-          },2000);
+          }, 2000);
+        }
+        // 离线获得胜利
+        if (a == 12) {
+          var uuid = sessionStorage.getItem("uuid");
+          this.showLostAlert = true;
+          this.ImgShow = false;
+          this.avter = require("../assets/images/water-2.png");
+          isMove.value = 1;
+          isGameEnd.value = true;
+          setTimeout(() => {
+            this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
+          }, 2000);
+        }
+        // 对方1分钟未操作
+        if (a == 13) {
+          var uuid = sessionStorage.getItem("uuid");
+          this.showCreateSucess = true;
+          this.ImgShow = false;
+          this.avter = require("../assets/images/长时间未操作.png");
+          isMove.value = 1;
+          isGameEnd.value = true;
+          setTimeout(() => {
+            this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
+          }, 2000);
+        }
+
+        // 悔棋
+        if (a == 14) {
+          var uuid = sessionStorage.getItem("uuid");
+          this.isfalse2 = true;
+          this.istrue2 = true;
+          this.showLostAlert = true;
+          this.ImgShow = false;
+          this.avter = require("../assets/images/对方想悔棋.png");
+          this.BtnImg2 = require("../assets/images/确定.png");
+          this.BtnImg1 = require("../assets/images/取消.png");
+          isMove.value = 1;
+        }
+        // 和棋
+        if (a == 15) {
+          var uuid = sessionStorage.getItem("uuid");
+          this.isfalse3 = true;
+          this.istrue3 = true;
+          this.showLostAlert = true;
+          this.ImgShow = false;
+          this.avter = require("../assets/images/对方提出对战和棋.png");
+          this.BtnImg3 = require("../assets/images/确定.png");
+          this.BtnImg1 = require("../assets/images/取消.png");
+          isMove.value = 1;
+        }
+        // 同意和棋
+        if (a == 16) {
+          // this.showLostAlert = false;
+          this.showCreateSucess = true;
+          this.ImgShow = false;
+           isGameEnd.value = true;
+          this.avter1 = require("../assets/images/同意和棋.png");
+          setTimeout(() => {
+            this.showCreateSucess = false;
+            this.gameOver();
+          }, 2000);
+          isMove.value = 1;
+          
+        }
+        // 不同意和棋
+        if (a == 17) {
+          this.ImgShow = false;
+          this.showCreateSucess = true;
+          this.avter1 = require("../assets/images/不同意和棋.png");
+          setTimeout(() => {
+            this.showCreateSucess = false;
+          }, 2000);
+          isMove.value = 1;
+        }
+        // 不同意悔棋
+        if (a == 18) {
+          this.ImgShow = false;
+          this.showCreateSucess = true;
+          this.avter1 = require("../assets/images/不同意和棋.png");
+          setTimeout(() => {
+            this.showCreateSucess = false;
+          }, 2000);
+          isMove.value = 1;
         }
       },
       deep: true
