@@ -1,5 +1,5 @@
 const vm = new Vue({
-    el: '#app',
+    el:'#app',
     data() {
         return {
             showRecordList: showrecordList,
@@ -12,7 +12,7 @@ const vm = new Vue({
             selectedQi: selectedQi,
             numberList: numberList,
             isPutOver: isPutOver,
-            editId:undefined
+            saveMap: []
         }
     },
     methods: {
@@ -73,70 +73,33 @@ const vm = new Vue({
                 return false;
             }
             //保存棋面
-            sessionStorage.setItem('saveMap', JSON.stringify(map));
+            sessionStorage.setItem('saveMapSelf',JSON.stringify(this.map));
             this.isPutOver.value = true;
-            alert('确定成功');
+            alert('保存成功');
+            this.reset();
         },
-        saveChessTable(title, level, checkPointNum) {
-            if (title.toString().trim() == "") {
-                alert('请输入名称!');
-                return;
-            } else if (level.toString().trim() == '') {
-                alert('请选择等级!');
-                return;
-            } else if (!(/^[0-9]+$/).test(checkPointNum.toString())) {
-                alert('请输入正整数!');
-                return;
-            } else {
-                //查询输入的关卡是否存在
-                $.ajax({
-                    url: `${url}/index.php?r=api/if-pass-question`,
-                    type: 'post',
-                    dataType: 'json',
-                    data: {
-                        sort: checkPointNum
-                    },
-                    success: (res) => {
-                        if (res.status == 0) {
-                            if (confirm('该关卡已存在，是否覆盖？')) {
-                                this.editId = res.id;
-                                this.saveDetail(title,level,checkPointNum);
-                            }
-                        }
-                        else {
-                            this.saveDetail(title,level,checkPointNum);
-                        }
-                    },
-                    error: (err) => {
-                        alert('服务器异常');
-                    }
-                });
-            }
-        },
-        saveDetail(title,level,checkPointNum) {
+        saveChessTable(title,level_one_id,level_two_id,level_three_id) {
             //保存棋谱（走法，步骤）
             $.ajax({
-                url: `${url}/index.php?r=api/add-pass-question`,
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    id:this.editId,
+                url:`${url}/index.php?r=api/add-game-end`,
+                type:'post',
+                dataType:'json',
+                data:{
                     title: title,
-                    data_code: sessionStorage.getItem('saveMap'),
+                    data_code: sessionStorage.getItem('saveMapSelf'),
                     data_text: JSON.stringify(this.recordList),
                     play_log: JSON.stringify(this.showRecordList),
-                    sort: checkPointNum,
-                    level: level
+                    level_1:level_one_id,
+                    level_2:level_two_id,
+                    level_3:level_three_id
                 },
-                success: (res) => {
+                success:(res) => {
                     alert(res.msg);
-                    if (res.status == 1) {
-                        this.editId = undefined;
+                    if(res.status == 1) {
                         this.hideCreateTipsPanel();
-                        this.reset();
                     }
                 },
-                error: (err) => {
+                error:(err) => {
                     alert('服务器异常');
                 }
             });
@@ -161,3 +124,20 @@ const vm = new Vue({
         initChess('default');
     }
 });
+
+/**
+ * 获得分类
+ */
+function getCategory() {
+    $.ajax({
+        url:`${url}/index.php?r=api-end-game/get-cate`,
+        type:'post',
+        dataType:'json',
+        success:function(data) {
+            
+        },
+        error:function() {
+            alert('服务器异常');
+        }
+    });
+}

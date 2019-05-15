@@ -448,7 +448,7 @@ function onChose(j, i, isSend, program) {
     }
     else {
         if(!isPutOver.value && map[j][i] != 0) {
-            alert('请先保存当前局面!');
+            alert('请先确定当前局面!');
             return;
         }
     }
@@ -605,7 +605,9 @@ function binMove(tmap, c, y, x) { //0红 1黑
             var t1 = [];
             t1[0] = y + h;
             t1[1] = x;
-            tmap.push(t1);
+            if(map[t1[0]][t1[1]]*map[y][x] <= 0) {
+                tmap.push(t1);
+            }
         }
         var t2 = [];
         var t3 = [];
@@ -613,13 +615,20 @@ function binMove(tmap, c, y, x) { //0红 1黑
         t3[0] = y;
         t2[1] = x - 1;
         t3[1] = x + 1;
-        tmap.push(t2);
-        tmap.push(t3);
+        if(map[t2[0]][t2[1]]*map[y][x] <= 0) {
+            tmap.push(t2);
+        }
+        if(map[t3[0]][t3[1]]*map[y][x] <= 0) {
+            tmap.push(t3);
+        }
     } else {
         var t = [];
         t[0] = y + h;
         t[1] = x;
-        tmap.push(t);
+        console.log(t);
+        if(map[t[0]][t[1]]*map[y][x] <= 0) {
+            tmap.push(t);
+        }
     }
 }
 
@@ -1144,7 +1153,7 @@ function showSource(y, x, t) {
     let result = '';
     // t<0黑旗 t>0红棋
     if (t < 0) {
-        result = `${getQiName(t)}${numToChara(x+1)}`;
+        result = `${getQiName(t)}${x+1}`;
         source.y = y;
         source.x = x + 1;
     } else {

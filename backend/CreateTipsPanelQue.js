@@ -17,7 +17,8 @@ const CreateTipsPanel = ('chess-create-tips-panel', {
                     title:'高级'
                 }
             ],
-            selectedLevel:''
+            selectedLevel:'',
+            checkPointNumber:''
         }
     },
     methods:{
@@ -25,7 +26,7 @@ const CreateTipsPanel = ('chess-create-tips-panel', {
             this.$emit('hide');
         },
         saveChessTable() {
-            this.$emit('save-chess-table',this.chessTableName,this.selectedLevel);
+            this.$emit('save-chess-table',this.chessTableName,this.selectedLevel,this.checkPointNumber);
         }
     },
     props:['is-show'],
@@ -38,13 +39,17 @@ const CreateTipsPanel = ('chess-create-tips-panel', {
             <div class="tips-title"></div>
             <img src="./images/close-tips.png" class="mail-box-close" @click="closeMyself">
             <article class="content">
-                <input type="text" placeholder="创建棋局名称" v-model="chessTableName" class="chess-talbe-name">
+                <input type="text" placeholder="创建棋局名称" v-model="chessTableName" class="text chess-talbe-name">
                 <div class="upload-wrapper">
                     <div class="select-group">
                         <label>等级</label>
                         <select v-model="selectedLevel">
                             <option v-for="item in levelList" :key="item.id" :value="item.id">{{item.title}}</option>
                         </select>
+                    </div>
+                    <div class="select-group">
+                        <label>关卡</label>
+                        <input class="text" v-model="checkPointNumber" type="number" placeholder="请输入关卡数字"/>
                     </div>
                 </div>
                 <div class="confirm-wrapper">

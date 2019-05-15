@@ -78,23 +78,9 @@
                     <i class="icon-number">{{numberList.black.jiang.counts}}</i>
                 </span>
             </div>
-            <ul class="number-wrapper black">
-                <li class="number-item" v-for="n in 9" :key="n">{{n}}</li>
-            </ul>
             <div class="chess-panel" id="space">
-      
+
             </div>
-            <ul class="number-wrapper red">
-                <li class="number-item">九</li>
-                <li class="number-item">八</li>
-                <li class="number-item">七</li>
-                <li class="number-item">六</li>
-                <li class="number-item">五</li>
-                <li class="number-item">四</li>
-                <li class="number-item">三</li>
-                <li class="number-item">二</li>
-                <li class="number-item">一</li>
-            </ul>
             <div class="red-chess-wrapper">
                 <span class="chess-item">
                     <img @click="chooseQi('red','ju',$event)" src="./images/che1.png" alt="">
@@ -160,11 +146,6 @@
                             class="operation-item-icon not-active">
                         <img src="./images/后退-选中.png" alt="后退-active" class="operation-item-icon active">
                     </div>
-                    <!-- <div class="operation-item pointer">
-                        <img @click="flip" src="./images/翻转.png" alt="翻转"
-                            class="operation-item-icon not-active">
-                        <img src="./images/翻转-选中.png" alt="翻转-active" class="operation-item-icon active">
-                    </div> -->
                     <div class="operation-item pointer">
                         <img @click="saveChessMap" src="./images/确定.png" alt="确定"
                             class="operation-item-icon not-active">

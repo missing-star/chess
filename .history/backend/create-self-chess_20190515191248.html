@@ -11,15 +11,6 @@
     <link rel="stylesheet" href="./css/create-tips.css">
     <link rel="stylesheet" href="./css/CChess.css">
     <link rel="stylesheet" href="./css/create-self-chess.css">
-    <style>
-        .select-group {
-            margin-top: 4rem;
-            height: 2.5rem;
-        }
-        label{
-            font-size: 1.2rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -78,23 +69,9 @@
                     <i class="icon-number">{{numberList.black.jiang.counts}}</i>
                 </span>
             </div>
-            <ul class="number-wrapper black">
-                <li class="number-item" v-for="n in 9" :key="n">{{n}}</li>
-            </ul>
             <div class="chess-panel" id="space">
-      
+
             </div>
-            <ul class="number-wrapper red">
-                <li class="number-item">九</li>
-                <li class="number-item">八</li>
-                <li class="number-item">七</li>
-                <li class="number-item">六</li>
-                <li class="number-item">五</li>
-                <li class="number-item">四</li>
-                <li class="number-item">三</li>
-                <li class="number-item">二</li>
-                <li class="number-item">一</li>
-            </ul>
             <div class="red-chess-wrapper">
                 <span class="chess-item">
                     <img @click="chooseQi('red','ju',$event)" src="./images/che1.png" alt="">
@@ -146,11 +123,6 @@
                         <img src="./images/摆满棋子-选中.png" alt="摆满棋子-active" class="operation-item-icon active">
                     </div>
                     <div class="operation-item pointer">
-                        <img @click="reset" src="./images/重置.png" alt="重置"
-                            class="operation-item-icon not-active">
-                        <img src="./images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
-                    </div>
-                    <div class="operation-item pointer">
                         <img @click="forward" src="./images/前进.png" alt="前进"
                             class="operation-item-icon not-active">
                         <img src="./images/前进-选中.png" alt="前进-active" class="operation-item-icon active">
@@ -160,11 +132,11 @@
                             class="operation-item-icon not-active">
                         <img src="./images/后退-选中.png" alt="后退-active" class="operation-item-icon active">
                     </div>
-                    <!-- <div class="operation-item pointer">
-                        <img @click="flip" src="./images/翻转.png" alt="翻转"
+                    <div class="operation-item pointer">
+                        <img @click="reset" src="./images/重置.png" alt="重置"
                             class="operation-item-icon not-active">
-                        <img src="./images/翻转-选中.png" alt="翻转-active" class="operation-item-icon active">
-                    </div> -->
+                        <img src="./images/重置-选中.png" alt="重置-active" class="operation-item-icon active">
+                    </div>
                     <div class="operation-item pointer">
                         <img @click="saveChessMap" src="./images/确定.png" alt="确定"
                             class="operation-item-icon not-active">
@@ -183,14 +155,15 @@
         <!-- 保存棋谱 -->
         <chess-create-tips-panel @save-chess-table="saveChessTable" @hide="hideCreateTipsPanel"
             :is-show="showCreateTipsPanel"></chess-create-tips-panel>
+        <!-- <chess-back-button></chess-back-button> -->
     </div>
     <script src="./jquery.min.js"></script>
     <script src="api.js"></script>
     <script src="vue.js"></script>
     <script src="CChess.js"></script>
     <script src="Mask.js"></script>
-    <script src="CreateTipsPanelQue.js"></script>
-    <script src="create-question.js"></script>
+    <script src="CreateTipsPanel.js"></script>
+    <script src="create-self-chess.js"></script>
 </body>
 
 </html>

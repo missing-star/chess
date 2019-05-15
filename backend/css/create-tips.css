@@ -76,7 +76,7 @@ section.article-content::-webkit-scrollbar{
     align-items: center;
     justify-content: space-between;
 }
-select {
+select,input {
     width: 76%;
     height: 100%;
     background: #efd8ab;
@@ -87,6 +87,12 @@ select {
     cursor: pointer;
     font-size: 1rem;
     color: #bea16a;
+}
+input.text{
+    cursor: text;
+}
+input.text::-webkit-input-placeholder{
+    color:#bea16a ;
 }
 select option{
     font-size: 1rem;
