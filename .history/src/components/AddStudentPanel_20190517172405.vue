@@ -192,7 +192,7 @@ li.apprentice-item {
   width: 48%;
   background: url(../assets/images/homework-list-bg.png) no-repeat;
   background-size: 100% 100%;
-  margin: 1%;
+  margin: 0.5rem 0;
   border-radius: 0.8rem;
   display: flex;
   align-items: center;

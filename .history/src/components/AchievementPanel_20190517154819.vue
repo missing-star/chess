@@ -32,7 +32,7 @@
             <li v-for="(item,index) in achieve" :key="index" class="score-item">
               <p class="score-date">{{item.create_at | filterTime}}</p>
               <p class="score-value">{{item.integral}}</p>
-              <!-- <p class="score-detail underline pointer">详情</p> -->
+              <p class="score-detail underline pointer">详情</p>
             </li>
           </ul>
         </div>

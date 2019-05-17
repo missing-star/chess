@@ -80,13 +80,6 @@ export default {
   components: {
     [ChessMask.name]: ChessMask
   },
-  watch:{
-    growthLog() {
-      if(this.growthLog.list.length != 0) {
-        this.growthLog.list.reverse();
-      }
-    }
-  },
   filters: {
     filterTime: function filterTime(time) {
       var date = new Date(time * 1000);

@@ -80,12 +80,8 @@ export default {
   components: {
     [ChessMask.name]: ChessMask
   },
-  watch:{
-    growthLog() {
-      if(this.growthLog.list.length != 0) {
-        this.growthLog.list.reverse();
-      }
-    }
+  created() {
+    this.growthLog.list.reverse();
   },
   filters: {
     filterTime: function filterTime(time) {

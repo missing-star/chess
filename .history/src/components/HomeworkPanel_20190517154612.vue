@@ -82,7 +82,8 @@
                       <img src="../assets/images/temp-icon.png" class="bonus-icon">10
                     </p>
                   </div>
-                  <div class="finish-status-wrapper not-finished" @click="goWork(item.id)">
+                  <div class="finish-status-wrapper" v-if="item.status == 0">已提交</div>
+                  <div class="finish-status-wrapper not-finished" v-if="item.status = 2" @click="goWork(item.id)">
                     <img class="go-finish-icon" src="../assets/images/arrow-right-task.png">
                     去完成
                   </div>

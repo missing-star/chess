@@ -133,9 +133,6 @@ export default {
           })
           .catch(err => {});
       }
-    },
-    getHomeworkDetail(id) {
-      this.$router.push({ name: "check-homework", query: { id: id } });
     }
   },
   watch: {

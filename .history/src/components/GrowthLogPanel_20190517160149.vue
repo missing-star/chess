@@ -42,7 +42,7 @@
             </div>
           </div>
           <ul class="race-list-wrapper">
-            <li v-for="(item,index) in growthLog.list" :key="index" class="race-item">
+            <li v-for="(item,index) in growthLog.list.reverse()" :key="index" class="race-item">
               <p class="race-time">{{item.create_at | filterTime}}</p>
               <p class="black-name">{{item.user_name}}</p>
               <p class="race-result">
@@ -79,13 +79,6 @@ export default {
   props: ["is-show", "growthLog"],
   components: {
     [ChessMask.name]: ChessMask
-  },
-  watch:{
-    growthLog() {
-      if(this.growthLog.list.length != 0) {
-        this.growthLog.list.reverse();
-      }
-    }
   },
   filters: {
     filterTime: function filterTime(time) {

@@ -134,7 +134,7 @@
         })
       }).then(res => {
         this.recordList.splice(0);
-        this.showRecordList.splice(0);
+        this.showrecordList.splice(0);
         if (res.data.status == 1) {
           JSON.parse(res.data.data.play_log).forEach(item => {
             this.recordList.push(item);

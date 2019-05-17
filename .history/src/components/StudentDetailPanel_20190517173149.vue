@@ -66,7 +66,7 @@
               <span class="dashed-line">····</span>
               <img src="../assets/images/homework-common-icon.png" class="homework-icon">
               <p class="homework-time">{{homework.create_at}}</p>
-              <button @click="getHomeworkDetail(homework.id)" class="detail pointer">详情</button>
+              <button @click="getHomeworkDetail()" class="detail pointer">详情</button>
             </li>
           </ul>
           <ul class="homework-list-wrapper" v-show="currentIndex == 1">
@@ -133,9 +133,6 @@ export default {
           })
           .catch(err => {});
       }
-    },
-    getHomeworkDetail(id) {
-      this.$router.push({ name: "check-homework", query: { id: id } });
     }
   },
   watch: {
