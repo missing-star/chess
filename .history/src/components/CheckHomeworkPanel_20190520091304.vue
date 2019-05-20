@@ -11,6 +11,7 @@
               <img
                 src="../assets/images/check-icon.png"
                 v-if="item.score==null"
+                @click="checkHomework(index)"
                 class="check-icon pointer"
               >
             <span v-else class="score" >{{item.score}}</span>
