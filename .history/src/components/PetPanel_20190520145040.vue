@@ -84,7 +84,7 @@ export default {
       this.$emit("hide");
     },
     getOperation(index) {
-      if(this.petInfo.grow_num < 5) {
+      if(this.grow_num < 5) {
         alert('成长点不足!');
         return;
       }
