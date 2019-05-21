@@ -7,6 +7,25 @@
         <div class="dashed-line"></div>
         <p class="content"></p>
       </div>
+      <div class="content-wrapper answer">
+        <p class="title">答案</p>
+        <p class="sub-title"></p>
+        <div class="dashed-line"></div>
+        <ul v-if="isShowAnswer" class="record-list-wrapper">
+          <li v-for="(item,index) in answerList" :key="index" class="record-item">
+            <p class="record-item number">{{index+1}}</p>
+            <p class="record-item detail">
+              <span class="record-item detail red">
+                {{item.red}}
+              </span>
+              <span class="split-line"></span>
+              <span class="record-item detail black" :class="{active:item.black == ''}">
+                {{item.black}}
+              </span>
+            </p>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="middle-part-wrapper">
       <ul class="number-wrapper black">
@@ -40,10 +59,9 @@
         <p class="title operation">操作台</p>
         <div class="operation-group-btn">
           <img @click="reDo" src="../assets/images/重做.png" class="operation-item-btn pointer">
-          <img @click="submitHomework" src="../assets/images/submit-btn.png" class="operation-item-btn pointer">
-          <!-- <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer"> -->
-          <!-- <img src="../assets/images/上一题.png" class="operation-item-btn pointer">
-          <img src="../assets/images/下一题.png" class="operation-item-btn pointer">-->
+          <img @click="showAnswer" src="../assets/images/答案.png" class="operation-item-btn pointer">
+          <img @click="preQues" src="../assets/images/上一题.png" class="operation-item-btn pointer">
+          <img @click="nextQues" src="../assets/images/下一题.png" class="operation-item-btn pointer">
         </div>
       </div>
       <div class="red-wrapper">
@@ -56,27 +74,25 @@
       </div>
     </div>
     <chess-back-button></chess-back-button>
-    <!-- 提示框 -->
+    <!-- 成功提示框 -->
     <water-box :is-show="showWaterBox" :waterImg="waterImg" @hide="hideWaterBox" :againImg="againImg" :nextImg="nextImg"
-      @do-again="goBack" @nextLevel="define" :is-operation="true"></water-box>
+      @do-again="goBack" @next-level="reDo"></water-box>
   </div>
 </template>
 <script>
   import BackButton from "../components/BackButton";
   import "../assets/js/jquery.min";
+  import WaterBox from "../components/WaterBox";
   import {
     initChess,
     onChose,
     map,
     recordList,
-    isFinshed,
-    tipsCount,
-    currentIndex,
     advise,
-    isFinsh
-  } from "../assets/js/my-homework/CChess";
+    isFinsh,
+    saveSelfStudy
+  } from "../assets/js/self-study/CChess";
   import "../assets/css/Chess.css";
-  import WaterBox from "../components/WaterBox";
   export default {
     components: {
       [BackButton.name]: BackButton,
@@ -86,122 +102,90 @@
       return {
         map: map,
         recordList: recordList,
-        showrecordList: [],
         title: "",
         answerList: [],
-        isFinshed: isFinshed,
-        tipsCount: tipsCount,
-        currentIndex: currentIndex,
         advise: advise,
         isFinsh: isFinsh,
-        showWaterBox: false,
+        showWaterBox: true,
         waterImg: "",
         againImg: "",
-        nextImg: ""
+        nextImg: "",
+        saveSelfStudy: saveSelfStudy,
+        nextQuesId: '',
+        preQuesId: '',
+        nowQuesId: '',
+        isShowAnswer:false
       };
     },
     methods: {
       //获得棋谱详情
       getChessDetail(id) {
         this.$axios({
-            url: `${process.env.VUE_APP_URL}index.php?r=api-student/open-task`,
+            url: `${process.env.VUE_APP_URL}index.php?r=api/game-end-info`,
             method: "post",
             data: this.qs.stringify({
-              task_log_id: id
+              id: id
             })
           })
           .then(res => {
             if (res.data.status == 1) {
-              // 重置监听的值
+              this.nowQuesId = id;
+              if (res.data.info.next_info != null) {
+                this.nextQuesId = res.data.info.next_info.id;
+              } else {
+                this.nextQuesId = '';
+              }
+              if (res.data.info.up_info != null) {
+                this.preQuesId = res.data.info.up_info.id;
+              } else {
+                this.preQuesId = '';
+              }
               advise.value = false;
               isFinsh.value = false;
               this.showWaterBox = false;
-
-              this.title = res.data.data.task.chess_manual.title;
+              this.title = res.data.data.title;
               this.map.splice(0);
               this.recordList.splice(0);
-              this.showrecordList.splice(0);
-              JSON.parse(res.data.data.task.chess_manual.data_code).forEach(
-                array => {
-                  let temp = [];
-                  array.forEach(item => {
-                    temp.push(item);
-                  });
-                  this.map.push(temp);
-                }
-              );
+              JSON.parse(res.data.data.data_code).forEach(array => {
+                let temp = [];
+                array.forEach(item => {
+                  temp.push(item);
+                });
+                this.map.push(temp);
+              });
               initChess();
-              JSON.parse(res.data.data.task.chess_manual.data_text).forEach(
-                item => {
-                  this.recordList.push(item);
-                }
-              );
-              JSON.parse(res.data.data.task.chess_manual.play_log).forEach(
-                item => {
-                  this.showrecordList.push(item);
-                }
-              );
-              this.answerList = res.data.data.task.chess_manual.play_log;
+              JSON.parse(res.data.data.data_text).forEach(item => {
+                this.recordList.push(item);
+              });
+              this.answerList = res.data.data.play_log;
             }
           })
           .catch(err => {
             console.log(err);
           });
       },
-      reDo() {
-        this.getChessDetail(this.$route.params.id);
-      },
-      submitHomework() {
-        let temp = [];
-        if (currentIndex.value % 2 == 0) {
-          temp = this.showrecordList.slice(0, parseInt(currentIndex.value / 2));
-        } else {
-          temp = this.showrecordList.slice(
-            0,
-            parseInt(currentIndex.value / 2) + 1
-          );
-          temp[parseInt(currentIndex.value / 2)].black = "";
+      nextQues() {
+        if (this.nextQuesId == '') {
+          alert('没有下一题了!');
+          return;
         }
-        this.$axios({
-            url: `${
-          process.env.VUE_APP_URL
-        }index.php?r=api-student/update-task-notice-log-status`,
-            method: "post",
-            data: this.qs.stringify({
-              task_log_id: this.$route.params.id,
-              is_read: 1,
-              status: 1,
-              data_text: JSON.stringify(
-                this.recordList.slice(0, this.currentIndex.value)
-              ),
-              play_log: JSON.stringify(temp),
-              tip_num: this.tipsCount.value,
-              post_at: parseInt(new Date().getTime() / 1000)
-            })
-          })
-          .then(res => {
-            if (res.data.status == 1) {
-              alert("提交成功");
-              window.onChoseHomeWork = function () {
-                return;
-              };
-            } else {
-              alert(res.data.msg);
-            }
-          })
-          .catch(err => {
-            alert("服务器异常");
-          });
+        this.getChessDetail(this.nextQuesId);
+      },
+      preQues() {
+        if (this.preQuesId == '') {
+          alert('没有上一题了!');
+          return;
+        }
+        this.getChessDetail(this.preQuesId);
+      },
+      reDo() {
+        this.showWaterBox = false;
+        this.getChessDetail(this.nowQuesId);
       },
       showAnswer() {
-        alert(this.answerList);
+        this.isShowAnswer = true;
       },
       hideWaterBox() {
-        advise.value = false;
-        isFinsh.value = false;
-        this.showWaterBox = false;
-      },
-      define() {
         advise.value = false;
         isFinsh.value = false;
         this.showWaterBox = false;
@@ -209,14 +193,14 @@
       // 退出
       goBack() {
         this.$router.push("/home");
+      },
+      define() {
+        advise.value = false;
+        isFinsh.value = false;
+        this.showWaterBox = false;
       }
     },
-    mounted() {
-      this.getChessDetail(this.$route.params.id);
-      window.onChoseHomeWork = onChose;
-    },
     watch: {
-      map: function () {},
       "advise.value": {
         handler: function (c, b) {
           if (c == true) {
@@ -224,10 +208,6 @@
             this.againImg = require("../assets/images/弹框-退出.png");
             this.nextImg = require("../assets/images/弹框-再玩一次.png");
             this.showWaterBox = true;
-            setTimeout(() => {
-              this.showWaterBox = false;
-              this.advise.value = false;
-            }, 1000);
           }
         },
         deep: true
@@ -239,16 +219,31 @@
             this.againImg = require("../assets/images/弹框-退出.png");
             this.nextImg = require("../assets/images/弹框-再玩一次.png");
             this.showWaterBox = true;
-            setTimeout(() => {
-              this.showWaterBox = false;
-              this.isFinsh.value = false;
-            }, 1000);
           }
         },
         deep: true
       }
     },
-    created() {}
+    mounted() {
+      this.nowQuesId = this.$route.params.id;
+      this.getChessDetail(this.nowQuesId);
+      window.onChoseSelf = onChose;
+      this.saveSelfStudy.save = () => {
+        this.$axios({
+          url: `${process.env.VUE_APP_URL}index.php?r=api-student/create-student-do-question-log`,
+          method: 'post',
+          data: this.qs.stringify({
+            question_id: this.nowQuesId
+          })
+        }).then(res => {
+          if (res.data.status != 1) {
+            alert(res.data.msg);
+          }
+        }).catch(err => {
+          alert('保存练习记录失败!');
+        });
+      }
+    }
   };
 </script>
 <style scoped>
@@ -417,13 +412,6 @@
     margin-top: 1.5rem;
   }
 
-
-  div.race-operation-wrapper {
-    background: url(../assets/images/操作台底.png) no-repeat;
-    background-size: 100% 100%;
-    height: 45%;
-  }
-
   .right-part-wrapper {
     display: flex;
     flex-direction: column;
@@ -441,8 +429,7 @@
 
   img.operation-item-btn {
     width: 34%;
-    margin: 0.5rem;
-    margin: 0 15%;
+    margin: 5%;
   }
 
   .operation-group-btn {
@@ -450,7 +437,83 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding-top: 20%;
+    padding-top: 30%;
     height: 60%;
+  }
+
+  div.race-operation-wrapper {
+    background: url(../assets/images/操作台底.png) no-repeat;
+    background-size: 100% 100%;
+    height: 45%;
+  }
+
+  .content-wrapper.answer {
+    margin-top: 10%;
+  }
+  ul.record-list-wrapper {
+    height: 93%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 1rem;
+  }
+
+  ul.record-list-wrapper::-webkit-scrollbar {
+    width: 0;
+  }
+
+  li.record-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.8rem 0;
+  }
+
+  p.record-item.number {
+    background: #834c30;
+    box-shadow: 0 1px 1px 0 #d5a58d, inset 0 1px 1px 0 #5d311b;
+    border-radius: 1rem;
+    width: 20%;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffddaa;
+    font-size: 1.2rem;
+  }
+
+  p.record-item.detail {
+    background: #834c30;
+    box-shadow: 0 1px 1px 0 #d09f86, inset 0 1px 1px 0 #5d311b;
+    border-radius: 1rem;
+    width: 75%;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #ffddaa;
+  }
+
+  span.split-line {
+    background: #a76d4e;
+    box-shadow: 0 1px 1px 0 #4c2512;
+    height: 1rem;
+    width: 1px;
+  }
+  span.record-item.detail {
+    width: 48%;
+    text-align: center;
+  }
+
+  p.record-item.number.active,
+  p.record-item.detail.active {
+    background: #f1e0b8;
+    color: #834c30;
+    box-shadow: 0 1px 1px 0 #50250f, inset 0 1px 1px 0 #ffffff;
+  }
+
+  span.record-item.detail.black.active {
+    color: #ff520f;
   }
 </style>

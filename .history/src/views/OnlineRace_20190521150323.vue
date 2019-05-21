@@ -589,7 +589,6 @@ export default {
           this.ImgShow = false;
            isGameEnd.value = true;
           this.avter1 = require("../assets/images/同意和棋.png");
-          this.saveGameResult("c", sessionStorage.getItem('code'));
           setTimeout(() => {
             this.showCreateSucess = false;
             this.gameOver();

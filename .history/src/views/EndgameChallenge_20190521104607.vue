@@ -192,7 +192,7 @@ export default {
         url:`${process.env.VUE_APP_URL}index.php?r=api-pass/create-student-pass-log`,
         method:'post',
         data:this.qs.stringify({
-          pass_id:this.currentId
+          pass_id:this.nextId.value
         })
       }).then(res => {
         if(res.data.status != 1) {

@@ -41,7 +41,6 @@
       :isShow="showAddStudentPanel"
       :studentList="studentList"
       @search="search"
-      @create-success="reloadGrade"
     ></chess-add-student-panel>
     <!-- 创建班级 -->
     <chess-create-grade-panel @hide="hideCreateGradePanel" :isShow="showCreateGradePanel"></chess-create-grade-panel>
@@ -185,10 +184,6 @@ export default {
           this.studentList = res.data.data;
         })
         .catch(err => {});
-    },
-    // 重新获取班级列表
-    reloadGrade() {
-      this.$refs.manageStu.getMyGradeList();
     },
     // 添加学生搜素
     search() {

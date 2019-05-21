@@ -186,10 +186,6 @@ export default {
         })
         .catch(err => {});
     },
-    // 重新获取班级列表
-    reloadGrade() {
-      this.$refs.manageStu.getMyGradeList();
-    },
     // 添加学生搜素
     search() {
       this.openAddStudentPanel();

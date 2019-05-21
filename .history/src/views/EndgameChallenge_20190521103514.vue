@@ -104,16 +104,11 @@ export default {
       againImg: "",
       nextImg: "",
       saveCheckPoint:saveCheckPoint,
-      nextId:nextId,
-      currentId:''
+      nextId:nextId
     };
   },
   methods: {
     getCheckPointDetail(id) {
-      var id = id;
-      if(!id) {
-        id = this.currentId;
-      }
       this.$axios({
         url: `${process.env.VUE_APP_URL}index.php?r=api/add-pass-question-info`,
         method: "post",
@@ -155,12 +150,11 @@ export default {
         alert('已经是最后一关!');
         return;
       }
-      this.currentId = this.nextId.value;
       this.getCheckPointDetail(this.nextId.value);
     }
   },
   created() {
-    this.currentId = this.$route.query.id;
+    this.currentId.value = this.$route.query.id;
     this.getCheckPointDetail();
   },
   watch: {
@@ -192,7 +186,7 @@ export default {
         url:`${process.env.VUE_APP_URL}index.php?r=api-pass/create-student-pass-log`,
         method:'post',
         data:this.qs.stringify({
-          pass_id:this.currentId
+          pass_id:this.nextId.value
         })
       }).then(res => {
         if(res.data.status != 1) {

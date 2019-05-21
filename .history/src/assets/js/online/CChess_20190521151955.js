@@ -542,7 +542,7 @@ function noWinner() {
 		})}`);
 	} else {
 		isMove.value = 3
-		saveGameResult('c', sessionStorage.getItem('code'));
+		saveGameResult('c', sessionStorage.getItem('uuid'));
 		setTimeout(() => {
 			gameOver();
 		}, 2000);
