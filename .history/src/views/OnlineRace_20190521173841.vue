@@ -463,7 +463,7 @@ export default {
       );
       isGameEnd.value = true;
       setTimeout(() => {
-        this.saveGameResult("c", sessionStorage.getItem('code'));
+        this.saveGameResult(sessionStorage.getItem("user_type"), uuid);
       }, 2000);
       this.showLostAlert = false;
     }

@@ -683,7 +683,6 @@ export default {
                   this.getPersonInfo(
                     JSON.parse(data.content.substring(7)).userId
                   );
-                  sessionStorage.setItem('code',JSON.parse(data.content.substring(7)).uuid);
                 } else if (data.content == "out" && !isGameEnd.value) {
                   //对方1分钟未操作
                   isMove.value = 13;
