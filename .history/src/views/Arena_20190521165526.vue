@@ -599,7 +599,7 @@ export default {
           if (msg.data.indexOf("b login success") != -1) {
             let fightId = JSON.parse(msg.data.substring(15)).userId;
             this.getPersonInfo(fightId);
-            sessionStorage.setItem('code',JSON.parse(msg.data.substring(15)).socketKey);
+            sessionStorage.setItem('code',JSON.parse(msg.data.substring(15)).socketKey)
             //b方登录
             /**
              * 其他用户登录成功
