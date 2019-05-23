@@ -294,7 +294,7 @@
                             setTimeout(() => {
                                 this.showRegSucc =false;
                                 //注册成功打开登录面板
-                                this.currentIndex = 0;
+                                this.currentIndex = 1;
                             }, 1000);
                         }
                         else {

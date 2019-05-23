@@ -187,6 +187,7 @@ export default {
     },
     // 重新获取班级列表
     reloadGrade() {
+      console.log('reload');
       this.$refs.manageStu.getMyGradeList();
     },
     // 添加学生搜素

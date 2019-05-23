@@ -57,14 +57,14 @@
                                         type="text" width="50%" v-model="activeCode"></chess-input>
                                     <chess-input styles="width:36.5%;margin:2% 0;margin-left:1%;" label="家长手机"
                                         type="text" width="50%" v-model="phone"></chess-input>
-                                    <!-- <chess-input readonly select @trigger="triggerLevel" styles="width:36.5%;margin:2% 0;margin-left:1%;" label="等级"
+                                    <chess-input readonly select @trigger="triggerLevel" styles="width:36.5%;margin:2% 0;margin-left:1%;" label="等级"
                                         type="text" width="50%" v-model="level.text"></chess-input>
                                     <chess-select :option-list="levelList" @select="selectLevel" :is-show="showSelectLevel"
                                         styles="position:absolute;right:8%;top:42%;z-index:1;height:25%;"></chess-select>
                                     <chess-input readonly select @trigger="triggerSchool" styles="width:36.5%;margin:2% 0;margin-left:1%;" label="学校"
                                         type="text" width="50%" v-model="school.text"></chess-input>
                                     <chess-select :option-list="schoolList" @select="selectSchool" :is-show="showSelectSchool"
-                                        styles="position:absolute;right:50%;top:52%;z-index:1;height:25%;"></chess-select> -->
+                                        styles="position:absolute;right:50%;top:52%;z-index:1;height:25%;"></chess-select>
                                     <chess-input styles="width:36.5%;margin:2% 0;margin-left:1%;" label="密码"
                                         type="password" width="50%" v-model="password"></chess-input>
                                     <div class="operation-group">
@@ -285,7 +285,9 @@
                             crad: this.cardNumber,
                             crad_password: this.activeCode,
                             guardian_phone: this.phone,
-                            password: this.password
+                            password: this.password,
+                            grade_id:this.level.id,
+                            school:this.school.id
                         })
                     })
                     .then(res => {
@@ -294,7 +296,7 @@
                             setTimeout(() => {
                                 this.showRegSucc =false;
                                 //注册成功打开登录面板
-                                this.currentIndex = 0;
+                                this.currentIndex = 1;
                             }, 1000);
                         }
                         else {

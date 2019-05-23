@@ -485,7 +485,7 @@ export default {
     // 随机获得人机的名称
     getMachineName() {
       this.fightName = this.machineNams[Math.floor(Math.random() * 306)];
-      this.fightLevel = "11级";
+      this.fightLevel = "1级";
 
       sessionStorage.setItem("fightName", this.fightName);
       sessionStorage.setItem(

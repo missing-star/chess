@@ -3765,6 +3765,5 @@ export {
 	isGameEnd,
 	totalTimesRed,
 	totalTimesBlack,
-	isMove,
-	backOperationAction
+	isMove
 }

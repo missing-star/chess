@@ -40,8 +40,8 @@
       <div class="daily-task pointer" :class="{active:isOpenTask}" @click="toggleTask">
       </div>
       <div class="operation-item-wrap" v-show="isOpenTask">
-        <div class="operation-item">闯关 ( {{pass_log}} / 3)</div>
-        <div class="operation-item">在线对战 ( {{day_job}} / 4)</div>
+        <div class="operation-item">闯关 ( {{day_job}} / 3)</div>
+        <div class="operation-item">在线对战 ( {{pass_log}} / 4)</div>
       </div>
     </div>
     <chess-task-panel :is-show="showTaskPanel" @hide="hideTaskPanel"></chess-task-panel>
@@ -721,7 +721,7 @@
         dataType: "json",
         success: res => {
           this.information = res.data;
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data));
         }
       });
       this.getMyTask();

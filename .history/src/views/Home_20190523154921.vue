@@ -721,7 +721,7 @@
         dataType: "json",
         success: res => {
           this.information = res.data;
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
+          localStorage.setItem("userInfo", JSON.stringify(res.data.data));
         }
       });
       this.getMyTask();

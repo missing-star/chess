@@ -157,7 +157,7 @@ export default {
         }
       })
       .catch(err => {
-        alert('服务器异常');
+
       });
     },
     hideWaterBox() {
