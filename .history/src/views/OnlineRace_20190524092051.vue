@@ -131,9 +131,9 @@
         <div class="black-wrapper">
           <div class="user-wrapper">
             <div class="user-logo-wrapper">
-              <img :src="fightLogo" class="user-logo">
+              <img :src="userLogo" class="user-logo">
             </div>
-            <span class="user-category">{{fightNickName}}</span>
+            <span class="user-category">{{userName}}</span>
           </div>
           <div class="current-percent-wrapper">
             <div class="progressbar-wrapper">
@@ -145,7 +145,7 @@
         </div>
       </template>
     </div>
-    <chess-back-button @quit-game="callGameOver"></chess-back-button>
+    <chess-back-button @quit-game="gameOver"></chess-back-button>
     <!-- 失败提示框 -->
     <lose-alert :is-show="showLostAlert" :avter="avter" :BtnImg="BtnImg" :BtnImg1="BtnImg1" :BtnImg2="BtnImg2"
       :BtnImg3="BtnImg3" :istrue1="istrue1" :istrue2="istrue2" :istrue3="istrue3" :isfalse1="isfalse1"
@@ -268,14 +268,6 @@
         }
       }
     },
-    callGameOver() {
-      //对战时用户点击了返回
-      if (!this.isOnline.value) {
-        // 人机点击返回，保存比赛结果为失败
-        saveGameResult('b', sessionStorage.getItem('code'));
-      }
-      this.gameOver();
-    },
     mounted() {
       if (!window.gameSocket && this.isOnline) {
         alert("对战不存在或已结束!");
@@ -308,7 +300,7 @@
       goRequest: quitGame,
       saveGameResult: saveGameResult,
       gameOver: gameOver,
-      backOperationAction: backOperationAction,
+      backOperationAction:backOperationAction,
       calculateTimes(number) {
         var minute = parseInt((1200 - number) / 60);
         var seconds = parseInt((1200 - number) % 60);
@@ -365,7 +357,13 @@
       },
       goRequest1() {
         var result = "agree";
-        this.backOperationAction();
+        this.preOperation.y,
+          this.preOperation.x,
+          this.preOperation.j,
+          this.preOperation.i,
+          this.preOperation.eat,
+          true,
+          true;
         // } else {
         //   result = "refuse";
         // }
@@ -462,8 +460,6 @@
               this.showLostAlert = true;
               this.ImgShow = false;
               this.avter = require("../assets/images/等待对方同意你和棋.png");
-              this.BtnImg3 = "";
-              this.BtnImg1 = "";
               setTimeout(() => {
                 this.showLostAlert = false;
               }, 2000);
@@ -474,8 +470,6 @@
               }, 1000);
               this.ImgShow = false;
               this.avter1 = require("../assets/images/同意和棋.png");
-              this.BtnImg3 = "";
-              this.BtnImg1 = "";
               setTimeout(() => {
                 this.showCreateSucess = false;
               }, 2000);

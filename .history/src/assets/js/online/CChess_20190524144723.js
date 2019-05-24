@@ -508,7 +508,7 @@ function move(y, x, j, i, eat, isBack, isSend, backOperationTemp) {
 		})
 	}, 10);
 	if (isMachineWin) {
-		saveGameResult('b', sessionStorage.getItem('code'));
+		saveGameResult('b', sessionStorage.getItem('uuid'));
 		alert('你输了');
 		return;
 	}
@@ -836,9 +836,6 @@ function eat(y, x, j, i) {
 			//黑棋胜
 			setTimeout(function () {
 				alert('你输了');
-				if(!isOnline.value) {
-					saveGameResult('b', sessionStorage.getItem('code'));
-				}
 				gameOver();
 			}, 600);
 		}
@@ -856,7 +853,7 @@ function eat(y, x, j, i) {
 			setTimeout(function () {
 				alert('你输了');
 				if(!isOnline.value) {
-					saveGameResult('b', sessionStorage.getItem('code'));
+					
 				}
 				gameOver();
 			}, 600);
@@ -1052,7 +1049,7 @@ function quitGame() {
 		gameOver();
 	} else {
 		isMove.value = 4
-		saveGameResult('b', sessionStorage.getItem('code'));
+		saveGameResult('b', sessionStorage.getItem('uuid'));
 	}
 	// }
 }

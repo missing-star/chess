@@ -268,14 +268,6 @@
         }
       }
     },
-    callGameOver() {
-      //对战时用户点击了返回
-      if (!this.isOnline.value) {
-        // 人机点击返回，保存比赛结果为失败
-        saveGameResult('b', sessionStorage.getItem('code'));
-      }
-      this.gameOver();
-    },
     mounted() {
       if (!window.gameSocket && this.isOnline) {
         alert("对战不存在或已结束!");
@@ -308,7 +300,7 @@
       goRequest: quitGame,
       saveGameResult: saveGameResult,
       gameOver: gameOver,
-      backOperationAction: backOperationAction,
+      backOperationAction:backOperationAction,
       calculateTimes(number) {
         var minute = parseInt((1200 - number) / 60);
         var seconds = parseInt((1200 - number) % 60);

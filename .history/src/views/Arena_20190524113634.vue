@@ -661,7 +661,7 @@
                     //   this.uuid
                     // );
                     // this.gameOver();
-                  } else if (data.content == 'timeout' && !isGameEnd.value) {
+                  } else if (data.content == 'outtime' && !isGameEnd.value) {
                     alert('对方局时已超时，你赢了!');
                     this.saveGameResult(
                       sessionStorage.getItem("user_type"),
