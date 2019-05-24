@@ -479,7 +479,7 @@
               }, 500);
               setTimeout(() => {
                 this.showCreateSucess = true;
-              }, 1000);
+              }, 1500);
               this.ImgShow = false;
               this.avter1 = require("../assets/images/同意和棋.png");
               this.BtnImg3 = "";
