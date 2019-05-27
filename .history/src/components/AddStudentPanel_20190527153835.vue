@@ -172,7 +172,7 @@ div.chess-check-homework-body {
 @media screen and (min-width:1367px) {
   div.content-wrapper-container {
   width: 84%;
-  height: 50%;
+  height: 45%;
   margin-top: 15%;
   margin-left: 6%;
   display: flex;

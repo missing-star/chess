@@ -529,8 +529,6 @@
 
           // 悔棋
           if (a == 14) {
-            this.isfalse1 = this.isfalse2 = this.isfalse3 = false;
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
             var uuid = sessionStorage.getItem("uuid");
             this.isfalse2 = true;
             this.istrue2 = true;
@@ -543,8 +541,6 @@
           }
           // 和棋
           if (a == 15) {
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
-            this.isfalse1 = this.isfalse2 = this.isfalse3 = false;
             var uuid = sessionStorage.getItem("uuid");
             this.isfalse3 = true;
             this.istrue3 = true;

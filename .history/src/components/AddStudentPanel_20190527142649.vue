@@ -155,11 +155,9 @@ div.chess-check-homework-body {
   background-size: 100% 100%, 101% 93%;
   background-position: center, center 121%;
 }
-
-@media screen and (max-width:1366px) {
-  div.content-wrapper-container {
+div.content-wrapper-container {
   width: 84%;
-  height: 40%;
+  height: 80%;
   margin-top: 15%;
   margin-left: 6%;
   display: flex;
@@ -168,22 +166,12 @@ div.chess-check-homework-body {
   flex-direction: column;
   padding-top: 2rem;
 }
-}
-@media screen and (min-width:1367px) {
-  div.content-wrapper-container {
-  width: 84%;
-  height: 50%;
-  margin-top: 15%;
-  margin-left: 6%;
-  display: flex;
-  align-items: center;
-  position: relative;
-  flex-direction: column;
-  padding-top: 2rem;
-}
+img.mail-box-close {
+  top: 0.2rem;
+  right: -4rem;
 }
 ul.apprentice-wrapper {
-  height: 100%;
+  height: 60%;
   width: 100%;
   overflow: scroll;
   overflow-x: hidden;

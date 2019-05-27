@@ -458,7 +458,6 @@
           }
           // 和棋(人机)
           if (a == 3) {
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
             if (this.isOnline.value) {
               this.showLostAlert = true;
               this.ImgShow = false;
@@ -469,7 +468,7 @@
                 this.showLostAlert = false;
               }, 2000);
               isMove.value = 1;
-            } else {              
+            } else {
               this.showLostAlert = true;
               this.ImgShow = false;
               this.avter = require("../assets/images/等待对方同意你和棋.png");
@@ -529,8 +528,6 @@
 
           // 悔棋
           if (a == 14) {
-            this.isfalse1 = this.isfalse2 = this.isfalse3 = false;
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
             var uuid = sessionStorage.getItem("uuid");
             this.isfalse2 = true;
             this.istrue2 = true;
@@ -543,8 +540,6 @@
           }
           // 和棋
           if (a == 15) {
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
-            this.isfalse1 = this.isfalse2 = this.isfalse3 = false;
             var uuid = sessionStorage.getItem("uuid");
             this.isfalse3 = true;
             this.istrue3 = true;

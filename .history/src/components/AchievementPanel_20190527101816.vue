@@ -51,7 +51,7 @@
     data() {
       return {
         achieve: [],
-        integrals: [0,0,0],
+        integrals: [],
         dayLogin: "",
         game: "",
         dayDoneTask: "",
@@ -68,6 +68,7 @@
         require("echarts/lib/chart/radar");
         require("echarts/lib/component/tooltip");
         require("echarts/lib/component/title");
+        console.log(document.getElementById("my-chart"));
         const myChart = echarts.init(document.getElementById("ability-chart"));
         const option = {
           grid: [{
@@ -161,19 +162,19 @@
           var temp = res.data.data.integrals.toString();
           switch (temp.length) {
             case 1:
-              this.integrals = [0,0,temp.substring(0)];
+              this.integrals = [0,0,temp];
               break;
             case 2:
-              this.integrals = [0,temp.substring(0,1),temp.substring(1,2)];
+              this.integrals = [0,temp.substring(0,1),temp(1,2)];
               break;
             case 3:
-              this.integrals = [temp.substring(0,1),temp.substring(1,2),temp.substring(2,3)];
+              this.integrals = [temp(0,1),temp(1,2),temp(2,3)];
               break;
           }
           this.dayDoneTask = res.data.data.dayDoneTask;
           this.game = res.data.data.game;
           this.dayLogin = res.data.data.dayLogin;
-          this.option();
+          this.option()
         })
         .catch(error => {
           console.log(error);

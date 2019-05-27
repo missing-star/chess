@@ -29,16 +29,33 @@ Vue.mixin({
       return false;
     },
     methods:{
-      
+      goBack(){
+        this.$router.replace({path: '/'});
+      }
     }
   },
   created() {
+    if (!this.testIE()) {
+      alert(666);
+      this.$router.push({
+        name: "forbbiden"
+      });
+    }
     if(localStorage.getItem('userInfo')) {
       this.userId = JSON.parse(localStorage.getItem('userInfo')).id,
       this.userName = JSON.parse(localStorage.getItem('userInfo')).nickname,
       this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture,
       this.userLevel = JSON.parse(localStorage.getItem('userInfo')).grade_name
     }
+  },
+  mounted(){
+    if (window.history && window.history.pushState) {
+      history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', this.goBack, false);
+    }
+  },
+  destroyed(){
+    window.removeEventListener('popstate', this.goBack, false);
   },
   filters:{
     filterTime(timeStamp) {

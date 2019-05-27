@@ -51,7 +51,7 @@
     data() {
       return {
         achieve: [],
-        integrals: [0,0,0],
+        integrals: [],
         dayLogin: "",
         game: "",
         dayDoneTask: "",

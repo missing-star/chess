@@ -51,7 +51,7 @@
     data() {
       return {
         achieve: [],
-        integrals: [0,0,0],
+        integrals: [],
         dayLogin: "",
         game: "",
         dayDoneTask: "",
@@ -161,7 +161,7 @@
           var temp = res.data.data.integrals.toString();
           switch (temp.length) {
             case 1:
-              this.integrals = [0,0,temp.substring(0)];
+              this.integrals = [0,0,tem.substring(0)];
               break;
             case 2:
               this.integrals = [0,temp.substring(0,1),temp.substring(1,2)];

@@ -29,7 +29,10 @@ Vue.mixin({
       return false;
     },
     methods:{
-      
+      goBack(){
+        this.$router.replace({path: '/'});
+        //replace替换原路由，作用是避免回退死循环
+      }
     }
   },
   created() {
@@ -39,6 +42,15 @@ Vue.mixin({
       this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture,
       this.userLevel = JSON.parse(localStorage.getItem('userInfo')).grade_name
     }
+  },
+  mounted(){
+    if (window.history && window.history.pushState) {
+      history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', this.goBack, false);
+    }
+  },
+  destroyed(){
+    window.removeEventListener('popstate', this.goBack, false);
   },
   filters:{
     filterTime(timeStamp) {

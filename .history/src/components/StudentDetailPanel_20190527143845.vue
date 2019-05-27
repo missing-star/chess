@@ -232,10 +232,10 @@ p.title {
 }
 div.dash-line {
   background: url(../assets/images/dot.png);
-  height: 0.3rem;
+  height: 0.5rem;
   width: 87%;
   background-size: contain;
-  margin: 0.5rem auto;
+  margin: 1rem auto;
 }
 .student-detail-wrapper {
   display: flex;
@@ -306,8 +306,8 @@ p.button-relive {
   align-items: center;
   background: #9c6042;
   box-shadow: 0 1px 1px 0 #d9ab93, inset 0 1px 1px 0 #552e19;
-  margin: 0.2rem 0;
-  padding: 0.2rem;
+  margin: 0.5rem 0;
+  padding: 0.4rem;
   border-radius: 0.5rem;
   color: #eabfab;
 }
@@ -401,14 +401,13 @@ li.homework-item {
 .tabbar-wrapper {
   position: absolute;
   display: flex;
-  top: -2.8vh;
+  top: -1.8rem;
   left: 30%;
-  width: 70%;
   transform: rotate(1.2deg);
 }
 .tabbar-item {
-  width: 6vw;
-  height: 3vw;
+  width: 6rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;

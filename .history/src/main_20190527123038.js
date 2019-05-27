@@ -27,9 +27,6 @@ Vue.mixin({
         return true;
       }
       return false;
-    },
-    methods:{
-      
     }
   },
   created() {
@@ -38,6 +35,12 @@ Vue.mixin({
       this.userName = JSON.parse(localStorage.getItem('userInfo')).nickname,
       this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture,
       this.userLevel = JSON.parse(localStorage.getItem('userInfo')).grade_name
+    }
+  },
+  mounted(){
+    if (window.history && window.history.pushState) {
+      history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', this.goBack, false);
     }
   },
   filters:{

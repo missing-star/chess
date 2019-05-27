@@ -29,7 +29,9 @@ Vue.mixin({
       return false;
     },
     methods:{
-      
+      goBackHistory(){
+        this.$router.replace({path: '/'});
+      }
     }
   },
   created() {
@@ -39,6 +41,15 @@ Vue.mixin({
       this.userLogo = process.env.VUE_APP_URL+JSON.parse(localStorage.getItem('userInfo')).picture,
       this.userLevel = JSON.parse(localStorage.getItem('userInfo')).grade_name
     }
+  },
+  mounted(){
+    if (window.history && window.history.pushState) {
+      history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', this.goBackHistory, false);
+    }
+  },
+  destroyed(){
+    window.removeEventListener('popstate', this.goBackHistory, false);
   },
   filters:{
     filterTime(timeStamp) {
