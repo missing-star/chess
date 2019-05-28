@@ -18,7 +18,7 @@
         <div class="inform_right_introduce">
           <p>简介:</p>
           <p>{{teacherInfo.describe}}</p>
-          <p @click="openTeacherDetail" class="detail-link">详情</p>
+          <p class="detail-link">详情</p>
         </div>
       </div>
       <div class="obeying_master" @click="Vteacher"></div>
@@ -63,19 +63,16 @@
       :show1="show1"
       :show="show"
     ></create-sucess>
-    <!-- 教师详情 -->
-    <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel>
   </div>
 </template>
 <script>
 import BackButton from "../components/BackButton";
 import CreateSucess from "../components/CreateSucess";
-import TeacherDetail from "../components/TeacherDetail";
 import Swiper from "swiper";
 export default {
   data() {
     return {
-      teacherList: [],
+      teacherList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       isFirstPage: true,
       isLastPage: false,
       showCreateSucess: false, //成功
@@ -84,15 +81,12 @@ export default {
       avter: "",
       btnImg: "",
       show1: false,
-      show: true,
-      showTeacherDetail:false,
-      currentDetail:''
+      show: true
     };
   },
   components: {
     [BackButton.name]: BackButton,
-    CreateSucess,
-    [TeacherDetail.name]:TeacherDetail
+    CreateSucess
   },
   methods: {
     isClose() {
@@ -103,12 +97,6 @@ export default {
     },
     computedLength() {
       return Math.ceil(this.teacherList.length / 7) > 1;
-    },
-    openTeacherDetail() {
-      this.showTeacherDetail = true;
-    },
-    closeTeacherDetail() {
-      this.showTeacherDetail = false;
     },
     selectTeacher(id) {
       if (this.currentId != id) {
@@ -125,7 +113,6 @@ export default {
         })
           .then(res => {
             this.teacherInfo = res.data.data;
-            this.currentDetail = this.teacherInfo.describe;
           })
           .catch(err => {
             alert("服务器异常");
@@ -161,7 +148,6 @@ export default {
       })
         .then(res => {
           this.teacherInfo = res.data.data;
-          this.currentDetail = this.teacherInfo.describe;
           this.initSwiper();
         })
         .catch(err => {
@@ -298,7 +284,7 @@ div.inform_right_introduce p {
   font-size: 1.3rem;
   color: #65400a;
   text-align: left;
-  margin-bottom: 2%;
+  margin-bottom: 3%;
 }
 
 div.inform_right_introduce p:nth-child(2) {
@@ -406,8 +392,5 @@ p.detail-link {
     display: block;
     font-size: 0.8rem !important;
     cursor: pointer;
-}
-.swiper-button-next, .swiper-button-prev{
-  z-index: 3;
 }
 </style>

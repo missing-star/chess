@@ -113,14 +113,14 @@ sessionStorage.clear();
 function LoadGround(flag) { //生成旗子
     var g = "";
     if (flag) {
-        // 撤回棋子之后重新渲染棋盘
         for (var j = 0; j < 10; j++) {
+            map[j] = [];
             for (var i = 0; i < 9; i++) {
+                map[j][i] = 0;
                 g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
             }
         }
     } else {
-        // 重置棋盘或者首次进入渲染棋盘
         for (var j = 0; j < 10; j++) {
             map[j] = [];
             for (var i = 0; i < 9; i++) {
@@ -219,6 +219,7 @@ function showC() {
             var isNone = false;
             //获得指定位置的棋子
             var T = getCText(j, i);
+            console.log(T);
             if (T == null) {
                 //无棋子位置
                 isNone = true;
@@ -313,9 +314,8 @@ function move(y, x, j, i, eat, isBack, isNext) {
         var end = false;
         if (isBackOrGo || currentIndex.value != recordList.length - 1) {
             //操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
-            recordList.splice(currentIndex.value + 1);
-            end = currentIndex.value + 1;
-
+            recordList.splice(currentIndex.value);
+            end = currentIndex.value;
         }
         //下棋操作
         onMove = true;
@@ -375,7 +375,6 @@ function move(y, x, j, i, eat, isBack, isNext) {
         currentIndex.value = recordList.length - 1;
         counts += 1;
         showTarget(j, i, end);
-        console.log(recordList);
     }
 
     setTimeout(function () {
@@ -629,6 +628,7 @@ function binMove(tmap, c, y, x) { //0红 1黑
         var t = [];
         t[0] = y + h;
         t[1] = x;
+        console.log(t);
         if (map[t[0]][t[1]] * map[y][x] <= 0) {
             tmap.push(t);
         }
@@ -1228,9 +1228,6 @@ function initAll() {
             numberList[type][key].counts = 0;
         }
     }
-    selectedQi.type = '';
-    selectedQi.value = 0;
-    selectedQi.key = '';
 }
 /**
  * 渲染棋盘

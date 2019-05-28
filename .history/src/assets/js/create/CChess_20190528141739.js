@@ -74,7 +74,7 @@ let selectedQi = {
 var isFreeOper = true;
 var map = [];
 var runNow = false;
-var DeBug = false;
+var DeBug = true;
 //是否操作了前进/后退
 var isBackOrGo = false;
 var source = {
@@ -110,26 +110,15 @@ var currentIndex = {
 var putQiRecordList = [];
 sessionStorage.clear();
 
-function LoadGround(flag) { //生成旗子
+function LoadGround() { //生成旗子
     var g = "";
-    if (flag) {
-        // 撤回棋子之后重新渲染棋盘
-        for (var j = 0; j < 10; j++) {
-            for (var i = 0; i < 9; i++) {
-                g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
-            }
-        }
-    } else {
-        // 重置棋盘或者首次进入渲染棋盘
-        for (var j = 0; j < 10; j++) {
-            map[j] = [];
-            for (var i = 0; i < 9; i++) {
-                map[j][i] = 0;
-                g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
-            }
+    for (var j = 0; j < 10; j++) {
+        map[j] = [];
+        for (var i = 0; i < 9; i++) {
+            map[j][i] = 0;
+            g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
         }
     }
-
     $("#space").html(g);
     Log("完成创建场景");
 }
@@ -205,6 +194,7 @@ function getCText(j, i) {
             break;
         default:
             return null;
+            break;
     }
     return T;
 }
@@ -313,9 +303,8 @@ function move(y, x, j, i, eat, isBack, isNext) {
         var end = false;
         if (isBackOrGo || currentIndex.value != recordList.length - 1) {
             //操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
-            recordList.splice(currentIndex.value + 1);
-            end = currentIndex.value + 1;
-
+            recordList.splice(currentIndex.value);
+            end = currentIndex.value;
         }
         //下棋操作
         onMove = true;
@@ -375,7 +364,6 @@ function move(y, x, j, i, eat, isBack, isNext) {
         currentIndex.value = recordList.length - 1;
         counts += 1;
         showTarget(j, i, end);
-        console.log(recordList);
     }
 
     setTimeout(function () {
@@ -629,6 +617,7 @@ function binMove(tmap, c, y, x) { //0红 1黑
         var t = [];
         t[0] = y + h;
         t[1] = x;
+        console.log(t);
         if (map[t[0]][t[1]] * map[y][x] <= 0) {
             tmap.push(t);
         }
@@ -920,15 +909,15 @@ function JSMove(tmap, c, y, x) {
     }
 }
 
-function initChess(flag, currentQi) {
+function initChess(flag) {
     if (flag != 'return' && flag != 'map') {
-        //重置map，生成10*9个元素
-        LoadGround(flag);
+        //生成10*9个元素
+        LoadGround();
     }
     //设置默认棋子位置
-    putDef(flag, currentQi);
+    putDef(flag);
     //填充HTML元素，显示棋子
-    showC();
+    // showC();
     runNow = true;
     //0空
     //兵1 炮2 车3 马4 相5 士6 将7 红
@@ -958,14 +947,9 @@ function putQi(flag) {
     }
 }
 
-function putDef(flag, currentQi) {
+function putDef(flag) {
     if (flag == 'return') {
         putQi(true);
-        return;
-    }
-    if (flag == 'back') {
-        // 撤回,相应的棋子数量+1
-        numberList[currentQi.type][currentQi.key].counts += 1;
         return;
     }
     //flag==>all(摆满棋盘)，flag==>default(只显示将,帅)
@@ -1228,9 +1212,6 @@ function initAll() {
             numberList[type][key].counts = 0;
         }
     }
-    selectedQi.type = '';
-    selectedQi.value = 0;
-    selectedQi.key = '';
 }
 /**
  * 渲染棋盘

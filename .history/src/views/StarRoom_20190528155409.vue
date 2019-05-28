@@ -64,7 +64,7 @@
       :show="show"
     ></create-sucess>
     <!-- 教师详情 -->
-    <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel>
+    <!-- <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel> -->
   </div>
 </template>
 <script>
@@ -92,148 +92,10 @@ export default {
   components: {
     [BackButton.name]: BackButton,
     CreateSucess,
-    [TeacherDetail.name]:TeacherDetail
+    // TeacherDetail
   },
   methods: {
-    isClose() {
-      //提示框消失
-      setTimeout(() => {
-        this.showCreateSucess = false;
-      }, 1500);
-    },
-    computedLength() {
-      return Math.ceil(this.teacherList.length / 7) > 1;
-    },
-    openTeacherDetail() {
-      this.showTeacherDetail = true;
-    },
-    closeTeacherDetail() {
-      this.showTeacherDetail = false;
-    },
-    selectTeacher(id) {
-      if (this.currentId != id) {
-        // this.getTeacherDetail(id);
-        this.currentId = id;
-        this.$axios({
-          url: `${
-            process.env.VUE_APP_URL
-          }index.php?r=api-teach/select-teach-detail`,
-          method: "post",
-          data: this.qs.stringify({
-            teach_id: id
-          })
-        })
-          .then(res => {
-            this.teacherInfo = res.data.data;
-            this.currentDetail = this.teacherInfo.describe;
-          })
-          .catch(err => {
-            alert("服务器异常");
-          });
-      }
-      sessionStorage.setItem("teachId", id);
-    },
-    getTeacherList() {
-      this.$axios({
-        url: `${
-          process.env.VUE_APP_URL
-        }index.php?r=api-teach/select-teach-lists`,
-        method: "post"
-      })
-        .then(res => {
-          if (res.data.status == 1) {
-            this.teacherList = res.data.data;
-            this.getTeacherDetail(this.teacherList[0].id);
-          }
-        })
-        .catch(err => {});
-    },
-    getTeacherDetail(id) {
-      this.currentId = id;
-      this.$axios({
-        url: `${
-          process.env.VUE_APP_URL
-        }index.php?r=api-teach/select-teach-detail`,
-        method: "post",
-        data: this.qs.stringify({
-          teach_id: id
-        })
-      })
-        .then(res => {
-          this.teacherInfo = res.data.data;
-          this.currentDetail = this.teacherInfo.describe;
-          this.initSwiper();
-        })
-        .catch(err => {
-          alert("服务器异常");
-        });
-    },
-    initSwiper() {
-      this.isLastPage =
-        Math.ceil(this.teacherList.length / 7) > 1 ? false : true;
-      this.$nextTick(() => {
-        const vm = this;
-        new Swiper(".swiper-container", {
-          watchSlidesProgress: true,
-          pagination: {
-            el: ".swiper-pagination"
-          },
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
-          },
-          on: {
-            progress: function(progress) {
-              if (this.progress == 0) {
-                //无法点击上一页
-                vm.isFirstPage = true;
-                if (vm.computedLength()) {
-                  vm.isLastPage = false;
-                }
-              }
-              if (this.progress == 1) {
-                //无法点击最后一页
-                vm.isLastPage = true;
-                vm.isFirstPage = false;
-              }
-            }
-          }
-        });
-      });
-    },
-    //拜师
-    Vteacher() {
-      var teacherId = sessionStorage.getItem("teachId");
-      if (sessionStorage.getItem("teachId")) {
-        var teacherId = sessionStorage.getItem("teachId");
-      } else {
-        teacherId = this.teacherList[0].id;
-      }
-      this.$axios({
-        url: `${
-          process.env.VUE_APP_URL
-        }/index.php?r=api-student/apprentice-teacher`,
-        method: "post",
-        data: this.qs.stringify({
-          teach_id: teacherId
-        })
-      })
-        .then(res => {
-          if (res.data.status == 1) {
-            this.avter = require("../assets/images/拜师成功.png");
-            this.showCreateSucess = true;
-            this.isClose();
-          } else {
-            this.avter = require("../assets/images/你已拜师.png");
-            this.showCreateSucess = true;
-            this.isClose();
-            // alert("你已拜师");
-          }
-        })
-        .catch(err => {
-          alert("服务器异常");
-        });
-    }
+    
   },
   mounted() {
     this.getTeacherList();
@@ -406,8 +268,5 @@ p.detail-link {
     display: block;
     font-size: 0.8rem !important;
     cursor: pointer;
-}
-.swiper-button-next, .swiper-button-prev{
-  z-index: 3;
 }
 </style>

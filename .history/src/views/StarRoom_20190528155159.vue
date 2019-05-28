@@ -64,7 +64,7 @@
       :show="show"
     ></create-sucess>
     <!-- 教师详情 -->
-    <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel>
+    <!-- <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel> -->
   </div>
 </template>
 <script>
@@ -92,7 +92,7 @@ export default {
   components: {
     [BackButton.name]: BackButton,
     CreateSucess,
-    [TeacherDetail.name]:TeacherDetail
+    // TeacherDetail
   },
   methods: {
     isClose() {
@@ -125,7 +125,6 @@ export default {
         })
           .then(res => {
             this.teacherInfo = res.data.data;
-            this.currentDetail = this.teacherInfo.describe;
           })
           .catch(err => {
             alert("服务器异常");
@@ -406,8 +405,5 @@ p.detail-link {
     display: block;
     font-size: 0.8rem !important;
     cursor: pointer;
-}
-.swiper-button-next, .swiper-button-prev{
-  z-index: 3;
 }
 </style>

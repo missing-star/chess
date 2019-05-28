@@ -313,9 +313,8 @@ function move(y, x, j, i, eat, isBack, isNext) {
         var end = false;
         if (isBackOrGo || currentIndex.value != recordList.length - 1) {
             //操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
-            recordList.splice(currentIndex.value + 1);
-            end = currentIndex.value + 1;
-
+            recordList.splice(currentIndex.value);
+            end = currentIndex.value;
         }
         //下棋操作
         onMove = true;
@@ -375,7 +374,6 @@ function move(y, x, j, i, eat, isBack, isNext) {
         currentIndex.value = recordList.length - 1;
         counts += 1;
         showTarget(j, i, end);
-        console.log(recordList);
     }
 
     setTimeout(function () {
@@ -1228,9 +1226,6 @@ function initAll() {
             numberList[type][key].counts = 0;
         }
     }
-    selectedQi.type = '';
-    selectedQi.value = 0;
-    selectedQi.key = '';
 }
 /**
  * 渲染棋盘

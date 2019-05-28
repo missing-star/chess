@@ -222,10 +222,6 @@
             },
             // 撤回摆的棋子
             backPutQi() {
-                if(this.isPutOver.value) {
-                    alert('已确定棋面，无法撤回!');
-                    return;
-                }
                 if(this.putQiRecordList.length <= 0) {
                     alert('没有摆棋记录!');
                     return;
@@ -283,7 +279,7 @@
                 }
                 sessionStorage.setItem('saveMapRoom', JSON.stringify(this.map));
                 this.isPutOver.value = true;
-                alert('确定成功');
+                alert('保存成功');
             },
             saveChessTable(type, title) {
                 var submitData = {

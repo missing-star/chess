@@ -150,7 +150,7 @@
                             class="operation-item-icon not-active">
                         <img src="../assets/images/保存-选中.png" alt="保存-active" class="operation-item-icon active">
                     </div>
-                    <div class="operation-item pointer">
+                    <div class="operation-item">
                         <img @click="backPutQi" src="../assets/images/撤回.png" alt="撤回"
                             class="operation-item-icon not-active">
                     </div>
@@ -222,18 +222,11 @@
             },
             // 撤回摆的棋子
             backPutQi() {
-                if(this.isPutOver.value) {
-                    alert('已确定棋面，无法撤回!');
-                    return;
-                }
                 if(this.putQiRecordList.length <= 0) {
                     alert('没有摆棋记录!');
                     return;
                 }
-                var lastRecord = this.putQiRecordList[this.putQiRecordList.length - 1];
-                this.map[lastRecord.j][lastRecord.i] = 0;
                 this.putQiRecordList.pop();
-                initChess('back',lastRecord);
             },
             addActive(target) {
                 target.classList.add('active');
@@ -283,7 +276,7 @@
                 }
                 sessionStorage.setItem('saveMapRoom', JSON.stringify(this.map));
                 this.isPutOver.value = true;
-                alert('确定成功');
+                alert('保存成功');
             },
             saveChessTable(type, title) {
                 var submitData = {

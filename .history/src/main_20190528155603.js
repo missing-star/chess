@@ -28,6 +28,7 @@ Vue.mixin({
       }
       return false;
     }
+    }
   },
   created() {
     if(localStorage.getItem('userInfo')) {

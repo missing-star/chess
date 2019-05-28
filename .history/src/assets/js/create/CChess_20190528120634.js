@@ -1,9 +1,9 @@
 // const socket = new WebSocket('ws://127.0.0.1:8000');
 let counts = 0;
 let isPutOver = {
-    value: false
+    value:false
 };
-let numberList = {
+let numberList =  {
     red: {
         ju: {
             value: 3,
@@ -29,9 +29,9 @@ let numberList = {
             value: 1,
             counts: 5
         },
-        shuai: {
-            value: 7,
-            counts: 1
+        shuai:{
+            value:7,
+            counts:1
         }
     },
     black: {
@@ -59,22 +59,18 @@ let numberList = {
             value: -1,
             counts: 5
         },
-        jiang: {
-            value: -7,
-            counts: 1
+        jiang:{
+            value:-7,
+            counts:1
         }
     }
 };
-let selectedQi = {
-    value: 0,
-    type: '',
-    key: ''
-};
+let selectedQi = {value:0,type:'',key:''};
 //是否为自由操作模式
 var isFreeOper = true;
 var map = [];
 var runNow = false;
-var DeBug = false;
+var DeBug = true;
 //是否操作了前进/后退
 var isBackOrGo = false;
 var source = {
@@ -104,32 +100,21 @@ var preOperation = {
 var showrecordList = [];
 var recordList = [];
 var currentIndex = {
-    value: -1
+    value:-1
 }
 // 摆棋的记录
 var putQiRecordList = [];
 sessionStorage.clear();
 
-function LoadGround(flag) { //生成旗子
+function LoadGround() { //生成旗子
     var g = "";
-    if (flag) {
-        // 撤回棋子之后重新渲染棋盘
-        for (var j = 0; j < 10; j++) {
-            for (var i = 0; i < 9; i++) {
-                g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
-            }
-        }
-    } else {
-        // 重置棋盘或者首次进入渲染棋盘
-        for (var j = 0; j < 10; j++) {
-            map[j] = [];
-            for (var i = 0; i < 9; i++) {
-                map[j][i] = 0;
-                g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
-            }
+    for (var j = 0; j < 10; j++) {
+        map[j] = [];
+        for (var i = 0; i < 9; i++) {
+            map[j][i] = 0;
+            g += "<article class='CS' id='CS" + j + "-" + i + "' onclick='onChose(" + j + "," + i + ",true)'></article>";
         }
     }
-
     $("#space").html(g);
     Log("完成创建场景");
 }
@@ -205,6 +190,7 @@ function getCText(j, i) {
             break;
         default:
             return null;
+            break;
     }
     return T;
 }
@@ -313,9 +299,8 @@ function move(y, x, j, i, eat, isBack, isNext) {
         var end = false;
         if (isBackOrGo || currentIndex.value != recordList.length - 1) {
             //操作了前进/后退，手动移动棋子，删除当前记录后的操作记录
-            recordList.splice(currentIndex.value + 1);
-            end = currentIndex.value + 1;
-
+            recordList.splice(currentIndex.value);
+            end = currentIndex.value;
         }
         //下棋操作
         onMove = true;
@@ -375,7 +360,6 @@ function move(y, x, j, i, eat, isBack, isNext) {
         currentIndex.value = recordList.length - 1;
         counts += 1;
         showTarget(j, i, end);
-        console.log(recordList);
     }
 
     setTimeout(function () {
@@ -439,19 +423,12 @@ function onChose(j, i, isSend, program) {
         //摆棋
         if (map[j][i] == 0) {
             map[j][i] = selectedQi.value;
-            // 增加摆棋记录
-            var temp = {};
-            for (var key in selectedQi) {
-                temp[key] = selectedQi[key];
-            }
-            temp.j = j;
-            temp.i = i;
-            putQiRecordList.push(temp);
             initChess('return');
         }
         return;
-    } else {
-        if (!isPutOver.value && map[j][i] != 0) {
+    }
+    else {
+        if(!isPutOver.value && map[j][i] != 0) {
             alert('请先确定当前局面!');
             return;
         }
@@ -609,7 +586,7 @@ function binMove(tmap, c, y, x) { //0红 1黑
             var t1 = [];
             t1[0] = y + h;
             t1[1] = x;
-            if (map[t1[0]][t1[1]] * map[y][x] <= 0) {
+            if(map[t1[0]][t1[1]]*map[y][x] <= 0) {
                 tmap.push(t1);
             }
         }
@@ -619,17 +596,18 @@ function binMove(tmap, c, y, x) { //0红 1黑
         t3[0] = y;
         t2[1] = x - 1;
         t3[1] = x + 1;
-        if (map[t2[0]][t2[1]] * map[y][x] <= 0) {
+        if(map[t2[0]][t2[1]]*map[y][x] <= 0) {
             tmap.push(t2);
         }
-        if (map[t3[0]][t3[1]] * map[y][x] <= 0) {
+        if(map[t3[0]][t3[1]]*map[y][x] <= 0) {
             tmap.push(t3);
         }
     } else {
         var t = [];
         t[0] = y + h;
         t[1] = x;
-        if (map[t[0]][t[1]] * map[y][x] <= 0) {
+        console.log(t);
+        if(map[t[0]][t[1]]*map[y][x] <= 0) {
             tmap.push(t);
         }
     }
@@ -920,13 +898,13 @@ function JSMove(tmap, c, y, x) {
     }
 }
 
-function initChess(flag, currentQi) {
+function initChess(flag) {
     if (flag != 'return' && flag != 'map') {
-        //重置map，生成10*9个元素
-        LoadGround(flag);
+        //生成10*9个元素
+        LoadGround();
     }
     //设置默认棋子位置
-    putDef(flag, currentQi);
+    putDef(flag);
     //填充HTML元素，显示棋子
     showC();
     runNow = true;
@@ -950,6 +928,10 @@ function LogError(info) {
 
 function putQi(flag) {
     if (flag) {
+        // 增加摆棋记录
+        var temp = selectedQi;
+        putQiRecordList.push(temp);
+        console.log(putQiRecordList);
         //重置选择棋子的值
         selectedQi.value = 0;
         numberList[selectedQi.type][selectedQi.key].counts -= 1;
@@ -958,14 +940,9 @@ function putQi(flag) {
     }
 }
 
-function putDef(flag, currentQi) {
+function putDef(flag) {
     if (flag == 'return') {
         putQi(true);
-        return;
-    }
-    if (flag == 'back') {
-        // 撤回,相应的棋子数量+1
-        numberList[currentQi.type][currentQi.key].counts += 1;
         return;
     }
     //flag==>all(摆满棋盘)，flag==>default(只显示将,帅)
@@ -1228,9 +1205,6 @@ function initAll() {
             numberList[type][key].counts = 0;
         }
     }
-    selectedQi.type = '';
-    selectedQi.value = 0;
-    selectedQi.key = '';
 }
 /**
  * 渲染棋盘
@@ -1308,7 +1282,7 @@ function resetVarible() {
     numberList.red.zu.counts = 5;
     numberList.red.shuai.value = 7;
     numberList.red.shuai.counts = 1;
-
+    
     numberList.black.ju.value = -3;
     numberList.black.ju.counts = 2;
     numberList.black.ma.value = -4;

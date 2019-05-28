@@ -435,6 +435,7 @@ var eatList = [];
 var nowWho = 0;
 //点击棋子
 function onChose(j, i, isSend, program) {
+    console.log(selectedQi.value);
     if (selectedQi.value != 0) {
         //摆棋
         if (map[j][i] == 0) {
@@ -1228,9 +1229,6 @@ function initAll() {
             numberList[type][key].counts = 0;
         }
     }
-    selectedQi.type = '';
-    selectedQi.value = 0;
-    selectedQi.key = '';
 }
 /**
  * 渲染棋盘

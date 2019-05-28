@@ -125,7 +125,6 @@ export default {
         })
           .then(res => {
             this.teacherInfo = res.data.data;
-            this.currentDetail = this.teacherInfo.describe;
           })
           .catch(err => {
             alert("服务器异常");

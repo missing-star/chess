@@ -64,7 +64,7 @@
       :show="show"
     ></create-sucess>
     <!-- 教师详情 -->
-    <chess-teacher-detail-panel @hide="closeTeacherDetail" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel>
+    <chess-teacher-detail-panel @hide="close" :content="currentDetail" :is-show="showTeacherDetail"></chess-teacher-detail-panel>
   </div>
 </template>
 <script>
@@ -75,7 +75,7 @@ import Swiper from "swiper";
 export default {
   data() {
     return {
-      teacherList: [],
+      teacherList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
       isFirstPage: true,
       isLastPage: false,
       showCreateSucess: false, //成功
@@ -92,7 +92,7 @@ export default {
   components: {
     [BackButton.name]: BackButton,
     CreateSucess,
-    [TeacherDetail.name]:TeacherDetail
+    TeacherDetail
   },
   methods: {
     isClose() {
@@ -125,7 +125,6 @@ export default {
         })
           .then(res => {
             this.teacherInfo = res.data.data;
-            this.currentDetail = this.teacherInfo.describe;
           })
           .catch(err => {
             alert("服务器异常");
@@ -161,7 +160,6 @@ export default {
       })
         .then(res => {
           this.teacherInfo = res.data.data;
-          this.currentDetail = this.teacherInfo.describe;
           this.initSwiper();
         })
         .catch(err => {
@@ -406,8 +404,5 @@ p.detail-link {
     display: block;
     font-size: 0.8rem !important;
     cursor: pointer;
-}
-.swiper-button-next, .swiper-button-prev{
-  z-index: 3;
 }
 </style>

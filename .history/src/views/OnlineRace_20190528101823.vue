@@ -469,7 +469,7 @@
                 this.showLostAlert = false;
               }, 2000);
               isMove.value = 1;
-            } else {
+            } else {              
               this.showLostAlert = true;
               this.ImgShow = false;
               this.avter = require("../assets/images/等待对方同意你和棋.png");
@@ -504,8 +504,6 @@
           }
           // 离线获得胜利
           if (a == 12) {
-            this.isfalse1 = this.isfalse2 = this.isfalse3 = false;
-            this.istrue1 = this.istrue2 = this.istrue3 = false;
             var uuid = sessionStorage.getItem("uuid");
             this.showLostAlert = true;
             this.ImgShow = false;

@@ -222,7 +222,7 @@
             },
             // 撤回摆的棋子
             backPutQi() {
-                if(this.isPutOver.value) {
+                if(this.this.isPutOver.value) {
                     alert('已确定棋面，无法撤回!');
                     return;
                 }
