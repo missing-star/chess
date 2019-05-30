@@ -50,7 +50,6 @@
       <div @click="openLink(item.url,item.params)" class="room-item" :class="item.id" :key="index"
         v-for="(item,index) in roomList">
         <img class="room-item-icon" :src="item.icon" :alt="item.name">
-        <img v-if="index == 0" :src="chessRoomIcon" class="chess-room-title">
       </div>
     </div>
 
@@ -1155,10 +1154,4 @@
     line-height: 1.7vw;
     text-align: center;
   }
-  img.chess-room-title {
-    position: absolute;
-    width: 50%;
-    left: 22%;
-    top: 30%;
-}
 </style>

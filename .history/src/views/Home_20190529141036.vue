@@ -653,7 +653,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -1155,10 +1155,4 @@
     line-height: 1.7vw;
     text-align: center;
   }
-  img.chess-room-title {
-    position: absolute;
-    width: 50%;
-    left: 22%;
-    top: 30%;
-}
 </style>
