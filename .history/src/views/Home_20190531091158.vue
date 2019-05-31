@@ -50,9 +50,7 @@
       <div @click="openLink(item.url,item.params)" class="room-item" :class="item.id" :key="index"
         v-for="(item,index) in roomList">
         <img class="room-item-icon" :src="item.icon" :alt="item.name">
-        <div v-if="index == 0" class="chess-room-icon-wrapper">
-          <img :src="chessRoomIcon" class="chess-room-title">
-        </div>
+        <img v-if="index == 0" :src="chessRoomIcon" class="chess-room-title">
       </div>
     </div>
 
@@ -655,7 +653,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -1158,18 +1156,11 @@
     line-height: 1.7vw;
     text-align: center;
   }
-  div.chess-room-icon-wrapper{
+  img.chess-room-title {
     position: absolute;
     width: 50%;
     left: 22%;
     top: 30%;
     height: 26%;
-    background: url(../assets/images/chess-room-title-bg.png) no-repeat;
-    background-size: 100% 100%;
-  }
-  img.chess-room-title {
-    width: 80%;
-    height: 60%;
-    transform: translate(10%,30%);
 }
 </style>
