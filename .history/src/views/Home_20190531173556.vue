@@ -637,112 +637,110 @@
       },
       isLogin() {
         this.$axios({
-          url: `${process.env.VUE_APP_URL}index.php?r=api/if-login`,
-          method: 'post'
-        }).then((res) => {
-          if (res.data.status == 1) {
-            if (res.data.data == 'teacher') {
-              this.$router.push({
-                name: 'home-teacher'
-              });
-              return;
-            } else if (res.data.data == 'student') {
-              this.isLoginFlag = true;
-            }
-          } else if (res.data.status == 2) {
-            this.isLoginFlag = true;
-            var date = new Date();
-            var str = (date.getMonth() + 1) + '-' + date.getDate();
-            if (!localStorage.getItem('isNeedTips') || localStorage.getItem('isNeedTips') == 'true' || localStorage
-              .getItem('pre-tips') != str) {
-              //弹窗提示
-              alert('您今天已在线超过2小时!');
-              localStorage.setItem('isNeedTips', 'false');
-              localStorage.setItem('pre-tips', str);
-            }
-          } else {
-            this.isLoginFlag = false;
-          }
-          if (this.isLoginFlag) {
-            this.showLoginPanel = false;
-          } else {
-            this.showLoginPanel = true;
-          }
-        }).catch((err) => {
+            url: `${process.env.VUE_APP_URL}index.php?r=api/if-login`,
+            method: 'post'
+          }).then((res) => {
+              if (res.data.status == 1) {
+                if (res.data.data == 'teacher') {
+                  this.$router.push({
+                    name: 'home-teacher'
+                  });
+                  return;
+                } else if (res.data.data == 'student') {
+                  this.isLoginFlag = true;
+                }
+              } else if (res.data.status == 2) {
+                var str = (date.getMonth() + 1) + '-' + date.getDate();
+                if (!localStorage.getItem('isNeedTips') || localStorage.getItem('isNeedTips') == 'true' || localStorage
+                  .getItem('pre-tips') != str) {
+                  //弹窗提示
+                  alert('您今天已在线超过2小时!');
+                  localStorage.setItem('isNeedTips', 'false');
+                  var date = new Date();
+                  localStorage.setItem('pre-tips', str);
+                } else {
+                  this.isLoginFlag = false;
+                }
+                if (this.isLoginFlag) {
+                  this.showLoginPanel = false;
+                } else {
+                  this.showLoginPanel = true;
+                }
+              }).catch((err) => {
 
-        });
+            });
+          },
+          loginOut() {
+            //退出登录
+            this.$axios({
+                method: "post",
+                url: `${process.env.VUE_APP_URL}index.php?r=api-student/login-out`,
+                data: this.qs.stringify({})
+              })
+              .then(res => {
+                this.showLoginPanel = true;
+                localStorage.removeItem('userInfo');
+                location.reload();
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          },
+          hideWaterBox() {
+            //提示框
+            this.showWaterBox = false;
+          },
+          // 展开/折叠我的任务
+          toggleTask() {
+            this.isOpenTask = !this.isOpenTask;
+          }
       },
-      loginOut() {
-        //退出登录
-        this.$axios({
-            method: "post",
-            url: `${process.env.VUE_APP_URL}index.php?r=api-student/login-out`,
-            data: this.qs.stringify({})
-          })
-          .then(res => {
-            this.showLoginPanel = true;
-            localStorage.removeItem('userInfo');
-            location.reload();
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
-      hideWaterBox() {
-        //提示框
-        this.showWaterBox = false;
-      },
-      // 展开/折叠我的任务
-      toggleTask() {
-        this.isOpenTask = !this.isOpenTask;
-      }
-    },
-    //获得学生个人信息;
-    mounted() {
-      if (localStorage.getItem('userInfo')) {
-        var info = localStorage.getItem("userInfo");
-        this.studentInfo = JSON.parse(info);
-      }
-    },
-    components: {
-      [SetButton.name]: SetButton,
-      [SetPanel.name]: SetPanel,
-      [MailBoxPanel.name]: MailBoxPanel,
-      [NoticePanel.name]: NoticePanel,
-      [TaskPanel.name]: TaskPanel,
-      [TipsPanel.name]: TipsPanel,
-      [HomeworkPanel.name]: HomeworkPanel,
-      [AchievePanel.name]: AchievePanel,
-      [PetPanel.name]: PetPanel,
-      [ChessComPanel.name]: ChessComPanel,
-      [GrowthLogPanel.name]: GrowthLogPanel,
-      [TeacherListPanel.name]: TeacherListPanel,
-      [NoticeDetailPanel.name]: NoticeDetailPanel,
-      [SelfStudyPanel.name]: SelfStudyPanel,
-      [SelfStudyStagePanel.name]: SelfStudyStagePanel,
-      [LoginPanel.name]: LoginPanel,
-      WaterBox,
-      CreateSucess,
-      LoseAlert,
-      [ChangePasswordPanel.name]: ChangePasswordPanel
-    },
-    created() {
-      this.isLogin();
-      $.ajax({
-        type: "post",
-        url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
-        async: true,
-        data: {},
-        dataType: "json",
-        success: res => {
-          this.information = res.data;
-          this.chessRoomIcon = res.data.mechanism_img;
-          localStorage.setItem("userInfo", JSON.stringify(res.data));
+      //获得学生个人信息;
+      mounted() {
+        if (localStorage.getItem('userInfo')) {
+          var info = localStorage.getItem("userInfo");
+          this.studentInfo = JSON.parse(info);
         }
-      });
-      this.getMyTask();
-    }
-  };
+      },
+      components: {
+        [SetButton.name]: SetButton,
+        [SetPanel.name]: SetPanel,
+        [MailBoxPanel.name]: MailBoxPanel,
+        [NoticePanel.name]: NoticePanel,
+        [TaskPanel.name]: TaskPanel,
+        [TipsPanel.name]: TipsPanel,
+        [HomeworkPanel.name]: HomeworkPanel,
+        [AchievePanel.name]: AchievePanel,
+        [PetPanel.name]: PetPanel,
+        [ChessComPanel.name]: ChessComPanel,
+        [GrowthLogPanel.name]: GrowthLogPanel,
+        [TeacherListPanel.name]: TeacherListPanel,
+        [NoticeDetailPanel.name]: NoticeDetailPanel,
+        [SelfStudyPanel.name]: SelfStudyPanel,
+        [SelfStudyStagePanel.name]: SelfStudyStagePanel,
+        [LoginPanel.name]: LoginPanel,
+        WaterBox,
+        CreateSucess,
+        LoseAlert,
+        [ChangePasswordPanel.name]: ChangePasswordPanel
+      },
+      created() {
+        this.isLogin();
+        $.ajax({
+          type: "post",
+          url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
+          async: true,
+          data: {},
+          dataType: "json",
+          success: res => {
+            this.information = res.data;
+            this.chessRoomIcon = res.data.mechanism_img;
+            localStorage.setItem("userInfo", JSON.stringify(res.data));
+          }
+        });
+        this.getMyTask();
+      }
+    };
 </script>
 <style scoped>
   div.chess-home {

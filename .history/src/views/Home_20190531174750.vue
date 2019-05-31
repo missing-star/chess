@@ -650,7 +650,6 @@
               this.isLoginFlag = true;
             }
           } else if (res.data.status == 2) {
-            this.isLoginFlag = true;
             var date = new Date();
             var str = (date.getMonth() + 1) + '-' + date.getDate();
             if (!localStorage.getItem('isNeedTips') || localStorage.getItem('isNeedTips') == 'true' || localStorage

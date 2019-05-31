@@ -82,15 +82,14 @@ router.beforeEach((to, from, next) => {
         }
         next();
       } else if (res.data.status == 2) {
-        var date = new Date();
         var str = (date.getMonth() + 1) + '-' + date.getDate();
         if (!localStorage.getItem('isNeedTips') || localStorage.getItem('isNeedTips') == 'true' || localStorage.getItem('pre-tips') != str) {
           //弹窗提示
           alert('您今天已在线超过2小时!');
           localStorage.setItem('isNeedTips', 'false');
+          var date = new Date();
           localStorage.setItem('pre-tips',str);
         }
-        next();
       } else {
         router.push({
           name: 'home'

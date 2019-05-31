@@ -90,7 +90,6 @@ router.beforeEach((to, from, next) => {
           localStorage.setItem('isNeedTips', 'false');
           localStorage.setItem('pre-tips',str);
         }
-        next();
       } else {
         router.push({
           name: 'home'
