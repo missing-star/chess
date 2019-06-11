@@ -738,7 +738,7 @@
         dataType: "json",
         success: res => {
           this.information = res.data;
-          if(res.data.mechanism_img != `${process.env.VUE_APP_URL}chess_jigou/public`) {
+          if(res.data.mechanism_img != `${process.env.VUE_APP_URL}public`) {
             this.chessRoomIcon = res.data.mechanism_img;
           }
           localStorage.setItem("userInfo", JSON.stringify(res.data));
