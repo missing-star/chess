@@ -116,8 +116,6 @@
     <!-- 修改密码 -->
     <chess-change-password-panel @login-out="loginOut" :is-show="showChangePasswordPanel"
       @hide="hideChangePsswordPanel"></chess-change-password-panel>
-    <!-- 树 -->
-    <img src="../assets/images/tree.png" class="tree-icon">
   </div>
 </template>
 <script>
@@ -627,7 +625,7 @@
         if (url == "openChessComPanel") {
           $.ajax({
             type: "post",
-            url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+            url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
             async: true,
             data: {},
             dataType: "json",
@@ -668,7 +666,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -732,7 +730,7 @@
       this.isLogin();
       $.ajax({
         type: "post",
-        url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+        url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
         async: true,
         data: {},
         dataType: "json",
@@ -795,7 +793,6 @@
 
   img.room-item-icon {
     width: 95%;
-    height: 100%;
   }
 
   .room-item.jiangxingge {
@@ -804,10 +801,10 @@
   }
 
   .room-item.jingjichang {
-    left: 40%;
-    bottom: 18.5%;
-    width: 28.5% !important;
-    height: 40% !important;
+    left: 39.5%;
+    bottom: 44%;
+    width: 29% !important;
+    height: 18% !important;
   }
 
   div.notice-container {
@@ -1190,11 +1187,5 @@
     width: 80%;
     height: 60%;
     transform: translate(10%, 30%);
-  }
-  img.tree-icon{
-    position: absolute;
-    left: 36%;
-    width: 5%;
-    bottom: 31%;
   }
 </style>

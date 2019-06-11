@@ -267,7 +267,7 @@ export default {
         }
         this.$axios({
           method: "post",
-          url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/student-register`,
+          url: `${"process.env.VUE_APP_URL.cn"}/index.php?r=api-student/student-register`,
           data: this.qs.stringify({
             nickname: this.username,
             sex: this.sex,
@@ -304,7 +304,7 @@ export default {
         if ((this.Fpassword = this.Fpassword1)) {
           this.$axios({
             method: "post",
-            url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/update-pass`,
+            url: `${"process.env.VUE_APP_URL.cn"}/index.php?r=api-student/update-pass`,
             data: this.qs.stringify({
               crad: this.Fcrad,
               code: this.Fcode,

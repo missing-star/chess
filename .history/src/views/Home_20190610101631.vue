@@ -72,7 +72,7 @@
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
     <!-- 小象 -->
-    <div @click="openPetPanel" class="elephant"></div>
+    <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
     <!-- 我的宠物 -->
     <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel" :petInfo="petInfo" @getOperation="getOperation">
     </chess-pet-panel>
@@ -116,8 +116,6 @@
     <!-- 修改密码 -->
     <chess-change-password-panel @login-out="loginOut" :is-show="showChangePasswordPanel"
       @hide="hideChangePsswordPanel"></chess-change-password-panel>
-    <!-- 树 -->
-    <img src="../assets/images/tree.png" class="tree-icon">
   </div>
 </template>
 <script>
@@ -627,7 +625,7 @@
         if (url == "openChessComPanel") {
           $.ajax({
             type: "post",
-            url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+            url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
             async: true,
             data: {},
             dataType: "json",
@@ -668,7 +666,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -732,7 +730,7 @@
       this.isLogin();
       $.ajax({
         type: "post",
-        url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+        url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
         async: true,
         data: {},
         dataType: "json",
@@ -756,12 +754,10 @@
     overflow: hidden;
   }
 
-  div.elephant {
-    width: 13%;
+  img.elephant {
+    width: 12%;
     position: absolute;
-    left: 30%;
-    height: 30%;
-    background: transparent;
+    left: 31%;
     bottom: 0;
     cursor: pointer;
   }
@@ -795,7 +791,6 @@
 
   img.room-item-icon {
     width: 95%;
-    height: 100%;
   }
 
   .room-item.jiangxingge {
@@ -804,10 +799,11 @@
   }
 
   .room-item.jingjichang {
-    left: 40%;
-    bottom: 18.5%;
-    width: 28.5% !important;
-    height: 40% !important;
+    /* background-color: red; */
+    left: 38%;
+    bottom: 36%;
+    width: 30% !important;
+    height: 24% !important;
   }
 
   div.notice-container {
@@ -1190,11 +1186,5 @@
     width: 80%;
     height: 60%;
     transform: translate(10%, 30%);
-  }
-  img.tree-icon{
-    position: absolute;
-    left: 36%;
-    width: 5%;
-    bottom: 31%;
   }
 </style>

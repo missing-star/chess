@@ -627,7 +627,7 @@
         if (url == "openChessComPanel") {
           $.ajax({
             type: "post",
-            url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+            url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
             async: true,
             data: {},
             dataType: "json",
@@ -668,7 +668,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -732,7 +732,7 @@
       this.isLogin();
       $.ajax({
         type: "post",
-        url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+        url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
         async: true,
         data: {},
         dataType: "json",
@@ -807,7 +807,7 @@
     left: 40%;
     bottom: 18.5%;
     width: 28.5% !important;
-    height: 40% !important;
+    height: 20.5% !important;
   }
 
   div.notice-container {

@@ -627,7 +627,7 @@
         if (url == "openChessComPanel") {
           $.ajax({
             type: "post",
-            url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+            url: `${"http://process.env.VUE_APP_URL.cn"}/index.php?r=api-student/my-chess-club`,
             async: true,
             data: {},
             dataType: "json",
@@ -732,7 +732,7 @@
       this.isLogin();
       $.ajax({
         type: "post",
-        url: `${process.env.VUE_APP_URL.cn}/index.php?r=api-student/my-chess-club`,
+        url: `${"http://process.env.VUE_APP_URL.cn"}/index.php?r=api-student/my-chess-club`,
         async: true,
         data: {},
         dataType: "json",
