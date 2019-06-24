@@ -35,6 +35,7 @@
     <div class="integral-wrapper">
       <p class="my-integral">{{studentInfo.score}}</p>
     </div>
+    <button @click="changeBg" class="changeb" style="position:absolute;left:10rem;top:2rem;z-index:111;">换</button>
     <!-- 宠物成长点 -->
     <!-- <div class="exp-wrapper">
       <p class="my-exp">100</p>
@@ -293,6 +294,10 @@
         } else {
           return Math.random() * 5;
         }
+      },
+      changeBg() {
+        this.$refs.audio.pause();
+        this.$refs.comBgs.play();
       },
       getStyle(index, flag) {
         if (flag) {
