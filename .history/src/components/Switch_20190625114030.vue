@@ -46,6 +46,9 @@
             isCloseBg() {
                 this.isClose = this.isCloseBg;
             }
+        },
+        created() {
+            console.log(this.isCloseBg);
         }
     }
 </script>

@@ -44,8 +44,11 @@
                 }
             },
             isCloseBg() {
-                this.isClose = this.isCloseBg;
+                console.log('change='+this.isCloseBg)
             }
+        },
+        created() {
+            console.log(this.isCloseBg);
         }
     }
 </script>

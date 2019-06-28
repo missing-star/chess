@@ -13,11 +13,11 @@
 </template>
 <script>
     export default {
-        props: ['icon','is-close-bg', 'styles', 'activeTitle', 'unActiveTitle', 'timeValue', 'currentTimeValue'],
+        props: ['icon', 'styles', 'activeTitle', 'unActiveTitle', 'timeValue', 'currentTimeValue'],
         name: 'chess-switch',
         data() {
             return {
-                isClose: this.isCloseBg == undefined ? true : this.isCloseBg 
+                isClose: true
             }
         },
         methods: {
@@ -42,9 +42,23 @@
                 if (this.currentTimeValue != this.timeValue) {
                     this.isClose = true;
                 }
-            },
-            isCloseBg() {
-                this.isClose = this.isCloseBg;
+            }
+        },
+        created() {
+            if (this.currentTimeValue == undefined) {
+                //初始化背景音乐开关
+                this.$nextTick(() => {
+                    this.$refs.audio.addEventListener('canplay', () => {
+                        if (localStorage.getItem('isCloseBg')) {
+                            this.isClose = localStorage.getItem('isCloseBg') == 'false' ? false : true;
+                        }
+                        else{
+                            localStorage.setItem('isCloseBg','false');
+                            this.isClose = false;
+                        }
+                        this.$emit('trigger', this.isClose);
+                    });
+                });
             }
         }
     }

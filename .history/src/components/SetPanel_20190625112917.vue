@@ -163,6 +163,9 @@
     watch: {
       currentVolume() {
         this.$emit("change-volume", this.currentVolume / 100);
+      },
+      imgDataUrl() {
+        
       }
     },
     mounted() {

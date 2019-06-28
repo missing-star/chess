@@ -42,10 +42,10 @@
                 if (this.currentTimeValue != this.timeValue) {
                     this.isClose = true;
                 }
-            },
-            isCloseBg() {
-                this.isClose = this.isCloseBg;
             }
+        },
+        created() {
+            console.log(this.isCloseBg);
         }
     }
 </script>

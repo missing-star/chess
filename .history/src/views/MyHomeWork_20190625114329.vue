@@ -2,7 +2,7 @@
   <div class="chess-self-study-wrapper">
     <!-- 背景音乐 -->
     <audio ref="homeworkBg" preload="auto" muted loop>
-      <source src="../assets/audio/我的棋社作业背景.mp3">
+      <source src="../assets/audio/在线对战背景音乐.mp3">
     </audio>
     <div class="left-part-wrapper">
       <div class="content-wrapper">
@@ -216,13 +216,6 @@
       }
     },
     mounted() {
-      this.$nextTick(() => {
-        this.$refs.homeworkBg.addEventListener('canplay', () => {
-          if (localStorage.getItem('isCloseBg') == 'false') {
-            this.$refs.homeworkBg.play();
-          }
-        });
-      });
       this.getChessDetail(this.$route.params.id);
       window.onChoseHomeWork = onChose;
     },

@@ -490,9 +490,17 @@
         this.showPetPanel = false;
       },
       openChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.pause();
+          this.$refs.comBg.play();
+        }
         this.showChessComPanel = true;
       },
       hideChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.play();
+          this.$refs.comBg.pause();
+        }
         this.showChessComPanel = false;
       },
       openGrowthLogPanel() {
@@ -610,7 +618,7 @@
       controlBgm(isClose) {
         if (isClose) {
           this.$refs.audio.pause();
-          localStorage.setItem('isCloseBg', 'true');
+          localStorage.setItem('isCloseBg','true');
           this.isCloseBg = true;
         } else {
           var promise = this.$refs.audio.play();
@@ -619,10 +627,10 @@
             this.isCloseBg = localStorage.getItem('isCloseBg') == 'true' ? true : false;
           }).catch(err => {
             // 播放失败
-            localStorage.setItem('isCloseBg', 'true');
+            localStorage.setItem('isCloseBg','true');
             this.isCloseBg = true;
           });
-
+          
         }
       },
       openLink(url, params) {
@@ -678,7 +686,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -792,11 +800,6 @@
   .room-item.qishe {
     left: 17%;
     bottom: 48.5%;
-  }
-
-  .room-item:hover,.notice-container:hover{
-    transform: scale(1.05);
-    transition: all 0.2s linear;
   }
 
   /* 

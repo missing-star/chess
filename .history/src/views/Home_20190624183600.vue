@@ -70,9 +70,9 @@
     <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel" @open-notice-detail="openNoticeDetailPanel">
     </chess-notice-panel>
     <!-- 设置弹框 -->
-    <chess-set-panel :is-close="isCloseBg" @change-password="openChangePsswordPanel" @hide="hideSetPanel"
-      @control-bgm="controlBgm" @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume"
-      :studentInfo="studentInfo" @change-logo="changeLogo"></chess-set-panel>
+    <chess-set-panel @change-password="openChangePsswordPanel" @hide="hideSetPanel" @control-bgm="controlBgm"
+      @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume" :studentInfo="studentInfo"
+      @change-logo="changeLogo"></chess-set-panel>
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
     <!-- 小象 -->
@@ -149,7 +149,6 @@
   export default {
     data() {
       return {
-        isCloseBg: false,
         showSetPanel: false,
         isShowDialog: false,
         showMailPanel: false,
@@ -490,9 +489,17 @@
         this.showPetPanel = false;
       },
       openChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.pause();
+          this.$refs.comBg.play();
+        }
         this.showChessComPanel = true;
       },
       hideChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.play();
+          this.$refs.comBg.pause();
+        }
         this.showChessComPanel = false;
       },
       openGrowthLogPanel() {
@@ -610,19 +617,11 @@
       controlBgm(isClose) {
         if (isClose) {
           this.$refs.audio.pause();
-          localStorage.setItem('isCloseBg', 'true');
-          this.isCloseBg = true;
         } else {
-          var promise = this.$refs.audio.play();
-          promise.then((ret) => {
-            this.$refs.audio.play();
-            this.isCloseBg = localStorage.getItem('isCloseBg') == 'true' ? true : false;
-          }).catch(err => {
-            // 播放失败
-            localStorage.setItem('isCloseBg', 'true');
-            this.isCloseBg = true;
-          });
-
+          setTimeout(() => {
+            
+          this.$refs.audio.play();
+          }, 200);
         }
       },
       openLink(url, params) {
@@ -792,11 +791,6 @@
   .room-item.qishe {
     left: 17%;
     bottom: 48.5%;
-  }
-
-  .room-item:hover,.notice-container:hover{
-    transform: scale(1.05);
-    transition: all 0.2s linear;
   }
 
   /* 

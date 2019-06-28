@@ -163,9 +163,13 @@
     watch: {
       currentVolume() {
         this.$emit("change-volume", this.currentVolume / 100);
+      },
+      imgDataUrl() {
+        
       }
     },
     mounted() {
+      console.log('set-panel='+this.isClose)
       this.$emit("change-volume", this.currentVolume / 100);
     }
   };

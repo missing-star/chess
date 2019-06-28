@@ -12,7 +12,7 @@
       <div class="bird-item" v-for="n in 5" :key="n"></div>
     </div> -->
     <!-- 背景音乐 -->
-    <audio ref="audio" loop preload="auto" muted>
+    <audio ref="audio" id="audio-music" loop preload="auto" muted>
       <source src="../assets/audio/bg.mp3">
     </audio>
     <!-- 我的棋社背景 -->
@@ -70,9 +70,9 @@
     <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel" @open-notice-detail="openNoticeDetailPanel">
     </chess-notice-panel>
     <!-- 设置弹框 -->
-    <chess-set-panel :is-close="isCloseBg" @change-password="openChangePsswordPanel" @hide="hideSetPanel"
-      @control-bgm="controlBgm" @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume"
-      :studentInfo="studentInfo" @change-logo="changeLogo"></chess-set-panel>
+    <chess-set-panel @change-password="openChangePsswordPanel" @hide="hideSetPanel" @control-bgm="controlBgm"
+      @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume" :studentInfo="studentInfo"
+      @change-logo="changeLogo"></chess-set-panel>
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
     <!-- 小象 -->
@@ -149,7 +149,6 @@
   export default {
     data() {
       return {
-        isCloseBg: false,
         showSetPanel: false,
         isShowDialog: false,
         showMailPanel: false,
@@ -490,9 +489,17 @@
         this.showPetPanel = false;
       },
       openChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.pause();
+          this.$refs.comBg.play();
+        }
         this.showChessComPanel = true;
       },
       hideChessComPanel() {
+        if (localStorage.getItem('isCloseBg') == 'false') {
+          this.$refs.audio.play();
+          this.$refs.comBg.pause();
+        }
         this.showChessComPanel = false;
       },
       openGrowthLogPanel() {
@@ -608,21 +615,11 @@
         this.$refs.audio.volume = volume;
       },
       controlBgm(isClose) {
+        console.log(this.$refs.audio);
         if (isClose) {
           this.$refs.audio.pause();
-          localStorage.setItem('isCloseBg', 'true');
-          this.isCloseBg = true;
         } else {
-          var promise = this.$refs.audio.play();
-          promise.then((ret) => {
-            this.$refs.audio.play();
-            this.isCloseBg = localStorage.getItem('isCloseBg') == 'true' ? true : false;
-          }).catch(err => {
-            // 播放失败
-            localStorage.setItem('isCloseBg', 'true');
-            this.isCloseBg = true;
-          });
-
+          this.$refs.audio.play();
         }
       },
       openLink(url, params) {
@@ -678,7 +675,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -792,11 +789,6 @@
   .room-item.qishe {
     left: 17%;
     bottom: 48.5%;
-  }
-
-  .room-item:hover,.notice-container:hover{
-    transform: scale(1.05);
-    transition: all 0.2s linear;
   }
 
   /* 

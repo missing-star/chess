@@ -45,7 +45,7 @@
           <section class="music-wrapper">
             <p class="bg-music-title">背景音乐</p>
             <div class="music-control-wrapper">
-              <chess-switch :is-close-bg="isClose" @trigger="triggerBgm" icon="voice.png" styles="width:7rem;" active-title="开启"
+              <chess-switch :isCloseBg="isClose" @trigger="triggerBgm" icon="voice.png" styles="width:7rem;" active-title="开启"
                 un-active-title="关闭"></chess-switch>
             </div>
           </section>
@@ -163,6 +163,9 @@
     watch: {
       currentVolume() {
         this.$emit("change-volume", this.currentVolume / 100);
+      },
+      imgDataUrl() {
+        
       }
     },
     mounted() {

@@ -17,7 +17,7 @@
         name: 'chess-switch',
         data() {
             return {
-                isClose: this.isCloseBg == undefined ? true : this.isCloseBg 
+                isClose: this.isCloseBg || true
             }
         },
         methods: {
@@ -42,10 +42,10 @@
                 if (this.currentTimeValue != this.timeValue) {
                     this.isClose = true;
                 }
-            },
-            isCloseBg() {
-                this.isClose = this.isCloseBg;
             }
+        },
+        created() {
+            console.log(this.isCloseBg);
         }
     }
 </script>

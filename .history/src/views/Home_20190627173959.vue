@@ -678,7 +678,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -794,7 +794,7 @@
     bottom: 48.5%;
   }
 
-  .room-item:hover,.notice-container:hover{
+  .room-item:hover {
     transform: scale(1.05);
     transition: all 0.2s linear;
   }

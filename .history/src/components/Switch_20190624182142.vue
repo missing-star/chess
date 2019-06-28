@@ -13,11 +13,11 @@
 </template>
 <script>
     export default {
-        props: ['icon','is-close-bg', 'styles', 'activeTitle', 'unActiveTitle', 'timeValue', 'currentTimeValue'],
+        props: ['icon', 'styles', 'activeTitle', 'unActiveTitle', 'timeValue', 'currentTimeValue'],
         name: 'chess-switch',
         data() {
             return {
-                isClose: this.isCloseBg == undefined ? true : this.isCloseBg 
+                isClose: true
             }
         },
         methods: {
@@ -42,9 +42,6 @@
                 if (this.currentTimeValue != this.timeValue) {
                     this.isClose = true;
                 }
-            },
-            isCloseBg() {
-                this.isClose = this.isCloseBg;
             }
         }
     }

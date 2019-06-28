@@ -216,13 +216,6 @@
       }
     },
     mounted() {
-      this.$nextTick(() => {
-        this.$refs.homeworkBg.addEventListener('canplay', () => {
-          if (localStorage.getItem('isCloseBg') == 'false') {
-            this.$refs.homeworkBg.play();
-          }
-        });
-      });
       this.getChessDetail(this.$route.params.id);
       window.onChoseHomeWork = onChose;
     },

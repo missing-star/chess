@@ -610,7 +610,7 @@
       controlBgm(isClose) {
         if (isClose) {
           this.$refs.audio.pause();
-          localStorage.setItem('isCloseBg', 'true');
+          localStorage.setItem('isCloseBg','true');
           this.isCloseBg = true;
         } else {
           var promise = this.$refs.audio.play();
@@ -619,10 +619,10 @@
             this.isCloseBg = localStorage.getItem('isCloseBg') == 'true' ? true : false;
           }).catch(err => {
             // 播放失败
-            localStorage.setItem('isCloseBg', 'true');
+            localStorage.setItem('isCloseBg','true');
             this.isCloseBg = true;
           });
-
+          
         }
       },
       openLink(url, params) {
@@ -792,11 +792,6 @@
   .room-item.qishe {
     left: 17%;
     bottom: 48.5%;
-  }
-
-  .room-item:hover,.notice-container:hover{
-    transform: scale(1.05);
-    transition: all 0.2s linear;
   }
 
   /* 
