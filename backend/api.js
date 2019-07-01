@@ -1,1 +1,0 @@
-const url = 'http://xiangqi.pzhkj.cn'

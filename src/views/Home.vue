@@ -439,10 +439,6 @@
       },
       // 宠物互动
       getOperation(index) {
-        this.showCreateSucess = true;
-        this.isClose();
-        this.openPetPanel();
-        return;
         this.$axios({
             method: "post",
             url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
