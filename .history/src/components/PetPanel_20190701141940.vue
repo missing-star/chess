@@ -84,6 +84,10 @@ export default {
       this.$emit("hide");
     },
     getOperation(index) {
+      // if(this.petInfo.grow_num < 5) {
+      //   alert('成长点不足!');
+      //   return;
+      // }
       if (index != this.currentOperation) {
         this.currentOperation = index;
       }
@@ -116,7 +120,9 @@ div.chess-pet-panel-body {
   padding-top: 2%;
 }
 div.pet-info-wrapper {
-  padding-left: 5%;
+  padding: 3%;
+  height:55%;
+  display:flex;
 }
 div.content-wrapper-container {
   width: 82%;
@@ -132,23 +138,27 @@ div.content-wrapper {
   z-index: 1;
 }
 img.pet-logo {
-  width: 25%;
+  height: 90%;
 }
 .pet-level-info {
   display: inline-block;
   vertical-align: top;
   width: 65%;
   margin-left: 10%;
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 p.title {
   color: #c49677;
   font-size: 1.2rem;
 }
 .exp-wrapper {
+  margin:1% 0;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 2rem 1rem;
 }
 .exp-progressbar-wrapper {
   width: auto;
@@ -204,10 +214,11 @@ p.exp-progress-value {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-top: 6rem;
+  margin-top: 3%;
+  height: 40%;
 }
 .operation-item {
-  width: 20%;
+  width: 18%;
   text-align: center;
   display: flex;
   align-items: center;

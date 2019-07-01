@@ -12,8 +12,12 @@
       <div class="bird-item" v-for="n in 5" :key="n"></div>
     </div> -->
     <!-- 背景音乐 -->
-    <audio ref="audio" id="audio-music" loop>
+    <audio ref="audio" loop preload="auto" muted>
       <source src="../assets/audio/bg.mp3">
+    </audio>
+    <!-- 我的棋社背景 -->
+    <audio ref="comBg" loop preload="auto" muted>
+      <source src="../assets/audio/我的棋社作业背景.mp3">
     </audio>
     <!-- 用户信息 -->
     <div class="user-info-wrapper">
@@ -66,13 +70,13 @@
     <chess-notice-panel @hide="hideNoticePanel" :isShow="showNoticePanel" @open-notice-detail="openNoticeDetailPanel">
     </chess-notice-panel>
     <!-- 设置弹框 -->
-    <chess-set-panel @change-password="openChangePsswordPanel" @hide="hideSetPanel" @control-bgm="controlBgm"
-      @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume" :studentInfo="studentInfo"
-      @change-logo="changeLogo"></chess-set-panel>
+    <chess-set-panel :is-close="isCloseBg" @change-password="openChangePsswordPanel" @hide="hideSetPanel"
+      @control-bgm="controlBgm" @login-out="loginOut" :isShow="showSetPanel" @change-volume="changeVolume"
+      :studentInfo="studentInfo" @change-logo="changeLogo"></chess-set-panel>
     <!-- 设置按钮 -->
     <chess-set-btn @game-set="gameSet"></chess-set-btn>
     <!-- 小象 -->
-    <img @click="openPetPanel" src="../assets/images/elephant.png" class="elephant">
+    <div @click="openPetPanel" class="elephant"></div>
     <!-- 我的宠物 -->
     <chess-pet-panel :is-show="showPetPanel" @hide="hidePetPanel" :petInfo="petInfo" @getOperation="getOperation">
     </chess-pet-panel>
@@ -116,6 +120,8 @@
     <!-- 修改密码 -->
     <chess-change-password-panel @login-out="loginOut" :is-show="showChangePasswordPanel"
       @hide="hideChangePsswordPanel"></chess-change-password-panel>
+    <!-- 树 -->
+    <img src="../assets/images/tree.png" class="tree-icon">
   </div>
 </template>
 <script>
@@ -143,6 +149,7 @@
   export default {
     data() {
       return {
+        isCloseBg: false,
         showSetPanel: false,
         isShowDialog: false,
         showMailPanel: false,
@@ -157,6 +164,7 @@
         showTeacherPanel: false,
         showNoticeDetailPanel: false,
         showChangePasswordPanel: false,
+        isNeedPlay: false,
         cloudList: [
           require('../assets/images/cloud-1.png'),
           require('../assets/images/cloud-2.png'),
@@ -286,11 +294,6 @@
           return Math.random() * 200 * index;
         } else {
           return Math.random() * 5;
-        }
-      },
-      getAnimation() {
-        return {
-
         }
       },
       getStyle(index, flag) {
@@ -508,7 +511,7 @@
       },
       hideGrowthLogPanel() {
         this.showGrowthLogPanel = false;
-        // this.openChessComPanel();
+        this.openChessComPanel();
       },
       openTeacherListPanel() {
         this.showTeacherPanel = true;
@@ -605,13 +608,22 @@
         this.$refs.audio.volume = volume;
       },
       controlBgm(isClose) {
-        setTimeout(() => {
-          if (isClose) {
-            this.$refs.audio.pause();
-          } else {
+        if (isClose) {
+          this.$refs.audio.pause();
+          localStorage.setItem('isCloseBg', 'true');
+          this.isCloseBg = true;
+        } else {
+          var promise = this.$refs.audio.play();
+          promise.then((ret) => {
             this.$refs.audio.play();
-          }
-        }, 300);
+            this.isCloseBg = localStorage.getItem('isCloseBg') == 'true' ? true : false;
+          }).catch(err => {
+            // 播放失败
+            localStorage.setItem('isCloseBg', 'true');
+            this.isCloseBg = true;
+          });
+
+        }
       },
       openLink(url, params) {
         //棋社
@@ -625,7 +637,7 @@
         if (url == "openChessComPanel") {
           $.ajax({
             type: "post",
-            url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
+            url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-chess-club`,
             async: true,
             data: {},
             dataType: "json",
@@ -650,13 +662,14 @@
               this.isLoginFlag = true;
             }
           } else if (res.data.status == 2) {
+            this.isLoginFlag = true;
+            var date = new Date();
             var str = (date.getMonth() + 1) + '-' + date.getDate();
             if (!localStorage.getItem('isNeedTips') || localStorage.getItem('isNeedTips') == 'true' || localStorage
               .getItem('pre-tips') != str) {
               //弹窗提示
               alert('您今天已在线超过2小时!');
               localStorage.setItem('isNeedTips', 'false');
-              var date = new Date();
               localStorage.setItem('pre-tips', str);
             }
           } else {
@@ -665,7 +678,7 @@
           if (this.isLoginFlag) {
             this.showLoginPanel = false;
           } else {
-            this.showLoginPanel = true;
+            // this.showLoginPanel = true;
           }
         }).catch((err) => {
 
@@ -726,16 +739,29 @@
       [ChangePasswordPanel.name]: ChangePasswordPanel
     },
     created() {
+      this.$nextTick(() => {
+        this.$refs.audio.addEventListener('canplay', () => {
+          if (localStorage.getItem('isCloseBg')) {
+            this.isClose = localStorage.getItem('isCloseBg') == 'false' ? false : true;
+          } else {
+            localStorage.setItem('isCloseBg', 'false');
+            this.isClose = false;
+          }
+          this.controlBgm(this.isClose);
+        });
+      });
       this.isLogin();
       $.ajax({
         type: "post",
-        url: `${"http://xiangqi.pzhkj.cn"}/index.php?r=api-student/my-chess-club`,
+        url: `${process.env.VUE_APP_URL}/index.php?r=api-student/my-chess-club`,
         async: true,
         data: {},
         dataType: "json",
         success: res => {
           this.information = res.data;
-          this.chessRoomIcon = res.data.mechanism_img;
+          if (res.data.mechanism_img != `${process.env.VUE_APP_URL}chess_jigou/public`) {
+            this.chessRoomIcon = res.data.mechanism_img;
+          }
           localStorage.setItem("userInfo", JSON.stringify(res.data));
         }
       });
@@ -753,10 +779,12 @@
     overflow: hidden;
   }
 
-  img.elephant {
-    width: 12%;
+  div.elephant {
+    width: 13%;
     position: absolute;
-    left: 31%;
+    left: 30%;
+    height: 30%;
+    background: transparent;
     bottom: 0;
     cursor: pointer;
   }
@@ -764,6 +792,11 @@
   .room-item.qishe {
     left: 17%;
     bottom: 48.5%;
+  }
+
+  .room-item:hover,.notice-container:hover{
+    transform: scale(1.05);
+    transition: all 0.2s linear;
   }
 
   /* 
@@ -790,6 +823,7 @@
 
   img.room-item-icon {
     width: 95%;
+    height: 100%;
   }
 
   .room-item.jiangxingge {
@@ -798,9 +832,10 @@
   }
 
   .room-item.jingjichang {
-    left: 38%;
-    top: 37%;
-    width: 32% !important;
+    left: 40%;
+    bottom: 18.5%;
+    width: 28.5% !important;
+    height: 40% !important;
   }
 
   div.notice-container {
@@ -1183,5 +1218,12 @@
     width: 80%;
     height: 60%;
     transform: translate(10%, 30%);
+  }
+
+  img.tree-icon {
+    position: absolute;
+    left: 36%;
+    width: 5%;
+    bottom: 31%;
   }
 </style>

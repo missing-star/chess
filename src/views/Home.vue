@@ -439,6 +439,10 @@
       },
       // 宠物互动
       getOperation(index) {
+        this.showCreateSucess = true;
+        this.isClose();
+        this.openPetPanel();
+        return;
         this.$axios({
             method: "post",
             url: `${process.env.VUE_APP_URL}/index.php?r=api-student/pet-play`,
@@ -742,12 +746,12 @@
       this.$nextTick(() => {
         this.$refs.audio.addEventListener('canplay', () => {
           if (localStorage.getItem('isCloseBg')) {
-            this.isClose = localStorage.getItem('isCloseBg') == 'false' ? false : true;
+            this.isCloseBg = localStorage.getItem('isCloseBg') == 'false' ? false : true;
           } else {
             localStorage.setItem('isCloseBg', 'false');
-            this.isClose = false;
+            this.isCloseBg = false;
           }
-          this.controlBgm(this.isClose);
+          this.controlBgm(this.isCloseBg);
         });
       });
       this.isLogin();
@@ -794,7 +798,8 @@
     bottom: 48.5%;
   }
 
-  .room-item:hover,.notice-container:hover{
+  .room-item:hover,
+  .notice-container:hover {
     transform: scale(1.05);
     transition: all 0.2s linear;
   }
